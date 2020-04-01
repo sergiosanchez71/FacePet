@@ -3,9 +3,7 @@
         <title>FacePet</title>
         <script src="controlador/js/libreriaJQuery.js" type="text/javascript"></script>
         <script>
-
-            alert("Borrar este mensaje");
-
+            
             $(document).ready(function () {
                 inicio();
             });
