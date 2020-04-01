@@ -1,0 +1,197 @@
+<?php
+
+/**
+ * Description of Usuario
+ *
+ * @author sergiosanchez
+ */
+class Usuario {
+
+    private $id;
+    private $nick;
+    private $password;
+    private $email;
+    private $nombre;
+    private $animal;
+    private $raza;
+    private $sexo;
+    private $foto;
+    private $localidad;
+    private $amigos;
+    private $operador;
+
+    function __construct($nick, $password, $email, $nombre, $animal, $raza, $sexo, $foto, $localidad) {
+        $this->nick = $nick;
+        $this->password = $password;
+        $this->email = $email;
+        $this->nombre = $nombre;
+        $this->animal = $animal;
+        $this->raza = $raza;
+        $this->sexo = $sexo;
+        $this->foto = $foto;
+        $this->localidad = $localidad;
+        $this->amigos = null;
+        $this->operador = 0;
+    }
+
+    function getId() {
+        return $this->id;
+    }
+
+    function getNick() {
+        return $this->nick;
+    }
+
+    function getPassword() {
+        return $this->password;
+    }
+
+    function getEmail() {
+        return $this->email;
+    }
+
+    function getNombre() {
+        return $this->nombre;
+    }
+
+    function getAnimal() {
+        return $this->animal;
+    }
+
+    function getRaza() {
+        return $this->raza;
+    }
+
+    function getSexo() {
+        return $this->sexo;
+    }
+
+    function getFoto() {
+        return $this->foto;
+    }
+
+    function getLocalidad() {
+        return $this->localidad;
+    }
+
+    function getAmigos() {
+        return $this->amigos;
+    }
+
+    function getOperador() {
+        return $this->operador;
+    }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setNick($nick) {
+        $this->nick = $nick;
+    }
+
+    function setPassword($password) {
+        $this->password = $password;
+    }
+
+    function setEmail($email) {
+        $this->email = $email;
+    }
+
+    function setNombre($nombre) {
+        $this->nombre = $nombre;
+    }
+
+    function setAnimal($animal) {
+        $this->animal = $animal;
+    }
+
+    function setRaza($raza) {
+        $this->raza = $raza;
+    }
+
+    function setSexo($sexo) {
+        $this->sexo = $sexo;
+    }
+
+    function setFoto($foto) {
+        $this->foto = $foto;
+    }
+
+    function setLocalidad($localidad) {
+        $this->localidad = $localidad;
+    }
+
+    function setAmigos($amigos) {
+        $this->amigos = $amigos;
+    }
+
+    function setOperador($operador) {
+        $this->operador = $operador;
+    }
+
+    function existeUsuario($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT nick from usuarios where lower(nick)='$usuario'");
+        $existe = false;
+        while ($row = $consulta->fetch()) {
+            $existe = true;
+        }
+        unset($conexion);
+        return $existe;
+    }
+
+    function existeEmail($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT email from usuarios where lower(email)='$usuario->email'");
+        $existe = false;
+        while ($row = $consulta->fetch()) {
+            $existe = true;
+        }
+        unset($conexion);
+        return $existe;
+    }
+
+    function crearUsuario($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO usuarios (nick,password,email,nombre,animal,raza,sexo,foto,localidad,amigos,operador) VALUES ('$usuario->nick','$usuario->password','$usuario->email','$usuario->nombre','$usuario->animal','$usuario->raza','$usuario->sexo','$usuario->foto','$usuario->localidad',' ',0)";
+        $conexion->exec($sql);
+        unset($conexion);
+    }
+
+    function cifradaPassword($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT password from usuarios where nick='$usuario'");
+        while ($row = $consulta->fetch()) {
+            return $row['password'];
+        }
+        unset($conexion);
+    }
+    
+    function comprobarOperador($usuario){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT operador from usuarios where nick='$usuario'");
+        while ($row = $consulta->fetch()) {
+            return $row['operador'];
+        }
+        unset($conexion);
+    }
+
+    /*function comprobarUsuario($usuario, $password) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT nick from usuarios where nick='$usuario' and password='$password'");
+        $correcto = false;
+        while ($row = $consulta->fetch()) {
+            $correcto = true;
+        }
+        unset($conexion);
+        return $correcto;
+    }*/
+
+}
