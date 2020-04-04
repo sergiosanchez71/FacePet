@@ -82,7 +82,6 @@
                 var nick = $("#nick").val();
                 var password = $("#password").val();
                 var email = $("#email").val();
-                var nombre = $("#nombre").val();
                 var animal = $("#animales").val();
                 var raza = $("#razas").val();
                 var sexo = $("#sexo").val();
@@ -113,13 +112,6 @@
                     $("#email").css("background", "white");
                 }
 
-                if (nombre.trim() == "") {
-                    $("#nombre").css("background", colorError);
-                    campoVacio = true;
-                } else {
-                    $("#" + "nombre").css("background", "white");
-                }
-
                 if (sexo.trim() == "") {
                     $("#imgSexo").css("background", colorError);
                     campoVacio = true;
@@ -148,7 +140,6 @@
                         "nick": nick,
                         "password": password,
                         "email": email,
-                        "nombre": nombre,
                         "animal": animal,
                         "raza": raza,
                         "sexo": sexo,
@@ -198,7 +189,6 @@
         <p>Nick <input type="text" id="nick" maxlength="20" required></p>
         <p>Password <input type="password" id="password" maxlength="20" required></p>
         <p>Email <input type="email" id="email" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" maxlength="50" required></p>
-        <p>Nombre <input type="text" id="nombre" maxlength="30" required></p>
         <p>Animal 
             <select id="animales" name="animal" required>
                 

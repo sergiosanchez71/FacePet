@@ -11,26 +11,26 @@ class Usuario {
     private $nick;
     private $password;
     private $email;
-    private $nombre;
     private $animal;
     private $raza;
     private $sexo;
     private $foto;
     private $localidad;
     private $amigos;
+    private $baneado;
     private $operador;
 
-    function __construct($nick, $password, $email, $nombre, $animal, $raza, $sexo, $foto, $localidad) {
+    function __construct($nick, $password, $email, $animal, $raza, $sexo, $foto, $localidad) {
         $this->nick = $nick;
         $this->password = $password;
         $this->email = $email;
-        $this->nombre = $nombre;
         $this->animal = $animal;
         $this->raza = $raza;
         $this->sexo = $sexo;
         $this->foto = $foto;
         $this->localidad = $localidad;
         $this->amigos = null;
+        $this->nombre = null;
         $this->operador = 0;
     }
 
@@ -48,10 +48,6 @@ class Usuario {
 
     function getEmail() {
         return $this->email;
-    }
-
-    function getNombre() {
-        return $this->nombre;
     }
 
     function getAnimal() {
@@ -77,6 +73,10 @@ class Usuario {
     function getAmigos() {
         return $this->amigos;
     }
+    
+    function getBaneado() {
+        return $this->baneado;
+    }
 
     function getOperador() {
         return $this->operador;
@@ -96,10 +96,6 @@ class Usuario {
 
     function setEmail($email) {
         $this->email = $email;
-    }
-
-    function setNombre($nombre) {
-        $this->nombre = $nombre;
     }
 
     function setAnimal($animal) {
@@ -124,6 +120,10 @@ class Usuario {
 
     function setAmigos($amigos) {
         $this->amigos = $amigos;
+    }
+    
+    function setBaneado($baneado) {
+        $this->baneado = $baneado;
     }
 
     function setOperador($operador) {
@@ -157,7 +157,7 @@ class Usuario {
     function crearUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO usuarios (nick,password,email,nombre,animal,raza,sexo,foto,localidad,amigos,operador) VALUES ('$usuario->nick','$usuario->password','$usuario->email','$usuario->nombre','$usuario->animal','$usuario->raza','$usuario->sexo','$usuario->foto','$usuario->localidad',' ',0)";
+        $sql = "INSERT INTO usuarios (nick,password,email,animal,raza,sexo,foto,localidad,amigos,operador) VALUES ('$usuario->nick','$usuario->password','$usuario->email','$usuario->animal','$usuario->raza','$usuario->sexo','$usuario->foto','$usuario->localidad',' ',0)";
         $conexion->exec($sql);
         unset($conexion);
     }

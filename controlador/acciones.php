@@ -78,7 +78,7 @@ switch ($accion) {
           $tamanoImagen = $_FILES['foto']['size'];
           $carpetaDestino = $_SERVER['DOCUMENT_ROOT'].'/controlador/fotosPerfil';
           move_uploaded_file($_FILES['foto']['tmp_name'], $carpetaDestino.$nombreImagen); */
-        $usuario = new Usuario($_REQUEST['nick'], $password, $_REQUEST['email'], $_REQUEST['nombre'], $_REQUEST['animal'], $_REQUEST['raza'], $_REQUEST['sexo'], null, $_REQUEST['localidad']);
+        $usuario = new Usuario($_REQUEST['nick'], $password, $_REQUEST['email'], $_REQUEST['animal'], $_REQUEST['raza'], $_REQUEST['sexo'], null, $_REQUEST['localidad']);
 
         if (!Usuario::existeUsuario($_REQUEST['nick'])) {
             if (!Usuario::existeEmail($usuario)) {
