@@ -1,15 +1,8 @@
 
+
 <html>
     <head>
-        <title>FacePet</title>
-        <style>
-
-            #imgSexo{
-                width: 3rem;
-                position: relative;
-                top:1rem;
-            }
-        </style>
+        <title>Registro en FacePet</title>
         <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
         <script>
 
@@ -18,7 +11,7 @@
                 $("#animales").change(mostrarRazas);
                 $("#registro").click(crearUsuario);
             });
-            
+
             function mostrarAnimales() {
                 var parametros = {
                     "accion": "consultarAnimales"
@@ -27,7 +20,7 @@
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
-                    success: function (respuesta) {                        
+                    success: function (respuesta) {
                         var resp = JSON.parse(respuesta);
                         var animales = document.getElementById("animales");
                         for (var i = 0; i < resp.animal.length; i++) {
@@ -120,11 +113,11 @@
                 }
 
                 /*if (foto.trim() == "") {
-                    $("#foto").css("background", colorError);
-                    campoVacio = true;
-                } else {
-                    $("#foto").css("background", "white");
-                }*/
+                 $("#foto").css("background", colorError);
+                 campoVacio = true;
+                 } else {
+                 $("#foto").css("background", "white");
+                 }*/
 
                 if (localidad.trim() == "") {
                     $("#localidad").css("background", colorError);
@@ -143,7 +136,7 @@
                         "animal": animal,
                         "raza": raza,
                         "sexo": sexo,
-                       // "foto": foto,
+                        // "foto": foto,
                         "localidad": localidad
                     };
 
@@ -152,7 +145,9 @@
                         data: parametros,
                         success: function (respuesta) {
                             alert(respuesta);
-                            window.location.replace("../index.php");
+                            if (respuesta == "Usuario registrado correctamente") {
+                                window.location.replace("../index.php");
+                            }
                         },
                         error: function (xhr, status) {
                             alert("Error en la creación de usuario");
@@ -180,31 +175,95 @@
             }
 
         </script>
-        <?php
-        include '../controlador/gestion.php';
-        ?>
+        <style>
+
+            #principal{
+                margin: auto;
+                width: 30rem;
+                padding: 2rem;
+                background-color: lightgrey;
+            } 
+
+            #principal h1{
+                font-size: 3rem;
+                text-align: center;
+            }
+            
+            #principal p{
+                font-size: 1.3rem;
+            }
+
+            p span{
+                color:red;
+            }
+
+            #principal .dato{
+                float: right;
+                margin-right: 8rem;
+                width: 12rem;
+                height: 1.5rem;
+            }
+
+            #principal #Sdato{
+                float: right;
+                margin-right: 9rem;
+
+            }
+
+            #pSexo{
+                margin-bottom: 5rem;
+            }
+
+            #tSexo{
+                position: relative;
+                top: 2rem;
+                color:black;
+            }
+
+            #imgSexo{
+                width: 3rem;
+                position: relative;
+                top:1rem;
+            }
+            
+            #registro{
+                background-color: #FFF178;
+                font-size: 1.6rem;
+            }
+            
+            #imgPata{
+                width: 2rem;
+            }
+
+        </style>
+        
     </head>
     <body>
-        <h1>Registro en FacePet</h1>
-        <p>Nick <input type="text" id="nick" maxlength="20" required></p>
-        <p>Password <input type="password" id="password" maxlength="20" required></p>
-        <p>Email <input type="email" id="email" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" maxlength="50" required></p>
-        <p>Animal 
-            <select id="animales" name="animal" required>
-                
-            </select>
-        </p>
-        <p>Raza
-            <select id="razas" name="raza" required></select>
-        </p>
-        <p>Sexo
-            <img src="../controlador/img/masculino.png" id="imgSexo" alt="masculino">
-            <input type="radio" id="sexo" name="sexo" value="masculino" required>
-            <img src="../controlador/img/femenino.png" id="imgSexo" alt="femenino">
-            <input type="radio" id="sexo" name="sexo" value="femenino" required>
-        </p>
-        <!--<p>Foto de perfil <input type="file" id="foto" required></p>-->
-        <p>Localidad <input type="text" id="localidad" required></p>
-        <p><button id="registro">Registrar</button></p>
+        <div id="principal">
+            <h1>Registro en FacePet</h1>
+            <small>Complete el siguiente formulario con su correo electrónico y los datos de su mascota.</small>
+            <p>Nick <span>*</span> <input type="text" id="nick" class="dato" maxlength="20" required></p>
+            <p>Password <span>*</span> <input type="password" id="password" class="dato" maxlength="20" required></p>
+            <p>Email <span>*</span> <input type="email" id="email" class="dato" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" maxlength="50" required></p>
+            <p>Animal <span>*</span> 
+                <select id="animales" name="animal" class="dato" required>
+
+                </select>
+            </p>
+            <p>Raza <span>*</span>
+                <select id="razas" name="raza" class="dato" required></select>
+            </p>
+            <p id="pSexo"><span id="tSexo">Sexo <span>*</span></span>
+                <span id="Sdato">
+                    <img src="../controlador/img/masculino.png" id="imgSexo" alt="masculino">
+                    <input type="radio" id="sexo" name="sexo" value="masculino" required>
+                    <img src="../controlador/img/femenino.png" id="imgSexo" alt="femenino">
+                    <input type="radio" id="sexo" name="sexo" value="femenino" required>
+                </span>
+            </p>
+            <!--<p>Foto de perfil <input type="file" id="foto" required></p>-->
+            <p>Localidad <span>*</span><input type="text" id="localidad" class="dato" required></p>
+            <p><button id="registro">REGISTRAR <img src="../controlador/img/pata.png" id="imgPata" alt="pata"></button></p>
+        </div>
     </body>
 </html>
