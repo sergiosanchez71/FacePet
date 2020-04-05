@@ -55,9 +55,8 @@
                 border-radius: 3rem;
             } 
             
-            #principal h1{
-                font-size: 3rem;
-                text-align: center;
+            #principal #facepet{
+                width: 20rem;
             }
             
             #principal p{
@@ -84,7 +83,7 @@
             }
             
             
-            a{
+            #registro{
                 text-decoration: none;
                 color: black;
                 font-size: 1.1rem;
@@ -93,7 +92,7 @@
                 transition: 1s background ease;
             }
             
-            #principal #entrar:hover, a:hover{
+            #principal #entrar:hover, #registro:hover{
                 background-color:#FFF578;
             }
             
@@ -102,14 +101,14 @@
     </head>
     <body>
         <div id="principal">
-            <h1>FacePet</h1>
+            <p><a href="index.php"><img src="controlador/img/facepet.png" id="facepet"></a></p>
             <p>Username</p>
             <p><input type="text" id="username"></p>
             <p>Password</p>
             <p><input type="password" id="password"></p>
             <p><button id="entrar">Entrar <img src="controlador/img/pata.png" id="imgPata" alt="pata"></button> </p>
 
-            <a href="vista/registro.php">¿Todavía no te has registrado?</a>
+            <a id="registro" href="vista/registro.php">¿Todavía no te has registrado?</a>
 
         </div>
 

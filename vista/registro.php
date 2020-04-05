@@ -180,20 +180,32 @@
             body{
                 background-color: #EEEEEE;
             }
-            
+
             #principal{
                 margin: auto;
-                width: 30rem;
+                width: 32.5rem;
                 padding: 2rem;
                 background-color: white;
                 border-radius: 3rem;
             } 
 
-            #principal h1{
-                font-size: 3rem;
-                text-align: center;
+            #principal #facepet{
+                width: 15rem;
+                position: relative;
+                top: 0.5rem;
             }
-            
+
+            #principal h1{
+                font-size: 2.5rem;
+                text-align: center;
+                font-family: "Comic Sans MS";
+            }
+
+            #principal small p{
+                text-align: center;
+                font-size: 1rem;
+            }
+
             #principal p{
                 font-size: 1.3rem;
             }
@@ -209,7 +221,7 @@
                 height: 1.5rem;
                 transition: background 1s ease;
             }
-            
+
             #principal #Sdato{
                 float: right;
                 margin-right: 9rem;
@@ -230,7 +242,7 @@
                 position: relative;
                 top:1rem;
             }
-            
+
             #registro{
                 background-color: #FFED91;
                 font-size: 1.6rem;
@@ -238,11 +250,11 @@
                 cursor: pointer;
                 transition: 1s background ease;
             }
-            
+
             #imgPata{
                 width: 2rem;
             }
-            
+
             #login{
                 text-decoration: none;
                 color: black;
@@ -251,18 +263,19 @@
                 padding: 0.4rem;
                 transition: 1s background ease;
             }
-            
+
             #registro:hover, #login:hover, #principal .dato:hover{
                 background-color:#FFF578;
             }
 
+
         </style>
-        
+
     </head>
     <body>
         <div id="principal">
-            <h1>Registro en FacePet</h1>
-            <small>Complete el siguiente formulario con su correo electrónico y los datos de su mascota.</small>
+            <h1>Registro en <a href="../index.php"><img src="../controlador/img/facepet.png" id="facepet"></a></h1>
+            <small><p>Complete el siguiente formulario con su correo electrónico y los datos de su mascota.</p></small>
             <p>Nick <span>*</span> <input type="text" id="nick" class="dato" maxlength="20" required></p>
             <p>Password <span>*</span> <input type="password" id="password" class="dato" maxlength="20" required></p>
             <p>Email <span>*</span> <input type="email" id="email" class="dato" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" maxlength="50" required></p>
