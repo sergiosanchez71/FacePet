@@ -76,12 +76,16 @@
                 font-size: 2rem;
                 transition: 1s background ease;
                 border-radius: 2rem;
+                cursor: pointer;
             }
             
             #imgPata{
                 width: 2rem;
             }
             
+            #username,#password{
+                transition: 1s background ease;
+            }
             
             #registro{
                 text-decoration: none;
@@ -92,7 +96,7 @@
                 transition: 1s background ease;
             }
             
-            #principal #entrar:hover, #registro:hover{
+            #principal #entrar:hover, #registro:hover, #username:hover, #password:hover{
                 background-color:#FFF578;
             }
             

@@ -199,11 +199,15 @@
                 font-size: 2.5rem;
                 text-align: center;
                 font-family: "Comic Sans MS";
+                position: relative;
+                bottom: 1rem;
             }
 
             #principal small p{
                 text-align: center;
                 font-size: 1rem;
+                position: relative;
+                bottom: 1rem;
             }
 
             #principal p{
