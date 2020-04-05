@@ -177,11 +177,16 @@
         </script>
         <style>
 
+            body{
+                background-color: #EEEEEE;
+            }
+            
             #principal{
                 margin: auto;
                 width: 30rem;
                 padding: 2rem;
-                background-color: lightgrey;
+                background-color: white;
+                border-radius: 3rem;
             } 
 
             #principal h1{
@@ -202,12 +207,12 @@
                 margin-right: 8rem;
                 width: 12rem;
                 height: 1.5rem;
+                transition: background 1s ease;
             }
-
+            
             #principal #Sdato{
                 float: right;
                 margin-right: 9rem;
-
             }
 
             #pSexo{
@@ -227,12 +232,28 @@
             }
             
             #registro{
-                background-color: #FFF178;
+                background-color: #FFED91;
                 font-size: 1.6rem;
+                border-radius: 1rem;
+                cursor: pointer;
+                transition: 1s background ease;
             }
             
             #imgPata{
                 width: 2rem;
+            }
+            
+            #login{
+                text-decoration: none;
+                color: black;
+                font-size: 1.1rem;
+                border-radius: 3rem;
+                padding: 0.4rem;
+                transition: 1s background ease;
+            }
+            
+            #registro:hover, #login:hover, #principal .dato:hover{
+                background-color:#FFF578;
             }
 
         </style>
@@ -261,9 +282,9 @@
                     <input type="radio" id="sexo" name="sexo" value="femenino" required>
                 </span>
             </p>
-            <!--<p>Foto de perfil <input type="file" id="foto" required></p>-->
             <p>Localidad <span>*</span><input type="text" id="localidad" class="dato" required></p>
             <p><button id="registro">REGISTRAR <img src="../controlador/img/pata.png" id="imgPata" alt="pata"></button></p>
+            <a id="login" href="../index.php">Ya estoy registrado</a>
         </div>
     </body>
 </html>

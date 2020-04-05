@@ -3,7 +3,7 @@
         <title>FacePet</title>
         <script src="controlador/js/libreriaJQuery.js" type="text/javascript"></script>
         <script>
-            
+
             $(document).ready(function () {
                 inicio();
             });
@@ -11,7 +11,7 @@
             function inicio() {
                 $("#entrar").click(entrar);
             }
-            
+
             function entrar() {
                 var username = $("#username").val();
                 var password = $("#password").val();
@@ -21,12 +21,12 @@
                     "username": username,
                     "password": password
                 };
-                
+
                 $.ajax({
                     url: "controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        if(respuesta == 1){
+                        if (respuesta == 1) {
                             window.location.replace("vista/vistaOperador.php");
                         } else {
                             window.location.replace("vista/vistaUsuario.php");
@@ -39,18 +39,79 @@
                     dataType: "text"
                 });
             }
-            
+
         </script>
+        <style>
+
+            body{
+                background-color: #EEEEEE;
+            }
+            
+            #principal{
+                margin: auto;
+                width: 20rem;
+                padding: 2rem;
+                background-color: white;
+                border-radius: 3rem;
+            } 
+            
+            #principal h1{
+                font-size: 3rem;
+                text-align: center;
+            }
+            
+            #principal p{
+                font-size: 1.2rem;
+            }
+            
+            #principal input{
+                width: 100%;
+                height: 2rem;
+                font-size: 1.2rem;
+            }
+            
+            #principal #entrar{
+                width: 100%;
+                background-color: #FFED91;
+                height: 3rem;
+                font-size: 2rem;
+                transition: 1s background ease;
+                border-radius: 2rem;
+            }
+            
+            #imgPata{
+                width: 2rem;
+            }
+            
+            
+            a{
+                text-decoration: none;
+                color: black;
+                font-size: 1.1rem;
+                border-radius: 3rem;
+                padding: 0.4rem;
+                transition: 1s background ease;
+            }
+            
+            #principal #entrar:hover, a:hover{
+                background-color:#FFF578;
+            }
+            
+
+        </style>
     </head>
     <body>
-        <h2>FacePet</h2>
-        <p>Username</p>
-        <p><input type="text" id="username"></p>
-        <p>Password</p>
-        <p><input type="password" id="password"></p>
-        <p><input type="button" id="entrar" value="Entrar"> </p>
-        
-        <a href="vista/registro.php">¿Todavía no te has registrado?</a>
-        
+        <div id="principal">
+            <h1>FacePet</h1>
+            <p>Username</p>
+            <p><input type="text" id="username"></p>
+            <p>Password</p>
+            <p><input type="password" id="password"></p>
+            <p><button id="entrar">Entrar <img src="controlador/img/pata.png" id="imgPata" alt="pata"></button> </p>
+
+            <a href="vista/registro.php">¿Todavía no te has registrado?</a>
+
+        </div>
+
     </body>
 </html>
