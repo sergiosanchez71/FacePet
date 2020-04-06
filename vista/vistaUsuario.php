@@ -16,86 +16,11 @@ and open the template in the editor.
             header("Location: ../index.php");
         }
         ?>
+        <script>
+                 
+        </script>
+        <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <style>
-
-            body{
-                font-family: "Arial", sans-serif;
-            }
-
-            #principal{
-                display: grid;
-                grid-template-areas: 
-                    "header"
-                    "cuerpo"
-                    "footer";
-            }
-
-            header{
-                grid-area:"header";
-                background: #FFF4C8;
-                height: 4rem;
-                width: 70rem;
-                padding: 1rem;
-                margin: auto;
-
-            }
-
-            #facepet{
-                width: 15rem;
-            }
-
-            #facepetA{
-                float:left;
-            }
-
-            #perfil{
-                width: 3rem;
-                position: relative;
-                bottom: 1rem;
-                border-radius: 2rem;
-            }
-
-            #mensajes, #notificaciones{
-                width: 2rem;
-                position: relative;
-                bottom: 0.5rem;
-            }
-
-            nav li{
-                list-style: none;
-                float: left;
-                padding: 1rem;
-                position: relative;
-                left: 1rem;
-                top: 0.5rem;
-                cursor: pointer;
-                font-weight: bold;
-                font-size: 1.2rem;
-            }
-
-            nav li .alerta{
-                background: red;
-                padding: 1px 3px 1px 3px;
-                position: absolute;
-                bottom: 2.7rem;
-                left: 2.5rem;
-                color: white;
-            }
-
-            nav li #nombreUsuario{
-                position: relative;
-                bottom: 2rem;
-                left: 1rem;
-            }
-
-            #liUsuario{
-                float: right;
-                margin-right: 4rem;
-            }
-
-            header ul li{
-                display: none;
-            }
 
             #cuerpo{
                 grid-area: cuerpo;
@@ -117,7 +42,7 @@ and open the template in the editor.
                 min-height: 29rem;
                 background-color: #FFFFC8;
                 width: 40rem;
-                margin: auto;
+                margin: 1rem;
                 padding: 1rem;
                 border: 1px solid black;
             }
@@ -143,7 +68,7 @@ and open the template in the editor.
 
             .postCont{
                 position: relative;
-                bottom: 2rem;
+                bottom: 3rem;
             }
 
             .postTitulo{
@@ -182,6 +107,7 @@ and open the template in the editor.
             #menuL{
                 grid-area: menuL;
                 width: 20rem;
+                display: none;
             }
 
 
@@ -197,15 +123,15 @@ and open the template in the editor.
             <header>
                 <a href="../index.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
                 <nav>
-                    <li><a>Inicio</a></li>
-                    <li>Mi Perfil</li>
-                    <li>Crear
+                    <li><a href="vistaUsuario.php">Inicio</a></li>
+                    <li><a href="#">Mi Perfil</a></li>
+                    <li id="crear">Crear
                         <ul>
-                            <li>Crear Post</li>
-                            <li>Crear Evento</li>
+                            <li><a href="#">Crear Post</a></li>
+                            <li><a href="#">Crear Evento</a></li>
                         </ul>
                     </li>
-                    <li>Buscar Amigos</li>
+                    <li><a href="#">Buscar Amigos</a></li>
                     <li><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></li>
                     <li><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></li>
                     <li id="liUsuario"><img src="../controlador/img/gato.png" id="perfil"><span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span></li>
