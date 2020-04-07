@@ -20,92 +20,20 @@ and open the template in the editor.
                  
         </script>
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
+        <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css">
         <style>
 
             #cuerpo{
                 grid-area: cuerpo;
                 display: grid;
                 grid-template-areas: 
-                    "menuL posts";
+                    "posts eventos";
                 width: 70rem;
                 margin: auto;
             }
 
-            #posts{
-                grid-area: posts;
-                margin: auto;
-                width: 50rem;
-                margin-top: 2rem;
-            }
-
-            .post{
-                min-height: 29rem;
-                background-color: #FFFFC8;
-                width: 40rem;
-                margin: 1rem;
-                padding: 1rem;
-                border: 1px solid black;
-            }
-
-            .imagenUsuario{
-                width: 3rem;
-                border-radius: 3rem;
-            }
-
-            .nombreUsuario{
-                position: relative;
-                bottom: 1.5rem;
-                left: 1rem;
-                font-weight: bold;
-            }
-
-            .postFecha{
-                font-size: 0.8rem;
-                position: relative;
-                bottom: 2rem;
-                left: 4rem;
-            }
-
-            .postCont{
-                position: relative;
-                bottom: 3rem;
-            }
-
-            .postTitulo{
-                grid-area: titulo;
-                font-size: 2rem;
-                font-weight: bold;
-                text-align: center;
-            }
-
-            .postContenido{
-                text-align: justify;
-                margin: 1rem;
-            }
-
-            .postImg{
-                width: 15rem;
-                width: 15rem;
-                float:left;
-                margin: 0 1rem 1rem 1rem;
-            }
-
-            .postLikes{
-                font-weight: bold;
-                margin: 1rem;
-            }
-            
-            .iconos{
-                margin: 1rem;
-            }
-
-            .postCorazonImg, .postComentarioImg{
-                width: 2rem;
-                padding-right: 1rem;
-            }
-
             #menuL{
-                grid-area: menuL;
+                grid-area: eventos;
                 width: 20rem;
                 display: none;
             }
@@ -121,10 +49,10 @@ and open the template in the editor.
         <div id="principal">
 
             <header>
-                <a href="../index.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
+                <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
                 <nav>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
-                    <li><a href="#">Mi Perfil</a></li>
+                    <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
                         <ul>
                             <li><a href="#">Crear Post</a></li>
@@ -134,12 +62,19 @@ and open the template in the editor.
                     <li><a href="#">Buscar Amigos</a></li>
                     <li><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></li>
                     <li><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></li>
-                    <li id="liUsuario"><img src="../controlador/img/gato.png" id="perfil"><span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span></li>
+                    <li id="liUsuario"><img src="../controlador/img/gato.png" id="perfil"><span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
+                        <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
+                        <ul>
+                            <li><a href="../index.php">Cerrar Sesión</a></li>
+                        </ul>
+                    
+                    </li>
                 </nav>
             </header>
 
             <div id="cuerpo">
                 <div id="posts">
+                    <p>Posts</p>
                     <div class="post">
                         <p class="postUsuario"><img src="../controlador/img/gato.png" class="imagenUsuario" alt="imagenUsuario"><span class="nombreUsuario">Sergio</span></p>
                         <p class="postFecha">05-04-2020 13:33</p>
@@ -192,10 +127,11 @@ and open the template in the editor.
                         </div>
                     </div>
                 </div>
-                <div id="menuL">
-                    <ul>
-                        <li>Hola</li>
-                    </ul>
+                <div id="eventos">
+                    <p>Eventos</p>
+                    <div class="evento">
+                        
+                    </div>
                 </div>
             </div>
 

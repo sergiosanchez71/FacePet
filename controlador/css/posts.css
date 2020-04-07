@@ -1,0 +1,71 @@
+#posts{
+    grid-area: posts;
+    width: 50rem;
+    margin-top: 2rem;
+}
+
+.post{
+    min-height: 29rem;
+    background-color: #fffbed;
+    width: 40rem;
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid black;
+}
+
+.imagenUsuario{
+    width: 3rem;
+    border-radius: 3rem;
+}
+
+.nombreUsuario{
+    position: relative;
+    bottom: 1.5rem;
+    left: 1rem;
+    font-weight: bold;
+}
+
+.postFecha{
+    font-size: 0.8rem;
+    position: relative;
+    bottom: 2rem;
+    left: 4rem;
+}
+
+.postCont{
+    position: relative;
+    bottom: 3rem;
+}
+
+.postTitulo{
+    grid-area: titulo;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.postContenido{
+    text-align: justify;
+    margin: 1rem;
+}
+
+.postImg{
+    width: 15rem;
+    width: 15rem;
+    float:left;
+    margin: 0 1rem 1rem 1rem;
+}
+
+.postLikes{
+    font-weight: bold;
+    margin: 1rem;
+}
+
+.iconos{
+    margin: 1rem;
+}
+
+.postCorazonImg, .postComentarioImg{
+    width: 2rem;
+    padding-right: 1rem;
+}
