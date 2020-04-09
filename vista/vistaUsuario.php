@@ -7,7 +7,8 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>FacePet</title>
+        <link rel="icon" href="../controlador/img/favicon.ico">
         <?php
         session_start();
         if (isset($_SESSION['username'])) {
@@ -17,7 +18,7 @@ and open the template in the editor.
         }
         ?>
         <script>
-                 
+
         </script>
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css">
@@ -32,10 +33,52 @@ and open the template in the editor.
                 margin: auto;
             }
 
+            #posts{
+                grid-area:posts;
+            }
+
             #menuL{
                 grid-area: eventos;
-                width: 20rem;
+                width: 60rem;
                 display: none;
+            }
+            
+            #eventos{
+                margin-top: 2rem;
+            }
+
+            .evento{
+                background: white;
+                padding: 1rem;
+                background-color: #fffbed;
+                border: 1px solid black;
+                margin-bottom: 1rem;
+            }
+            
+            .eventoTitulo{
+                font-weight: bold;
+                text-align: center;
+            }
+            
+            .eventoFecha{
+                font-size: 0.8rem;
+            }
+
+            .eventoImg{
+                width: 20rem;
+            }
+            
+            .eventoContenido{
+                font-size: 1rem;
+                text-align: justify;
+            }
+            
+            .eventoAutor{
+                font-size: 0.8rem;
+            }
+            
+            .eventoNombreAutor{
+                font-weight: bold;
             }
 
 
@@ -55,7 +98,7 @@ and open the template in the editor.
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
                         <ul>
-                            <li><a href="#">Crear Post</a></li>
+                            <li><a href="crearPost.php">Crear Post</a></li>
                             <li><a href="#">Crear Evento</a></li>
                         </ul>
                     </li>
@@ -67,14 +110,13 @@ and open the template in the editor.
                         <ul>
                             <li><a href="../index.php">Cerrar Sesión</a></li>
                         </ul>
-                    
                     </li>
                 </nav>
             </header>
 
             <div id="cuerpo">
                 <div id="posts">
-                    <p>Posts</p>
+                    <p id="name">Posts</p>
                     <div class="post">
                         <p class="postUsuario"><img src="../controlador/img/gato.png" class="imagenUsuario" alt="imagenUsuario"><span class="nombreUsuario">Sergio</span></p>
                         <p class="postFecha">05-04-2020 13:33</p>
@@ -92,9 +134,12 @@ and open the template in the editor.
                                 Quisque rutrum, eros nec vestibulum imperdiet, dui lectus molestie justo, porttitor blandit neque massa porttitor metus. Praesent pretium elementum est sed pretium. 
                                 Curabitur nec ultricies ante. vestibulum imperdiet, dui lectus molestie justo, porttitor blandit neque massa porttitor metus. Praesent pretium elementum est sed pretium. 
                                 Curabitur nec ultricies ante.</p>
-                            <p class="postLikes"><span>1</span> Me gusta</p>
-                            <p class="iconos"><a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
-                                <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a></p>
+                            <div class="postBottom">
+                                <p class="postLikes"><span>1</span> Me gusta</p>
+                                <p class="iconos">
+                                <a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
+                                <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a>
+                            </div>
                         </div>
                     </div>
                     <div class="post">
@@ -104,9 +149,12 @@ and open the template in the editor.
                             <p class="postTitulo">Titulo</p>
                             <img src="../controlador/img/gato.png" class="postImg" alt="postImg">
                             <p class="postContenido">Maecenas.</p>
-                            <p class="postLikes"><span>1</span> Me gusta</p>
-                            <p class="iconos"><a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
-                                <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a></p>
+                            <div class="postBottom">
+                                <p class="postLikes"><span>1</span> Me gusta</p>
+                                <p class="iconos">
+                                <a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
+                                <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a>
+                            </div>
                         </div>
                     </div>
                     <div class="post">
@@ -120,17 +168,59 @@ and open the template in the editor.
                                 Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
                                 Morbi congue lobortis. dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
                                 impassa porttitor metus. Praesent pretium elementum est sed pretium. 
-                        .</p>
-                            <p class="postLikes"><span>1</span> Me gusta</p>
-                            <p class="iconos"><a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
-                                <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a></p>
+                                .</p>
+                            <div class="postBottom">
+                                <p class="postLikes"><span>1</span> Me gusta</p>
+                                <p class="iconos">
+                                <a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
+                                <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a>
+                            </div>
+                            </p>
                         </div>
                     </div>
                 </div>
                 <div id="eventos">
-                    <p>Eventos</p>
+                    <p id="name">Eventos</p>
                     <div class="evento">
-                        
+                        <p class="eventoTitulo">Titulo</p>
+                        <p class="eventoTipo">tipo</p>
+                        <p class="eventoFecha">05-04-2020 13:33</p>
+                        <p class="eventoContenido">
+                            Maecenas vel magna gravida, ullamcorper urna efficitur, condimentum massa. 
+                            Etiam dui ex, venenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
+                            Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
+                            Morbi congue lobortis. digniss
+                        </p>
+                        <img src="../controlador/img/gato.png" class="eventoImg" alt="eventoImg">
+                        <p class="eventoAutor">Autor del evento: <span class="eventoNombreAutor">NombreAutor</span></p>
+                    </div>
+                    
+                    <div class="evento">
+                        <p class="eventoTitulo">Titulo</p>
+                        <p class="eventoTipo">tipo</p>
+                        <p class="eventoFecha">05-04-2020 13:33</p>
+                        <p class="eventoContenido">
+                            Maecenas vel magna gravida, ullamcorper urna efficitur, condimentum massa. 
+                            Etiam dui ex, venenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
+                            Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
+                            Morbi congue lobortis. digniss
+                        </p>
+                        <img src="../controlador/img/gato.png" class="eventoImg" alt="eventoImg">
+                        <p class="eventoAutor">Autor del evento: <span class="eventoNombreAutor">NombreAutor</span></p>
+                    </div>
+                    
+                    <div class="evento">
+                        <p class="eventoTitulo">Titulo</p>
+                        <p class="eventoTipo">tipo</p>
+                        <p class="eventoFecha">05-04-2020 13:33</p>
+                        <p class="eventoContenido">
+                            Maecenas vel magna gravida, ullamcorper urna efficitur, condimentum massa. 
+                            Etiam dui ex, venenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
+                            Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
+                            Morbi congue lobortis. digniss
+                        </p>
+                        <img src="../controlador/img/gato.png" class="eventoImg" alt="eventoImg">
+                        <p class="eventoAutor">Autor del evento: <span class="eventoNombreAutor">NombreAutor</span></p>
                     </div>
                 </div>
             </div>

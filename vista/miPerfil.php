@@ -7,7 +7,8 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Mi Perfil</title>
+        <link rel="icon" href="../controlador/img/favicon.ico">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css">
         <style>
@@ -132,7 +133,7 @@ and open the template in the editor.
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
                         <ul>
-                            <li><a href="#">Crear Post</a></li>
+                            <li><a href="crearPost.php">Crear Post</a></li>
                             <li><a href="#">Crear Evento</a></li>
                         </ul>
                     </li>

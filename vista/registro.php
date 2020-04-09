@@ -3,6 +3,7 @@
 <html>
     <head>
         <title>Registro en FacePet</title>
+        <link rel="icon" href="../controlador/img/favicon.ico">
         <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
         <script>
 

@@ -8,6 +8,7 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title>Vista de Operador</title>
+        <link rel="icon" href="../controlador/img/favicon.ico">
         <?php
         session_start();
         if (isset($_SESSION['username']) && $_SESSION['operador'] == 1) {

@@ -4,11 +4,17 @@
     margin-top: 2rem;
 }
 
+#name{
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
 .post{
     min-height: 29rem;
     background-color: #fffbed;
     width: 40rem;
-    margin: 1rem;
+    margin-bottom: 1rem;
     padding: 1rem;
     border: 1px solid black;
 }
@@ -54,6 +60,10 @@
     width: 15rem;
     float:left;
     margin: 0 1rem 1rem 1rem;
+}
+
+.postBottom{
+    clear: both;
 }
 
 .postLikes{
