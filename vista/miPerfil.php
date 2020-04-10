@@ -35,7 +35,34 @@ and open the template in the editor.
             #imgPerfil{
                 width: 15rem;
                 border-radius: 8rem;
-                padding: 2rem;
+                padding: 1rem;
+                transition: opacity 1.5s ease;
+                z-index: 2;
+            }
+            
+            #contenidoPerfil:hover > #imgPerfil {
+                opacity: 0.5;
+            }
+            
+            #contenidoPerfil:hover > #textCambiarAvatar{
+                opacity: 0.9;
+            }
+
+            #textCambiarAvatar{
+                position: relative;
+                font-weight: bold;
+                font-size: 1.4rem;
+                top:10rem;
+                left: 3rem;
+                opacity: 0;
+                z-index: 1;
+                transition: opacity 1.5s ease;
+            }
+            
+            #contenidoPerfil{
+                width: 15rem;
+                margin-left: 15rem;
+                cursor: pointer;
             }
 
             #datos{
@@ -48,7 +75,7 @@ and open the template in the editor.
                 position: relative;
                 bottom: 1rem;
             }
-            
+
             #localidad{
                 position: relative;
                 bottom: 1rem;
@@ -94,11 +121,11 @@ and open the template in the editor.
                 border-radius: 4rem;
                 margin: 1rem;
             }
-            
+
             .nombreAmigo{
                 font-weight: bold;
             }
-            
+
             .informacionAmigo{
                 margin-top: 1.5rem;
                 margin-right: 1rem;
@@ -107,7 +134,7 @@ and open the template in the editor.
             #posts{
                 grid-area:posts;
             }
-            
+
             #titularAmigosPerfil,#titularPosts{
                 text-align: center;
                 font-weight: bold;
@@ -134,13 +161,17 @@ and open the template in the editor.
                     <li id="crear">Crear
                         <ul>
                             <li><a href="crearPost.php">Crear Post</a></li>
-                            <li><a href="#">Crear Evento</a></li>
+                            <li><a href="crearEvento.php">Crear Evento</a></li>
                         </ul>
                     </li>
                     <li><a href="#">Buscar Amigos</a></li>
                     <li><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></li>
                     <li><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></li>
-                    <li id="liUsuario"><img src="../controlador/img/gato.png" id="perfil"><span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
+                    <a><li id="liUsuario">
+                            <a href="miPerfil.php">
+                                <img src="../controlador/img/gato.png" id="perfil">
+                                <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
+                            </a>
                         <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
                         <ul>
                             <li><a href="../index.php">Cerrar Sesión</a></li>
@@ -151,16 +182,19 @@ and open the template in the editor.
 
             <div id="cuerpo">
                 <div id="cabeceraPerfil">
+                    <p id="contenidoPerfil">
+                    <span id="textCambiarAvatar">Cambiar Avatar</span>
                     <img src="../controlador/img/gato.png" id="imgPerfil" alt="imgPerfil">
-                    <div id="datos">
-                        <p id="nombrePerfilUsuario"><?php echo $_SESSION['username'] ?></p>
-                        <p id="animalRaza"><span>Animal</span> <span>Raza</span></p>
-                        <p id="localidad">Localidad</p>
-                    </div>
-                    <!--<p id="descripcion">Vvenenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
-                        Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
-                        Morbi congue lobortis lacus, id consectetur tellus congue eu. Aliquam ornare nisi erat, id malesuada tellus semper vitae. 
-                        Praesent purus lorem, porta volut</p>-->
+                    </p>
+                        <div id="datos">
+                            <p id="nombrePerfilUsuario"><?php echo $_SESSION['username'] ?></p>
+                            <p id="animalRaza"><span>Animal</span> <span>Raza</span></p>
+                            <p id="localidad">Localidad</p>
+                        </div>
+                        <!--<p id="descripcion">Vvenenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
+                            Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
+                            Morbi congue lobortis lacus, id consectetur tellus congue eu. Aliquam ornare nisi erat, id malesuada tellus semper vitae. 
+                            Praesent purus lorem, porta volut</p>-->
                 </div>
                 <div id="amigosPerfil">
                     <p id="titularAmigosPerfil">Mis Amigos</p>

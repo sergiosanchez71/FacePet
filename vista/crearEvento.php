@@ -30,7 +30,7 @@
                 font-weight: bold;
             }
             
-            #titulo{
+            #titulo, #tipo{
                 width: 100%;
                 font-size: 1.2rem;
                 transition: 1s background ease;
@@ -42,6 +42,10 @@
                 height: 14rem;
                 font-size: 1.1rem;
                 transition: 1s background ease;
+            }
+            
+            #info{
+                font-size: 0.8rem;
             }
             
             #multimedia{
@@ -60,7 +64,7 @@
                 cursor: pointer;
             }
             
-            #botonCrearPost:hover, textarea:hover, #titulo:hover{
+            #botonCrearPost:hover, textarea:hover, #titulo:hover, #tipo:hover{
                 background-color:#FFF578;
             }
             
@@ -103,12 +107,14 @@
             </header>
             <div id="cuerpo">
                 <div id="crearPost">
-                    <h1>Crea un nuevo post</h1>
+                    <h1>Crea un nuevo evento</h1>
                     <p class="title">Título</p> 
                     <input type="text" id="titulo" maxlength="30">
                     <p class="title">Contenido</p> 
                     <textarea type="text" id="contenido" maxlength="1000"></textarea>
-                    <!--<p><input type="radio" id="multimedia" value="imagen"><input type="radio" id="multimedia" value="video"></p>-->
+                    <p class="title">Tipo</p>
+                    <input type="text" id="tipo" maxlength="30"> 
+                    <p id="info">(una promoción, zona de cría...)</p>
                     <p class="title">Añade una foto o vídeo</p>
                     <p><input type="file" class="form-control-file" name="multimedia" id="multimedia"></p>
                     <button id="botonCrearPost">Crear Post<img src="../controlador/img/pata.png" id="pata" class="pata"></button>
