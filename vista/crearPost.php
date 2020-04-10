@@ -86,7 +86,7 @@
                             <li><a href="crearEvento.php">Crear Evento</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Buscar Amigos</a></li>
+                    <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
                     <li><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></li>
                     <li><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></li>
                     <a><li id="liUsuario">
