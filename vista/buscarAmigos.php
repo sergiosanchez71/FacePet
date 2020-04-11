@@ -4,29 +4,23 @@
         <link rel="icon" href="../controlador/img/favicon.ico">
         <link rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <?php
-        
         session_start();
-        
         ?>
         <style>
-            
+
             #cuerpo{
-                width: 70rem;
+                width: 40rem;
                 margin: auto;
                 background: white;
                 padding: 2rem 2rem 2rem 2rem;
             }
-            
+
             #buscador{
-                width: 30rem;
+                width: 90%;
                 height: 2rem;
                 font-size: 1.3rem;
             }
-            
-            #buscarAmigos{
-                
-            }
-            
+
             #lupa{
                 width: 3rem;
                 position: relative;
@@ -34,40 +28,59 @@
                 cursor: pointer;
             }
             
-            #buscarAmigos{
-                display: flex;
-                flex: wrap;
-            }
-            
             .amigo{
-                background: red;
-                width: 30rem;
-                margin-top: 2rem;
-            }
-            
-            .datos{
-                padding-left: 3rem;
-            }
-            
-            .nombreAmigo{
+                background: #fcf0c9;
+                width: 100%;
+                margin-top: 3rem;
+                border:1.5px solid black;
                 float: left;
+                padding-bottom: 1rem;
             }
-            
+
+            .datos{
+                padding-left: 2rem;
+            }
+
+            .nombreAmigo{
+                font-weight: bold;
+                font-size: 1.5rem;
+            }
+
             .sexo{
                 width: 2.5rem;
                 position: relative;
+                top: 0.5rem;
                 left: 1rem;
-                top: 2.5rem;
             }
-            
+
             .imagenAmigo{
-                width: 6rem;
+                width: 10rem;
                 border-radius: 4rem;
                 margin: 1rem;
                 float: left;
+                margin-right: 4rem;
+            }
+
+            .solicitud{
+                background-color: #FFED91;
+                font-size: 1.2rem;
+                border-radius: 1rem;
+                cursor: pointer;
+                transition: 1s background ease;
+            }
+            
+            .solicitud:hover{
+                background-color:#FFF578;
+            }
+            
+            .imgPata{
+                width: 1.5rem;
+                position: relative;
+                top: 2.5px;
             }
             
             
+
         </style>
     </head>
     <body>
@@ -84,18 +97,18 @@
                         </ul>
                     </li>
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
-                    <li><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></li>
+                    <li><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
                     <li><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></li>
                     <a><li id="liUsuario">
                             <a href="miPerfil.php">
                                 <img src="../controlador/img/gato.png" id="perfil">
                                 <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
                             </a>
-                        <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
-                        <ul>
-                            <li><a href="../index.php">Cerrar Sesión</a></li>
-                        </ul>
-                    </li>
+                            <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
+                            <ul>
+                                <li><a href="../index.php">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
                 </nav>
             </header>
             <div id="cuerpo">
@@ -106,11 +119,34 @@
                     <div class="amigo">
                         <div class="datos">
                             <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                            <p class="nombreAmigo">Nombre Amigo</p>
-                            <img src="../controlador/img/masculino.png" class="sexo" alt="sexo">
+                            <p><span class="nombreAmigo">Nombre usuario</span>                            <img src="../controlador/img/masculino.png" class="sexo" alt="sexo">
+                            </p>
                             <p class="animal">12345678901234567890</p>
                             <p class="raza">12345678901234567890</p>
-                            <p>123456789012345678901234567890</p>
+                            <p class="localidad">123456789012345678901234567890</p>
+                            <button class="solicitud">Enviar Solicitud <img src="../controlador/img/pata.png" class="imgPata" alt="pata"></button>
+                        </div>
+                    </div>
+                    <div class="amigo">
+                        <div class="datos">
+                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
+                            <p><span class="nombreAmigo">Nombre usuario</span>                            <img src="../controlador/img/masculino.png" class="sexo" alt="sexo">
+                            </p>
+                            <p class="animal">12345678901234567890</p>
+                            <p class="raza">12345678901234567890</p>
+                            <p class="localidad">123456789012345678901234567890</p>
+                            <button class="solicitud">Enviar Solicitud <img src="../controlador/img/pata.png" class="imgPata" alt="pata"></button>
+                        </div>
+                    </div>
+                    <div class="amigo">
+                        <div class="datos">
+                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
+                            <p><span class="nombreAmigo">Nombre usuario</span>                            <img src="../controlador/img/masculino.png" class="sexo" alt="sexo">
+                            </p>
+                            <p class="animal">12345678901234567890</p>
+                            <p class="raza">12345678901234567890</p>
+                            <p class="localidad">123456789012345678901234567890</p>
+                            <button class="solicitud">Enviar Solicitud <img src="../controlador/img/pata.png" class="imgPata" alt="pata"></button>
                         </div>
                     </div>
                 </div>
