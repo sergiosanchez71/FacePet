@@ -14,8 +14,8 @@
                 background: white;
                 display: grid;
                 grid-template-areas:
-                    "listaAmigos mensajes info";
-                grid-template-columns: 22.5rem 40rem 11.5rem;
+                    "listaAmigos mensajes";
+                grid-template-columns: 30% 70%;
                 grid-template-rows: 45rem;
             }
 
@@ -25,12 +25,12 @@
                 padding: 1rem;
                 overflow-y: auto;
             }
-            
+
             #chatear{
                 font-weight: bold;
                 font-size: 1.25rem;
             }
-            
+
             #buscador{
                 width: 100%;
                 border-radius: 0.5rem;
@@ -82,7 +82,7 @@
                     "pieCM";
                 grid-template-rows: 7rem auto 5rem;
             }
-            
+
             #cabeceraCM{
                 display: grid;
                 grid-template-areas:
@@ -90,7 +90,7 @@
                 border-bottom: 1px solid black;
                 grid-area:cabeceraCM;
             }
-            
+
             .imgAmigoCM{
                 grid-area: imgAmigoCM;
                 width: 5rem;
@@ -98,7 +98,7 @@
                 float:left;
                 padding: 1rem;
             }
-            
+
             .nombreAmigoCM{
                 grid-area: nombreAmigoCM;
                 font-weight: bold;
@@ -106,26 +106,46 @@
                 margin-right: 3rem;
             }
 
-            #info{
-                grid-area: info;
-                border: 1px solid black;
-            }
-            
             #cuerpoCM{
-                grid-area:cuerpoCM
+                grid-area:cuerpoCM;
+                padding:1rem;
+                overflow: auto;
+            }
+
+            .mUser1, .mUser2{
+                max-width: 100%;
+                background-color: #EEEEEE;
+                margin-bottom: 1rem;
+                padding: 2rem 2rem 0.1px 2rem;
+                border-radius: 8rem;
+                word-break: break-all; 
             }
             
+            .mUser1{
+                margin-left: 10rem;
+            }
+
+            .mUser2{
+                margin-right: 10rem;
+            }
+
+            .mUser1 .fecha, .mUser2 .fecha{
+                color: grey;
+                font-size: 0.75rem;
+                text-align: right;
+            }
+
             #pieCM{
                 grid-area: pieCM;
                 border-top: 1px solid black;
             }
-            
+
             #mensajeEscrito{
                 border-radius: 1rem;
                 margin: 1rem 1rem 0.5rem 1rem;
                 width: 95%;
             }
-            
+
             #enviarMensaje{
                 float: right;
                 background-color: #FFED91;
@@ -135,7 +155,7 @@
                 cursor: pointer;
                 transition: 1s background ease;
             }
-            
+
 
         </style>
 
@@ -155,7 +175,7 @@
                     </li>
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
                     <li><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
-                    <li><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></li>
+                    <li><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
                     <a><li id="liUsuario">
                             <a href="miPerfil.php">
                                 <img src="../controlador/img/gato.png" id="perfil">
@@ -204,6 +224,22 @@
                             <p class="razaAmigo">Raza Amigo</p>
                         </div>
                     </div>
+                    <div class="amigo">
+                        <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
+                        <div class="datos">
+                            <p class="nombreAmigo">Nombre Amigo</p>
+                            <p class="animalAmigo">Animal Amigo</p>
+                            <p class="razaAmigo">Raza Amigo</p>
+                        </div>
+                    </div>
+                    <div class="amigo">
+                        <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
+                        <div class="datos">
+                            <p class="nombreAmigo">Nombre Amigo</p>
+                            <p class="animalAmigo">Animal Amigo</p>
+                            <p class="razaAmigo">Raza Amigo</p>
+                        </div>
+                    </div>
                 </div>
                 <div id="Cmensajes">
                     <div id="cabeceraCM">
@@ -211,16 +247,17 @@
                         <p class="nombreAmigoCM">Nombre Amigo</p>
                     </div>
                     <div id="cuerpoCM">
-                        <p class="mUser2">HOLA</p>
-                        <p class="mUser1">hola</p>
+                        <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
+                        <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
+                        <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
+                        <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
+                        <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
+                        <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
                     </div>
                     <div id="pieCM">
                         <input type="text" id="mensajeEscrito" placeholder="Escribe un mensaje">
                         <button id="enviarMensaje">Enviar</button>
                     </div>
-                </div>
-                <div id="info">
-                    
                 </div>
             </div>
         </div>

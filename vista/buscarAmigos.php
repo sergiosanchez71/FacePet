@@ -98,7 +98,7 @@
                     </li>
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
                     <li><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
-                    <li><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></li>
+                    <li><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
                     <a><li id="liUsuario">
                             <a href="miPerfil.php">
                                 <img src="../controlador/img/gato.png" id="perfil">
