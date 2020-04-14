@@ -12,6 +12,10 @@ body{
         "footer";
 }
 
+#navmv{
+    display: none;
+}
+
 header{
     grid-area:"header";
     background: #FFF4C8;
@@ -42,7 +46,7 @@ header{
     bottom: 0.5rem;
 }
 
-nav li{
+#navpc li{
     list-style: none;
     float: left;
     padding: 1rem;
@@ -53,16 +57,16 @@ nav li{
     font-size: 1.2rem;
 }
 
-nav li a{
+#navpc li a{
     color: black;
     text-decoration: none;
 }
 
-nav li a, nav li{
+#navpc li a, #navpc li{
     transition: color 0.5s ease-out;
 }
 
-nav li a:hover, nav li:hover{
+#navpc li a:hover, #navpc li:hover{
     color:#FEBF00;
 }
 
@@ -77,26 +81,26 @@ header #crear ul{
     transition: opacity 1s ease;
 }
 
-header nav #crear ul li{
+header #navpc #crear ul li{
     width: 10rem;
     background: #FFF4C8;
     border-right: 1px solid black;
     border-left: 1px solid black;
 }
 
-header nav #crear ul li:last-child{
+header #navpc #crear ul li:last-child{
     border-bottom: 1px solid black;
 }
 
-header:hover > nav #crear ul, header:hover nav #liUsuario ul{
+header:hover > #navpc #crear ul, header:hover #navpc #liUsuario ul{
     display: block;
 }
 
-nav #crear:hover > ul{
+#navpc #crear:hover > ul{
     opacity: 1;
 }
 
-nav li .alerta{
+#navpc li .alerta{
     background: red;
     padding: 1px 3px 1px 3px;
     position: absolute;
@@ -106,7 +110,7 @@ nav li .alerta{
 }
 
 
-nav li #nombreUsuario{
+#navpc li #nombreUsuario{
     position: relative;
     bottom: 2rem;
     left: 1rem;
@@ -143,4 +147,74 @@ nav li #nombreUsuario{
 #liUsuario{
     float: right;
     margin-right: 4rem;
+}
+
+@media(max-width: 1200px){
+
+    header{
+        width: 60rem;
+    }
+
+    #navpc li{
+        font-size: 1rem;
+        bottom: 1px;
+    }
+
+    #mensajes, #notificaciones{
+        width: 1.8rem;
+    }
+
+    #liUsuario{
+        margin-right: 2.2rem;
+    }
+
+}
+
+@media(max-width: 1000px){
+
+    header{
+        width: 100%;
+        height: 9rem;
+    }
+
+    #cuerpo{
+        width: 100%;
+    }
+
+    #navpc{
+        display: none;
+    }
+
+    #navmv{
+        display: block;
+    }
+
+    #facepetMV, #facepetAMV{
+        display: block;
+        margin: auto;
+        width: 40rem;
+    }
+
+    .hamburger {
+        min-height: 30px;
+        max-width: 50px;
+    }
+    .hamburger-inner, .hamburger-inner:after, .hamburger-inner:before {
+        background-color: blue;
+        position: absolute;
+        width: 40px;
+        height: 4px;
+        border-radius: 5px;
+        content: '';
+        transition-timing-function: ease;
+        transition-duration: .2s;
+        transition-property: transform,opacity;
+    }
+    .hamburger-inner:before {
+        top: 10px;
+    }
+    .hamburger-inner:after {
+        top: 20px;
+    }
+
 }

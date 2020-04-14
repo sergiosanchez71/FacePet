@@ -10,7 +10,8 @@
 
             #cuerpo{
                 margin: auto;
-                width: 70rem;
+                width: 74rem;
+                background: white;
             }
 
             #crearPost{
@@ -70,6 +71,15 @@
                 position: relative;
                 top: 3px;
             }
+            
+            
+            @media (max-width:1200px){
+            
+                #cuerpo{
+                    width: 62rem;
+                }
+            
+            }
 
         </style>
     </head>
@@ -77,7 +87,7 @@
         <div id="principal">
             <header>
                 <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
-                <nav>
+                <nav id="navpc">
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear

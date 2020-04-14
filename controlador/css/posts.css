@@ -1,6 +1,5 @@
 #posts{
     grid-area: posts;
-    width: 50rem;
     margin-top: 2rem;
 }
 
@@ -13,10 +12,10 @@
 .post{
     min-height: 29rem;
     background-color: #fffbed;
-    width: 40rem;
     margin-bottom: 1rem;
     padding: 1rem;
     border: 1px solid black;
+    margin-right: 2rem;
 }
 
 .imagenUsuario{
@@ -53,6 +52,7 @@
 .postContenido{
     text-align: justify;
     margin: 1rem;
+    font-size: 1rem;
 }
 
 .postImg{

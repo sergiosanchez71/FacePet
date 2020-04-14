@@ -9,10 +9,10 @@
         <style>
 
             #cuerpo{
-                width: 40rem;
+                width: 44rem;
                 margin: auto;
                 background: white;
-                padding: 2rem 2rem 2rem 2rem;
+                padding: 2rem 15rem 2rem 15rem;
             }
 
             #buscador{
@@ -79,6 +79,15 @@
                 top: 2.5px;
             }
             
+            @media (max-width:1200px){
+            
+                #cuerpo{
+                    width: 42rem;
+                    padding: 2rem 10rem 2rem 10rem;
+                }
+            
+            }
+            
             
 
         </style>
@@ -87,7 +96,7 @@
         <div id="principal">
             <header>
                 <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
-                <nav>
+                <nav id="navpc">
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
@@ -104,11 +113,11 @@
                                 <img src="../controlador/img/gato.png" id="perfil">
                                 <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
                             </a>
-                            <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
-                            <ul>
-                                <li><a href="../index.php">Cerrar Sesión</a></li>
-                            </ul>
-                        </li>
+                        <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
+                        <ul>
+                            <li><a href="../index.php">Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
                 </nav>
             </header>
             <div id="cuerpo">

@@ -40,9 +40,8 @@
                 display: grid;
                 grid-template-areas: 
                     "imagen datos";
-                width: 18rem;
+                width: 100%;
                 padding: 1rem;
-                margin: auto;
                 margin-top: 0.5rem;
                 border-radius: 3rem;
                 cursor:pointer;
@@ -65,6 +64,7 @@
 
             .nombreAmigo{
                 font-weight: bold;
+                font-size: 1rem;
             }
 
             .animalAmigo, .razaAmigo{
@@ -119,6 +119,7 @@
                 padding: 2rem 2rem 0.1px 2rem;
                 border-radius: 8rem;
                 word-break: break-all; 
+                font-size: 1rem;
             }
             
             .mUser1{
@@ -155,6 +156,15 @@
                 cursor: pointer;
                 transition: 1s background ease;
             }
+            
+            @media (max-width:1200px){
+            
+                #cuerpo{
+                    width: 62rem;
+                    grid-template-columns: 35% 65%;
+                }
+            
+            }
 
 
         </style>
@@ -164,7 +174,7 @@
         <div id="principal">
             <header>
                 <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
-                <nav>
+                <nav id="navpc">
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
@@ -181,12 +191,13 @@
                                 <img src="../controlador/img/gato.png" id="perfil">
                                 <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
                             </a>
-                            <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
-                            <ul>
-                                <li><a href="../index.php">Cerrar Sesión</a></li>
-                            </ul>
-                        </li>
+                        <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
+                        <ul>
+                            <li><a href="../index.php">Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
                 </nav>
+            </header>
             </header>
             <div id="cuerpo">
                 <div id="listaAmigos">

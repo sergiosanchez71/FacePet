@@ -29,8 +29,11 @@ and open the template in the editor.
                 display: grid;
                 grid-template-areas: 
                     "posts eventos";
-                width: 70rem;
+                grid-template-columns: 65% 35%;
+                width: 68rem;
+                padding: 3rem;
                 margin: auto;
+                background: white;
             }
 
             #posts{
@@ -39,10 +42,9 @@ and open the template in the editor.
 
             #menuL{
                 grid-area: eventos;
-                width: 60rem;
                 display: none;
             }
-            
+
             #eventos{
                 margin-top: 2rem;
             }
@@ -54,31 +56,41 @@ and open the template in the editor.
                 border: 1px solid black;
                 margin-bottom: 1rem;
             }
-            
+
             .eventoTitulo{
                 font-weight: bold;
                 text-align: center;
+                font-size: 1.5rem;
+
             }
-            
+
             .eventoFecha{
                 font-size: 0.8rem;
             }
 
             .eventoImg{
-                width: 20rem;
+                width: 100%;
             }
-            
+
             .eventoContenido{
                 font-size: 1rem;
                 text-align: justify;
             }
-            
+
             .eventoAutor{
                 font-size: 0.8rem;
             }
-            
+
             .eventoNombreAutor{
                 font-weight: bold;
+            }
+
+            @media (max-width:1200px){
+
+                #cuerpo{
+                    width: 56rem;
+                }
+
             }
 
 
@@ -92,8 +104,8 @@ and open the template in the editor.
         <div id="principal">
 
             <header>
-                <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
-                <nav>
+                <nav id="navpc">
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
@@ -110,12 +122,18 @@ and open the template in the editor.
                                 <img src="../controlador/img/gato.png" id="perfil">
                                 <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
                             </a>
-                        <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
-                        <ul>
-                            <li><a href="../index.php">Cerrar Sesión</a></li>
-                        </ul>
-                    </li>
+                            <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
+                            <ul>
+                                <li><a href="../index.php">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
                 </nav>
+                <div id="navmv">
+                    <a href="vistaUsuario.php" id="facepetAMV"><img src="../controlador/img/facepet.png" id="facepetMV" alt="logo"></a>
+                    <div class="hamburger">
+                        <div class="hamburger-inner"></div>
+                    </div>
+                </div>
             </header>
 
             <div id="cuerpo">
@@ -141,8 +159,8 @@ and open the template in the editor.
                             <div class="postBottom">
                                 <p class="postLikes"><span>1</span> Me gusta</p>
                                 <p class="iconos">
-                                <a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
-                                <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a>
+                                    <a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
+                                    <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a>
                             </div>
                         </div>
                     </div>
@@ -156,8 +174,8 @@ and open the template in the editor.
                             <div class="postBottom">
                                 <p class="postLikes"><span>1</span> Me gusta</p>
                                 <p class="iconos">
-                                <a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
-                                <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a>
+                                    <a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
+                                    <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a>
                             </div>
                         </div>
                     </div>
@@ -176,8 +194,8 @@ and open the template in the editor.
                             <div class="postBottom">
                                 <p class="postLikes"><span>1</span> Me gusta</p>
                                 <p class="iconos">
-                                <a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
-                                <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a>
+                                    <a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
+                                    <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a>
                             </div>
                             </p>
                         </div>
@@ -198,7 +216,7 @@ and open the template in the editor.
                         <img src="../controlador/img/gato.png" class="eventoImg" alt="eventoImg">
                         <p class="eventoAutor">Autor del evento: <span class="eventoNombreAutor">NombreAutor</span></p>
                     </div>
-                    
+
                     <div class="evento">
                         <p class="eventoTitulo">Titulo</p>
                         <p class="eventoTipo">tipo</p>
@@ -212,7 +230,7 @@ and open the template in the editor.
                         <img src="../controlador/img/gato.png" class="eventoImg" alt="eventoImg">
                         <p class="eventoAutor">Autor del evento: <span class="eventoNombreAutor">NombreAutor</span></p>
                     </div>
-                    
+
                     <div class="evento">
                         <p class="eventoTitulo">Titulo</p>
                         <p class="eventoTipo">tipo</p>

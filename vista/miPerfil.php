@@ -11,6 +11,11 @@ and open the template in the editor.
         <link rel="icon" href="../controlador/img/favicon.ico">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css">
+        <?php
+        
+        session_start();
+        
+        ?>
         <style>
 
             #cuerpo{
@@ -19,13 +24,16 @@ and open the template in the editor.
                 grid-template-areas: 
                     "cabeceraPerfil cabeceraPerfil"
                     "amigosPerfil posts";
+                 grid-template-columns: 30% 70%;
+                grid-template-rows: 45rem;
                 width: 70rem;
+                padding: 2rem;
+                background: white;
             }
 
             #cabeceraPerfil{
                 grid-area: cabeceraPerfil;
                 margin-top: 1.5rem;
-                width: 70rem;
                 background: #fffbed;
                 border: 1px solid black;
                 display: flex;
@@ -102,7 +110,6 @@ and open the template in the editor.
 
             #amigosPerfil{
                 grid-area: amigosPerfil;
-                width: 22.5rem;
                 margin-top: 2rem;
             }
 
@@ -144,18 +151,22 @@ and open the template in the editor.
             .post{
                 margin-left: 5rem;
             }
-
+            
+            @media (max-width:1200px){
+                #cuerpo{
+                    width: 58rem;
+                }
+            }
+           
         </style>
     </head>
     <body>
-        <?php
-        session_start();
-        ?>
+        
 
         <div id="principal">
             <header>
                 <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
-                <nav>
+                <nav id="navpc">
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
