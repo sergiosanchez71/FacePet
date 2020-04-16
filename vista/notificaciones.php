@@ -42,6 +42,30 @@
                 font-size: 0.75rem;
             }
             
+            @media(max-width: 1000px){
+                
+                .notificacion:last-child{
+                    margin-bottom: 10rem;
+                }
+                
+                .imagenNotificacion{
+                    width: 10rem
+                }
+                
+                .usuarioNoti{
+                    font-size: 2rem;
+                }
+                
+                .mensajeNoti{
+                    font-size: 2rem;
+                }
+                
+                .fechaNoti{
+                    font-size: 1.5rem;
+                }
+                
+            }
+            
             
             
         </style>
@@ -73,7 +97,7 @@
                         </ul>
                     </li>
                 </nav>
-                
+
                 <div id="cabeceramv">
                     <a href="vistaUsuario.php" id="facepetAMV"><img src="../controlador/img/facepet.png" id="facepetMV" alt="logo"></a>
                     <nav class="menuHTML">
@@ -88,7 +112,6 @@
                         </div>
                         <input type="checkbox" id="menu-toggle"/>
                         <ul id="trickMenu">
-                            <a id="mostrarEventos"><li>Eventos</li></a>
                             <a href="miPerfil.php"><li>Mi Perfil</li></a>
                             <a href="crearPost.php"><li>Crear Post</li></a>
                             <a href="crearEvento.php"><li>Crear Evento</li></a>
@@ -118,6 +141,18 @@
                 </div>
                 
             </div>
+            <footer>
+                <ul id="segundoMenu">
+                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" id="cerrarsesion" alt="cerrarSesion"></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li id="liUsuario">
+                        <a href="miPerfil.php">
+                            <img src="../controlador/img/gato.png" id="perfil" alt="imgPerfil">
+                        </a>
+                    </li>
+                </ul>
+            </footer>
         </div>
     </body>
 </html>

@@ -161,7 +161,7 @@ and open the template in the editor.
                         "botones"
                         "amigosPerfil"
                         "posts";
-                    grid-template-columns: 100%;
+                    grid-template-columns: 96%;
                 }
                 
                 #contenidoPerfil, #datos{
@@ -169,28 +169,62 @@ and open the template in the editor.
                 }
 
                 #botones{
+                    display: block;
+                    grid-area: botones;
                     margin: 3rem;
                 }
 
                 .boton{
                     width: 49%;
                     margin: auto;
-                    font-size: 1.5rem;
+                    font-size: 3rem;
                     font-weight: bold;
                     background-color: #FFED91;
-                    height: 3rem;
+                    height: 5rem;
                     font-size: 2rem;
                     transition: 1s background ease;
                     border-radius: 2rem;
                     cursor: pointer;
                 }
+                
+                .boton span{
+                    font-size: 3rem;
+                }
 
                 .amigoPerfil{
-                    width: 95%;
+                    margin: auto;
+                    width: 90%;
+                }
+                
+                .amigoPerfil .imagenAmigo{
+                    width: 10rem;
+                    margin-left: 20%;
+                }
+                
+                .amigoPerfil p{
+                    font-size: 2rem;
+                }
+                
+                .amigoPerfil{
+                    margin-top: 2rem;
+                }
+                
+                #datos{
+                     position: relative;
+                     top: 4rem;
+                }
+                
+                #nombrePerfilUsuario{
+                    font-size: 3rem;
+                    margin-top: 1rem;
                 }
 
                 #posts{
                     margin-left: -7rem;
+                }
+                
+                #animalRaza, #localidad{
+                    font-size: 1.75rem;
                 }
                 
             }
@@ -241,7 +275,6 @@ and open the template in the editor.
                         </div>
                         <input type="checkbox" id="menu-toggle"/>
                         <ul id="trickMenu">
-                            <a id="mostrarEventos"><li>Eventos</li></a>
                             <a href="miPerfil.php"><li>Mi Perfil</li></a>
                             <a href="crearPost.php"><li>Crear Post</li></a>
                             <a href="crearEvento.php"><li>Crear Evento</li></a>
@@ -264,8 +297,8 @@ and open the template in the editor.
                     </div>
                 </div>
                 <div id="botones">
-                    <button id="botonAmigos" class="boton">Amigos</button>
-                    <button id="botonPosts" class="boton">Posts</button>
+                    <button id="botonAmigos" class="boton"><span>Amigos</span></button>
+                    <button id="botonPosts" class="boton"><span>Posts</span></button>
                 </div>
                 <div id="amigosPerfil">
                     <p id="titularAmigosPerfil">Mis Amigos</p>
@@ -376,6 +409,18 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
+            <footer>
+                <ul id="segundoMenu">
+                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" id="cerrarsesion" alt="cerrarSesion"></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li id="liUsuario">
+                        <a href="miPerfil.php">
+                            <img src="../controlador/img/gato.png" id="perfil" alt="imgPerfil">
+                        </a>
+                    </li>
+                </ul>
+            </footer>
 
         </div>
     </div>

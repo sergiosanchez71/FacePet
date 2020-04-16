@@ -1,7 +1,10 @@
 
+
 body{
     font-family: "Arial", sans-serif;
     background: #f4f4f4;
+    margin: 0;
+    padding: 0;
 }
 
 #principal{
@@ -12,7 +15,7 @@ body{
         "footer";
 }
 
-#cabeceramv{
+#cabeceramv, #segundoMenu{
     display: none;
 }
 
@@ -45,7 +48,7 @@ header{
     border-radius: 2rem;
 }
 
-#mensajes, #notificaciones{
+#mensajes, #notificaciones, #cerrarsesion{
     width: 2rem;
     position: relative;
     bottom: 0.5rem;
@@ -106,7 +109,7 @@ header:hover > #navpc #crear ul, header:hover #navpc #liUsuario ul{
     opacity: 1;
 }
 
-#navpc li .alerta{
+li .alerta{
     background: red;
     padding: 1px 3px 1px 3px;
     position: absolute;
@@ -169,7 +172,7 @@ header:hover > #navpc #crear ul, header:hover #navpc #liUsuario ul{
         height: 100%;
         transition: height 1s ease;
     }
-    
+
     #facepetAMV{
         padding: 3rem;
     }
@@ -177,7 +180,7 @@ header:hover > #navpc #crear ul, header:hover #navpc #liUsuario ul{
     #navpc, #navmv{
         display: none;
     }
-    
+
     #cabeceramv{
         display: block;
     }
@@ -187,7 +190,7 @@ header:hover > #navpc #crear ul, header:hover #navpc #liUsuario ul{
         margin: auto;
         width: 40rem;
     }
-    
+
     #hamburguesa{
         padding: 2rem;
     }
@@ -223,19 +226,71 @@ header:hover > #navpc #crear ul, header:hover #navpc #liUsuario ul{
         display: none;
         background: white;
     }
-    
+
     #trickMenu li{
         list-style: none;
+        font-weight: bold;
+        font-size: 3rem;
+    }
+    
+    #trickMenu li:nth-child(even){
+        background: red;
     }
 
     #trickMenu a{
-        padding: 10px 0;
+        padding: 1.5rem;
         color: black;
         text-decoration: none;
     }
 
     #menu-toggle:checked + #trickMenu{
         display: block;
+    }
+
+    footer{
+        background: white;
+        border-top: 1px solid black;
+        box-shadow: 5px 10px;
+        position: fixed;        
+        bottom: 0;
+        width: 100%;
+        display: flex;
+    }
+    
+    #segundoMenu{
+        display: block;
+        margin: auto;
+        margin-top: 1rem;
+    }
+    
+    .icono .alerta{
+        left: 5.5rem;
+        font-size: 3rem;
+        margin-bottom: 2rem;
+    }
+
+    #segundoMenu li{
+        list-style: none;
+        float: left;
+        padding: 1rem;
+        position: relative;
+        top: 0.5rem;
+        margin-left: 0.5rem;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+        
+    #liUsuario a{
+        text-decoration: none;
+    }
+    
+    #perfil{
+        width: 6rem;
+    }
+    
+    #mensajes, #notificaciones, #cerrarsesion{
+        width: 6rem;
+        margin-right: 5rem;
     }
 
 }

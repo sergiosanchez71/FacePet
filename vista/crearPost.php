@@ -22,22 +22,22 @@
                 padding: 2rem;
                 margin-top: 3.5rem;
             }
-            
+
             h1{
                 text-align: center;
             }
-            
+
             .title{
                 font-size: 1.3rem;
                 font-weight: bold;
             }
-            
+
             #titulo{
                 width: 100%;
                 font-size: 1.2rem;
                 transition: 1s background ease;
             }
-            
+
             textarea{
                 resize: none;
                 width: 100%;
@@ -45,13 +45,12 @@
                 font-size: 1.1rem;
                 transition: 1s background ease;
             }
-            
+
             #multimedia{
                 font-size: 1.2rem;
             }
-            
+
             #botonCrearPost{
-                font-size: 1.5rem;
                 font-weight: bold;
                 width: 100%;
                 background-color: #FFED91;
@@ -61,26 +60,62 @@
                 border-radius: 2rem;
                 cursor: pointer;
             }
-            
+
             #botonCrearPost:hover, textarea:hover, #titulo:hover{
                 background-color:#FFF578;
             }
-            
+
             #pata{
                 padding-left: 0.5rem;
                 width: 2rem;
                 position: relative;
                 top: 3px;
             }
-            
-            
-            @media (max-width:1200px){
-            
-                #cuerpo{
-                    width: 62rem;
+
+
+            @media (max-width:1000px){
+
+                #crearPost{
+                    width: 90%;
+                    margin-bottom: 10rem;
                 }
-            
+
+                h1{
+                    font-size: 4rem;
+                }
+
+                .title{
+                    font-size: 3rem;
+                }
+
+                #titulo{
+                    height: 4rem;
+                    font-size: 3rem;
+                }
+
+                #contenido{
+                    height: 40rem;
+                    font-size: 2rem;
+                }
+
+                #multimedia{
+                    font-size: 2.5rem;
+                }
+
+                #botonCrearPost{
+                    margin-top: 2rem;
+                    height: 5rem;
+                    font-size: 4rem;
+                }
+
+                #pata{
+                    width: 3.5rem;
+                    padding-left: 2rem;
+                }
+
             }
+
+
 
         </style>
     </head>
@@ -111,7 +146,7 @@
                         </ul>
                     </li>
                 </nav>
-                
+
                 <div id="cabeceramv">
                     <a href="vistaUsuario.php" id="facepetAMV"><img src="../controlador/img/facepet.png" id="facepetMV" alt="logo"></a>
                     <nav class="menuHTML">
@@ -126,7 +161,6 @@
                         </div>
                         <input type="checkbox" id="menu-toggle"/>
                         <ul id="trickMenu">
-                            <a id="mostrarEventos"><li>Eventos</li></a>
                             <a href="miPerfil.php"><li>Mi Perfil</li></a>
                             <a href="crearPost.php"><li>Crear Post</li></a>
                             <a href="crearEvento.php"><li>Crear Evento</li></a>
@@ -148,6 +182,18 @@
                     <button id="botonCrearPost">Crear Post<img src="../controlador/img/pata.png" id="pata" class="pata"></button>
                 </div>
             </div>
+            <footer>
+                <ul id="segundoMenu">
+                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" id="cerrarsesion" alt="cerrarSesion"></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li id="liUsuario">
+                        <a href="miPerfil.php">
+                            <img src="../controlador/img/gato.png" id="perfil" alt="imgPerfil">
+                        </a>
+                    </li>
+                </ul>
+            </footer>
         </div>
 
     </body>

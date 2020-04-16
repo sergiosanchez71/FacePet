@@ -16,7 +16,7 @@
                 grid-template-areas:
                     "listaAmigos mensajes";
                 grid-template-columns: 30% 70%;
-                grid-template-rows: 50rem;
+
             }
 
             #listaAmigos{
@@ -122,7 +122,7 @@
                 word-break: break-all; 
                 font-size: 1rem;
             }
-            
+
             .mUser1{
                 margin-left: 10rem;
             }
@@ -157,13 +157,40 @@
                 cursor: pointer;
                 transition: 1s background ease;
             }
-            
+
             @media (max-width:1200px){
-            
+
                 #cuerpo{
-                    grid-template-columns: 35% 65%;
+                    grid-template-columns: 40% 60%;
+                    padding-bottom: 15rem;
                 }
-            
+
+                #buscador, #mensajeEscrito{
+                    height: 4rem;
+                    font-size: 2rem;
+                }
+                
+                .imgAmigo{
+                    width: 7rem;
+                }
+                
+                .nombreAmigo{
+                    font-size: 1.5rem;
+                }
+                
+                .animalAmigo, .razaAmigo{
+                    font-size: 1.2rem;
+                }
+                
+                #cabeceraCM{
+                    grid-template-columns: 20% 80%;
+                    grid-template-rows: 20% 50% 30%;
+                }
+                
+                #enviarMensaje{
+                    font-size: 3rem;
+                }
+                
             }
 
 
@@ -197,7 +224,7 @@
                         </ul>
                     </li>
                 </nav>
-                
+
                 <div id="cabeceramv">
                     <a href="vistaUsuario.php" id="facepetAMV"><img src="../controlador/img/facepet.png" id="facepetMV" alt="logo"></a>
                     <nav class="menuHTML">
@@ -212,7 +239,6 @@
                         </div>
                         <input type="checkbox" id="menu-toggle"/>
                         <ul id="trickMenu">
-                            <a id="mostrarEventos"><li>Eventos</li></a>
                             <a href="miPerfil.php"><li>Mi Perfil</li></a>
                             <a href="crearPost.php"><li>Crear Post</li></a>
                             <a href="crearEvento.php"><li>Crear Evento</li></a>
@@ -221,79 +247,90 @@
                     </nav>
                 </div>
             </header>
-            </header>
-            <div id="cuerpo">
-                <div id="listaAmigos">
-                    <p id="chatear">Chatea con tus amigos</p>
-                    <input type="text" id="buscador" placeholder="Busca a un amigo">
-                    <div class="amigo">
-                        <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
-                        <div class="datos">
-                            <p class="nombreAmigo">Nombre Amigo</p>
-                            <p class="animalAmigo">Animal Amigo</p>
-                            <p class="razaAmigo">Raza Amigo</p>
-                        </div>
-                    </div>
-                    <div class="amigo">
-                        <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
-                        <div class="datos">
-                            <p class="nombreAmigo">Nombre Amigo</p>
-                            <p class="animalAmigo">Animal Amigo</p>
-                            <p class="razaAmigo">Raza Amigo</p>
-                        </div>
-                    </div>
-                    <div class="amigo">
-                        <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
-                        <div class="datos">
-                            <p class="nombreAmigo">Nombre Amigo</p>
-                            <p class="animalAmigo">Animal Amigo</p>
-                            <p class="razaAmigo">Raza Amigo</p>
-                        </div>
-                    </div>
-                    <div class="amigo">
-                        <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
-                        <div class="datos">
-                            <p class="nombreAmigo">Nombre Amigo</p>
-                            <p class="animalAmigo">Animal Amigo</p>
-                            <p class="razaAmigo">Raza Amigo</p>
-                        </div>
-                    </div>
-                    <div class="amigo">
-                        <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
-                        <div class="datos">
-                            <p class="nombreAmigo">Nombre Amigo</p>
-                            <p class="animalAmigo">Animal Amigo</p>
-                            <p class="razaAmigo">Raza Amigo</p>
-                        </div>
-                    </div>
-                    <div class="amigo">
-                        <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
-                        <div class="datos">
-                            <p class="nombreAmigo">Nombre Amigo</p>
-                            <p class="animalAmigo">Animal Amigo</p>
-                            <p class="razaAmigo">Raza Amigo</p>
-                        </div>
+        <div id="cuerpo">
+            <div id="listaAmigos">
+                <p id="chatear">Chatea con tus amigos</p>
+                <input type="text" id="buscador" placeholder="Busca a un amigo">
+                <div class="amigo">
+                    <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
+                    <div class="datos">
+                        <p class="nombreAmigo">Nombre Amigo</p>
+                        <p class="animalAmigo">Animal Amigo</p>
+                        <p class="razaAmigo">Raza Amigo</p>
                     </div>
                 </div>
-                <div id="Cmensajes">
-                    <div id="cabeceraCM">
-                        <img src="../controlador/img/gato.png" class="imgAmigoCM" alt="imgAmigo">
-                        <p class="nombreAmigoCM">Nombre Amigo</p>
+                <div class="amigo">
+                    <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
+                    <div class="datos">
+                        <p class="nombreAmigo">Nombre Amigo</p>
+                        <p class="animalAmigo">Animal Amigo</p>
+                        <p class="razaAmigo">Raza Amigo</p>
                     </div>
-                    <div id="cuerpoCM">
-                        <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
-                        <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
-                        <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
-                        <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
-                        <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
-                        <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
+                </div>
+                <div class="amigo">
+                    <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
+                    <div class="datos">
+                        <p class="nombreAmigo">Nombre Amigo</p>
+                        <p class="animalAmigo">Animal Amigo</p>
+                        <p class="razaAmigo">Raza Amigo</p>
                     </div>
-                    <div id="pieCM">
-                        <input type="text" id="mensajeEscrito" placeholder="Escribe un mensaje">
-                        <button id="enviarMensaje">Enviar</button>
+                </div>
+                <div class="amigo">
+                    <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
+                    <div class="datos">
+                        <p class="nombreAmigo">Nombre Amigo</p>
+                        <p class="animalAmigo">Animal Amigo</p>
+                        <p class="razaAmigo">Raza Amigo</p>
+                    </div>
+                </div>
+                <div class="amigo">
+                    <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
+                    <div class="datos">
+                        <p class="nombreAmigo">Nombre Amigo</p>
+                        <p class="animalAmigo">Animal Amigo</p>
+                        <p class="razaAmigo">Raza Amigo</p>
+                    </div>
+                </div>
+                <div class="amigo">
+                    <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
+                    <div class="datos">
+                        <p class="nombreAmigo">Nombre Amigo</p>
+                        <p class="animalAmigo">Animal Amigo</p>
+                        <p class="razaAmigo">Raza Amigo</p>
                     </div>
                 </div>
             </div>
+            <div id="Cmensajes">
+                <div id="cabeceraCM">
+                    <img src="../controlador/img/gato.png" class="imgAmigoCM" alt="imgAmigo">
+                    <p class="nombreAmigoCM">Nombre Amigo</p>
+                </div>
+                <div id="cuerpoCM">
+                    <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
+                    <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
+                    <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
+                    <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
+                    <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
+                    <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
+                </div>
+                <div id="pieCM">
+                    <input type="text" id="mensajeEscrito" placeholder="Escribe un mensaje">
+                    <button id="enviarMensaje">Enviar</button>
+                </div>
+            </div>
         </div>
-    </body>
+            <footer>
+                <ul id="segundoMenu">
+                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" id="cerrarsesion" alt="cerrarSesion"></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li id="liUsuario">
+                        <a href="miPerfil.php">
+                            <img src="../controlador/img/gato.png" id="perfil" alt="imgPerfil">
+                        </a>
+                    </li>
+                </ul>
+            </footer>
+    </div>
+</body>
 </html>

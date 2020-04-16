@@ -56,7 +56,6 @@
 
 .postImg{
     width: 15rem;
-    width: 15rem;
     float:left;
     margin: 0 1rem 1rem 1rem;
 }
@@ -77,4 +76,38 @@
 .postCorazonImg, .postComentarioImg{
     width: 2rem;
     padding-right: 1rem;
+}
+
+@media (max-width: 1000px){
+
+    .post{
+        min-height: 50rem;
+    }
+
+    .imagenUsuario{
+        width:7rem;
+    }
+
+    .nombreUsuario, .postFecha{
+        position: relative;
+        bottom: 3.5rem;
+    }
+
+    .postFecha{
+        left: 8rem;
+    }
+
+    .postImg{
+        width: 25rem;
+    }
+    
+    .postBottom{
+    clear: both;
+}
+
+    .postCorazonImg, .postComentarioImg{
+        width: 5rem;
+        padding-right: 2rem;
+    }
+
 }

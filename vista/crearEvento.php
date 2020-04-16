@@ -77,12 +77,50 @@
                 top: 3px;
             }
             
-            @media (max-width:1200px){
-            
-                #cuerpo{
-                    width: 62rem;
+             @media (max-width:1000px){
+
+                #crearPost{
+                    width: 90%;
+                    margin-bottom: 10rem;
                 }
-            
+
+                h1{
+                    font-size: 4rem;
+                }
+
+                .title{
+                    font-size: 3rem;
+                }
+
+                #titulo, #tipo{
+                    height: 4rem;
+                    font-size: 3rem;
+                }
+
+                #contenido{
+                    height: 40rem;
+                    font-size: 2rem;
+                }
+                
+                #info{
+                    font-size: 1.5rem;
+                }
+
+                #multimedia{
+                    font-size: 2.5rem;
+                }
+
+                #botonCrearPost{
+                    margin-top: 2rem;
+                    height: 5rem;
+                    font-size: 4rem;
+                }
+
+                #pata{
+                    width: 3.5rem;
+                    padding-left: 2rem;
+                }
+
             }
 
         </style>
@@ -114,7 +152,7 @@
                         </ul>
                     </li>
                 </nav>
-                
+
                 <div id="cabeceramv">
                     <a href="vistaUsuario.php" id="facepetAMV"><img src="../controlador/img/facepet.png" id="facepetMV" alt="logo"></a>
                     <nav class="menuHTML">
@@ -129,7 +167,6 @@
                         </div>
                         <input type="checkbox" id="menu-toggle"/>
                         <ul id="trickMenu">
-                            <a id="mostrarEventos"><li>Eventos</li></a>
                             <a href="miPerfil.php"><li>Mi Perfil</li></a>
                             <a href="crearPost.php"><li>Crear Post</li></a>
                             <a href="crearEvento.php"><li>Crear Evento</li></a>
@@ -137,7 +174,7 @@
                         </ul>
                     </nav>
                 </div>
-            </header>>
+            </header>
             <div id="cuerpo">
                 <div id="crearPost">
                     <h1>Crea un nuevo evento</h1>
@@ -150,9 +187,21 @@
                     <p id="info">(una promoción, zona de cría...)</p>
                     <p class="title">Añade una foto o vídeo</p>
                     <p><input type="file" class="form-control-file" name="multimedia" id="multimedia"></p>
-                    <button id="botonCrearPost">Crear Post<img src="../controlador/img/pata.png" id="pata" class="pata"></button>
+                    <button id="botonCrearPost">Crear Evento<img src="../controlador/img/pata.png" id="pata" class="pata"></button>
                 </div>
             </div>
+            <footer>
+                <ul id="segundoMenu">
+                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" id="cerrarsesion" alt="cerrarSesion"></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li id="liUsuario">
+                        <a href="miPerfil.php">
+                            <img src="../controlador/img/gato.png" id="perfil" alt="imgPerfil">
+                        </a>
+                    </li>
+                </ul>
+            </footer>
         </div>
 
     </body>

@@ -101,6 +101,28 @@
                 background-color:#FFF578;
             }
             
+            @media(max-width:1000px){
+                #principal{
+                    width: 80%;
+                    height: 100%;
+                }
+                
+                #principal #facepet{
+                    width: 50rem;
+                }
+                
+                #principal p{
+                    font-size: 4rem;
+                }
+                
+                #principal #username, #principal #password{
+                    height: 5rem;
+                    font-size: 3rem;
+                    border: 1px solid #DDDDDD;
+                }
+                
+            }
+            
 
         </style>
     </head>
@@ -108,7 +130,7 @@
         <div id="principal">
             <p><a href="index.php"><img src="controlador/img/facepet.png" id="facepet"></a></p>
             <p>Username</p>
-            <p><input type="text" id="username"></p>
+            <p><input type="text" id="username" maxlength="20"></p>
             <p>Password</p>
             <p><input type="password" id="password"></p>
             <p><button id="entrar">Entrar <img src="controlador/img/pata.png" id="imgPata" alt="pata"></button> </p>

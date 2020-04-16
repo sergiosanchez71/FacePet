@@ -35,6 +35,10 @@ and open the template in the editor.
                 background: white;
             }
 
+            #botones{
+                display: none;
+            }
+
             #posts{
                 grid-area:posts;
             }
@@ -88,7 +92,14 @@ and open the template in the editor.
 
             @media (max-width:1000px){
 
+                #cuerpo{
+                    grid-template-areas: 
+                        "botones botones"
+                        "posts eventos";
+                }
+                
                 #botones{
+                    display: block;
                     grid-area: botones;
                     margin: 3rem;
                 }
@@ -96,21 +107,20 @@ and open the template in the editor.
                 .boton{
                     width: 49%;
                     margin: auto;
-                    font-size: 1.5rem;
+                    font-size: 3rem;
                     font-weight: bold;
                     background-color: #FFED91;
-                    height: 3rem;
+                    height: 5rem;
                     font-size: 2rem;
                     transition: 1s background ease;
                     border-radius: 2rem;
                     cursor: pointer;
                 }
-
-                #cuerpo{
-                    grid-template-areas: 
-                        "botones botones"
-                        "posts eventos";
+                
+                .boton span{
+                    font-size: 3rem;
                 }
+
             }
 
         </style>
@@ -173,8 +183,8 @@ and open the template in the editor.
 
             <div id="cuerpo">
                 <div id="botones">
-                    <button id="botonAmigos" class="boton">Amigos</button>
-                    <button id="botonPosts" class="boton">Posts</button>
+                    <button id="botonPosts" class="boton"><span>Posts</span></button>
+                    <button id="botonEventos" class="boton"><span>Eventos</span></button>
                 </div>
                 <div id="posts">
                     <p id="name">Posts</p>
@@ -287,7 +297,16 @@ and open the template in the editor.
             </div>
 
             <footer>
-
+                <ul id="segundoMenu">
+                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" id="cerrarsesion" alt="cerrarSesion"></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li id="liUsuario">
+                        <a href="miPerfil.php">
+                            <img src="../controlador/img/gato.png" id="perfil" alt="imgPerfil">
+                        </a>
+                    </li>
+                </ul>
             </footer>
 
         </div>
