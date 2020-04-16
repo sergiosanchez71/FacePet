@@ -12,9 +12,7 @@ and open the template in the editor.
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css">
         <?php
-        
         session_start();
-        
         ?>
         <style>
 
@@ -24,10 +22,9 @@ and open the template in the editor.
                 grid-template-areas: 
                     "cabeceraPerfil cabeceraPerfil"
                     "amigosPerfil posts";
-                 grid-template-columns: 30% 70%;
-                grid-template-rows: 45rem;
-                width: 70rem;
-                padding: 2rem;
+                grid-template-columns: 30% 70%;
+                grid-template-rows: 28rem;
+                width: 100%;
                 background: white;
             }
 
@@ -38,6 +35,11 @@ and open the template in the editor.
                 border: 1px solid black;
                 display: flex;
                 flex-wrap: wrap;
+                margin: 3rem;
+            }
+
+            #botones{
+                grid-area:botones;
             }
 
             #imgPerfil{
@@ -47,11 +49,11 @@ and open the template in the editor.
                 transition: opacity 1.5s ease;
                 z-index: 2;
             }
-            
+
             #contenidoPerfil:hover > #imgPerfil {
                 opacity: 0.5;
             }
-            
+
             #contenidoPerfil:hover > #textCambiarAvatar{
                 opacity: 0.9;
             }
@@ -66,7 +68,7 @@ and open the template in the editor.
                 z-index: 1;
                 transition: opacity 1.5s ease;
             }
-            
+
             #contenidoPerfil{
                 width: 15rem;
                 margin-left: 15rem;
@@ -110,7 +112,7 @@ and open the template in the editor.
 
             #amigosPerfil{
                 grid-area: amigosPerfil;
-                margin-top: 2rem;
+                margin-left: 3rem;
             }
 
             .amigoPerfil{
@@ -151,22 +153,57 @@ and open the template in the editor.
             .post{
                 margin-left: 5rem;
             }
-            
-            @media (max-width:1200px){
+
+            @media (max-width:1000px){
                 #cuerpo{
-                    width: 58rem;
+                    grid-template-areas: 
+                        "cabeceraPerfil"
+                        "botones"
+                        "amigosPerfil"
+                        "posts";
+                    grid-template-columns: 100%;
                 }
+                
+                #contenidoPerfil, #datos{
+                    margin-left: 4rem;
+                }
+
+                #botones{
+                    margin: 3rem;
+                }
+
+                .boton{
+                    width: 49%;
+                    margin: auto;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    background-color: #FFED91;
+                    height: 3rem;
+                    font-size: 2rem;
+                    transition: 1s background ease;
+                    border-radius: 2rem;
+                    cursor: pointer;
+                }
+
+                .amigoPerfil{
+                    width: 95%;
+                }
+
+                #posts{
+                    margin-left: -7rem;
+                }
+                
             }
-           
+
         </style>
     </head>
     <body>
-        
+
 
         <div id="principal">
             <header>
-                <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
                 <nav id="navpc">
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
@@ -176,85 +213,110 @@ and open the template in the editor.
                         </ul>
                     </li>
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
-                    <li><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
-                    <li><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
-                    <a><li id="liUsuario">
-                            <a href="miPerfil.php">
-                                <img src="../controlador/img/gato.png" id="perfil">
-                                <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
-                            </a>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li id="liUsuario">
+                        <a href="miPerfil.php">
+                            <img src="../controlador/img/gato.png" id="perfil">
+                            <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
+                        </a>
                         <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
                         <ul>
                             <li><a href="../index.php">Cerrar Sesión</a></li>
                         </ul>
                     </li>
                 </nav>
+
+                <div id="cabeceramv">
+                    <a href="vistaUsuario.php" id="facepetAMV"><img src="../controlador/img/facepet.png" id="facepetMV" alt="logo"></a>
+                    <nav class="menuHTML">
+                        <div id="hamburguesa">
+                            <label for="menu-toggle">
+                                <div class="botonMenu">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </label>
+                        </div>
+                        <input type="checkbox" id="menu-toggle"/>
+                        <ul id="trickMenu">
+                            <a id="mostrarEventos"><li>Eventos</li></a>
+                            <a href="miPerfil.php"><li>Mi Perfil</li></a>
+                            <a href="crearPost.php"><li>Crear Post</li></a>
+                            <a href="crearEvento.php"><li>Crear Evento</li></a>
+                            <a href="buscarAmigos.php"><li>Buscar Amigos</li></a>
+                        </ul>
+                    </nav>
+                </div>
             </header>
 
             <div id="cuerpo">
                 <div id="cabeceraPerfil">
                     <p id="contenidoPerfil">
-                    <span id="textCambiarAvatar">Cambiar Avatar</span>
-                    <img src="../controlador/img/gato.png" id="imgPerfil" alt="imgPerfil">
+                        <span id="textCambiarAvatar">Cambiar Avatar</span>
+                        <img src="../controlador/img/gato.png" id="imgPerfil" alt="imgPerfil">
                     </p>
-                        <div id="datos">
-                            <p id="nombrePerfilUsuario"><?php echo $_SESSION['username'] ?></p>
-                            <p id="animalRaza"><span>Animal</span> <span>Raza</span></p>
-                            <p id="localidad">Localidad</p>
-                        </div>
-                        <!--<p id="descripcion">Vvenenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
-                            Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
-                            Morbi congue lobortis lacus, id consectetur tellus congue eu. Aliquam ornare nisi erat, id malesuada tellus semper vitae. 
-                            Praesent purus lorem, porta volut</p>-->
+                    <div id="datos">
+                        <p id="nombrePerfilUsuario"><?php echo $_SESSION['username'] ?></p>
+                        <p id="animalRaza"><span>Animal</span> <span>Raza</span></p>
+                        <p id="localidad">Localidad</p>
+                    </div>
+                </div>
+                <div id="botones">
+                    <button id="botonAmigos" class="boton">Amigos</button>
+                    <button id="botonPosts" class="boton">Posts</button>
                 </div>
                 <div id="amigosPerfil">
                     <p id="titularAmigosPerfil">Mis Amigos</p>
-                    <div class="amigoPerfil">
-                        <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                        <div class="informacionAmigo">
-                            <p class="nombreAmigo">Nombre de usuario</p>
-                            <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                    <div id="amigosPerfiles">
+                        <div class="amigoPerfil">
+                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
+                            <div class="informacionAmigo">
+                                <p class="nombreAmigo">Nombre de usuario</p>
+                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="amigoPerfil">
-                        <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                        <div class="informacionAmigo">
-                            <p class="nombreAmigo">Nombre de usuario</p>
-                            <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                        <div class="amigoPerfil">
+                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
+                            <div class="informacionAmigo">
+                                <p class="nombreAmigo">Nombre de usuario</p>
+                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="amigoPerfil">
-                        <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                        <div class="informacionAmigo">
-                            <p class="nombreAmigo">Nombre de usuario</p>
-                            <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                        <div class="amigoPerfil">
+                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
+                            <div class="informacionAmigo">
+                                <p class="nombreAmigo">Nombre de usuario</p>
+                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="amigoPerfil">
-                        <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                        <div class="informacionAmigo">
-                            <p class="nombreAmigo">Nombre de usuario</p>
-                            <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                        <div class="amigoPerfil">
+                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
+                            <div class="informacionAmigo">
+                                <p class="nombreAmigo">Nombre de usuario</p>
+                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="amigoPerfil">
-                        <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                        <div class="informacionAmigo">
-                            <p class="nombreAmigo">Nombre de usuario</p>
-                            <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                        <div class="amigoPerfil">
+                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
+                            <div class="informacionAmigo">
+                                <p class="nombreAmigo">Nombre de usuario</p>
+                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="amigoPerfil">
-                        <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                        <div class="informacionAmigo">
-                            <p class="nombreAmigo">Nombre de usuario</p>
-                            <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
-                        </div>
-                    </div> <div class="amigoPerfil">
-                        <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                        <div class="informacionAmigo">
-                            <p class="nombreAmigo">Nombre de usuario</p>
-                            <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                        <div class="amigoPerfil">
+                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
+                            <div class="informacionAmigo">
+                                <p class="nombreAmigo">Nombre de usuario</p>
+                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                            </div>
+                        </div> <div class="amigoPerfil">
+                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
+                            <div class="informacionAmigo">
+                                <p class="nombreAmigo">Nombre de usuario</p>
+                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
+                            </div>
                         </div>
                     </div>
                 </div>

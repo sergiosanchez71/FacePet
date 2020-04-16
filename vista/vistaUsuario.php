@@ -27,11 +27,10 @@ and open the template in the editor.
             #cuerpo{
                 grid-area: cuerpo;
                 display: grid;
+                width: 100%;
                 grid-template-areas: 
                     "posts eventos";
-                grid-template-columns: 65% 35%;
-                width: 68rem;
-                padding: 3rem;
+                grid-template-columns: 60% 40%;
                 margin: auto;
                 background: white;
             }
@@ -46,7 +45,7 @@ and open the template in the editor.
             }
 
             #eventos{
-                margin-top: 2rem;
+                padding: 3.7% 10% 5% 5%;
             }
 
             .evento{
@@ -54,7 +53,7 @@ and open the template in the editor.
                 padding: 1rem;
                 background-color: #fffbed;
                 border: 1px solid black;
-                margin-bottom: 1rem;
+                margin-bottom: 3rem;
             }
 
             .eventoTitulo{
@@ -69,7 +68,9 @@ and open the template in the editor.
             }
 
             .eventoImg{
-                width: 100%;
+                width: 15rem;;
+                display: block;
+                margin: auto;
             }
 
             .eventoContenido{
@@ -85,14 +86,32 @@ and open the template in the editor.
                 font-weight: bold;
             }
 
-            @media (max-width:1200px){
+            @media (max-width:1000px){
 
-                #cuerpo{
-                    width: 56rem;
+                #botones{
+                    grid-area: botones;
+                    margin: 3rem;
                 }
 
-            }
+                .boton{
+                    width: 49%;
+                    margin: auto;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    background-color: #FFED91;
+                    height: 3rem;
+                    font-size: 2rem;
+                    transition: 1s background ease;
+                    border-radius: 2rem;
+                    cursor: pointer;
+                }
 
+                #cuerpo{
+                    grid-template-areas: 
+                        "botones botones"
+                        "posts eventos";
+                }
+            }
 
         </style>
     </head>
@@ -115,28 +134,48 @@ and open the template in the editor.
                         </ul>
                     </li>
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
-                    <li><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
-                    <li><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
-                    <a><li id="liUsuario">
-                            <a href="miPerfil.php">
-                                <img src="../controlador/img/gato.png" id="perfil">
-                                <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
-                            </a>
-                            <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
-                            <ul>
-                                <li><a href="../index.php">Cerrar Sesión</a></li>
-                            </ul>
-                        </li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li id="liUsuario">
+                        <a href="miPerfil.php">
+                            <img src="../controlador/img/gato.png" id="perfil">
+                            <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
+                        </a>
+                        <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
+                        <ul>
+                            <li><a href="../index.php">Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
                 </nav>
-                <div id="navmv">
+
+                <div id="cabeceramv">
                     <a href="vistaUsuario.php" id="facepetAMV"><img src="../controlador/img/facepet.png" id="facepetMV" alt="logo"></a>
-                    <div class="hamburger">
-                        <div class="hamburger-inner"></div>
-                    </div>
+                    <nav class="menuHTML">
+                        <div id="hamburguesa">
+                            <label for="menu-toggle">
+                                <div class="botonMenu">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </label>
+                        </div>
+                        <input type="checkbox" id="menu-toggle"/>
+                        <ul id="trickMenu">
+                            <a href="miPerfil.php"><li>Mi Perfil</li></a>
+                            <a href="crearPost.php"><li>Crear Post</li></a>
+                            <a href="crearEvento.php"><li>Crear Evento</li></a>
+                            <a href="buscarAmigos.php"><li>Buscar Amigos</li></a>
+                        </ul>
+                    </nav>
                 </div>
             </header>
 
             <div id="cuerpo">
+                <div id="botones">
+                    <button id="botonAmigos" class="boton">Amigos</button>
+                    <button id="botonPosts" class="boton">Posts</button>
+                </div>
                 <div id="posts">
                     <p id="name">Posts</p>
                     <div class="post">

@@ -10,15 +10,15 @@
             #cuerpo{
                 background: white;
                 margin: auto;
-                width: 68rem;
-                padding: 3rem;
+                min-height: 40rem;
+                width: 100%;
             }
             
             .notificacion{
                 margin-bottom: 1rem;
                 border: 1px solid black;
                 padding: 1rem;
-                margin: 1rem 3rem 0 3rem;
+                margin: 1rem 5rem 0 5rem;
             }
             
             .imagenNotificacion{
@@ -42,14 +42,6 @@
                 font-size: 0.75rem;
             }
             
-            @media (max-width:1200px){
-            
-                #cuerpo{
-                    width: 56rem;
-                }
-            
-            }
-            
             
             
         </style>
@@ -57,8 +49,8 @@
     <body>
         <div id="principal">
             <header>
-                <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
                 <nav id="navpc">
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
@@ -68,19 +60,42 @@
                         </ul>
                     </li>
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
-                    <li><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
-                    <li><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
-                    <a><li id="liUsuario">
-                            <a href="miPerfil.php">
-                                <img src="../controlador/img/gato.png" id="perfil">
-                                <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
-                            </a>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li id="liUsuario">
+                        <a href="miPerfil.php">
+                            <img src="../controlador/img/gato.png" id="perfil">
+                            <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
+                        </a>
                         <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
                         <ul>
                             <li><a href="../index.php">Cerrar Sesión</a></li>
                         </ul>
                     </li>
                 </nav>
+                
+                <div id="cabeceramv">
+                    <a href="vistaUsuario.php" id="facepetAMV"><img src="../controlador/img/facepet.png" id="facepetMV" alt="logo"></a>
+                    <nav class="menuHTML">
+                        <div id="hamburguesa">
+                            <label for="menu-toggle">
+                                <div class="botonMenu">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </label>
+                        </div>
+                        <input type="checkbox" id="menu-toggle"/>
+                        <ul id="trickMenu">
+                            <a id="mostrarEventos"><li>Eventos</li></a>
+                            <a href="miPerfil.php"><li>Mi Perfil</li></a>
+                            <a href="crearPost.php"><li>Crear Post</li></a>
+                            <a href="crearEvento.php"><li>Crear Evento</li></a>
+                            <a href="buscarAmigos.php"><li>Buscar Amigos</li></a>
+                        </ul>
+                    </nav>
+                </div>
             </header>
             <div id="cuerpo">
                 <div class="notificacion">
