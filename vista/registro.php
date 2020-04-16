@@ -107,10 +107,10 @@
                 }
 
                 if (sexo.trim() == "") {
-                    $("#imgSexo").css("background", colorError);
+                    $(".imgSexo").css("background", colorError);
                     campoVacio = true;
                 } else {
-                    $("#imgSexo").css("background", "white");
+                    $(".imgSexo").css("background", "white");
                 }
 
                 /*if (foto.trim() == "") {
@@ -242,7 +242,7 @@
                 color:black;
             }
 
-            #imgSexo{
+            .imgSexo{
                 width: 3rem;
                 position: relative;
                 top:1rem;
@@ -273,6 +273,59 @@
                 background-color:#FFF578;
             }
 
+            @media (max-width: 1000px){
+                #principal{
+                    width: 90%;
+                    margin-top: 5%;
+                }
+
+                #principal h1{
+                    font-size: 6rem;
+                }
+
+                #principal #facepet{
+                    width: 40rem;
+                }
+
+                #principal small p{
+                    font-size: 1.5rem;
+                }
+
+                #principal p{
+                    font-size: 3rem;
+                }
+
+                #principal .dato{
+                    margin-right: 2rem;
+                    width: 30rem;
+                    height: 4rem;
+                    border: 1px solid #CCCCCC;
+                    font-size: 3rem;
+                }
+
+                #principal .imgSexo{
+                    width: 6rem;
+                }
+
+                #principal #sexo{
+                    width:2rem;
+                    height:2rem;
+                }
+
+                #registro{
+                    font-size: 4rem;
+                }
+
+                #imgPata{
+                    width: 3.5rem;
+                }
+
+                #login{
+                    font-size: 2rem;
+                }
+
+            }
+
 
         </style>
 
@@ -294,9 +347,9 @@
             </p>
             <p id="pSexo"><span id="tSexo">Sexo <span>*</span></span>
                 <span id="Sdato">
-                    <img src="../controlador/img/masculino.png" id="imgSexo" alt="masculino">
+                    <img src="../controlador/img/masculino.png" class="imgSexo" alt="masculino">
                     <input type="radio" id="sexo" name="sexo" value="masculino" required>
-                    <img src="../controlador/img/femenino.png" id="imgSexo" alt="femenino">
+                    <img src="../controlador/img/femenino.png" class="imgSexo" alt="femenino">
                     <input type="radio" id="sexo" name="sexo" value="femenino" required>
                 </span>
             </p>

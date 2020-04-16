@@ -42,34 +42,42 @@
             }
 
         </script>
+        <?php
+        
+        session_start();
+        session_destroy();
+        
+        ?>
         <style>
 
             body{
                 background-color: #EEEEEE;
             }
-            
+
             #principal{
                 margin: auto;
-                width: 20rem;
+                width: 50rem;
                 padding: 2rem;
                 background-color: white;
                 border-radius: 3rem;
             } 
-            
+
             #principal #facepet{
-                width: 20rem;
+                width: 30rem;
+                display: block;
+                margin: auto;
             }
-            
+
             #principal p{
                 font-size: 1.2rem;
             }
-            
+
             #principal input{
                 width: 100%;
                 height: 2rem;
                 font-size: 1.2rem;
             }
-            
+
             #principal #entrar{
                 width: 100%;
                 background-color: #FFED91;
@@ -79,15 +87,15 @@
                 border-radius: 2rem;
                 cursor: pointer;
             }
-            
+
             #imgPata{
                 width: 2rem;
             }
-            
+
             #username,#password{
                 transition: 1s background ease;
             }
-            
+
             #registro{
                 text-decoration: none;
                 color: black;
@@ -96,33 +104,51 @@
                 padding: 0.4rem;
                 transition: 1s background ease;
             }
-            
+
             #principal #entrar:hover, #registro:hover, #username:hover, #password:hover{
                 background-color:#FFF578;
             }
-            
+
             @media(max-width:1000px){
                 #principal{
-                    width: 80%;
-                    height: 100%;
+                    width: 82%;
+                    margin-top: 20%;
                 }
-                
+
                 #principal #facepet{
                     width: 50rem;
                 }
-                
+
                 #principal p{
                     font-size: 4rem;
                 }
-                
+
                 #principal #username, #principal #password{
                     height: 5rem;
                     font-size: 3rem;
                     border: 1px solid #DDDDDD;
                 }
-                
+
+                #principal #entrar{
+                    width: 100%;
+                    background-color: #FFED91;
+                    height: 7rem;
+                    font-size: 5rem;
+                    transition: 1s background ease;
+                    border-radius: 2rem;
+                    cursor: pointer;
+                }
+
+                #imgPata{
+                    width: 4rem;
+                }
+
+                #registro{
+                    font-size: 2.5rem;
+                }
+
             }
-            
+
 
         </style>
     </head>
