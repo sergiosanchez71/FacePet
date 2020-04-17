@@ -9,6 +9,7 @@ include 'clases/Conexion.php';
 include 'clases/Animal.php';
 include 'clases/Raza.php';
 include 'clases/Usuario.php';
+        include 'clases/Post.php';
 
 $accion = $_REQUEST['accion'];
 
@@ -107,8 +108,9 @@ switch ($accion) {
         } else {
             echo "El usuario introducido no existe";
         }
+        break;
+        
     case "crearPost":
-        include 'clases/Post.php';
         session_start();
         $fecha = date("Y-m-d H:i:s");
         $post = new Post($_REQUEST['titulo'], $_REQUEST['contenido'], $fecha, Usuario::getIdUsuario($_SESSION['username']));
@@ -116,5 +118,10 @@ switch ($accion) {
         $_SESSION['crearPost']="2";
         echo Post::consultarId($post);
         break;
-}
+    
+    case "getFotoPerfil":
+        session_start();
+        echo Usuario::getFotoPerfil($_SESSION['username']);
+        break;
+}   
 ?>

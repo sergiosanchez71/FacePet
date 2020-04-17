@@ -10,6 +10,8 @@ and open the template in the editor.
         <title>Vista de Operador</title>
         <link rel="icon" href="../controlador/img/favicon.ico">
         <link href="../controlador/css/header.css" rel="stylesheet" type="text/css"/>
+        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
+        <script src="../controlador/js/header.js" type="text/javascript"></script>
         <?php
         session_start();
         if (isset($_SESSION['username']) && $_SESSION['operador'] == 1) {
@@ -32,7 +34,7 @@ and open the template in the editor.
 
 
         </style>
-        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
+        
         <script>
 
             $(document).ready(function () {
@@ -319,7 +321,7 @@ and open the template in the editor.
                     <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
                     <li id="liUsuario">
                         <a href="miPerfil.php">
-                            <img src="../controlador/img/gato.png" id="perfil">
+                            <img class="perfil" alt="imgPerfil">
                             <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
                         </a>
                         <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
@@ -403,6 +405,18 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
+            <footer>
+                <ul id="segundoMenu">
+                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" id="cerrarsesion" alt="cerrarSesion"></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li id="liUsuario">
+                        <a href="miPerfil.php">
+                            <img class="perfil" alt="imgPerfil">
+                        </a>
+                    </li>
+                </ul>
+            </footer>
 
         </div>
 

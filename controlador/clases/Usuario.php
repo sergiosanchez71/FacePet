@@ -167,9 +167,10 @@ class Usuario {
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT password from usuarios where nick='$usuario'");
         while ($row = $consulta->fetch()) {
-            return $row['password'];
+            $pass = $row['password'];
         }
         unset($conexion);
+        return $pass;
     }
     
     function comprobarOperador($usuario){
@@ -177,9 +178,10 @@ class Usuario {
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT operador from usuarios where nick='$usuario'");
         while ($row = $consulta->fetch()) {
-            return $row['operador'];
+            $op = $row['operador'];
         }
         unset($conexion);
+        return $op;
     }
     
     function getIdUsuario($usuario){
@@ -187,9 +189,25 @@ class Usuario {
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id from usuarios where nick='$usuario'");
         while ($row = $consulta->fetch()) {
-            return $row['id'];
+            $id = $row['id'];
         }
         unset($conexion);
+        return $id;
+    }
+    
+    function getFotoPerfil($usuario){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT foto from usuarios where nick='$usuario'");
+        while ($row = $consulta->fetch()) {
+            if($row['foto']==null){
+                $foto = "0.jpg";
+            } else {
+                $foto = $row['foto'];
+            }
+        }
+        unset($conexion);
+        return $foto;
     }
 
     /*function comprobarUsuario($usuario, $password) {
