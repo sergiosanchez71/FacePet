@@ -86,35 +86,89 @@ class Post {
         $sql = "INSERT INTO posts (titulo,contenido,fecha_publicacion,usuario) VALUES ('$post->titulo','$post->contenido','$fecha','$post->usuario')";
         $conexion->exec($sql);
     }
-    
-    function consultarId($post){
+
+    function consultarId($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT id from posts where titulo='$post->titulo' and contenido='$post->contenido' and fecha_publicacion='$post->fecha_publicacion' and usuario='$post->usuario'");
+        $consulta = $conexion->query("SELECT id from posts where fecha_publicacion='$post->fecha_publicacion' and usuario='$post->usuario'");
         while ($row = $consulta->fetch()) {
             $id = $row['id'];
         }
         unset($conexion);
         return $id;
-    
     }
-    
-    function subirMultimedia($id,$multimedia){
+
+    function subirMultimedia($id, $multimedia) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "UPDATE posts SET multimedia='$multimedia' where id='$id'";
         $conexion->exec($sql);
     }
 
-    function comprobarExtension($archivo) {
-        $extension = end(explode(".", $archivo));
-        $extensiones = array("jpg", "png", "jpeg", "avi", "mp4", "mpeg-4");
-        for ($i = 0; $i < count($extensiones); $i++) {
-            if ($extension == $extensiones[$i]) {
-                return true;
-            }
+    function buscarPosts($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT id from posts where usuario=$usuario");
+        $i = 0;
+        while ($row = $consulta->fetch()) {
+            $posts[$i] = $row['id'];
+            $i++;
         }
-        return false;
+        unset($conexion);
+        return $posts;
+    }
+
+    function getDatosPostUsuario($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from posts where usuario='$usuario'");
+        while ($row = $consulta->fetch()) {
+            if ($row['foto'] == null) {
+                $foto = "0.jpg";
+            } else {
+                $foto = $row['foto'];
+            }
+            $datos = ['id' => $row['id'],
+                'titulo' => $row['titulo'],
+                'contenido' => $row['contenido'],
+                'multimedia' => $row['multimedia'],
+                'fecha_publicacion' => $row['fecha_publicacion'],
+                'likes' => $row['likes'],
+                'usuario' => $row['usuario']
+            ];
+        }
+        unset($conexion);
+        return $datos;
+    }
+
+    function getDatosPostsUsuario($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where usuario='$usuario' and p.usuario=u.id order by fecha_publicacion desc");
+        $i = 0;
+        while ($row = $consulta->fetch()) {
+            if ($row['foto'] == null) {
+                $foto = "0.jpg";
+            } else {
+                $foto = $row['foto'];
+            }
+            
+            $datos[$i] = array(
+                'id' => $row['id'],
+                'titulo' => $row['titulo'],
+                'contenido' => $row['contenido'],
+                'multimedia' => $row['multimedia'],
+                'fecha_publicacion' => $row['fecha_publicacion'],
+                'likes' => $row['likes'],
+                'usuario' => $row['usuario'],
+                'nick' => $row['nick'],
+                'foto' => $foto
+            );
+
+            $i++;
+        }
+        unset($conexion);
+        return $datos;
     }
 
 }

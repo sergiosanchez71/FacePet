@@ -40,6 +40,17 @@ class Raza {
         $this->raza = $raza;
     }
     
+    function buscarConId($id){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT nombre from razas where id=$id");
+        while ($row = $consulta->fetch()) {
+            $raza = $row['nombre'];
+        }
+        unset($conexion);
+        return $raza;
+    }
+    
     function comprobarRazas($animal){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

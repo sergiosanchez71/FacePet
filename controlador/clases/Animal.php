@@ -29,6 +29,17 @@ class Animal {
     function setNombre($nombre) {
         $this->nombre = $nombre;
     }
+    
+    function buscarConId($id){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT nombre from animales where id=$id");
+        while ($row = $consulta->fetch()) {
+            $animal = $row['nombre'];
+        }
+        unset($conexion);
+        return $animal;
+    }
 
     function mostrarIdAnimales() {
         $conexion = Conexion::conectar();

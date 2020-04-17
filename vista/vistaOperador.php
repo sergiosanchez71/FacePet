@@ -43,7 +43,7 @@ and open the template in the editor.
                 $("#botonBAnimal").click(verBAnimal);
                 $("#botonCRaza").click(verCRaza);
                 $("#botonBRaza").click(verBRaza);
-
+                
 
 
             });

@@ -73,7 +73,7 @@ class Usuario {
     function getAmigos() {
         return $this->amigos;
     }
-    
+
     function getBaneado() {
         return $this->baneado;
     }
@@ -121,7 +121,7 @@ class Usuario {
     function setAmigos($amigos) {
         $this->amigos = $amigos;
     }
-    
+
     function setBaneado($baneado) {
         $this->baneado = $baneado;
     }
@@ -172,8 +172,8 @@ class Usuario {
         unset($conexion);
         return $pass;
     }
-    
-    function comprobarOperador($usuario){
+
+    function comprobarOperador($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT operador from usuarios where nick='$usuario'");
@@ -183,8 +183,8 @@ class Usuario {
         unset($conexion);
         return $op;
     }
-    
-    function getIdUsuario($usuario){
+
+    function getIdUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id from usuarios where nick='$usuario'");
@@ -194,13 +194,13 @@ class Usuario {
         unset($conexion);
         return $id;
     }
-    
-    function getFotoPerfil($usuario){
+
+    function getFotoPerfil($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT foto from usuarios where nick='$usuario'");
         while ($row = $consulta->fetch()) {
-            if($row['foto']==null){
+            if ($row['foto'] == null) {
                 $foto = "0.jpg";
             } else {
                 $foto = $row['foto'];
@@ -210,16 +210,64 @@ class Usuario {
         return $foto;
     }
 
-    /*function comprobarUsuario($usuario, $password) {
+    function getAnimalUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT nick from usuarios where nick='$usuario' and password='$password'");
-        $correcto = false;
+        $consulta = $conexion->query("SELECT animal from usuarios where nick='$usuario'");
         while ($row = $consulta->fetch()) {
-            $correcto = true;
+            $animal = $row['animal'];
         }
         unset($conexion);
-        return $correcto;
-    }*/
+        return $animal;
+    }
 
+    function getRazaUsuario($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT raza from usuarios where nick='$usuario'");
+        while ($row = $consulta->fetch()) {
+            $raza = $row['raza'];
+        }
+        unset($conexion);
+        return $raza;
+    }
+
+    function getLocalidadUsuario($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT raza from usuarios where nick='$usuario'");
+        while ($row = $consulta->fetch()) {
+            $raza = $row['raza'];
+        }
+        unset($conexion);
+        return $raza;
+    }
+
+    function getDatos($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from usuarios where nick='$usuario'");
+        while ($row = $consulta->fetch()) {
+            if ($row['foto'] == null) {
+                $foto = "0.jpg";
+            } else {
+                $foto = $row['foto'];
+            }
+            $datos = ['id' => $row['id'],
+                'nick' => $row['nick'],
+                'password' => $row['password'],
+                'email' => $row['email'],
+                'animal' => Animal::buscarConId($row['animal']),
+                'raza' => Raza::buscarConId($row['raza']),
+                'sexo' => $row['sexo'],
+                'foto' => $foto,
+                'localidad' => $row['localidad'],
+                'amigos' => $row['amigos'],
+                'baneado' => $row['baneado'],
+                'operador' => $row['operador']
+            ];
+        }
+        unset($conexion);
+        return $datos;
+    }
 }

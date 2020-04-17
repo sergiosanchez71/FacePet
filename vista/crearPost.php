@@ -94,6 +94,10 @@
                 h1{
                     font-size: 4rem;
                 }
+                
+                .paso{
+                    font-size: 3.5rem;
+                }
 
                 .title{
                     font-size: 3rem;
@@ -178,7 +182,6 @@
                             p.setAttribute("name", "idpost");
                             p.setAttribute("style", "display:none");
                             p.setAttribute("value", respuesta);
-                            //p.setAttribute("value", respuesta);
 
                             $("#paso1").css("display", "none");
                             $("#paso2").css("display", "block");
@@ -198,8 +201,6 @@
 
 
             }
-
-
 
         </script>
     </head>
@@ -257,7 +258,7 @@
                 <div id="crearPost">
                     <h1>Crea un nuevo post</h1>
                     <form id="paso1">
-                        <h2>Paso 1</h2>
+                        <h2 class="paso">Paso 1</h2>
                         <p class="title">Título</p> 
                         <input type="text" id="titulo" name="titulo" maxlength="30">
                         <p class="title">Contenido</p> 
@@ -267,7 +268,7 @@
                         <p><input type="button" class="botonCrearPost" id="botonCrearPost" value="Paso 2"></p>
                     </form>
                     <form method="post" id="paso2" enctype="multipart/form-data">
-                        <h2>Paso 2</h2>
+                        <h2 class="paso">Paso 2</h2>
                         <p class="title">Añade una foto o vídeo (Opcional)</p>
                         <input type="file" name="userfile" id="multimedia" onchange="subirArchivo()">
                         <p><input type="submit" class="botonCrearPost" name="subirImagen" value="Subir Multimedia"></p>

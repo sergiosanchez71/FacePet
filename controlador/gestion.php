@@ -24,6 +24,7 @@ if (isset($_REQUEST['subirImagen'])) {
         move_uploaded_file($_FILES['userfile']['tmp_name'], $fichero_subido);
         rename($fichero_subido, $dir_subida . $_REQUEST['idpost'] . "." . $file_ext[1]);
         Post::subirMultimedia($_REQUEST['idpost'], $_REQUEST['idpost'] . "." . $file_ext[1]);
+        header("Location: ../vista/miPerfil.php");
     }
 }
 ?>

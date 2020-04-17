@@ -17,6 +17,13 @@
     border: 1px solid black;
 }
 
+.postEliminar{
+    width: 3rem;
+    display: block;
+    float: right;
+    cursor: pointer;
+}
+
 .imagenUsuario{
     width: 3rem;
     border-radius: 3rem;
@@ -55,7 +62,7 @@
 }
 
 .postImg{
-    width: 15rem;
+    width: 20rem;
     float:left;
     margin: 0 1rem 1rem 1rem;
 }
@@ -84,6 +91,10 @@
         min-height: 50rem;
     }
 
+    .postEliminar{
+        width: 6rem;
+    }
+
     .imagenUsuario{
         width:7rem;
     }
@@ -100,10 +111,10 @@
     .postImg{
         width: 25rem;
     }
-    
+
     .postBottom{
-    clear: both;
-}
+        clear: both;
+    }
 
     .postCorazonImg, .postComentarioImg{
         width: 5rem;

@@ -42,6 +42,7 @@ and open the template in the editor.
 
             #botones{
                 grid-area:botones;
+                display: none;
             }
 
             #imgPerfil{
@@ -53,7 +54,7 @@ and open the template in the editor.
             }
 
             #contenidoPerfil:hover > #imgPerfil {
-                opacity: 0.5;
+                opacity: 0.3;
             }
 
             #contenidoPerfil:hover > #textCambiarAvatar{
@@ -88,12 +89,12 @@ and open the template in the editor.
                 bottom: 1rem;
             }
 
-            #localidad{
+            #localidadPerfilUsuario{
                 position: relative;
                 bottom: 1rem;
             }
 
-            /*#localidad{
+            /*#localidadPerfilUsuario{
                 position: relative;
                 bottom: 3.2rem;
                 left: 20rem;
@@ -165,7 +166,7 @@ and open the template in the editor.
                         "posts";
                     grid-template-columns: 96%;
                 }
-                
+
                 #contenidoPerfil, #datos{
                     margin-left: 4rem;
                 }
@@ -188,7 +189,7 @@ and open the template in the editor.
                     border-radius: 2rem;
                     cursor: pointer;
                 }
-                
+
                 .boton span{
                     font-size: 3rem;
                 }
@@ -197,25 +198,25 @@ and open the template in the editor.
                     margin: auto;
                     width: 90%;
                 }
-                
+
                 .amigoPerfil .imagenAmigo{
                     width: 10rem;
                     margin-left: 20%;
                 }
-                
+
                 .amigoPerfil p{
                     font-size: 2rem;
                 }
-                
+
                 .amigoPerfil{
                     margin-top: 2rem;
                 }
-                
+
                 #datos{
-                     position: relative;
-                     top: 4rem;
+                    position: relative;
+                    top: 4rem;
                 }
-                
+
                 #nombrePerfilUsuario{
                     font-size: 3rem;
                     margin-top: 1rem;
@@ -224,14 +225,164 @@ and open the template in the editor.
                 #posts{
                     margin-left: -7rem;
                 }
-                
-                #animalRaza, #localidad{
+
+                #animalRaza, #localidadPerfilUsuario{
                     font-size: 1.75rem;
                 }
-                
+
             }
 
         </style>
+        <script>
+            $(document).ready(function () {
+                getDatosMiPerfil();
+                mostrarMisPosts();
+                $(".postEliminar").click(postEliminar);
+            });
+            
+            function postEliminar(){
+                alert("hola");
+            }
+
+            function getDatosMiPerfil() {
+                var parametros = {
+                    "accion": "getDatosUsuario"
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        var usuario = JSON.parse(respuesta);
+                        $("#imgPerfil").attr("src", "../controlador/uploads/usuarios/" + usuario.foto);
+                        $("#nombrePerfilUsuario").text(usuario.nick);
+                        $("#animalPerfilUsuario").text(usuario.animal);
+                        $("#razaPerfilUsuario").text(usuario.raza);
+                        $("#localidadPerfilUsuario").text(usuario.localidad);
+                        
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la creación de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+            
+            function mostrarMisPosts(){
+                var parametros = {
+                    "accion": "mostrarMisPosts"
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        var posts = JSON.parse(respuesta);
+                        for(var i=0;i<posts.length;i++){
+                            var post = document.createElement("div");
+                            post.setAttribute("class","post");
+                            
+                            var postEliminar = document.createElement("img");
+                            postEliminar.setAttribute("class","postEliminar");
+                            postEliminar.setAttribute("src","../controlador/img/eliminar.png");
+                            
+                           /* var postEliminarBoton = document.createElement("button");
+                            postEliminarBoton.setAttribute("class","postEliminarBoton");
+                            postEliminarBoton.innerHTML += postEliminar;*/
+                            
+                            var postUsuario = document.createElement("p");
+                            postUsuario.setAttribute("class","postUsuario");
+                            var imgUsuario = document.createElement("img");
+                            imgUsuario.setAttribute("class","imagenUsuario");
+                            imgUsuario.setAttribute("src","../controlador/uploads/usuarios/"+posts[i].foto);
+                            var nombreUsuario = document.createElement("span");
+                            nombreUsuario.setAttribute("class","nombreUsuario");
+                            nombreUsuario.innerHTML += posts[i].nick;
+                            
+                            var postFecha = document.createElement("p");
+                            postFecha.setAttribute("class","postFecha");
+                            postFecha.innerHTML += posts[i].fecha_publicacion;
+                            
+                            var postCont = document.createElement("div");
+                            postCont.setAttribute("class","postCont");
+                            
+                            var postTitulo = document.createElement("p");
+                            postTitulo.setAttribute("class","postTitulo");
+                            postTitulo.innerHTML += posts[i].titulo;
+                            
+                            if(posts[i].multimedia != null){
+                            
+                            var postImg = document.createElement("img");
+                            postImg.setAttribute("class","postImg");
+                            postImg.setAttribute("src","../controlador/uploads/posts/"+posts[i].multimedia);
+                            
+                            }
+                            
+                            var postContenido = document.createElement("p");
+                            postContenido.setAttribute("class","postContenido");
+                            postContenido.innerHTML += posts[i].contenido;
+                            
+                            var postBottom = document.createElement("div");
+                            postBottom.setAttribute("class","postBottom")
+                            
+                            var postLikes = document.createElement("p");
+                            postLikes.setAttribute("class","postLikes");
+                            postLikes.innerHTML += posts[i].likes +" Me gustas";
+                            
+                            var iconos = document.createElement("p");
+                            iconos.setAttribute("class","iconos");
+                            var postCorazon = document.createElement("a");
+                            postCorazon.setAttribute("class","postCorazon");
+                            
+                            var postCorazonImg = document.createElement("img");
+                            postCorazonImg.setAttribute("class","postCorazonImg");
+                            postCorazonImg.setAttribute("src","../controlador/img/nolike.png");
+                            
+                            var postComentario = document.createElement("a");
+                            postComentario.setAttribute("class","postComentario");
+                            
+                            var postComentarioImg = document.createElement("img");
+                            postComentarioImg.setAttribute("class","postComentarioImg");
+                            postComentarioImg.setAttribute("src","../controlador/img/comentario.png");
+                            
+                            $("#posts").append(post);
+                            post.append(postEliminar);
+                            post.append(postUsuario);
+                            
+                            postUsuario.append(imgUsuario);
+                            postUsuario.append(nombreUsuario);
+                            
+                            post.append(postFecha);
+                            post.append(postCont);
+                            
+                            postCont.append(postTitulo);
+                            if(posts[i].multimedia != null){
+                                postCont.append(postImg);
+                            }
+                            postCont.append(postContenido);
+                            
+                            
+                            postCont.append(postBottom);
+                            
+                            postBottom.append(postLikes);
+                            postBottom.append(iconos);
+                            iconos.append(postCorazon);
+                            iconos.append(postComentario);
+                            postCorazon.append(postCorazonImg);
+                            postComentario.append(postComentarioImg);
+                        }
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la creación de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
+        </script>
     </head>
     <body>
 
@@ -290,12 +441,12 @@ and open the template in the editor.
                 <div id="cabeceraPerfil">
                     <p id="contenidoPerfil">
                         <span id="textCambiarAvatar">Cambiar Avatar</span>
-                        <img src="../controlador/img/gato.png" id="imgPerfil" alt="imgPerfil">
+                        <img id="imgPerfil" alt="imgPerfil">
                     </p>
                     <div id="datos">
-                        <p id="nombrePerfilUsuario"><?php echo $_SESSION['username'] ?></p>
-                        <p id="animalRaza"><span>Animal</span> <span>Raza</span></p>
-                        <p id="localidad">Localidad</p>
+                        <p id="nombrePerfilUsuario"></p>
+                        <p id="animalRaza"><span id="animalPerfilUsuario"></span> <span id="razaPerfilUsuario"></span></p>
+                        <p id="localidadPerfilUsuario"></p>
                     </div>
                 </div>
                 <div id="botones">
@@ -357,58 +508,7 @@ and open the template in the editor.
                 </div>
 
                 <div id="posts">
-                    <p id="titularPosts">Mis posts</p>
-                    <div class="post">
-                        <p class="postUsuario"><img src="../controlador/img/gato.png" class="imagenUsuario" alt="imagenUsuario"><span class="nombreUsuario">Sergio</span></p>
-                        <p class="postFecha">05-04-2020 13:33</p>
-                        <div class="postCont">
-                            <p class="postTitulo">Titulo</p>
-                            <img src="../controlador/img/gato.png" class="postImg" alt="postImg">
-                            <p class="postContenido">Maecenas vel magna gravida, ullamcorper urna efficitur, condimentum massa. 
-                                Etiam dui ex, venenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
-                                Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
-                                Morbi congue lobortis lacus, id consectetur tellus congue eu. Aliquam ornare nisi erat, id malesuada tellus semper vitae. 
-                                Praesent purus lorem, porta volutpat sollicitudin pretium, venenatis rhoncus magna. Praesent nec varius mauris. 
-                                Quisque rutrum, eros nec vestibulum imperdiet, dui lectus molestie justo, porttitor blandit neque massa porttitor metus. Praesent pretium elementum est sed pretium. 
-                                Curabitur nec ultricies ante. Etiam a orci mattis quam tristique pharetra. Nulla nec velit purus. Vestibulum luctus nulla id neque egestas, id ultrices purus eleifend.
-                                lorem, porta volutpat sollicitudin pretium, venenatis rhoncus magna. Praesent nec varius mauris. 
-                                Quisque rutrum, eros nec vestibulum imperdiet, dui lectus molestie justo, porttitor blandit neque massa porttitor metus. Praesent pretium elementum est sed pretium. 
-                                Curabitur nec ultricies ante. vestibulum imperdiet, dui lectus molestie justo, porttitor blandit neque massa porttitor metus. Praesent pretium elementum est sed pretium. 
-                                Curabitur nec ultricies ante.</p>
-                            <p class="postLikes"><span>1</span> Me gusta</p>
-                            <p class="iconos"><a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
-                                <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a></p>
-                        </div>
-                    </div>
-                    <div class="post">
-                        <p class="postUsuario"><img src="../controlador/img/gato.png" class="imagenUsuario" alt="imagenUsuario"><span class="nombreUsuario">Sergio</span></p>
-                        <p class="postFecha">05-04-2020 13:33</p>
-                        <div class="postCont">
-                            <p class="postTitulo">Titulo</p>
-                            <img src="../controlador/img/gato.png" class="postImg" alt="postImg">
-                            <p class="postContenido">Maecenas.</p>
-                            <p class="postLikes"><span>1</span> Me gusta</p>
-                            <p class="iconos"><a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
-                                <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a></p>
-                        </div>
-                    </div>
-                    <div class="post">
-                        <p class="postUsuario"><img src="../controlador/img/gato.png" class="imagenUsuario" alt="imagenUsuario"><span class="nombreUsuario">Sergio</span></p>
-                        <p class="postFecha">05-04-2020 13:33</p>
-                        <div class="postCont">
-                            <p class="postTitulo">Titulo</p>
-                            <img src="../controlador/img/gato.png" class="postImg" alt="postImg">
-                            <p class="postContenido">Maecenas vel magna gravida, ullamcorper urna efficitur, condimentum massa. 
-                                Etiam dui ex, venenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
-                                Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
-                                Morbi congue lobortis. dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
-                                impassa porttitor metus. Praesent pretium elementum est sed pretium. 
-                                .</p>
-                            <p class="postLikes"><span>1</span> Me gusta</p>
-                            <p class="iconos"><a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
-                                <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a></p>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             <footer>
