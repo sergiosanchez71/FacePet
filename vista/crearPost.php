@@ -3,9 +3,11 @@
         <title>Crear Post - FacePet</title>
         <?php
         session_start();
+        include '../controlador/gestion.php';
         ?>
         <link rel="icon" href="../controlador/img/favicon.ico">
         <link rel="stylesheet" type="text/css" href="../controlador/css/header.css">
+        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
         <style>
 
             #cuerpo{
@@ -50,7 +52,7 @@
                 font-size: 1.2rem;
             }
 
-            #botonCrearPost{
+            .botonCrearPost{
                 font-weight: bold;
                 width: 100%;
                 background-color: #FFED91;
@@ -61,7 +63,7 @@
                 cursor: pointer;
             }
 
-            #botonCrearPost:hover, textarea:hover, #titulo:hover{
+            .botonCrearPost:hover, textarea:hover, #titulo:hover{
                 background-color:#FFF578;
             }
 
@@ -70,6 +72,14 @@
                 width: 2rem;
                 position: relative;
                 top: 3px;
+            }
+
+            #paso1{
+                display: block;
+            }
+
+            #paso2{
+                display: none;
             }
 
 
@@ -102,7 +112,7 @@
                     font-size: 2.5rem;
                 }
 
-                #botonCrearPost{
+                .botonCrearPost{
                     margin-top: 2rem;
                     height: 5rem;
                     font-size: 4rem;
@@ -118,6 +128,80 @@
 
 
         </style>
+        <script>
+
+            $(document).ready(function () {
+                $("#botonCrearPost").click(crearPost);
+
+            });
+
+            function crearPost() {
+                var titulo = $("#titulo").val();
+                var contenido = $("#contenido").val();
+                var fecha = $("#fecha").val();
+                var colorError = "#E95139";
+                var campoVacio = false;
+
+                if (titulo.trim() == "") {
+                    $("#titulo").css("background", colorError);
+                    campoVacio = true;
+                } else {
+                    $("#titulo").css("background", "white");
+                }
+
+                if (contenido.trim() == "") {
+                    $("#contenido").css("background", colorError);
+                    campoVacio = true;
+                } else {
+                    $("#contenido").css("background", "white");
+                }
+
+
+                if (!campoVacio) {
+
+                    var parametros = {
+                        "accion": "crearPost",
+                        "titulo": titulo,
+                        "contenido": contenido,
+                        "fecha": fecha
+                    };
+
+                    $.ajax({
+                        url: "../controlador/acciones.php",
+                        data: parametros,
+                        success: function (respuesta) {
+                            var paso2 = document.getElementById("paso2");
+                            var p = document.createElement("input");
+                            paso2.appendChild(p);
+                            p.setAttribute("type", "text");
+                            p.setAttribute("readonly", "readonly");
+                            p.setAttribute("name", "idpost");
+                            p.setAttribute("style", "display:none");
+                            p.setAttribute("value", respuesta);
+                            //p.setAttribute("value", respuesta);
+
+                            $("#paso1").css("display", "none");
+                            $("#paso2").css("display", "block");
+
+                        },
+                        error: function (xhr, status) {
+                            alert("Error en la creación de post");
+                        },
+                        type: "POST",
+                        dataType: "text"
+                    });
+
+                } else {
+                    alert("No puedes dejar campos vacíos");
+                }
+
+
+
+            }
+
+
+
+        </script>
     </head>
     <body>
         <div id="principal">
@@ -172,14 +256,23 @@
             <div id="cuerpo">
                 <div id="crearPost">
                     <h1>Crea un nuevo post</h1>
-                    <p class="title">Título</p> 
-                    <input type="text" id="titulo" maxlength="30">
-                    <p class="title">Contenido</p> 
-                    <textarea type="text" id="contenido" maxlength="1000"></textarea>
-                    <!--<p><input type="radio" id="multimedia" value="imagen"><input type="radio" id="multimedia" value="video"></p>-->
-                    <p class="title">Añade una foto o vídeo</p>
-                    <p><input type="file" class="form-control-file" name="multimedia" id="multimedia"></p>
-                    <button id="botonCrearPost">Crear Post<img src="../controlador/img/pata.png" id="pata" class="pata"></button>
+                    <form id="paso1">
+                        <h2>Paso 1</h2>
+                        <p class="title">Título</p> 
+                        <input type="text" id="titulo" name="titulo" maxlength="30">
+                        <p class="title">Contenido</p> 
+                        <textarea type="text" id="contenido" name="contenido" maxlength="1000"></textarea>
+                        <!--<p><input type="radio" id="multimedia" value="imagen"><input type="radio" id="multimedia" value="video"></p>-->
+                            <!--<button id="botonCrearPost">Crear Post<img src="../controlador/img/pata.png" id="pata" class="pata"></button>-->
+                        <p><input type="button" class="botonCrearPost" id="botonCrearPost" value="Paso 2"></p>
+                    </form>
+                    <form method="post" id="paso2" enctype="multipart/form-data">
+                        <h2>Paso 2</h2>
+                        <p class="title">Añade una foto o vídeo (Opcional)</p>
+                        <input type="file" name="userfile" id="multimedia" onchange="subirArchivo()">
+                        <p><input type="submit" class="botonCrearPost" name="subirImagen" value="Subir Multimedia"></p>
+                    </form>
+
                 </div>
             </div>
             <footer>

@@ -15,54 +15,54 @@ $accion = $_REQUEST['accion'];
 switch ($accion) {
 
     case "crearAnimal":
-        if(!Animal::comprobarNombre($_REQUEST['nombre'])){
+        if (!Animal::comprobarNombre($_REQUEST['nombre'])) {
             Animal::crearAnimal($_REQUEST['nombre']);
             echo "Animal creado correctamente";
         } else {
             echo "Ese animal ya existe";
         }
         break;
-        
+
     case "borrarAnimales":
         $animales = $_REQUEST['animales'];
-        for($i=0;$i<count($animales);$i++){
+        for ($i = 0; $i < count($animales); $i++) {
             Animal::borrarAnimal($animales[$i]);
         }
-        if(count($animales) > 1){
+        if (count($animales) > 1) {
             echo "Animales eliminados correctamente";
         } else {
             echo "Animal eliminado correctamente";
         }
         break;
-    
+
     case "consultarAnimales":
         $data = array();
         $data['id'] = Animal::mostrarIdAnimales();
         $data['animal'] = Animal::mostrarAnimales();
         echo json_encode($data);
         break;
-    
+
     case "crearRaza":
-        if(!Raza::comprobarNombre($_REQUEST['nombre'])){
-            Raza::crearRaza($_REQUEST['nombre'],$_REQUEST['animal']);
+        if (!Raza::comprobarNombre($_REQUEST['nombre'])) {
+            Raza::crearRaza($_REQUEST['nombre'], $_REQUEST['animal']);
             echo "Raza creada correctamente";
         } else {
             echo "Esa raza ya existe";
         }
         break;
-    
+
     case "borrarRaza":
         $animal = $_REQUEST['animalB'];
         $razas = $_REQUEST['razas'];
-        for($i=0;$i<count($razas);$i++){
-            Raza::borrarRaza($razas[$i],$animal);
+        for ($i = 0; $i < count($razas); $i++) {
+            Raza::borrarRaza($razas[$i], $animal);
         }
-        if(count($razas) > 1){
+        if (count($razas) > 1) {
             echo "Razas eliminadas correctamente";
         } else {
             echo "Raza eliminada correctamente";
         }
-        break;        
+        break;
     case "consultarRazas":
         $data = array();
         $data['id'] = Raza::mostrarIdRazas($_REQUEST['animal']);
@@ -107,7 +107,14 @@ switch ($accion) {
         } else {
             echo "El usuario introducido no existe";
         }
+    case "crearPost":
+        include 'clases/Post.php';
+        session_start();
+        $fecha = date("Y-m-d H:i:s");
+        $post = new Post($_REQUEST['titulo'], $_REQUEST['contenido'], $fecha, Usuario::getIdUsuario($_SESSION['username']));
+        Post::crearPost($post);
+        $_SESSION['crearPost']="2";
+        echo Post::consultarId($post);
+        break;
 }
-
-
 ?>

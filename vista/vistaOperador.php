@@ -9,6 +9,7 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title>Vista de Operador</title>
         <link rel="icon" href="../controlador/img/favicon.ico">
+        <link href="../controlador/css/header.css" rel="stylesheet" type="text/css"/>
         <?php
         session_start();
         if (isset($_SESSION['username']) && $_SESSION['operador'] == 1) {
@@ -18,9 +19,18 @@ and open the template in the editor.
         }
         ?>
         <style>
+
+            #cuerpo{
+                width: 100%;
+                background: white;
+            }
+
             #listadoBAnimales tr{
                 border: 1px solid red;
             }
+
+
+
         </style>
         <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
         <script>
@@ -292,53 +302,108 @@ and open the template in the editor.
         <?php
 // put your code here
         ?>
-        <div id="botones">
-            <button id="botonCAnimal">Crear Animal</button>
-            <button id="botonBAnimal">Borrar Animal</button>
-            <button id="botonCRaza">Crear Raza</button>
-            <button id="botonBRaza">Borrar Raza</button>
-        </div>
+        <div id="principal">
+            <header>
+                <nav id="navpc">
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
+                    <li><a href="vistaUsuario.php">Inicio</a></li>
+                    <li><a href="miPerfil.php">Mi Perfil</a></li>
+                    <li id="crear">Crear
+                        <ul>
+                            <li><a href="crearPost.php">Crear Post</a></li>
+                            <li><a href="crearEvento.php">Crear Evento</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li id="liUsuario">
+                        <a href="miPerfil.php">
+                            <img src="../controlador/img/gato.png" id="perfil">
+                            <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
+                        </a>
+                        <img src="../controlador/img/abajo.png" id="abajo" alt="abajo">
+                        <ul>
+                            <li><a href="../index.php">Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                </nav>
 
-        <div id="crearAnimal" style="display: none;">
-            <h1>Crear un nuevo animal</h1>
-            Nombre: <input type="text" id="nombreCAnimal">
-            <button id="botonCrearAnimal">Crear animal</button>
-            <button class="volver" >Volver</button>
-            <div>
-                <h2>Animales ya disponibles</h2>
-                <ul id="listadoUlAnimales"></ul>
-            </div>
-        </div>
+                <div id="cabeceramv">
+                    <a href="vistaUsuario.php" id="facepetAMV"><img src="../controlador/img/facepet.png" id="facepetMV" alt="logo"></a>
+                    <nav class="menuHTML">
+                        <div id="hamburguesa">
+                            <label for="menu-toggle">
+                                <div class="botonMenu">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </label>
+                        </div>
+                        <input type="checkbox" id="menu-toggle"/>
+                        <ul id="trickMenu">
+                            <a href="miPerfil.php"><li>Mi Perfil</li></a>
+                            <a href="crearPost.php"><li>Crear Post</li></a>
+                            <a href="crearEvento.php"><li>Crear Evento</li></a>
+                            <a href="buscarAmigos.php"><li>Buscar Amigos</li></a>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
 
-        <div id="borrarAnimal" style="display:none;">
-            <h1>Borrar animales</h1>
-            <div>
-                <table id="listadoBAnimales"></table>
-                <button id="botonBorrarAnimal">Borrar Animales</button>
-                <button class="volver" >Volver</button>
-            </div>
-        </div>
+            <div id="cuerpo">
 
-        <div id="crearRaza" style="display: none;">
-            <h1>Crear una nueva raza</h1>
-            Nombre: <input type="text" id="nombreCRaza">
-            Animal: <select id="listadoSelectAnimales"></select>
-            <button id="botonCrearRaza">Crear raza</button>
-            <button class="volver" >Volver</button>
-            <div>
-                <h2>Razas ya disponibles</h2>
-                <ul id="listadoUlRazas"></ul>
-            </div>
-        </div>
+                <div id="botones">
+                    <button id="botonCAnimal">Crear Animal</button>
+                    <button id="botonBAnimal">Borrar Animal</button>
+                    <button id="botonCRaza">Crear Raza</button>
+                    <button id="botonBRaza">Borrar Raza</button>
+                </div>
 
-        <div id="borrarRaza" style="display:none;">
-            <h1>Borrar razas</h1>
-            <div>
-                Animal: <select id="listadoSelectBAnimales"></select>
-                <table id="listadoBRazas"></table>
-                <button id="botonBorrarRaza">Borrar Razas</button>
-                <button class="volver" >Volver</button>
+                <div id="crearAnimal" style="display: none;">
+                    <h1>Crear un nuevo animal</h1>
+                    Nombre: <input type="text" id="nombreCAnimal">
+                    <button id="botonCrearAnimal">Crear animal</button>
+                    <button class="volver" >Volver</button>
+                    <div>
+                        <h2>Animales ya disponibles</h2>
+                        <ul id="listadoUlAnimales"></ul>
+                    </div>
+                </div>
+
+                <div id="borrarAnimal" style="display:none;">
+                    <h1>Borrar animales</h1>
+                    <div>
+                        <table id="listadoBAnimales"></table>
+                        <button id="botonBorrarAnimal">Borrar Animales</button>
+                        <button class="volver" >Volver</button>
+                    </div>
+                </div>
+
+                <div id="crearRaza" style="display: none;">
+                    <h1>Crear una nueva raza</h1>
+                    Nombre: <input type="text" id="nombreCRaza">
+                    Animal: <select id="listadoSelectAnimales"></select>
+                    <button id="botonCrearRaza">Crear raza</button>
+                    <button class="volver" >Volver</button>
+                    <div>
+                        <h2>Razas ya disponibles</h2>
+                        <ul id="listadoUlRazas"></ul>
+                    </div>
+                </div>
+
+                <div id="borrarRaza" style="display:none;">
+                    <h1>Borrar razas</h1>
+                    <div>
+                        Animal: <select id="listadoSelectBAnimales"></select>
+                        <table id="listadoBRazas"></table>
+                        <button id="botonBorrarRaza">Borrar Razas</button>
+                        <button class="volver" >Volver</button>
+                    </div>
+                </div>
             </div>
+
         </div>
 
     </body>

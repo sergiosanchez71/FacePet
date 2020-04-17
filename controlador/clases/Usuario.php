@@ -181,6 +181,16 @@ class Usuario {
         }
         unset($conexion);
     }
+    
+    function getIdUsuario($usuario){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT id from usuarios where nick='$usuario'");
+        while ($row = $consulta->fetch()) {
+            return $row['id'];
+        }
+        unset($conexion);
+    }
 
     /*function comprobarUsuario($usuario, $password) {
         $conexion = Conexion::conectar();
