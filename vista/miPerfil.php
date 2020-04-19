@@ -239,8 +239,8 @@ and open the template in the editor.
                 mostrarMisPosts();
                 $(".postEliminar").click(postEliminar);
             });
-            
-            function postEliminar(){
+
+            function postEliminar() {
                 alert("hola");
             }
 
@@ -253,13 +253,14 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+                        console.log(respuesta);
                         var usuario = JSON.parse(respuesta);
                         $("#imgPerfil").attr("src", "../controlador/uploads/usuarios/" + usuario.foto);
                         $("#nombrePerfilUsuario").text(usuario.nick);
                         $("#animalPerfilUsuario").text(usuario.animal);
                         $("#razaPerfilUsuario").text(usuario.raza);
                         $("#localidadPerfilUsuario").text(usuario.localidad);
-                        
+
 
                     },
                     error: function (xhr, status) {
@@ -269,8 +270,8 @@ and open the template in the editor.
                     dataType: "text"
                 });
             }
-            
-            function mostrarMisPosts(){
+
+            function mostrarMisPosts() {
                 var parametros = {
                     "accion": "mostrarMisPosts"
                 };
@@ -279,99 +280,105 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        var posts = JSON.parse(respuesta);
-                        for(var i=0;i<posts.length;i++){
-                            var post = document.createElement("div");
-                            post.setAttribute("class","post");
-                            
-                            var postEliminar = document.createElement("img");
-                            postEliminar.setAttribute("class","postEliminar");
-                            postEliminar.setAttribute("src","../controlador/img/eliminar.png");
-                            
-                           /* var postEliminarBoton = document.createElement("button");
-                            postEliminarBoton.setAttribute("class","postEliminarBoton");
-                            postEliminarBoton.innerHTML += postEliminar;*/
-                            
-                            var postUsuario = document.createElement("p");
-                            postUsuario.setAttribute("class","postUsuario");
-                            var imgUsuario = document.createElement("img");
-                            imgUsuario.setAttribute("class","imagenUsuario");
-                            imgUsuario.setAttribute("src","../controlador/uploads/usuarios/"+posts[i].foto);
-                            var nombreUsuario = document.createElement("span");
-                            nombreUsuario.setAttribute("class","nombreUsuario");
-                            nombreUsuario.innerHTML += posts[i].nick;
-                            
-                            var postFecha = document.createElement("p");
-                            postFecha.setAttribute("class","postFecha");
-                            postFecha.innerHTML += posts[i].fecha_publicacion;
-                            
-                            var postCont = document.createElement("div");
-                            postCont.setAttribute("class","postCont");
-                            
-                            var postTitulo = document.createElement("p");
-                            postTitulo.setAttribute("class","postTitulo");
-                            postTitulo.innerHTML += posts[i].titulo;
-                            
-                            if(posts[i].multimedia != null){
-                            
-                            var postImg = document.createElement("img");
-                            postImg.setAttribute("class","postImg");
-                            postImg.setAttribute("src","../controlador/uploads/posts/"+posts[i].multimedia);
-                            
+                        if (!respuesta) {
+                            var posts = JSON.parse(respuesta);
+                            for (var i = 0; i < posts.length; i++) {
+                                var post = document.createElement("div");
+                                post.setAttribute("class", "post");
+
+                                var postEliminar = document.createElement("img");
+                                postEliminar.setAttribute("class", "postEliminar");
+                                postEliminar.setAttribute("src", "../controlador/img/eliminar.png");
+
+                                /* var postEliminarBoton = document.createElement("button");
+                                 postEliminarBoton.setAttribute("class","postEliminarBoton");
+                                 postEliminarBoton.innerHTML += postEliminar;*/
+
+                                var postUsuario = document.createElement("p");
+                                postUsuario.setAttribute("class", "postUsuario");
+                                var imgUsuario = document.createElement("img");
+                                imgUsuario.setAttribute("class", "imagenUsuario");
+                                imgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + posts[i].foto);
+                                var nombreUsuario = document.createElement("span");
+                                nombreUsuario.setAttribute("class", "nombreUsuario");
+                                nombreUsuario.innerHTML += posts[i].nick;
+
+                                var postFecha = document.createElement("p");
+                                postFecha.setAttribute("class", "postFecha");
+                                postFecha.innerHTML += posts[i].fecha_publicacion;
+
+                                var postCont = document.createElement("div");
+                                postCont.setAttribute("class", "postCont");
+
+                                var postTitulo = document.createElement("p");
+                                postTitulo.setAttribute("class", "postTitulo");
+                                postTitulo.innerHTML += posts[i].titulo;
+
+                                if (posts[i].multimedia != null) {
+
+                                    var postImg = document.createElement("img");
+                                    postImg.setAttribute("class", "postImg");
+                                    postImg.setAttribute("src", "../controlador/uploads/posts/" + posts[i].multimedia);
+
+                                }
+
+                                var postContenido = document.createElement("p");
+                                postContenido.setAttribute("class", "postContenido");
+                                postContenido.innerHTML += posts[i].contenido;
+
+                                var postBottom = document.createElement("div");
+                                postBottom.setAttribute("class", "postBottom")
+
+                                var postLikes = document.createElement("p");
+                                postLikes.setAttribute("class", "postLikes");
+                                postLikes.innerHTML += posts[i].likes + " Me gustas";
+
+                                var iconos = document.createElement("p");
+                                iconos.setAttribute("class", "iconos");
+                                var postCorazon = document.createElement("a");
+                                postCorazon.setAttribute("class", "postCorazon");
+
+                                var postCorazonImg = document.createElement("img");
+                                postCorazonImg.setAttribute("class", "postCorazonImg");
+                                postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
+
+                                var postComentario = document.createElement("a");
+                                postComentario.setAttribute("class", "postComentario");
+
+                                var postComentarioImg = document.createElement("img");
+                                postComentarioImg.setAttribute("class", "postComentarioImg");
+                                postComentarioImg.setAttribute("src", "../controlador/img/comentario.png");
+
+                                $("#posts").append(post);
+                                post.append(postEliminar);
+                                post.append(postUsuario);
+
+                                postUsuario.append(imgUsuario);
+                                postUsuario.append(nombreUsuario);
+
+                                post.append(postFecha);
+                                post.append(postCont);
+
+                                postCont.append(postTitulo);
+                                if (posts[i].multimedia != null) {
+                                    postCont.append(postImg);
+                                }
+                                postCont.append(postContenido);
+
+
+                                postCont.append(postBottom);
+
+                                postBottom.append(postLikes);
+                                postBottom.append(iconos);
+                                iconos.append(postCorazon);
+                                iconos.append(postComentario);
+                                postCorazon.append(postCorazonImg);
+                                postComentario.append(postComentarioImg);
                             }
-                            
-                            var postContenido = document.createElement("p");
-                            postContenido.setAttribute("class","postContenido");
-                            postContenido.innerHTML += posts[i].contenido;
-                            
-                            var postBottom = document.createElement("div");
-                            postBottom.setAttribute("class","postBottom")
-                            
-                            var postLikes = document.createElement("p");
-                            postLikes.setAttribute("class","postLikes");
-                            postLikes.innerHTML += posts[i].likes +" Me gustas";
-                            
-                            var iconos = document.createElement("p");
-                            iconos.setAttribute("class","iconos");
-                            var postCorazon = document.createElement("a");
-                            postCorazon.setAttribute("class","postCorazon");
-                            
-                            var postCorazonImg = document.createElement("img");
-                            postCorazonImg.setAttribute("class","postCorazonImg");
-                            postCorazonImg.setAttribute("src","../controlador/img/nolike.png");
-                            
-                            var postComentario = document.createElement("a");
-                            postComentario.setAttribute("class","postComentario");
-                            
-                            var postComentarioImg = document.createElement("img");
-                            postComentarioImg.setAttribute("class","postComentarioImg");
-                            postComentarioImg.setAttribute("src","../controlador/img/comentario.png");
-                            
-                            $("#posts").append(post);
-                            post.append(postEliminar);
-                            post.append(postUsuario);
-                            
-                            postUsuario.append(imgUsuario);
-                            postUsuario.append(nombreUsuario);
-                            
-                            post.append(postFecha);
-                            post.append(postCont);
-                            
-                            postCont.append(postTitulo);
-                            if(posts[i].multimedia != null){
-                                postCont.append(postImg);
-                            }
-                            postCont.append(postContenido);
-                            
-                            
-                            postCont.append(postBottom);
-                            
-                            postBottom.append(postLikes);
-                            postBottom.append(iconos);
-                            iconos.append(postCorazon);
-                            iconos.append(postComentario);
-                            postCorazon.append(postCorazonImg);
-                            postComentario.append(postComentarioImg);
+                        } else {
+                            var h1 = document.createElement("h1");                            
+                            h1.innerHTML += "Aún no tienes posts, crea uno";
+                            $("#posts").append(h1);
                         }
                     },
                     error: function (xhr, status) {
@@ -508,7 +515,7 @@ and open the template in the editor.
                 </div>
 
                 <div id="posts">
-                    
+
                 </div>
             </div>
             <footer>

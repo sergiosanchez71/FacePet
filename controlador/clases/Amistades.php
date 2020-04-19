@@ -59,10 +59,10 @@ class Amistades {
     function comprobarSolicitud($user1, $user2) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT id from amistades where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1)");
+        $consulta = $conexion->query("SELECT estado from amistades where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1)");
         $existe = false;
         while ($row = $consulta->fetch()) {
-            $existe = true;
+            $existe = $row['estado'];
         }
         unset($conexion);
         return $existe;
@@ -85,6 +85,14 @@ class Amistades {
             $sql = "INSERT INTO amistades (user1,user2,estado) VALUES ('$user1','$user2','pendiente')";
             $conexion->exec($sql);
         }
+        unset($conexion);
+    }
+    
+    function aceptarSolicitud($user1, $user2){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "UPDATE amistades SET estado='aceptada' where user1='$user1' and user2='$user2'";
+        $conexion->exec($sql);
         unset($conexion);
     }
 

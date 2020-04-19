@@ -195,6 +195,32 @@ class Usuario {
         return $id;
     }
 
+    function getFotoPerfilconId($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT foto from usuarios where id='$id'");
+        while ($row = $consulta->fetch()) {
+            if ($row['foto'] == null) {
+                $foto = "0.jpg";
+            } else {
+                $foto = $row['foto'];
+            }
+        }
+        unset($conexion);
+        return $foto;
+    }
+
+    function getNickName($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT nick from usuarios where id='$id'");
+        while ($row = $consulta->fetch()) {
+            $nick = $row['nick'];
+        }
+        unset($conexion);
+        return $nick;
+    }
+
     function getFotoPerfil($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -242,6 +268,18 @@ class Usuario {
         unset($conexion);
         return $raza;
     }
+    
+    function getAmigosId($id){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT amigos from usuarios where id='$id'");
+        $amigos = null;
+        while ($row = $consulta->fetch()) {
+            $amigos = $row['amigos'];
+        }
+        unset($conexion);
+        return $amigos;
+    }
 
     function getDatos($usuario) {
         $conexion = Conexion::conectar();
@@ -282,13 +320,13 @@ class Usuario {
             } else {
                 $foto = $row['foto'];
             }
-                        
-            if(Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario),$row['id'])){
-                $solicitud = true;
+
+            if (Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id'])) {
+                $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
             } else {
                 $solicitud = false;
             }
-            
+
             $datos[$i] = ['id' => $row['id'],
                 'nick' => $row['nick'],
                 'password' => $row['password'],
@@ -311,6 +349,26 @@ class Usuario {
             return false;
         }
         return $datos;
+    }
+
+    function aceptarSolicitud($user1, $user2) {
+
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from usuarios where id='$user1'");
+        $amigos = null;
+        while ($row = $consulta->fetch()) {
+            $amigos = $row['amigos'];
+        }
+        
+        if($amigos==null){
+            $sql = "UPDATE usuarios SET amigos='$user2' where id='$user1'";
+        } else {
+            $sql = "UPDATE usuarios SET amigos='$amigos,$user2' where id='$user1'";
+        }
+
+        $conexion->exec($sql);
+        unset($conexion);
     }
 
 }

@@ -232,106 +232,80 @@
                             var usuarios = JSON.parse(respuesta);
 
                             for (var i = 0; i < usuarios.length; i++) {
-                                var usuario = document.createElement("div");
-                                usuario.setAttribute("class", "amigo");
+                                console.log(usuarios[i].solicitud);
+                                if (usuarios[i].solicitud != "aceptada") {
+                                    var usuario = document.createElement("div");
+                                    usuario.setAttribute("class", "amigo");
 
-                                /*var id = document.createElement("input");
-                                 id.setAttribute("type", "text");
-                                 id.setAttribute("class", "id");
-                                 id.setAttribute("value", usuarios[i].id);*/
+                                    var datos = document.createElement("div");
+                                    datos.setAttribute("class", "datos");
 
-                                var datos = document.createElement("div");
-                                datos.setAttribute("class", "datos");
+                                    var imagenPerfil = document.createElement("img");
+                                    imagenPerfil.setAttribute("src", "../controlador/uploads/usuarios/" + usuarios[i].foto);
+                                    imagenPerfil.setAttribute("class", "imagenAmigo");
+                                    imagenPerfil.setAttribute("alt", "imagenPerfil");
 
-                                var imagenPerfil = document.createElement("img");
-                                imagenPerfil.setAttribute("src", "../controlador/uploads/usuarios/" + usuarios[i].foto);
-                                imagenPerfil.setAttribute("class", "imagenAmigo");
-                                imagenPerfil.setAttribute("alt", "imagenPerfil");
+                                    var p = document.createElement("p");
 
-                                var p = document.createElement("p");
+                                    var nombreAmigo = document.createElement("span");
+                                    nombreAmigo.setAttribute("class", "nombreAmigo");
+                                    nombreAmigo.innerHTML += usuarios[i].nick;
 
-                                var nombreAmigo = document.createElement("span");
-                                nombreAmigo.setAttribute("class", "nombreAmigo");
-                                nombreAmigo.innerHTML += usuarios[i].nick;
+                                    var sexo = document.createElement("img");
+                                    sexo.setAttribute("src", "../controlador/img/" + usuarios[i].sexo + ".png");
+                                    sexo.setAttribute("class", "sexo");
+                                    sexo.setAttribute("alt", "sexo");
 
-                                var sexo = document.createElement("img");
-                                sexo.setAttribute("src", "../controlador/img/" + usuarios[i].sexo + ".png");
-                                sexo.setAttribute("class", "sexo");
-                                sexo.setAttribute("alt", "sexo");
+                                    var animal = document.createElement("p");
+                                    animal.setAttribute("class", "animal");
+                                    animal.innerHTML += "<strong>Animal</strong> " + usuarios[i].animal;
 
-                                var animal = document.createElement("p");
-                                animal.setAttribute("class", "animal");
-                                animal.innerHTML += "<strong>Animal</strong> " + usuarios[i].animal;
+                                    var raza = document.createElement("p");
+                                    raza.setAttribute("class", "raza");
+                                    raza.innerHTML += "<strong>Raza</strong> " + usuarios[i].raza;
 
-                                var raza = document.createElement("p");
-                                raza.setAttribute("class", "raza");
-                                raza.innerHTML += "<strong>Raza</strong> " + usuarios[i].raza;
+                                    var localidad = document.createElement("p");
+                                    localidad.setAttribute("class", "localidad");
+                                    localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].localidad;
 
-                                var localidad = document.createElement("p");
-                                localidad.setAttribute("class", "localidad");
-                                localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].localidad;
+                                    var solicitud = document.createElement("button");
+                                    solicitud.setAttribute("value", usuarios[i].id);
 
-                                var solicitud = document.createElement("button");
-                                solicitud.setAttribute("value", usuarios[i].id);
-
-                                if (!usuarios[i].solicitud) {
-                                    solicitud.setAttribute("class", "solicitud");
-                                    solicitud.innerHTML += "Enviar Solicitud ";
-                                } else {
-                                    solicitud.setAttribute("class", "pendiente");
-                                    solicitud.innerHTML += "Pendiente";
-                                }
-
-                                solicitud.onclick = function () {
-                                    if (this.innerHTML != "Pendiente") {
-                                        this.setAttribute("class", "pendiente");
-                                        this.innerHTML = "";
-                                        this.innerHTML += "Pendiente";
-                                        mandarSolicitud(this.value);
+                                    if (!usuarios[i].solicitud) {
+                                        solicitud.setAttribute("class", "solicitud");
+                                        solicitud.innerHTML += "Enviar Solicitud ";
                                     } else {
-                                        this.setAttribute("class", "solicitud");
-                                        this.innerHTML = "";
-                                        this.innerHTML += "Enviar Solicitud";
-                                        cancelarSolicitud(this.value);
+                                        solicitud.setAttribute("class", "pendiente");
+                                        solicitud.innerHTML += "Pendiente";
                                     }
 
-                                };
+                                    solicitud.onclick = function () {
+                                        if (this.innerHTML != "Pendiente") {
+                                            this.setAttribute("class", "pendiente");
+                                            this.innerHTML = "";
+                                            this.innerHTML += "Pendiente";
+                                            mandarSolicitud(this.value);
+                                        } else {
+                                            this.setAttribute("class", "solicitud");
+                                            this.innerHTML = "";
+                                            this.innerHTML += "Enviar Solicitud";
+                                            cancelarSolicitud(this.value);
+                                        }
 
+                                    };
+                                    $("#buscarAmigos").append(usuario);
+                                    usuario.append(datos);
 
+                                    datos.append(imagenPerfil);
+                                    datos.append(p);
+                                    p.append(nombreAmigo);
+                                    p.append(sexo);
+                                    datos.append(animal);
+                                    datos.append(raza);
+                                    datos.append(localidad);
+                                    datos.append(solicitud);
 
-                                /*var pendiente = document.createElement("button");
-                                 pendiente.setAttribute("class", "pendiente");
-                                 pendiente.setAttribute("style", "display:none");
-                                 pendiente.setAttribute("value", usuarios[i].id);
-                                 pendiente.innerHTML += "Pendiente";
-                                 
-                                 pendiente.onclick = function () {
-                                 this.setAttribute("class", "solicitud");
-                                 this.innerHTML = "";
-                                 this.innerHTML += "Enviar Solicitud";
-                                 cancelarSolicitud(this.value, this);
-                                 };*/
-
-                                /* var pata = document.createElement("img");
-                                 pata.setAttribute("src","../controlador/img/pata.png");
-                                 pata.setAttribute("class","pata");
-                                 pata.setAttribute("alt","pata");
-                                 solicitud.innerHTML += "Enviar Solicitud "+pata;*/
-
-                                $("#buscarAmigos").append(usuario);
-                                //usuario.append(id);
-                                usuario.append(datos);
-
-                                datos.append(imagenPerfil);
-                                datos.append(p);
-                                p.append(nombreAmigo);
-                                p.append(sexo);
-                                datos.append(animal);
-                                datos.append(raza);
-                                datos.append(localidad);
-                                datos.append(solicitud);
-                                //datos.append(pendiente);
-
+                                }
                             }
 
                         }

@@ -10,7 +10,9 @@ include 'clases/Animal.php';
 include 'clases/Raza.php';
 include 'clases/Usuario.php';
 include 'clases/Post.php';
+include 'clases/Notificacion.php';
 
+session_start();
 $accion = $_REQUEST['accion'];
 
 switch ($accion) {
@@ -95,7 +97,6 @@ switch ($accion) {
         include 'clases/Password.php';
         if (Usuario::existeUsuario($_REQUEST['username'])) {
             if (Password::verifymd5($_REQUEST['password'], Usuario::cifradaPassword($_REQUEST['username']))) {
-                session_start();
                 $_SESSION['operador'] = Usuario::comprobarOperador($_REQUEST['username']);
                 $_SESSION['username'] = $_REQUEST['username'];
                 $_SESSION['password'] = Usuario::cifradaPassword($_REQUEST['username']);
@@ -109,12 +110,10 @@ switch ($accion) {
         break;
 
     case "getFotoPerfil":
-        session_start();
         echo Usuario::getFotoPerfil($_SESSION['username']);
         break;
 
     case "buscarUsuarios":
-        session_start();
         include 'clases/Amistades.php';
         if (Usuario::getDatosBuscar($_REQUEST['cadena'], $_SESSION['username'])) {
             echo json_encode(Usuario::getDatosBuscar($_REQUEST['cadena'], $_SESSION['username']));
@@ -126,9 +125,7 @@ switch ($accion) {
     //Solicitud amistad
 
     case "mandarSolicitud":
-        session_start();
         include 'clases/Amistades.php';
-        include 'clases/Notificacion.php';
         $fecha = date("Y-m-d H:i:s");
         $notificacion = new Notificacion(Usuario::getIdUsuario($_SESSION['username']), $_REQUEST['usuario'], "amistad", $fecha);
         Notificacion::crearNotificacion($notificacion);
@@ -140,8 +137,6 @@ switch ($accion) {
         break;
     case "cancelarSolicitud":
         include 'clases/Amistades.php';
-        include 'clases/Notificacion.php';
-        session_start();
         $fecha = date("Y-m-d H:i:s");
         $notificacion = new Notificacion(Usuario::getIdUsuario($_SESSION['username']), $_REQUEST['usuario'], "amistad",$fecha);
         Notificacion::borrarNotificacion($notificacion);
@@ -151,22 +146,34 @@ switch ($accion) {
             echo false;
         }
         break;
+        
+    case "aceptarAmistad":
+        include 'clases/Amistades.php';
+        $usu2 = Usuario::getIdUsuario($_SESSION['username']);
+        agregarAmigo($_REQUEST['usuario'],$usu2);
+        if (Amistades::aceptarSolicitud($_REQUEST['usuario'],$usu2)){
+            return true;
+        } else {
+            return false;
+        }
+        break;
 
     //Notificaciones
-    case "getNotificaciones":
-        include 'clases/Notificacion.php';
-        session_start();
+    case "mostrarNotificaciones":
         if (Notificacion::verNotificaciones(Usuario::getIdUsuario($_SESSION['username']))){
             echo json_encode(Notificacion::verNotificaciones(Usuario::getIdUsuario($_SESSION['username'])));
         } else {
-            echo "null";
+            echo false;
         }        
+        break;
+        
+    case "notificacionesVistas":
+        Notificacion::notificacionesVistas(Usuario::getIdUsuario($_SESSION['username']));
         break;
 
         
     //Posts
     case "crearPost":
-        session_start();
         $fecha = date("Y-m-d H:i:s");
         $post = new Post($_REQUEST['titulo'], $_REQUEST['contenido'], $fecha, Usuario::getIdUsuario($_SESSION['username']));
         Post::crearPost($post);
@@ -174,15 +181,24 @@ switch ($accion) {
         break;
 
     case "mostrarMisPosts":
-        session_start();
         //Post::buscarPosts(Usuario::getIdUsuario($_SESSION['username']));
-        echo json_encode(Post::getDatosPostsUsuario(Usuario::getIdUsuario($_SESSION['username'])));
+        if(Post::getDatosPostsUsuario(Usuario::getIdUsuario($_SESSION['username']))){
+            echo json_encode(Post::getDatosPostsUsuario(Usuario::getIdUsuario($_SESSION['username'])));
+        } else {
+            echo false;
+        }
         break;
 
     //Más
     case "getDatosUsuario":
-        session_start();
         echo json_encode(Usuario::getDatos($_SESSION['username']));
         break;
 }
+
+function agregarAmigo($user1,$user2){
+    Usuario::aceptarSolicitud($user1,$user2);
+    Usuario::aceptarSolicitud($user2,$user1);
+}
+
+
 ?>

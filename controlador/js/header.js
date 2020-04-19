@@ -20,7 +20,7 @@ function getFotoPerfil() {
 
         },
         error: function (xhr, status) {
-            alert("Error en la creación de post");
+            alert("Error al acceder a la foto de perfil");
         },
         type: "POST",
         dataType: "text"
@@ -30,7 +30,7 @@ function getFotoPerfil() {
 
 function getNotificaciones() {
     var parametros = {
-        "accion": "getNotificaciones"
+        "accion": "mostrarNotificaciones"
     };
 
     $.ajax({
@@ -38,14 +38,23 @@ function getNotificaciones() {
         data: parametros,
         success: function (respuesta) {
 
-            if (respuesta != "null") {
+            if (!respuesta) {
 
                 var notificaciones = JSON.parse(respuesta);
-                console.log(notificaciones.length);
-
-                $("#notificacion").css("display", "block");
-                $("#notificacion").val(notificaciones.length);
-               // $("#notificacion").innerHTML = notificaciones.length;
+                var notificacion=0;
+                
+                for(var i=0;i<notificaciones.length;i++){
+                    if(notificaciones[i].visto == 0){
+                        notificacion++;
+                    }
+                }
+                                
+                if(notificacion>0){
+                    $("#notificacion").css("display", "block");
+                    $("#notificacion").val(notificacion);
+                } else {
+                    $("#notificacion").css("display", "none");
+                }
 
             } else {
                 $("#notificacion").css("display", "none");
@@ -53,7 +62,7 @@ function getNotificaciones() {
 
         },
         error: function (xhr, status) {
-            alert("Error en la creación de post");
+            alert("Error al mostrar notificaciones");
         },
         type: "POST",
         dataType: "text"

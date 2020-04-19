@@ -15,62 +15,311 @@
                 min-height: 40rem;
                 width: 100%;
             }
-            
-            .notificacion{
-                margin-bottom: 1rem;
-                border: 1px solid black;
-                padding: 1rem;
-                margin: 1rem 5rem 0 5rem;
+
+            .notificacion:first-child{
+                margin-top: 1rem;
             }
-            
+
+            .notificacion{
+                margin: 0rem 5rem 0 5rem;
+                height: 100%;
+            }
+
+            .datos{
+                display: block;
+                margin: auto;
+                border: 2px solid black;
+                padding: 1rem;
+                background: white;
+                width: 65%;
+                min-height: 8rem;
+            }
+
             .imagenNotificacion{
-                width: 5rem;
+                width: 8rem;
                 border-radius: 4rem;
                 float:left;
                 margin-right: 5rem;
             }
-            
+
             .usuarioNoti{
                 float: left;
-                margin-right: 1rem;
+                margin-right: 0.3rem;
                 font-weight: bold;
             }
-            
+
+            .usuarioNoti:first-letter{
+                text-transform: uppercase;
+            }
+
             .mensajeNoti{
                 font-size: 1rem;
             }
-            
+
             .fechaNoti{
                 font-size: 0.75rem;
             }
             
-            @media(max-width: 1000px){
+            .divOpciones{
+                width: 12.57rem;
+                margin-left: 13rem;
                 
+                background: red;
+            }
+
+            .pA{
+                color : #555555;
+            }
+            
+            .aceptar,.rechazar{
+                font-size: 1.4rem;
+                padding: 5px;
+                cursor: pointer;
+                transition: 1s background ease;
+            }
+
+            .aceptar{
+                background-color: #c1f4c7;
+            }
+
+            .rechazar{
+                background-color: #f7a5a5;
+            }
+
+            .aceptar:hover, .rechazar:hover{
+                background-color:#FFF578;
+            }
+
+            @media(max-width: 1000px){
+
+                .datos{
+                    width: 100%;
+                }
+
                 .notificacion:last-child{
                     margin-bottom: 10rem;
                 }
-                
+
                 .imagenNotificacion{
-                    width: 10rem
+                    width: 10rem;
                 }
-                
+
                 .usuarioNoti{
                     font-size: 2rem;
+                    margin-right: 0.9rem;
                 }
-                
-                .mensajeNoti{
+
+                .mensajeNoti, .pA{
                     font-size: 2rem;
                 }
-                
+
                 .fechaNoti{
                     font-size: 1.5rem;
                 }
-                
+
+                .aceptar,.rechazar{
+                    font-size: 3rem;
+                    padding: 8px;
+                    cursor: pointer;
+                    transition: 1s background ease;
+                }
+
+                .rechazar{
+                    margin-left: 4rem;
+                }
+
+            }
+
+
+
+        </style>
+        <script>
+
+            $(document).ready(function () {
+                mostrarNotificaciones();
+                notificacionesVistas();
+            });
+            
+            function notificacionesVistas(){
+                var parametros = {
+                    "accion": "notificacionesVistas"
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error al aceptar la petición de amistad");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
+            function aceptarSolicitud(usuario) {
+                var parametros = {
+                    "accion": "aceptarAmistad",
+                    "usuario": usuario
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+                        alert("Este usuario y tu ya sois amigos");
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error al aceptar la petición de amistad");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
             }
             
+            function rechazarSolicitud(usuario){
+                var parametros = {
+                    "accion": "cancelarSolicitud",
+                    "usuario": usuario
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error al aceptar la petición de amistad");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
             
-            
-        </style>
+
+            function mostrarNotificaciones() {
+                var parametros = {
+                    "accion": "mostrarNotificaciones"
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        var notificaciones = JSON.parse(respuesta);
+                        for (var i = 0; i < notificaciones.length; i++) {
+                            var notificacion = document.createElement("div");
+                            notificacion.setAttribute("class", "notificacion");
+
+                            var datos = document.createElement("div");
+                            datos.setAttribute("class", "datos");
+
+                            var img = document.createElement("img");
+                            img.setAttribute("src", "../controlador/uploads/usuarios/" + notificaciones[i].fotoAmigo);
+                            img.setAttribute("class", "imagenNotificacion");
+                            img.setAttribute("alt", "imagenPerfil");
+
+                            var usuario = document.createElement("p");
+                            usuario.setAttribute("class", "usuarioNoti");
+                            usuario.innerHTML = notificaciones[i].nickAmigo;
+
+                            var mensaje = document.createElement("p");
+                            mensaje.setAttribute("class", "mensajeNoti");
+                            if (notificaciones[i].tipo == "amistad") {
+                                mensaje.innerHTML = "te ha enviado una solicitud de amistad";
+                            } else {
+                                mensaje.innerHTML = notificaciones[i].tipo;
+                            }
+
+                            var fecha = document.createElement("p");
+                            fecha.setAttribute("class", "fechaNoti");
+                            fecha.innerHTML = notificaciones[i].fecha;
+
+
+                            $("#cuerpo").append(notificacion);
+                            notificacion.append(datos);
+                            datos.append(img);
+                            datos.append(usuario);
+                            datos.append(mensaje);
+
+                            if (notificaciones[i].tipo == "amistad") {
+                                var cadenaAmigos = notificaciones[i].amigosAmigo;
+                                
+                                if (cadenaAmigos != null) {
+                                    var amigos = cadenaAmigos.split(",");
+                                    for (var j = 0; j < amigos.length; j++) {
+                                        var amigo = false;
+                                        if (amigos[j] == notificaciones[i].user2) {
+                                            amigo = true;
+                                        }
+                                    }
+                                } else {
+                                    var amigo = false;
+                                }
+                                
+                                if (!amigo) {
+                                    
+                                    var divOpciones = document.createElement("div");
+                                    divOpciones.setAttribute("class", "divOpciones");
+                                    
+                                    divOpciones.onclick = function (){
+                                        //this.setAttribute("style","display:none");
+                                        var texto = document.createElement("p");
+                                        this.remove();
+                                    }
+
+                                    var aceptar = document.createElement("button");
+                                    aceptar.setAttribute("class", "aceptar");
+                                    aceptar.setAttribute("value", notificaciones[i].user1);
+                                    aceptar.innerHTML = "Aceptar";
+
+                                    aceptar.onclick = function (rechazar) {
+                                        aceptarSolicitud(this.value);
+                                    };
+
+                                    var rechazar = document.createElement("button");
+                                    rechazar.setAttribute("class", "rechazar");
+                                    rechazar.setAttribute("value", notificaciones[i].user1);
+                                    rechazar.innerHTML = "Rechazar";
+
+                                    rechazar.onclick = function () {
+                                        rechazarSolicitud(this.value);
+                                    };
+
+                                    datos.append(divOpciones);
+                                    divOpciones.append(aceptar);
+                                    divOpciones.append(rechazar);
+
+                                } else {
+                                    var pA = document.createElement("p");
+                                    pA.setAttribute("class", "pA");
+                                    pA.innerHTML = "Este usuario y tú ya sois amigos";
+
+                                    datos.append(pA);
+                                }
+
+                            }
+                            datos.append(fecha);
+
+                        }
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la creación de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+
+            }
+
+        </script>
     </head>
     <body>
         <div id="principal">
@@ -123,25 +372,7 @@
                 </div>
             </header>
             <div id="cuerpo">
-                <div class="notificacion">
-                    <img src="../controlador/img/gato.png" class="imagenNotificacion" alt="Perfil">
-                    <p class="usuarioNoti">Usuario</p>
-                    <p class="mensajeNoti">Mensaje de notificación</p>
-                    <p class="fechaNoti">Fecha de notificación</p>
-                </div>
-                <div class="notificacion">
-                    <img src="../controlador/img/gato.png" class="imagenNotificacion" alt="Perfil">
-                    <p class="usuarioNoti">Usuario</p>
-                    <p class="mensajeNoti">Mensaje de notificación</p>
-                    <p class="fechaNoti">Fecha de notificación</p>
-                </div>
-                <div class="notificacion">
-                    <img src="../controlador/img/gato.png" class="imagenNotificacion" alt="Perfil">
-                    <p class="usuarioNoti">Usuario</p>
-                    <p class="mensajeNoti">Mensaje de notificación</p>
-                    <p class="fechaNoti">Fecha de notificación</p>
-                </div>
-                
+
             </div>
             <footer>
                 <ul id="segundoMenu">

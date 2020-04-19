@@ -95,7 +95,10 @@ class Notificacion {
                 'user2' => $row['user2'],
                 'tipo' => $row['tipo'],
                 'visto' => $row['visto'],
-                'fecha' => $row['fecha']
+                'fecha' => $row['fecha'],
+                'fotoAmigo' => Usuario::getFotoPerfilconId($row['user1']),
+                'nickAmigo' => Usuario::getNickName($row['user1']),
+                'amigosAmigo' => Usuario::getAmigosId($row['user1'])
             ];
             $i++;
         }
@@ -106,6 +109,14 @@ class Notificacion {
         }
 
         return $datos;
+    }
+    
+    function notificacionesVistas($id){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "UPDATE notificaciones SET visto=1 where user2='$id'";
+        $conexion->exec($sql);
+        unset($conexion);
     }
 
 }
