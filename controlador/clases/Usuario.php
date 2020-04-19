@@ -270,4 +270,47 @@ class Usuario {
         unset($conexion);
         return $datos;
     }
+
+    function getDatosBuscar($cadena, $usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario'");
+        $i = 0;
+        while ($row = $consulta->fetch()) {
+            if ($row['foto'] == null) {
+                $foto = "0.jpg";
+            } else {
+                $foto = $row['foto'];
+            }
+                        
+            if(Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario),$row['id'])){
+                $solicitud = true;
+            } else {
+                $solicitud = false;
+            }
+            
+            $datos[$i] = ['id' => $row['id'],
+                'nick' => $row['nick'],
+                'password' => $row['password'],
+                'email' => $row['email'],
+                'animal' => Animal::buscarConId($row['animal']),
+                'raza' => Raza::buscarConId($row['raza']),
+                'sexo' => $row['sexo'],
+                'foto' => $foto,
+                'localidad' => $row['localidad'],
+                'amigos' => $row['amigos'],
+                'baneado' => $row['baneado'],
+                'operador' => $row['operador'],
+                'solicitud' => $solicitud
+            ];
+            $i++;
+        }
+        unset($conexion);
+
+        if ($i == 0) {
+            return false;
+        }
+        return $datos;
+    }
+
 }

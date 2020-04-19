@@ -16,8 +16,9 @@ if (isset($_REQUEST['subirImagen'])) {
     $file_ext = preg_split("/\./", $_FILES['userfile']['name']);
     $allowed_ext = preg_split("/\,/", $allowed_ext);
     foreach ($allowed_ext as $ext) {
-        if (strtolower($ext) == $file_ext[1])
-            $match = "1"; // Permite el archivo
+        if (strtolower($ext) == strtolower($file_ext[1])) {
+            $match = true; // Permite el archivo
+        }
     }
     if (isset($match)) {
         $fichero_subido = $dir_subida . basename($_FILES['userfile']['name']);

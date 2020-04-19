@@ -113,6 +113,57 @@ switch ($accion) {
         echo Usuario::getFotoPerfil($_SESSION['username']);
         break;
 
+    case "buscarUsuarios":
+        session_start();
+        include 'clases/Amistades.php';
+        if (Usuario::getDatosBuscar($_REQUEST['cadena'], $_SESSION['username'])) {
+            echo json_encode(Usuario::getDatosBuscar($_REQUEST['cadena'], $_SESSION['username']));
+        } else {
+            echo "null";
+        }
+        break;
+
+    //Solicitud amistad
+
+    case "mandarSolicitud":
+        session_start();
+        include 'clases/Amistades.php';
+        include 'clases/Notificacion.php';
+        $fecha = date("Y-m-d H:i:s");
+        $notificacion = new Notificacion(Usuario::getIdUsuario($_SESSION['username']), $_REQUEST['usuario'], "amistad", $fecha);
+        Notificacion::crearNotificacion($notificacion);
+        if (Amistades::mandarSolicitud(Usuario::getIdUsuario($_SESSION['username']), $_REQUEST['usuario'])) {
+            echo true;
+        } else {
+            echo false;
+        }
+        break;
+    case "cancelarSolicitud":
+        include 'clases/Amistades.php';
+        include 'clases/Notificacion.php';
+        session_start();
+        $fecha = date("Y-m-d H:i:s");
+        $notificacion = new Notificacion(Usuario::getIdUsuario($_SESSION['username']), $_REQUEST['usuario'], "amistad",$fecha);
+        Notificacion::borrarNotificacion($notificacion);
+        if (Amistades::cancelarSolicitud(Usuario::getIdUsuario($_SESSION['username']), $_REQUEST['usuario'])) {
+            echo true;
+        } else {
+            echo false;
+        }
+        break;
+
+    //Notificaciones
+    case "getNotificaciones":
+        include 'clases/Notificacion.php';
+        session_start();
+        if (Notificacion::verNotificaciones(Usuario::getIdUsuario($_SESSION['username']))){
+            echo json_encode(Notificacion::verNotificaciones(Usuario::getIdUsuario($_SESSION['username'])));
+        } else {
+            echo "null";
+        }        
+        break;
+
+        
     //Posts
     case "crearPost":
         session_start();
@@ -121,7 +172,7 @@ switch ($accion) {
         Post::crearPost($post);
         echo Post::consultarId($post);
         break;
-    
+
     case "mostrarMisPosts":
         session_start();
         //Post::buscarPosts(Usuario::getIdUsuario($_SESSION['username']));

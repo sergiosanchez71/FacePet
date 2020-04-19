@@ -82,8 +82,7 @@ class Post {
     function crearPost($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $fecha = date("Y-m-d H:i:s");
-        $sql = "INSERT INTO posts (titulo,contenido,fecha_publicacion,usuario) VALUES ('$post->titulo','$post->contenido','$fecha','$post->usuario')";
+        $sql = "INSERT INTO posts (titulo,contenido,fecha_publicacion,usuario) VALUES ('$post->titulo','$post->contenido','$post->fecha_publicacion','$post->usuario')";
         $conexion->exec($sql);
     }
 

@@ -14,6 +14,8 @@
                 width: 100%;
                 margin: auto;
                 background: white;
+                height: 100%;
+                min-height: 50rem;
             }
 
             #buscadorAmigos{
@@ -33,11 +35,14 @@
                 cursor: pointer;
             }
 
+            .amigo:first-child{
+                margin-top: 3rem;
+            }
+
             .amigo{
                 background: #fcf0c9;
                 width: 100%;
-                margin-top: 3rem;
-                border:1.5px solid black;
+                border:1px solid black;
                 float: left;
                 padding-bottom: 1rem;
             }
@@ -66,15 +71,22 @@
                 margin-right: 4rem;
             }
 
-            .solicitud{
-                background-color: #FFED91;
+            .solicitud, .pendiente{
                 font-size: 1.2rem;
                 border-radius: 1rem;
                 cursor: pointer;
                 transition: 1s background ease;
             }
 
-            .solicitud:hover{
+            .solicitud{
+                background-color: #FFED91;
+            }
+
+            .pendiente{
+                background-color: #EEEEEEE;
+            }
+
+            .solicitud:hover, .pendiente:hover{
                 background-color:#FFF578;
             }
 
@@ -107,7 +119,7 @@
                     width: 100%;
                     padding: 0;
                 }
-                
+
                 .amigo:last-child{
                     margin-bottom: 10rem;
                 }
@@ -125,15 +137,11 @@
                     font-size: 1.5rem;
                 }
 
-                .solicitud{
-                    background-color: #FFED91;
+                .solicitud, .pendiente{
                     font-size: 2.5rem;
                     font-weight: bold;
-                    border-radius: 1rem;
-                    cursor: pointer;
-                    transition: 1s background ease;
                 }
-                
+
                 .imgPata{
                     width: 2.5rem;
                 }
@@ -143,6 +151,203 @@
 
 
         </style>
+        <script>
+
+            $(document).ready(function () {
+                buscarUsuarios();
+                $('#buscador').on('input', function () {
+                    buscarUsuarios();
+                });
+
+            });
+
+
+            function mandarSolicitud(usuario) {
+
+                var parametros = {
+                    "accion": "mandarSolicitud",
+                    "usuario": usuario
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la creación de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
+            function cancelarSolicitud(usuario) {
+                var parametros = {
+                    "accion": "cancelarSolicitud",
+                    "usuario": usuario
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la creación de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
+
+
+            function buscarUsuarios() {
+
+                var buscador = $("#buscador").val();
+
+                var parametros = {
+                    "accion": "buscarUsuarios",
+                    "cadena": buscador
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+
+                        $("#buscarAmigos").remove();
+                        var buscarAmigos = document.createElement("div");
+                        buscarAmigos.setAttribute("id", "buscarAmigos");
+                        $("#buscadorAmigos").append(buscarAmigos);
+
+                        if (respuesta != "null") {
+                            var usuarios = JSON.parse(respuesta);
+
+                            for (var i = 0; i < usuarios.length; i++) {
+                                var usuario = document.createElement("div");
+                                usuario.setAttribute("class", "amigo");
+
+                                /*var id = document.createElement("input");
+                                 id.setAttribute("type", "text");
+                                 id.setAttribute("class", "id");
+                                 id.setAttribute("value", usuarios[i].id);*/
+
+                                var datos = document.createElement("div");
+                                datos.setAttribute("class", "datos");
+
+                                var imagenPerfil = document.createElement("img");
+                                imagenPerfil.setAttribute("src", "../controlador/uploads/usuarios/" + usuarios[i].foto);
+                                imagenPerfil.setAttribute("class", "imagenAmigo");
+                                imagenPerfil.setAttribute("alt", "imagenPerfil");
+
+                                var p = document.createElement("p");
+
+                                var nombreAmigo = document.createElement("span");
+                                nombreAmigo.setAttribute("class", "nombreAmigo");
+                                nombreAmigo.innerHTML += usuarios[i].nick;
+
+                                var sexo = document.createElement("img");
+                                sexo.setAttribute("src", "../controlador/img/" + usuarios[i].sexo + ".png");
+                                sexo.setAttribute("class", "sexo");
+                                sexo.setAttribute("alt", "sexo");
+
+                                var animal = document.createElement("p");
+                                animal.setAttribute("class", "animal");
+                                animal.innerHTML += "<strong>Animal</strong> " + usuarios[i].animal;
+
+                                var raza = document.createElement("p");
+                                raza.setAttribute("class", "raza");
+                                raza.innerHTML += "<strong>Raza</strong> " + usuarios[i].raza;
+
+                                var localidad = document.createElement("p");
+                                localidad.setAttribute("class", "localidad");
+                                localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].localidad;
+
+                                var solicitud = document.createElement("button");
+                                solicitud.setAttribute("value", usuarios[i].id);
+
+                                if (!usuarios[i].solicitud) {
+                                    solicitud.setAttribute("class", "solicitud");
+                                    solicitud.innerHTML += "Enviar Solicitud ";
+                                } else {
+                                    solicitud.setAttribute("class", "pendiente");
+                                    solicitud.innerHTML += "Pendiente";
+                                }
+
+                                solicitud.onclick = function () {
+                                    if (this.innerHTML != "Pendiente") {
+                                        this.setAttribute("class", "pendiente");
+                                        this.innerHTML = "";
+                                        this.innerHTML += "Pendiente";
+                                        mandarSolicitud(this.value);
+                                    } else {
+                                        this.setAttribute("class", "solicitud");
+                                        this.innerHTML = "";
+                                        this.innerHTML += "Enviar Solicitud";
+                                        cancelarSolicitud(this.value);
+                                    }
+
+                                };
+
+
+
+                                /*var pendiente = document.createElement("button");
+                                 pendiente.setAttribute("class", "pendiente");
+                                 pendiente.setAttribute("style", "display:none");
+                                 pendiente.setAttribute("value", usuarios[i].id);
+                                 pendiente.innerHTML += "Pendiente";
+                                 
+                                 pendiente.onclick = function () {
+                                 this.setAttribute("class", "solicitud");
+                                 this.innerHTML = "";
+                                 this.innerHTML += "Enviar Solicitud";
+                                 cancelarSolicitud(this.value, this);
+                                 };*/
+
+                                /* var pata = document.createElement("img");
+                                 pata.setAttribute("src","../controlador/img/pata.png");
+                                 pata.setAttribute("class","pata");
+                                 pata.setAttribute("alt","pata");
+                                 solicitud.innerHTML += "Enviar Solicitud "+pata;*/
+
+                                $("#buscarAmigos").append(usuario);
+                                //usuario.append(id);
+                                usuario.append(datos);
+
+                                datos.append(imagenPerfil);
+                                datos.append(p);
+                                p.append(nombreAmigo);
+                                p.append(sexo);
+                                datos.append(animal);
+                                datos.append(raza);
+                                datos.append(localidad);
+                                datos.append(solicitud);
+                                //datos.append(pendiente);
+
+                            }
+
+                        }
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la busqueda de amigos");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+
+
+
+            }
+
+        </script>
     </head>
     <body>
         <div id="principal">
@@ -158,8 +363,8 @@
                         </ul>
                     </li>
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
-                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
-                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta" id="mensaje"></span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta" id="notificacion"></span></a></li>
                     <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">
@@ -200,61 +405,7 @@
                     <input type="text" id="buscador">
                     <img src="../controlador/img/lupa.png" id="lupa" alt="lupa">
                     <div id="buscarAmigos">
-                        <div class="amigo">
-                            <div class="datos">
-                                <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                                <p><span class="nombreAmigo">Nombre usuario</span>                            <img src="../controlador/img/masculino.png" class="sexo" alt="sexo">
-                                </p>
-                                <p class="animal">12345678901234567890</p>
-                                <p class="raza">12345678901234567890</p>
-                                <p class="localidad">123456789012345678901234567890</p>
-                                <button class="solicitud">Enviar Solicitud <img src="../controlador/img/pata.png" class="imgPata" alt="pata"></button>
-                            </div>
-                        </div>
-                        <div class="amigo">
-                            <div class="datos">
-                                <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                                <p><span class="nombreAmigo">Nombre usuario</span>                            <img src="../controlador/img/masculino.png" class="sexo" alt="sexo">
-                                </p>
-                                <p class="animal">12345678901234567890</p>
-                                <p class="raza">12345678901234567890</p>
-                                <p class="localidad">123456789012345678901234567890</p>
-                                <button class="solicitud">Enviar Solicitud <img src="../controlador/img/pata.png" class="imgPata" alt="pata"></button>
-                            </div>
-                        </div>
-                        <div class="amigo">
-                            <div class="datos">
-                                <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                                <p><span class="nombreAmigo">Nombre usuario</span>                            <img src="../controlador/img/masculino.png" class="sexo" alt="sexo">
-                                </p>
-                                <p class="animal">12345678901234567890</p>
-                                <p class="raza">12345678901234567890</p>
-                                <p class="localidad">123456789012345678901234567890</p>
-                                <button class="solicitud">Enviar Solicitud <img src="../controlador/img/pata.png" class="imgPata" alt="pata"></button>
-                            </div>
-                        </div>
-                        <div class="amigo">
-                            <div class="datos">
-                                <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                                <p><span class="nombreAmigo">Nombre usuario</span>                            <img src="../controlador/img/masculino.png" class="sexo" alt="sexo">
-                                </p>
-                                <p class="animal">12345678901234567890</p>
-                                <p class="raza">12345678901234567890</p>
-                                <p class="localidad">123456789012345678901234567890</p>
-                                <button class="solicitud">Enviar Solicitud <img src="../controlador/img/pata.png" class="imgPata" alt="pata"></button>
-                            </div>
-                        </div>
-                        <div class="amigo">
-                            <div class="datos">
-                                <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                                <p><span class="nombreAmigo">12345678901234567890</span>                            <img src="../controlador/img/masculino.png" class="sexo" alt="sexo">
-                                </p>
-                                <p class="animal">12345678901234567890</p>
-                                <p class="raza">12345678901234567890</p>
-                                <p class="localidad">123456789012345678901234567890</p>
-                                <button class="solicitud">Enviar Solicitud <img src="../controlador/img/pata.png" class="imgPata" alt="pata"></button>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
