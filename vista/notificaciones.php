@@ -63,7 +63,6 @@
             .divOpciones{
                 width: 12.57rem;
                 margin-left: 13rem;
-                
                 background: red;
             }
 
@@ -116,16 +115,17 @@
                 .fechaNoti{
                     font-size: 1.5rem;
                 }
+                
+                .divOpciones{
+                    margin-left: 15rem;
+                    width: 25.4rem;
+                }
 
                 .aceptar,.rechazar{
                     font-size: 3rem;
                     padding: 8px;
                     cursor: pointer;
                     transition: 1s background ease;
-                }
-
-                .rechazar{
-                    margin-left: 4rem;
                 }
 
             }

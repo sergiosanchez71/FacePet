@@ -15,6 +15,7 @@ and open the template in the editor.
         <script src="../controlador/js/header.js" type="text/javascript"></script>
         <?php
         session_start();
+        include '../controlador/gestion.php';
         ?>
         <style>
 
@@ -34,7 +35,7 @@ and open the template in the editor.
                 grid-area: cabeceraPerfil;
                 margin-top: 1.5rem;
                 background: #fffbed;
-                border: 1px solid black;
+                border: 1px solid #999999;
                 display: flex;
                 flex-wrap: wrap;
                 margin: 3rem;
@@ -47,6 +48,7 @@ and open the template in the editor.
 
             #imgPerfil{
                 width: 15rem;
+                height: 15rem;
                 border-radius: 8rem;
                 padding: 1rem;
                 transition: opacity 1.5s ease;
@@ -57,6 +59,10 @@ and open the template in the editor.
                 opacity: 0.3;
             }
 
+            #contenidoPerfil form{
+                position: absolute;
+            }
+
             #contenidoPerfil:hover > #textCambiarAvatar{
                 opacity: 0.9;
             }
@@ -65,7 +71,7 @@ and open the template in the editor.
                 position: relative;
                 font-weight: bold;
                 font-size: 1.4rem;
-                top:10rem;
+                top:9.5rem;
                 left: 3rem;
                 opacity: 0;
                 z-index: 1;
@@ -123,7 +129,7 @@ and open the template in the editor.
                 grid-template-areas: 
                     "imagenAmigo informacionAmigo";
 
-                border: 1px solid black;
+                border: 1px solid #999999;
                 background: #fffbed;
                 margin-bottom: 1rem;
             }
@@ -132,6 +138,10 @@ and open the template in the editor.
                 width: 6rem;
                 border-radius: 4rem;
                 margin: 1rem;
+            }
+
+            .nombreAmigo:first-letter{
+                text-transform: uppercase;
             }
 
             .nombreAmigo{
@@ -155,6 +165,48 @@ and open the template in the editor.
 
             .post{
                 margin-left: 5rem;
+            }
+
+            #cambiarImagen{
+                display: block;
+                margin: auto;
+            }
+
+            #cambiarImagen{
+                padding-bottom: 8rem;
+                text-align: center;
+                background: white;
+                border: 1px solid #BBBBBB;
+                position:fixed; 
+                right:50%; 
+                margin-right:-500px; 
+                margin-top: 10rem;
+                width:1000px;
+            }
+
+            #cambiarImagen h1{
+                font-size: 3rem;
+            }
+
+            #cambiarImagen input{
+                cursor: pointer;
+                font-size: 1.5rem;
+            }
+
+            #cambiarImagen #enviarImagen{
+                cursor: pointer;
+                background-color: #FFED91;
+                height: 3rem;
+                font-size: 2rem;
+                margin-top: 1.5rem;
+            }
+
+            #cambiarImagen #cerrarCambiarAvatar{
+                padding-top: 1.5rem;
+                width: 5rem;
+                display: inline-block;
+                margin-left: 85%;
+                cursor: pointer;
             }
 
             @media (max-width:1000px){
@@ -235,10 +287,56 @@ and open the template in the editor.
         </style>
         <script>
             $(document).ready(function () {
+                $("#cambiarImagen").hide();
                 getDatosMiPerfil();
                 mostrarMisPosts();
+                mostrarMisAmigos();
                 $(".postEliminar").click(postEliminar);
+                $("#textCambiarAvatar").click(cambiarAvatar);
+                $("#cerrarCambiarAvatar").click(cerrarCambiarAvatar);
             });
+
+            function cerrarCambiarAvatar() {
+                $("#cambiarImagen").hide();
+                $("header").css("opacity", "1");
+                $("#cuerpo").css("opacity", "1");
+            }
+
+            function cambiarAvatar() {
+                $("#cambiarImagen").show();
+                $("header").css("opacity", "0.2");
+                $("#cuerpo").css("opacity", "0.2");
+
+                $("header").click(function () {
+                    cerrarCambiarAvatar();
+                });
+
+                var parametros = {
+                    "accion": "cambiarAvatar"
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        var cambiarImagen = document.getElementById("cambiarAvatar");
+                        var p = document.createElement("input");
+                        cambiarImagen.appendChild(p);
+                        p.setAttribute("type", "text");
+                        p.setAttribute("readonly", "readonly");
+                        p.setAttribute("name", "idusu");
+                        p.setAttribute("style", "display:none");
+                        p.setAttribute("value", respuesta);
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la creación de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+
+            }
 
             function postEliminar() {
                 alert("hola");
@@ -253,13 +351,75 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
                         var usuario = JSON.parse(respuesta);
                         $("#imgPerfil").attr("src", "../controlador/uploads/usuarios/" + usuario.foto);
                         $("#nombrePerfilUsuario").text(usuario.nick);
                         $("#animalPerfilUsuario").text(usuario.animal);
                         $("#razaPerfilUsuario").text(usuario.raza);
                         $("#localidadPerfilUsuario").text(usuario.localidad);
+
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la creación de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
+            function mostrarMisAmigos() {
+                var parametros = {
+                    "accion": "mostrarMisAmigos"
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        if (respuesta) {
+                            var amigos = JSON.parse(respuesta);
+                            for (var i = 0; i < amigos.length; i++) {
+
+                                var amigoPerfil = document.createElement("div");
+                                amigoPerfil.setAttribute("class", "amigoPerfil");
+
+                                var img = document.createElement("img");
+                                img.setAttribute("src", "../controlador/uploads/usuarios/" + amigos[i].foto);
+                                img.setAttribute("class", "imagenAmigo");
+                                img.setAttribute("alt", "imagenAmigo");
+
+                                var divA = document.createElement("div");
+                                divA.setAttribute("class", "informacionAmigo");
+
+                                var nombreAmigo = document.createElement("p");
+                                nombreAmigo.setAttribute("class", "nombreAmigo");
+                                nombreAmigo.innerHTML = amigos[i].nick;
+
+                                var p = document.createElement("p");
+
+                                var animalAmigo = document.createElement("span");
+                                animalAmigo.setAttribute("class", "animalAmigo");
+                                animalAmigo.innerHTML = amigos[i].animal;
+
+                                var razaAmigo = document.createElement("span");
+                                razaAmigo.setAttribute("class", "razaAmigo");
+                                razaAmigo.innerHTML = " " + amigos[i].raza;
+
+                                $("#amigosPerfiles").append(amigoPerfil);
+                                amigoPerfil.append(img);
+                                amigoPerfil.append(divA);
+                                divA.append(nombreAmigo);
+                                divA.append(p);
+                                p.append(animalAmigo);
+                                p.append(razaAmigo);
+
+                            }
+                        } else {
+                            var h1 = document.createElement("h1");
+                            h1.innerHTML += "Aún no tienes posts, crea uno";
+                            $("#amigosPerfiles").append(h1);
+                        }
 
 
                     },
@@ -280,7 +440,7 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        if (!respuesta) {
+                        if (respuesta) {
                             var posts = JSON.parse(respuesta);
                             for (var i = 0; i < posts.length; i++) {
                                 var post = document.createElement("div");
@@ -376,7 +536,7 @@ and open the template in the editor.
                                 postComentario.append(postComentarioImg);
                             }
                         } else {
-                            var h1 = document.createElement("h1");                            
+                            var h1 = document.createElement("h1");
                             h1.innerHTML += "Aún no tienes posts, crea uno";
                             $("#posts").append(h1);
                         }
@@ -390,6 +550,11 @@ and open the template in the editor.
             }
 
         </script>
+        <?php
+        if (isset($_REQUEST['cambiarImagen'])) {
+            echo "a";
+        }
+        ?>
     </head>
     <body>
 
@@ -447,7 +612,9 @@ and open the template in the editor.
             <div id="cuerpo">
                 <div id="cabeceraPerfil">
                     <p id="contenidoPerfil">
+                        <!--<form method="post" enctype="multipart/form-data">-->
                         <span id="textCambiarAvatar">Cambiar Avatar</span>
+                        <!--</form>-->
                         <img id="imgPerfil" alt="imgPerfil">
                     </p>
                     <div id="datos">
@@ -463,54 +630,7 @@ and open the template in the editor.
                 <div id="amigosPerfil">
                     <p id="titularAmigosPerfil">Mis Amigos</p>
                     <div id="amigosPerfiles">
-                        <div class="amigoPerfil">
-                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                            <div class="informacionAmigo">
-                                <p class="nombreAmigo">Nombre de usuario</p>
-                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
-                            </div>
-                        </div>
-                        <div class="amigoPerfil">
-                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                            <div class="informacionAmigo">
-                                <p class="nombreAmigo">Nombre de usuario</p>
-                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
-                            </div>
-                        </div>
-                        <div class="amigoPerfil">
-                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                            <div class="informacionAmigo">
-                                <p class="nombreAmigo">Nombre de usuario</p>
-                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
-                            </div>
-                        </div>
-                        <div class="amigoPerfil">
-                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                            <div class="informacionAmigo">
-                                <p class="nombreAmigo">Nombre de usuario</p>
-                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
-                            </div>
-                        </div>
-                        <div class="amigoPerfil">
-                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                            <div class="informacionAmigo">
-                                <p class="nombreAmigo">Nombre de usuario</p>
-                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
-                            </div>
-                        </div>
-                        <div class="amigoPerfil">
-                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                            <div class="informacionAmigo">
-                                <p class="nombreAmigo">Nombre de usuario</p>
-                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
-                            </div>
-                        </div> <div class="amigoPerfil">
-                            <img src="../controlador/img/gato.png" class="imagenAmigo" alt="imagenAmigo">
-                            <div class="informacionAmigo">
-                                <p class="nombreAmigo">Nombre de usuario</p>
-                                <p><span class="animalAmigo">Animal</span> <span class="razaAmigo">Raza</span></p>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
@@ -530,7 +650,14 @@ and open the template in the editor.
                     </li>
                 </ul>
             </footer>
-
+            <div id="cambiarImagen">
+                <img src="../controlador/img/eliminar.png" id="cerrarCambiarAvatar" alt="cerrar">
+                <form method="post" id="cambiarAvatar" enctype="multipart/form-data">
+                    <h1>Cambiar imagen de perfil</h1>
+                    <input type="file" name="userfile" id="foto">
+                    <p><input type="submit" class="botonCrearPost" id="enviarImagen" name="cambiarAvatar" value="Cambiar foto de perfil"></p>
+                </form>
+            </div>
         </div>
     </div>
 

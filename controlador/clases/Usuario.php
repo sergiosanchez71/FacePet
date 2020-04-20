@@ -157,7 +157,7 @@ class Usuario {
     function crearUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO usuarios (nick,password,email,animal,raza,sexo,foto,localidad,amigos,operador) VALUES ('$usuario->nick','$usuario->password','$usuario->email','$usuario->animal','$usuario->raza','$usuario->sexo','$usuario->foto','$usuario->localidad',' ',0)";
+        $sql = "INSERT INTO usuarios (nick,password,email,animal,raza,sexo,foto,localidad,amigos,operador) VALUES (lower('$usuario->nick'),'$usuario->password','$usuario->email','$usuario->animal','$usuario->raza','$usuario->sexo','$usuario->foto','$usuario->localidad',' ',0)";
         $conexion->exec($sql);
         unset($conexion);
     }
@@ -268,8 +268,8 @@ class Usuario {
         unset($conexion);
         return $raza;
     }
-    
-    function getAmigosId($id){
+
+    function getAmigosId($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT amigos from usuarios where id='$id'");
@@ -304,6 +304,36 @@ class Usuario {
                 'baneado' => $row['baneado'],
                 'operador' => $row['operador']
             ];
+        }
+        unset($conexion);
+        return $datos;
+    }
+
+    function getDatosAmigos($amigos) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        for ($i = 0; $i < count($amigos); $i++) {
+            $consulta = $conexion->query("SELECT * from usuarios where id='$amigos[$i]'");
+            while ($row = $consulta->fetch()) {
+                if ($row['foto'] == null) {
+                    $foto = "0.jpg";
+                } else {
+                    $foto = $row['foto'];
+                }
+                $datos[$i] = ['id' => $row['id'],
+                    'nick' => $row['nick'],
+                    'password' => $row['password'],
+                    'email' => $row['email'],
+                    'animal' => Animal::buscarConId($row['animal']),
+                    'raza' => Raza::buscarConId($row['raza']),
+                    'sexo' => $row['sexo'],
+                    'foto' => $foto,
+                    'localidad' => $row['localidad'],
+                    'amigos' => $row['amigos'],
+                    'baneado' => $row['baneado'],
+                    'operador' => $row['operador']
+                ];
+            }
         }
         unset($conexion);
         return $datos;
@@ -360,13 +390,33 @@ class Usuario {
         while ($row = $consulta->fetch()) {
             $amigos = $row['amigos'];
         }
-        
-        if($amigos==null){
+
+        if ($amigos == null) {
             $sql = "UPDATE usuarios SET amigos='$user2' where id='$user1'";
         } else {
             $sql = "UPDATE usuarios SET amigos='$amigos,$user2' where id='$user1'";
         }
 
+        $conexion->exec($sql);
+        unset($conexion);
+    }
+
+    function mostrarMisAmigos($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT amigos from usuarios where id='$id'");
+        $amigos = null;
+        while ($row = $consulta->fetch()) {
+            $amigos = $row['amigos'];
+        }
+        unset($conexion);
+        return $amigos;
+    }
+
+    function cambiarAvatar($usuario, $imagen) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "UPDATE usuarios SET foto='$imagen' where id='$usuario'";
         $conexion->exec($sql);
         unset($conexion);
     }

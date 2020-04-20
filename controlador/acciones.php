@@ -11,6 +11,7 @@ include 'clases/Raza.php';
 include 'clases/Usuario.php';
 include 'clases/Post.php';
 include 'clases/Notificacion.php';
+include 'clases/Amistades.php';
 
 session_start();
 $accion = $_REQUEST['accion'];
@@ -114,7 +115,6 @@ switch ($accion) {
         break;
 
     case "buscarUsuarios":
-        include 'clases/Amistades.php';
         if (Usuario::getDatosBuscar($_REQUEST['cadena'], $_SESSION['username'])) {
             echo json_encode(Usuario::getDatosBuscar($_REQUEST['cadena'], $_SESSION['username']));
         } else {
@@ -122,10 +122,19 @@ switch ($accion) {
         }
         break;
 
+    case "mostrarMisAmigos":
+        $usuario = Usuario::getIdUsuario($_SESSION['username']);
+        $amigos = explode(",", Usuario::mostrarMisAmigos($usuario));
+        echo json_encode(Usuario::getDatosAmigos($amigos));
+        break;
+    
+    case "cambiarAvatar":
+        echo Usuario::getIdUsuario($_SESSION['username']);
+        break;
+
     //Solicitud amistad
 
     case "mandarSolicitud":
-        include 'clases/Amistades.php';
         $fecha = date("Y-m-d H:i:s");
         $notificacion = new Notificacion(Usuario::getIdUsuario($_SESSION['username']), $_REQUEST['usuario'], "amistad", $fecha);
         Notificacion::crearNotificacion($notificacion);
@@ -136,9 +145,8 @@ switch ($accion) {
         }
         break;
     case "cancelarSolicitud":
-        include 'clases/Amistades.php';
         $fecha = date("Y-m-d H:i:s");
-        $notificacion = new Notificacion(Usuario::getIdUsuario($_SESSION['username']), $_REQUEST['usuario'], "amistad",$fecha);
+        $notificacion = new Notificacion(Usuario::getIdUsuario($_SESSION['username']), $_REQUEST['usuario'], "amistad", $fecha);
         Notificacion::borrarNotificacion($notificacion);
         if (Amistades::cancelarSolicitud(Usuario::getIdUsuario($_SESSION['username']), $_REQUEST['usuario'])) {
             echo true;
@@ -146,12 +154,11 @@ switch ($accion) {
             echo false;
         }
         break;
-        
+
     case "aceptarAmistad":
-        include 'clases/Amistades.php';
         $usu2 = Usuario::getIdUsuario($_SESSION['username']);
-        agregarAmigo($_REQUEST['usuario'],$usu2);
-        if (Amistades::aceptarSolicitud($_REQUEST['usuario'],$usu2)){
+        agregarAmigo($_REQUEST['usuario'], $usu2);
+        if (Amistades::aceptarSolicitud($_REQUEST['usuario'], $usu2)) {
             return true;
         } else {
             return false;
@@ -160,18 +167,18 @@ switch ($accion) {
 
     //Notificaciones
     case "mostrarNotificaciones":
-        if (Notificacion::verNotificaciones(Usuario::getIdUsuario($_SESSION['username']))){
+        if (Notificacion::verNotificaciones(Usuario::getIdUsuario($_SESSION['username']))) {
             echo json_encode(Notificacion::verNotificaciones(Usuario::getIdUsuario($_SESSION['username'])));
         } else {
             echo false;
-        }        
+        }
         break;
-        
+
     case "notificacionesVistas":
         Notificacion::notificacionesVistas(Usuario::getIdUsuario($_SESSION['username']));
         break;
 
-        
+
     //Posts
     case "crearPost":
         $fecha = date("Y-m-d H:i:s");
@@ -182,10 +189,30 @@ switch ($accion) {
 
     case "mostrarMisPosts":
         //Post::buscarPosts(Usuario::getIdUsuario($_SESSION['username']));
-        if(Post::getDatosPostsUsuario(Usuario::getIdUsuario($_SESSION['username']))){
+        if (Post::getDatosPostsUsuario(Usuario::getIdUsuario($_SESSION['username']))) {
             echo json_encode(Post::getDatosPostsUsuario(Usuario::getIdUsuario($_SESSION['username'])));
         } else {
             echo false;
+        }
+        break;
+
+    //Subir multimedia
+    case "cambiarImagen":
+        $dir_subida = '../controlador/uploads/usuarios/';
+        $allowed_ext = "jpg,png,jpeg";
+        $file_ext = preg_split("/\./", $_FILES['userfile']['name']);
+        $allowed_ext = preg_split("/\,/", $allowed_ext);
+        foreach ($allowed_ext as $ext) {
+            if (strtolower($ext) == strtolower($file_ext[1])) {
+                $match = true; // Permite el archivo
+            }
+        }
+        if (isset($match)) {
+            $fichero_subido = $dir_subida . basename($_FILES['userfile']['name']);
+            move_uploaded_file($_FILES['userfile']['tmp_name'], $fichero_subido);
+            rename($fichero_subido, $dir_subida . $_REQUEST['idpost'] . "." . $file_ext[1]);
+            Post::subirMultimedia($_REQUEST['idpost'], $_REQUEST['idpost'] . "." . $file_ext[1]);
+            header("Location: ../vista/miPerfil.php");
         }
         break;
 
@@ -195,10 +222,9 @@ switch ($accion) {
         break;
 }
 
-function agregarAmigo($user1,$user2){
-    Usuario::aceptarSolicitud($user1,$user2);
-    Usuario::aceptarSolicitud($user2,$user1);
+function agregarAmigo($user1, $user2) {
+    Usuario::aceptarSolicitud($user1, $user2);
+    Usuario::aceptarSolicitud($user2, $user1);
 }
-
 
 ?>

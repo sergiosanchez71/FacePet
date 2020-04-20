@@ -19,7 +19,7 @@
 
                 var parametros = {
                     "accion": "entrar",
-                    "username": username,
+                    "username": username.toLowerCase(),
                     "password": password
                 };
 

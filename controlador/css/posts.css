@@ -26,6 +26,7 @@
 
 .imagenUsuario{
     width: 3rem;
+    height: 3rem;
     border-radius: 3rem;
 }
 
@@ -97,6 +98,7 @@
 
     .imagenUsuario{
         width:7rem;
+        height: 7rem;
     }
 
     .nombreUsuario, .postFecha{

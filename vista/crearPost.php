@@ -270,7 +270,7 @@
                     <form method="post" id="paso2" enctype="multipart/form-data">
                         <h2 class="paso">Paso 2</h2>
                         <p class="title">Añade una foto o vídeo (Opcional)</p>
-                        <input type="file" name="userfile" id="multimedia" onchange="subirArchivo()">
+                        <input type="file" name="userfile" id="multimedia">
                         <p><input type="submit" class="botonCrearPost" name="subirImagen" value="Subir Multimedia"></p>
                     </form>
 
