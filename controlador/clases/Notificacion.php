@@ -89,6 +89,7 @@ class Notificacion {
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from notificaciones where user2='$usuario'");
         $i = 0;
+        $datos = null;
         while ($row = $consulta->fetch()) {
             $datos[$i] = ['id' => $row['id'],
                 'user1' => $row['user1'],

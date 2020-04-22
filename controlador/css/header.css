@@ -49,7 +49,7 @@ header{
     border-radius: 2rem;
 }
 
-#mensajes, #notificaciones, #cerrarsesion{
+.mensajes, .notificaciones{
     width: 2rem;
     position: relative;
     bottom: 0.5rem;
@@ -160,7 +160,7 @@ li .alerta{
         font-size: 1.1rem;
     }
 
-    #mensajes, #notificaciones{
+    .mensajes, .notificaciones{
         width: 1.8rem;
     }
 
@@ -290,7 +290,7 @@ li .alerta{
         height: 6rem;
     }
     
-    #mensajes, #notificaciones, #cerrarsesion{
+    .mensajes, .notificaciones, .cerrarsesion{
         width: 6rem;
         margin-right: 5rem;
     }

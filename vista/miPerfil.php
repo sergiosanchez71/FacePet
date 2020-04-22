@@ -136,6 +136,7 @@ and open the template in the editor.
 
             .imagenAmigo{
                 width: 6rem;
+                height: 6rem;
                 border-radius: 4rem;
                 margin: 1rem;
             }
@@ -208,6 +209,11 @@ and open the template in the editor.
                 margin-left: 85%;
                 cursor: pointer;
             }
+            
+            .botonEliminar{
+                background: #fffbed;
+                float: right;
+            }
 
             @media (max-width:1000px){
                 #cuerpo{
@@ -253,6 +259,7 @@ and open the template in the editor.
 
                 .amigoPerfil .imagenAmigo{
                     width: 10rem;
+                    height: 10rem;
                     margin-left: 20%;
                 }
 
@@ -291,7 +298,7 @@ and open the template in the editor.
                 getDatosMiPerfil();
                 mostrarMisPosts();
                 mostrarMisAmigos();
-                $(".postEliminar").click(postEliminar);
+                $("#imgPerfil").click(cambiarAvatar);
                 $("#textCambiarAvatar").click(cambiarAvatar);
                 $("#cerrarCambiarAvatar").click(cerrarCambiarAvatar);
             });
@@ -327,7 +334,6 @@ and open the template in the editor.
                         p.setAttribute("name", "idusu");
                         p.setAttribute("style", "display:none");
                         p.setAttribute("value", respuesta);
-
                     },
                     error: function (xhr, status) {
                         alert("Error en la creación de post");
@@ -338,8 +344,25 @@ and open the template in the editor.
 
             }
 
-            function postEliminar() {
-                alert("hola");
+            function eliminarPost(post) {
+                var parametros = {
+                    "accion": "eliminarPost",
+                    "post": post
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        $(".post").remove();
+                        mostrarMisPosts();
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
             }
 
             function getDatosMiPerfil() {
@@ -378,6 +401,7 @@ and open the template in the editor.
                     data: parametros,
                     success: function (respuesta) {
                         if (respuesta) {
+                            console.log(respuesta);
                             var amigos = JSON.parse(respuesta);
                             for (var i = 0; i < amigos.length; i++) {
 
@@ -440,15 +464,27 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+                        console.log(respuesta);
                         if (respuesta) {
                             var posts = JSON.parse(respuesta);
                             for (var i = 0; i < posts.length; i++) {
                                 var post = document.createElement("div");
                                 post.setAttribute("class", "post");
 
+                                var a = document.createElement("button");
+                                a.setAttribute("value",posts[i].id);
+                                a.setAttribute("class", "botonEliminar");
+                                
+                                a.onclick = function () {
+                                    if(confirm("Esta seguro de eliminar este post")){
+                                        eliminarPost(this.value);
+                                    }
+                                }
+
                                 var postEliminar = document.createElement("img");
                                 postEliminar.setAttribute("class", "postEliminar");
                                 postEliminar.setAttribute("src", "../controlador/img/eliminar.png");
+                                
 
                                 /* var postEliminarBoton = document.createElement("button");
                                  postEliminarBoton.setAttribute("class","postEliminarBoton");
@@ -510,7 +546,8 @@ and open the template in the editor.
                                 postComentarioImg.setAttribute("src", "../controlador/img/comentario.png");
 
                                 $("#posts").append(post);
-                                post.append(postEliminar);
+                                post.append(a);
+                                a.append(postEliminar);
                                 post.append(postUsuario);
 
                                 postUsuario.append(imgUsuario);
@@ -551,9 +588,6 @@ and open the template in the editor.
 
         </script>
         <?php
-        if (isset($_REQUEST['cambiarImagen'])) {
-            echo "a";
-        }
         ?>
     </head>
     <body>
@@ -572,8 +606,8 @@ and open the template in the editor.
                         </ul>
                     </li>
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
-                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta" id="mensaje"></span></a></li>
-                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta" id="notificacion"></span></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><span class="alerta" class="mensaje"></span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><span class="alerta" class="notificacion"></span></a></li>
                     <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">
@@ -640,9 +674,9 @@ and open the template in the editor.
             </div>
             <footer>
                 <ul id="segundoMenu">
-                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" id="cerrarsesion" alt="cerrarSesion"></a></li>
-                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
-                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" class="cerrarsesion" alt="cerrarSesion"></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p class="alerta">1</p></a></li>
                     <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">

@@ -86,6 +86,13 @@ class Post {
         $conexion->exec($sql);
     }
 
+    function eliminarPost($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM posts where id='$id'";
+        $conexion->exec($sql);
+    }
+
     function consultarId($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -145,13 +152,14 @@ class Post {
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where usuario='$usuario' and p.usuario=u.id order by fecha_publicacion desc");
         $i = 0;
+        $datos = null;
         while ($row = $consulta->fetch()) {
             if ($row['foto'] == null) {
                 $foto = "0.jpg";
             } else {
                 $foto = $row['foto'];
             }
-            
+
             $datos[$i] = array(
                 'id' => $row['id'],
                 'titulo' => $row['titulo'],
@@ -165,6 +173,39 @@ class Post {
             );
 
             $i++;
+        }
+        unset($conexion);
+        return $datos;
+    }
+
+    function mostrarPostsAmigos($amigos) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $i = 0;
+        $datos = null;
+        for ($j = 0; $j < count($amigos); $j++) {
+            $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where usuario='$amigos[$j]' and p.usuario=u.id order by fecha_publicacion desc");
+            while ($row = $consulta->fetch()) {
+                if ($row['foto'] == null) {
+                    $foto = "0.jpg";
+                } else {
+                    $foto = $row['foto'];
+                }
+
+                $datos[$i] = array(
+                    'id' => $row['id'],
+                    'titulo' => $row['titulo'],
+                    'contenido' => $row['contenido'],
+                    'multimedia' => $row['multimedia'],
+                    'fecha_publicacion' => $row['fecha_publicacion'],
+                    'likes' => $row['likes'],
+                    'usuario' => $row['usuario'],
+                    'nick' => $row['nick'],
+                    'foto' => $foto
+                );
+
+                $i++;
+            }
         }
         unset($conexion);
         return $datos;

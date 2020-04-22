@@ -65,6 +65,7 @@
 
             .imagenAmigo{
                 width: 10rem;
+                height: 10rem;
                 border-radius: 4rem;
                 margin: 1rem;
                 float: left;
@@ -126,6 +127,7 @@
 
                 .imagenAmigo{
                     width: 14rem;
+                    height: 14rem;
                     margin-top: 2rem;
                 }
 
@@ -232,8 +234,22 @@
                             var usuarios = JSON.parse(respuesta);
 
                             for (var i = 0; i < usuarios.length; i++) {
-                                console.log(usuarios[i].solicitud);
-                                if (usuarios[i].solicitud != "aceptada") {
+                                if (usuarios[i].amigos != null) {
+                                    console.log(usuarios[i].amigos);
+                                    var cadenaAmigos = usuarios[i].amigos;
+                                    var amigosArray = cadenaAmigos.split(",");
+                                    var amigos = false;
+
+                                    for (var j = 0; j < amigosArray.length; j++) {
+                                        if (amigosArray[j] == usuarios[i].buscador) {
+                                            amigos = true;
+                                        }
+                                    }
+                                } else {
+                                    var amigos = false;
+                                }
+
+                                if (!amigos) {
                                     var usuario = document.createElement("div");
                                     usuario.setAttribute("class", "amigo");
 
@@ -337,8 +353,8 @@
                         </ul>
                     </li>
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
-                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta" id="mensaje"></span></a></li>
-                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta" id="notificacion"></span></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><span class="alerta" class="mensaje"></span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><span class="alerta" class="notificacion"></span></a></li>
                     <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">
@@ -385,9 +401,9 @@
             </div>
             <footer>
                 <ul id="segundoMenu">
-                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" id="cerrarsesion" alt="cerrarSesion"></a></li>
-                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
-                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" class="cerrarsesion" alt="cerrarSesion"></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p class="alerta">1</p></a></li>
                     <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">

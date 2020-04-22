@@ -37,27 +37,27 @@ function getNotificaciones() {
         url: "../controlador/acciones.php",
         data: parametros,
         success: function (respuesta) {
-
-            if (!respuesta) {
-
+            console.log(respuesta);
+            if (respuesta) {
                 var notificaciones = JSON.parse(respuesta);
                 var notificacion=0;
                 
                 for(var i=0;i<notificaciones.length;i++){
-                    if(notificaciones[i].visto == 0){
+                    if(notificaciones[i].visto == 1){
                         notificacion++;
                     }
                 }
                                 
                 if(notificacion>0){
-                    $("#notificacion").css("display", "block");
-                    $("#notificacion").val(notificacion);
+                    $(".notificacion").css("display", "block");
+                    console.log($(".notificacion").val());
+                    $(".notificacion").val(notificacion);
                 } else {
-                    $("#notificacion").css("display", "none");
+                    $(".notificacion").css("display", "none");
                 }
 
             } else {
-                $("#notificacion").css("display", "none");
+                $(".notificacion").css("display", "none");
             }
 
         },

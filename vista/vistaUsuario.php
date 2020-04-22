@@ -126,6 +126,145 @@ and open the template in the editor.
             }
 
         </style>
+        <script>
+
+            $(document).ready(function () {
+                cargarPostsAmigos();
+            });
+
+            function cargarPostsAmigos() {
+                var parametros = {
+                    "accion": "mostrarPostsAmigos"
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        if (respuesta) {
+                            var posts = JSON.parse(respuesta);
+                            for (var i = 0; i < posts.length; i++) {
+                                var post = document.createElement("div");
+                                post.setAttribute("class", "post");
+
+                                /*var a = document.createElement("button");
+                                a.setAttribute("value", posts[i].id);
+                                a.setAttribute("class", "botonEliminar");
+
+                                a.onclick = function () {
+                                    if (confirm("Esta seguro de eliminar este post")) {
+                                        eliminarPost(this.value);
+                                    }
+                                }
+
+                                var postEliminar = document.createElement("img");
+                                postEliminar.setAttribute("class", "postEliminar");
+                                postEliminar.setAttribute("src", "../controlador/img/eliminar.png");*/
+
+
+                                /* var postEliminarBoton = document.createElement("button");
+                                 postEliminarBoton.setAttribute("class","postEliminarBoton");
+                                 postEliminarBoton.innerHTML += postEliminar;*/
+
+                                var postUsuario = document.createElement("p");
+                                postUsuario.setAttribute("class", "postUsuario");
+                                var imgUsuario = document.createElement("img");
+                                imgUsuario.setAttribute("class", "imagenUsuario");
+                                imgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + posts[i].foto);
+                                var nombreUsuario = document.createElement("span");
+                                nombreUsuario.setAttribute("class", "nombreUsuario");
+                                nombreUsuario.innerHTML += posts[i].nick;
+
+                                var postFecha = document.createElement("p");
+                                postFecha.setAttribute("class", "postFecha");
+                                postFecha.innerHTML += posts[i].fecha_publicacion;
+
+                                var postCont = document.createElement("div");
+                                postCont.setAttribute("class", "postCont");
+
+                                var postTitulo = document.createElement("p");
+                                postTitulo.setAttribute("class", "postTitulo");
+                                postTitulo.innerHTML += posts[i].titulo;
+
+                                if (posts[i].multimedia != null) {
+
+                                    var postImg = document.createElement("img");
+                                    postImg.setAttribute("class", "postImg");
+                                    postImg.setAttribute("src", "../controlador/uploads/posts/" + posts[i].multimedia);
+
+                                }
+
+                                var postContenido = document.createElement("p");
+                                postContenido.setAttribute("class", "postContenido");
+                                postContenido.innerHTML += posts[i].contenido;
+
+                                var postBottom = document.createElement("div");
+                                postBottom.setAttribute("class", "postBottom")
+
+                                var postLikes = document.createElement("p");
+                                postLikes.setAttribute("class", "postLikes");
+                                postLikes.innerHTML += posts[i].likes + " Me gustas";
+
+                                var iconos = document.createElement("p");
+                                iconos.setAttribute("class", "iconos");
+                                var postCorazon = document.createElement("a");
+                                postCorazon.setAttribute("class", "postCorazon");
+
+                                var postCorazonImg = document.createElement("img");
+                                postCorazonImg.setAttribute("class", "postCorazonImg");
+                                postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
+
+                                var postComentario = document.createElement("a");
+                                postComentario.setAttribute("class", "postComentario");
+
+                                var postComentarioImg = document.createElement("img");
+                                postComentarioImg.setAttribute("class", "postComentarioImg");
+                                postComentarioImg.setAttribute("src", "../controlador/img/comentario.png");
+
+                                $("#posts").append(post);
+                                /*post.append(a);
+                                a.append(postEliminar);*/
+                                post.append(postUsuario);
+
+                                postUsuario.append(imgUsuario);
+                                postUsuario.append(nombreUsuario);
+
+                                post.append(postFecha);
+                                post.append(postCont);
+
+                                postCont.append(postTitulo);
+                                if (posts[i].multimedia != null) {
+                                    postCont.append(postImg);
+                                }
+                                postCont.append(postContenido);
+
+
+                                postCont.append(postBottom);
+
+                                postBottom.append(postLikes);
+                                postBottom.append(iconos);
+                                iconos.append(postCorazon);
+                                iconos.append(postComentario);
+                                postCorazon.append(postCorazonImg);
+                                postComentario.append(postComentarioImg);
+                            }
+                        } else {
+                            var h1 = document.createElement("h1");
+                            h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya";
+                            $("#posts").append(h1);
+                        }
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
+
+
+        </script>
     </head>
     <body>
         <?php
@@ -146,8 +285,8 @@ and open the template in the editor.
                         </ul>
                     </li>
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
-                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta" id="mensaje"></span></a></li>
-                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta" id="notificacion"></span></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><span class="alerta" class="mensaje"></span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><span class="alerta" class="notificacion"></span></a></li>
                     <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">
@@ -190,67 +329,7 @@ and open the template in the editor.
                 </div>
                 <div id="posts">
                     <p id="name">Posts</p>
-                    <div class="post">
-                        <p class="postUsuario"><img src="../controlador/img/gato.png" class="imagenUsuario" alt="imagenUsuario"><span class="nombreUsuario">Sergio</span></p>
-                        <p class="postFecha">05-04-2020 13:33</p>
-                        <div class="postCont">
-                            <p class="postTitulo">Titulo</p>
-                            <img src="../controlador/img/gato.png" class="postImg" alt="postImg">
-                            <p class="postContenido">Maecenas vel magna gravida, ullamcorper urna efficitur, condimentum massa. 
-                                Etiam dui ex, venenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
-                                Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
-                                Morbi congue lobortis lacus, id consectetur tellus congue eu. Aliquam ornare nisi erat, id malesuada tellus semper vitae. 
-                                Praesent purus lorem, porta volutpat sollicitudin pretium, venenatis rhoncus magna. Praesent nec varius mauris. 
-                                Quisque rutrum, eros nec vestibulum imperdiet, dui lectus molestie justo, porttitor blandit neque massa porttitor metus. Praesent pretium elementum est sed pretium. 
-                                Curabitur nec ultricies ante. Etiam a orci mattis quam tristique pharetra. Nulla nec velit purus. Vestibulum luctus nulla id neque egestas, id ultrices purus eleifend.
-                                lorem, porta volutpat sollicitudin pretium, venenatis rhoncus magna. Praesent nec varius mauris. 
-                                Quisque rutrum, eros nec vestibulum imperdiet, dui lectus molestie justo, porttitor blandit neque massa porttitor metus. Praesent pretium elementum est sed pretium. 
-                                Curabitur nec ultricies ante. vestibulum imperdiet, dui lectus molestie justo, porttitor blandit neque massa porttitor metus. Praesent pretium elementum est sed pretium. 
-                                Curabitur nec ultricies ante.</p>
-                            <div class="postBottom">
-                                <p class="postLikes"><span>1</span> Me gusta</p>
-                                <p class="iconos">
-                                    <a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
-                                    <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post">
-                        <p class="postUsuario"><img src="../controlador/img/gato.png" class="imagenUsuario" alt="imagenUsuario"><span class="nombreUsuario">Sergio</span></p>
-                        <p class="postFecha">05-04-2020 13:33</p>
-                        <div class="postCont">
-                            <p class="postTitulo">Titulo</p>
-                            <img src="../controlador/img/gato.png" class="postImg" alt="postImg">
-                            <p class="postContenido">Maecenas.</p>
-                            <div class="postBottom">
-                                <p class="postLikes"><span>1</span> Me gusta</p>
-                                <p class="iconos">
-                                    <a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
-                                    <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post">
-                        <p class="postUsuario"><img src="../controlador/img/gato.png" class="imagenUsuario" alt="imagenUsuario"><span class="nombreUsuario">Sergio</span></p>
-                        <p class="postFecha">05-04-2020 13:33</p>
-                        <div class="postCont">
-                            <p class="postTitulo">Titulo</p>
-                            <img src="../controlador/img/gato.png" class="postImg" alt="postImg">
-                            <p class="postContenido">Maecenas vel magna gravida, ullamcorper urna efficitur, condimentum massa. 
-                                Etiam dui ex, venenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
-                                Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
-                                Morbi congue lobortis. dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
-                                impassa porttitor metus. Praesent pretium elementum est sed pretium. 
-                                .</p>
-                            <div class="postBottom">
-                                <p class="postLikes"><span>1</span> Me gusta</p>
-                                <p class="iconos">
-                                    <a class="postCorazon"><img src="../controlador/img/noLike.png" class="postCorazonImg" alt="NoLike"></a>
-                                    <a class="postComentario"><img src="../controlador/img/comentario.png" class="postComentarioImg" alt="Comentario"></a>
-                            </div>
-                            </p>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div id="eventos">
                     <p id="name">Eventos</p>
@@ -300,9 +379,9 @@ and open the template in the editor.
 
             <footer>
                 <ul id="segundoMenu">
-                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" id="cerrarsesion" alt="cerrarSesion"></a></li>
-                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" id="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
-                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" id="notificaciones" alt="notificaciones"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" class="cerrarsesion" alt="cerrarSesion"></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p class="alerta">1</p></a></li>
                     <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">

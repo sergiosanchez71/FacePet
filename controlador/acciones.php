@@ -188,9 +188,24 @@ switch ($accion) {
         break;
 
     case "mostrarMisPosts":
-        //Post::buscarPosts(Usuario::getIdUsuario($_SESSION['username']));
+        //Post::buscarPosts(Usuario::getIdUsuario($_SESSION['username']))
+        
         if (Post::getDatosPostsUsuario(Usuario::getIdUsuario($_SESSION['username']))) {
             echo json_encode(Post::getDatosPostsUsuario(Usuario::getIdUsuario($_SESSION['username'])));
+        } else {
+            echo false;
+        }
+        break;
+        
+    case "eliminarPost":
+        Post::eliminarPost($_REQUEST['post']);
+        break;
+    
+    case "mostrarPostsAmigos":
+        $usuario = Usuario::getIdUsuario($_SESSION['username']);
+        $amigos = explode(",", Usuario::mostrarMisAmigos($usuario));
+        if(Post::mostrarPostsAmigos($amigos)){
+        echo json_encode(Post::mostrarPostsAmigos($amigos));
         } else {
             echo false;
         }
