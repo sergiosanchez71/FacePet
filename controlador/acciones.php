@@ -12,6 +12,7 @@ include 'clases/Usuario.php';
 include 'clases/Post.php';
 include 'clases/Notificacion.php';
 include 'clases/Amistades.php';
+include 'clases/Chat.php';
 
 session_start();
 $accion = $_REQUEST['accion'];
@@ -127,7 +128,7 @@ switch ($accion) {
         $amigos = explode(",", Usuario::mostrarMisAmigos($usuario));
         echo json_encode(Usuario::getDatosAmigos($amigos));
         break;
-    
+
     case "cambiarAvatar":
         echo Usuario::getIdUsuario($_SESSION['username']);
         break;
@@ -189,28 +190,42 @@ switch ($accion) {
 
     case "mostrarMisPosts":
         //Post::buscarPosts(Usuario::getIdUsuario($_SESSION['username']))
-        
+
         if (Post::getDatosPostsUsuario(Usuario::getIdUsuario($_SESSION['username']))) {
             echo json_encode(Post::getDatosPostsUsuario(Usuario::getIdUsuario($_SESSION['username'])));
         } else {
             echo false;
         }
         break;
-        
+
     case "eliminarPost":
         Post::eliminarPost($_REQUEST['post']);
         break;
-    
+
     case "mostrarPostsAmigos":
         $usuario = Usuario::getIdUsuario($_SESSION['username']);
         $amigos = explode(",", Usuario::mostrarMisAmigos($usuario));
-        if(Post::mostrarPostsAmigos($amigos)){
-        echo json_encode(Post::mostrarPostsAmigos($amigos));
+        if (Post::mostrarPostsAmigos($amigos)) {
+            echo json_encode(Post::mostrarPostsAmigos($amigos));
         } else {
             echo false;
         }
         break;
 
+    //Chat
+    case "mostrarCabeceraChat":
+        echo json_encode(Usuario::getDatos($_REQUEST['usuario']));
+        break;
+        
+    case "mostrarChat":
+        $usuario = Usuario::getIdUsuario($_SESSION['username']);
+        if(Chat::mostrarChat($usuario, $_REQUEST['usuario'])){
+            echo json_encode(Chat::mostrarChat($usuario, $_REQUEST['usuario']));
+        } else {
+            echo false;
+        }
+        break;
+        
     //Subir multimedia
     case "cambiarImagen":
         $dir_subida = '../controlador/uploads/usuarios/';
@@ -233,7 +248,8 @@ switch ($accion) {
 
     //Más
     case "getDatosUsuario":
-        echo json_encode(Usuario::getDatos($_SESSION['username']));
+        $usuario = Usuario::getIdUsuario($_SESSION['username']);
+        echo json_encode(Usuario::getDatos($usuario));
         break;
 }
 

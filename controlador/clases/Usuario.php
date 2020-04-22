@@ -282,7 +282,7 @@ class Usuario {
     function getDatos($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT * from usuarios where nick='$usuario'");
+        $consulta = $conexion->query("SELECT * from usuarios where id='$usuario'");
         while ($row = $consulta->fetch()) {
             if ($row['foto'] == null) {
                 $foto = "0.jpg";

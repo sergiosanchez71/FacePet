@@ -86,9 +86,24 @@ class Post {
         $conexion->exec($sql);
     }
 
+    function eliminarMultimedia($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT multimedia from posts where id=$id");
+        $borrado = false;
+        while ($row = $consulta->fetch()) {
+            $multimedia = $row['multimedia'];
+            unlink("uploads/posts/".$multimedia);
+            $borrado = true;
+        }
+        unset($conexion);
+        return $borrado;
+    }
+    
     function eliminarPost($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        Post::eliminarMultimedia($id);
         $sql = "DELETE FROM posts where id='$id'";
         $conexion->exec($sql);
     }

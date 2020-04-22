@@ -57,7 +57,8 @@
 
             .imgAmigo{
                 grid-area: imagen;
-                width: 5rem;
+                width: 60%;
+                height: 7rem;
                 border-radius: 4rem;
             }
 
@@ -68,6 +69,10 @@
             .nombreAmigo{
                 font-weight: bold;
                 font-size: 1rem;
+            }
+
+            .nombreAmigo:first-letter, #nombreAmigoCM:first-letter{
+                text-transform: uppercase;
             }
 
             .animalAmigo, .razaAmigo{
@@ -93,8 +98,8 @@
                 border-bottom: 1px solid black;
                 grid-area:cabeceraCM;
             }
-
-            .imgAmigoCM{
+            
+            #imgAmigoCM{
                 grid-area: imgAmigoCM;
                 width: 5rem;
                 border-radius: 5rem;
@@ -102,11 +107,15 @@
                 padding: 1rem;
             }
 
-            .nombreAmigoCM{
+            #nombreAmigoCM{
                 grid-area: nombreAmigoCM;
                 font-weight: bold;
                 margin-top: 3rem;
                 margin-right: 3rem;
+            }
+            
+            #idUsuario{
+                display: none;
             }
 
             #cuerpoCM{
@@ -171,32 +180,179 @@
                     height: 4rem;
                     font-size: 2rem;
                 }
-                
+
                 .imgAmigo{
                     width: 7rem;
+                    height: 7rem;
                 }
-                
+
                 .nombreAmigo{
                     font-size: 1.5rem;
                 }
-                
+
                 .animalAmigo, .razaAmigo{
                     font-size: 1.2rem;
                 }
-                
+
                 #cabeceraCM{
                     grid-template-columns: 20% 80%;
                     grid-template-rows: 20% 50% 30%;
                 }
-                
+
                 #enviarMensaje{
                     font-size: 3rem;
                 }
-                
+
             }
 
 
         </style>
+
+        <script>
+
+            $(document).ready(function () {
+                mostrarMisAmigos();
+                $("#enviarMensaje").click(function(){
+                    enviarMensaje($("#mensajeEscrito").val(),$("#idUsuario").val());
+                });
+            });
+
+            function mostrarMisAmigos() {
+                var parametros = {
+                    "accion": "mostrarMisAmigos"
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        if (respuesta) {
+                            var amigos = JSON.parse(respuesta);
+                            for (var i = 0; i < amigos.length; i++) {
+
+                                var amigoPerfil = document.createElement("div");
+                                amigoPerfil.setAttribute("id", amigos[i].id);
+                                amigoPerfil.setAttribute("class", "amigo");
+
+                                amigoPerfil.onclick = function () {
+                                    mostrarCabeceraChat(this.id);
+                                    mostrarChat(this.id);
+                                }
+
+                                var img = document.createElement("img");
+                                img.setAttribute("src", "../controlador/uploads/usuarios/" + amigos[i].foto);
+                                img.setAttribute("class", "imgAmigo");
+                                img.setAttribute("alt", "imagenAmigo");
+
+                                var datos = document.createElement("div");
+                                datos.setAttribute("class", "datos");
+
+                                var nombreAmigo = document.createElement("p");
+                                nombreAmigo.setAttribute("class", "nombreAmigo");
+                                nombreAmigo.innerHTML = amigos[i].nick;
+
+                                var animalAmigo = document.createElement("span");
+                                animalAmigo.setAttribute("class", "animalAmigo");
+                                animalAmigo.innerHTML = amigos[i].animal;
+
+                                var razaAmigo = document.createElement("span");
+                                razaAmigo.setAttribute("class", "razaAmigo");
+                                razaAmigo.innerHTML = " " + amigos[i].raza;
+
+                                $("#listaAmigos").append(amigoPerfil);
+                                amigoPerfil.append(img);
+                                amigoPerfil.append(datos);
+                                datos.append(nombreAmigo);
+                                datos.append(animalAmigo);
+                                datos.append(razaAmigo);
+
+                            }
+                        } else {
+                            var h1 = document.createElement("h1");
+                            h1.innerHTML += "Aún no tienes posts, crea uno";
+                            $("#amigosPerfiles").append(h1);
+                        }
+
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la creación de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
+            function mostrarCabeceraChat(usuario) {
+                var parametros = {
+                    "accion": "mostrarCabeceraChat",
+                    "usuario": usuario
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+                        var amigo = JSON.parse(respuesta);
+                        $("#imgAmigoCM").attr("src","../controlador/uploads/usuarios/" + amigo.foto);
+                        $("#nombreAmigoCM").text(amigo.nick);
+                        $("#idUsuario").attr("value",amigo.id);
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+            
+            function mostrarChat(usuario){
+                var parametros = {
+                    "accion": "mostrarChat",
+                    "usuario": usuario
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+            
+            function enviarMensaje(mensaje, usuario){
+                
+                alert(mensaje);
+                alert(usuario);
+                
+                var parametros = {
+                    "accion": "enviarMensaje",
+                    "mensaje": mensaje,
+                    "usuario": usuario
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
+        </script>
 
     </head>
     <body>
@@ -215,7 +371,7 @@
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
                     <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><span class="alerta" class="mensaje"></span></a></li>
                     <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><span class="alerta" class="notificacion"></span></a></li>
-                     <li id="liUsuario">
+                    <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">
                             <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
@@ -249,78 +405,32 @@
                     </nav>
                 </div>
             </header>
-        <div id="cuerpo">
-            <div id="listaAmigos">
-                <p id="chatear">Chatea con tus amigos</p>
-                <input type="text" id="buscador" placeholder="Busca a un amigo">
-                <div class="amigo">
-                    <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
-                    <div class="datos">
-                        <p class="nombreAmigo">Nombre Amigo</p>
-                        <p class="animalAmigo">Animal Amigo</p>
-                        <p class="razaAmigo">Raza Amigo</p>
-                    </div>
+            <div id="cuerpo">
+                <div id="listaAmigos">
+                    <p id="chatear">Chatea con tus amigos</p>
+                    <input type="text" id="buscador" placeholder="Busca a un amigo">
+
                 </div>
-                <div class="amigo">
-                    <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
-                    <div class="datos">
-                        <p class="nombreAmigo">Nombre Amigo</p>
-                        <p class="animalAmigo">Animal Amigo</p>
-                        <p class="razaAmigo">Raza Amigo</p>
+                <div id="Cmensajes">
+                    <div id="cabeceraCM">
+                        <img id="imgAmigoCM" alt="imgAmigo">
+                        <p id="nombreAmigoCM"></p>
+                        <input type="text" id="idUsuario">
                     </div>
-                </div>
-                <div class="amigo">
-                    <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
-                    <div class="datos">
-                        <p class="nombreAmigo">Nombre Amigo</p>
-                        <p class="animalAmigo">Animal Amigo</p>
-                        <p class="razaAmigo">Raza Amigo</p>
+                    <div id="cuerpoCM">
+                        <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
+                        <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
+                        <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
+                        <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
+                        <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
+                        <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
                     </div>
-                </div>
-                <div class="amigo">
-                    <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
-                    <div class="datos">
-                        <p class="nombreAmigo">Nombre Amigo</p>
-                        <p class="animalAmigo">Animal Amigo</p>
-                        <p class="razaAmigo">Raza Amigo</p>
-                    </div>
-                </div>
-                <div class="amigo">
-                    <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
-                    <div class="datos">
-                        <p class="nombreAmigo">Nombre Amigo</p>
-                        <p class="animalAmigo">Animal Amigo</p>
-                        <p class="razaAmigo">Raza Amigo</p>
-                    </div>
-                </div>
-                <div class="amigo">
-                    <img src="../controlador/img/gato.png" class="imgAmigo" alt="imgAmigo">
-                    <div class="datos">
-                        <p class="nombreAmigo">Nombre Amigo</p>
-                        <p class="animalAmigo">Animal Amigo</p>
-                        <p class="razaAmigo">Raza Amigo</p>
+                    <div id="pieCM">
+                        <input type="text" id="mensajeEscrito" placeholder="Escribe un mensaje">
+                        <button id="enviarMensaje">Enviar</button>
                     </div>
                 </div>
             </div>
-            <div id="Cmensajes">
-                <div id="cabeceraCM">
-                    <img src="../controlador/img/gato.png" class="imgAmigoCM" alt="imgAmigo">
-                    <p class="nombreAmigoCM">Nombre Amigo</p>
-                </div>
-                <div id="cuerpoCM">
-                    <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
-                    <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
-                    <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
-                    <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
-                    <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
-                    <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
-                </div>
-                <div id="pieCM">
-                    <input type="text" id="mensajeEscrito" placeholder="Escribe un mensaje">
-                    <button id="enviarMensaje">Enviar</button>
-                </div>
-            </div>
-        </div>
             <footer>
                 <ul id="segundoMenu">
                     <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" class="cerrarsesion" alt="cerrarSesion"></a></li>
@@ -333,6 +443,6 @@
                     </li>
                 </ul>
             </footer>
-    </div>
-</body>
+        </div>
+    </body>
 </html>
