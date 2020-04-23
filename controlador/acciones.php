@@ -212,7 +212,7 @@ switch ($accion) {
         }
         break;
 
-    //Chat
+    //Mensajes
     case "mostrarCabeceraChat":
         echo json_encode(Usuario::getDatos($_REQUEST['usuario']));
         break;
@@ -235,7 +235,33 @@ switch ($accion) {
         } else {
             echo "false";
         }
-
+        break;
+        
+    case "mensajesNoVistos":
+        $usuario = Usuario::getIdUsuario($_SESSION['username']);
+        if(Mensaje::mensajesNoVistos($usuario)){
+            echo json_encode(Mensaje::mensajesNoVistos($usuario));
+        } else {
+            echo false;
+        }
+        break;
+        
+    case "mensajesUsuarioNoVistos":
+        $usuario = Usuario::getIdUsuario($_SESSION['username']);
+        if(Mensaje::mensajesUsuarioNoVistos($_REQUEST['usuario'],$usuario)){
+            echo json_encode(Mensaje::mensajesUsuarioNoVistos($usuario));
+        } else {
+            echo false;
+        }
+        break;
+        
+    case "mensajesLeidos":
+        $usuario = Usuario::getIdUsuario($_SESSION['username']);
+        if(Mensaje::mensajesLeidos($_REQUEST['usuario'],$usuario)){
+            echo true;
+        } else {
+            echo false;
+        }
         break;
 
     //Subir multimedia

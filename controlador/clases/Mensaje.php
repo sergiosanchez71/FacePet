@@ -68,14 +68,14 @@ class Mensaje {
     function enviarMensaje($mensaje){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO chat (user1,user2,mensaje,fecha) VALUES ('$mensaje->user1','$mensaje->user2','$mensaje->mensaje','$mensaje->fecha')";
+        $sql = "INSERT INTO mensajes (user1,user2,mensaje,fecha) VALUES ('$mensaje->user1','$mensaje->user2','$mensaje->mensaje','$mensaje->fecha')";
         $conexion->exec($sql);
     }
 
     function mostrarChat($user1,$user2){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT * from chat where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1) order by fecha asc");
+        $consulta = $conexion->query("SELECT * from mensajes where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1) order by fecha asc");
         $i = 0;
         $datos = null;
         while ($row = $consulta->fetch()) {
@@ -84,12 +84,63 @@ class Mensaje {
                 'user1' => $row['user1'],
                 'user2' => $row['user2'],
                 'mensaje' => $row['mensaje'],
+                'visto' => $row['visto'],
                 'fecha' => $row['fecha']
             );
             $i++;
         }
         unset($conexion);
         return $datos;
+    }
+    
+    function mensajesNoVistos($usuario){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from mensajes where user2=$usuario and visto=0");
+        $i = 0;
+        $datos = null;
+        while ($row = $consulta->fetch()) {
+            $datos[$i] = array(
+                'id' => $row['id'],
+                'user1' => $row['user1'],
+                'user2' => $row['user2'],
+                'mensaje' => $row['mensaje'],
+                'visto' => $row['visto'],
+                'fecha' => $row['fecha']
+            );
+            $i++;
+        }
+        unset($conexion);
+        return $datos;
+    }
+    
+    function mensajesUsuarioNoVistos($user1,$user2){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from mensajes where user1=$user1 and user2=$user2 and visto=0");
+        $i = 0;
+        $datos = null;
+        while ($row = $consulta->fetch()) {
+            $datos[$i] = array(
+                'id' => $row['id'],
+                'user1' => $row['user1'],
+                'user2' => $row['user2'],
+                'mensaje' => $row['mensaje'],
+                'visto' => $row['visto'],
+                'fecha' => $row['fecha']
+            );
+            $i++;
+        }
+        unset($conexion);
+        return $datos;
+    }
+    
+    function mensajesLeidos($user1, $user2) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "UPDATE mensajes SET visto=1 where user1=$user1 and user2=$user2";
+        $conexion->exec($sql);
+        unset($conexion);
     }
     
     

@@ -220,7 +220,7 @@
                 if ($("#idUsuario").length > 0) {
                     setInterval(function () {
                         mostrarChat($("#idUsuario").val());
-                        $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
+                        // $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
                     }, 500);
                 }
             });
@@ -248,10 +248,14 @@
                                 var amigoPerfil = document.createElement("div");
                                 amigoPerfil.setAttribute("id", amigos[i].id);
                                 amigoPerfil.setAttribute("class", "amigo");
+                                if(getMensajesNoVistos(amigos[i].id)){
+                                    console.log(getMensajesNoVistos(amigos[i].id));
+                                }
 
                                 amigoPerfil.onclick = function () {
                                     mostrarCabeceraChat(this.id);
                                     mostrarChat(this.id);
+                                    mensajesLeidos(this.id);
                                 }
 
                                 var img = document.createElement("img");
@@ -298,6 +302,42 @@
                 });
             }
 
+            function getMensajesNoVistos(usuario) {
+                var parametros = {
+                    "accion": "mensajesUsuarioNoVistos",
+                    "usuario": usuario
+                };
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        if (respuesta) {
+                            var mensajes = JSON.parse(respuesta);
+                            var mensaje = 0;
+
+                            for (var i = 0; i < mensajes.length; i++) {
+                                if (mensajes[i].visto == 0) {
+                                    mensaje++;
+                                }
+                            }
+                            
+                            return mensaje;
+                            
+                        } else {
+                            return 0;
+                        }
+                        
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error al mostrar notificaciones");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+
+            }
+
             function mostrarCabeceraChat(usuario) {
                 var parametros = {
                     "accion": "mostrarCabeceraChat",
@@ -335,6 +375,7 @@
                         if (respuesta) {
                             var mensajes = JSON.parse(respuesta);
                             for (var i = 0; i < mensajes.length; i++) {
+
                                 var div = document.createElement("div");
                                 if (mensajes[i].user1 == usuario) {
                                     div.setAttribute("class", "mUser2");
@@ -390,6 +431,23 @@
                     alert("Mensaje vacío");
                 }
 
+            }
+
+            function mensajesLeidos(usuario) {
+                var parametros = {
+                    "accion": "mensajesLeidos",
+                    "usuario": usuario
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
             }
 
         </script>

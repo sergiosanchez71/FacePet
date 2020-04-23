@@ -111,11 +111,10 @@ header:hover > #navpc #crear ul, header:hover #navpc #liUsuario ul{
 }
 
 li .alerta{
-    display: none;
     background: red;
     padding: 1px 3px 1px 3px;
     position: absolute;
-    bottom: 2.7rem;
+    bottom: 2rem;
     left: 2.5rem;
     color: white;
 }
@@ -265,6 +264,7 @@ li .alerta{
     }
     
     .icono .alerta{
+        display: none;
         left: 5.5rem;
         font-size: 3rem;
         margin-bottom: 2rem;
