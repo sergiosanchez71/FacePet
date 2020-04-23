@@ -18,6 +18,7 @@
                 grid-template-areas:
                     "listaAmigos mensajes";
                 grid-template-columns: 30% 70%;
+                height: 50rem;
 
             }
 
@@ -88,7 +89,7 @@
                     "cabeceraCM"
                     "cuerpoCM"
                     "pieCM";
-                grid-template-rows: 7rem auto 5rem;
+                grid-template-rows: 7rem 45rem 5rem;
             }
 
             #cabeceraCM{
@@ -98,10 +99,11 @@
                 border-bottom: 1px solid black;
                 grid-area:cabeceraCM;
             }
-            
+
             #imgAmigoCM{
                 grid-area: imgAmigoCM;
                 width: 5rem;
+                height: 5rem;
                 border-radius: 5rem;
                 float:left;
                 padding: 1rem;
@@ -113,7 +115,7 @@
                 margin-top: 3rem;
                 margin-right: 3rem;
             }
-            
+
             #idUsuario{
                 display: none;
             }
@@ -212,10 +214,23 @@
 
             $(document).ready(function () {
                 mostrarMisAmigos();
-                $("#enviarMensaje").click(function(){
-                    enviarMensaje($("#mensajeEscrito").val(),$("#idUsuario").val());
+                $("#enviarMensaje").click(function () {
+                    enviarMensaje($("#mensajeEscrito").val(), $("#idUsuario").val());
                 });
+                if ($("#idUsuario").length > 0) {
+                    setInterval(function () {
+                        mostrarChat($("#idUsuario").val());
+                        $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
+                    }, 500);
+                }
             });
+
+
+            function pulsar(e) {
+                var tecla = (document.all) ? e.keyCode : e.which;
+                if (tecla == 13)
+                    enviarMensaje($("#mensajeEscrito").val(), $("#idUsuario").val());
+            }
 
             function mostrarMisAmigos() {
                 var parametros = {
@@ -293,11 +308,10 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
                         var amigo = JSON.parse(respuesta);
-                        $("#imgAmigoCM").attr("src","../controlador/uploads/usuarios/" + amigo.foto);
+                        $("#imgAmigoCM").attr("src", "../controlador/uploads/usuarios/" + amigo.foto);
                         $("#nombreAmigoCM").text(amigo.nick);
-                        $("#idUsuario").attr("value",amigo.id);
+                        $("#idUsuario").attr("value", amigo.id);
                     },
                     error: function (xhr, status) {
                         alert("Error en la eliminacion de post");
@@ -306,8 +320,8 @@
                     dataType: "text"
                 });
             }
-            
-            function mostrarChat(usuario){
+
+            function mostrarChat(usuario) {
                 var parametros = {
                     "accion": "mostrarChat",
                     "usuario": usuario
@@ -317,7 +331,31 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
+                        $("#cuerpoCM").text("");
+                        if (respuesta) {
+                            var mensajes = JSON.parse(respuesta);
+                            for (var i = 0; i < mensajes.length; i++) {
+                                var div = document.createElement("div");
+                                if (mensajes[i].user1 == usuario) {
+                                    div.setAttribute("class", "mUser2");
+                                } else {
+                                    div.setAttribute("class", "mUser1");
+                                }
+
+                                var contenido = document.createElement("span");
+                                contenido.innerHTML = mensajes[i].mensaje;
+
+                                var fecha = document.createElement("p");
+                                fecha.setAttribute("class", "fecha");
+                                fecha.innerHTML = mensajes[i].fecha;
+
+                                $("#cuerpoCM").append(div);
+                                div.append(contenido);
+                                div.append(fecha);
+                            }
+                        }
+
+
                     },
                     error: function (xhr, status) {
                         alert("Error en la eliminacion de post");
@@ -326,30 +364,32 @@
                     dataType: "text"
                 });
             }
-            
-            function enviarMensaje(mensaje, usuario){
-                
-                alert(mensaje);
-                alert(usuario);
-                
-                var parametros = {
-                    "accion": "enviarMensaje",
-                    "mensaje": mensaje,
-                    "usuario": usuario
-                };
 
-                $.ajax({
-                    url: "../controlador/acciones.php",
-                    data: parametros,
-                    success: function (respuesta) {
-                        console.log(respuesta);
-                    },
-                    error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
-                    },
-                    type: "POST",
-                    dataType: "text"
-                });
+            function enviarMensaje(mensaje, usuario) {
+                if (mensaje.trim() != "" && usuario.length > 0) {
+                    var parametros = {
+                        "accion": "enviarMensaje",
+                        "mensaje": mensaje,
+                        "usuario": usuario
+                    };
+
+                    $.ajax({
+                        url: "../controlador/acciones.php",
+                        data: parametros,
+                        success: function (respuesta) {
+                            $("#mensajeEscrito").val(" ");
+                        },
+                        error: function (xhr, status) {
+                            alert("Error en la eliminacion de post");
+                        },
+                        type: "POST",
+                        dataType: "text"
+                    });
+
+                } else {
+                    alert("Mensaje vacío");
+                }
+
             }
 
         </script>
@@ -418,15 +458,10 @@
                         <input type="text" id="idUsuario">
                     </div>
                     <div id="cuerpoCM">
-                        <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
-                        <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
-                        <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
-                        <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
-                        <div class="mUser2"><span>HOLAAAAAAA</span><p class="fecha">13/04/2019 13:33</p></div>
-                        <div class="mUser1"><span>holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><p class="fecha">13/04/2019 13:33</p></div>
+
                     </div>
                     <div id="pieCM">
-                        <input type="text" id="mensajeEscrito" placeholder="Escribe un mensaje">
+                        <input type="text" id="mensajeEscrito" onkeypress="pulsar(event)" placeholder="Escribe un mensaje">
                         <button id="enviarMensaje">Enviar</button>
                     </div>
                 </div>

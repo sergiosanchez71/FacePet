@@ -12,7 +12,7 @@ include 'clases/Usuario.php';
 include 'clases/Post.php';
 include 'clases/Notificacion.php';
 include 'clases/Amistades.php';
-include 'clases/Chat.php';
+include 'clases/Mensaje.php';
 
 session_start();
 $accion = $_REQUEST['accion'];
@@ -216,16 +216,28 @@ switch ($accion) {
     case "mostrarCabeceraChat":
         echo json_encode(Usuario::getDatos($_REQUEST['usuario']));
         break;
-        
+
     case "mostrarChat":
         $usuario = Usuario::getIdUsuario($_SESSION['username']);
-        if(Chat::mostrarChat($usuario, $_REQUEST['usuario'])){
-            echo json_encode(Chat::mostrarChat($usuario, $_REQUEST['usuario']));
+        if (Mensaje::mostrarChat($usuario, $_REQUEST['usuario'])) {
+            echo json_encode(Mensaje::mostrarChat($usuario, $_REQUEST['usuario']));
         } else {
             echo false;
         }
         break;
-        
+
+    case "enviarMensaje":
+        $usuario = Usuario::getIdUsuario($_SESSION['username']);
+        $fecha = date("Y-m-d H:i:s");
+        $mensaje = new Mensaje($usuario, $_REQUEST['usuario'], $_REQUEST['mensaje'], $fecha);
+        if (Mensaje::enviarMensaje($mensaje)) {
+            echo "true";
+        } else {
+            echo "false";
+        }
+
+        break;
+
     //Subir multimedia
     case "cambiarImagen":
         $dir_subida = '../controlador/uploads/usuarios/';
