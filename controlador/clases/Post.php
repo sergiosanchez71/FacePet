@@ -193,7 +193,7 @@ class Post {
         return $datos;
     }
 
-    function mostrarPostsAmigos($amigos) {
+    function mostrarPostsAmigos($amigos, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $i = 0;
@@ -214,6 +214,7 @@ class Post {
                     'multimedia' => $row['multimedia'],
                     'fecha_publicacion' => $row['fecha_publicacion'],
                     'likes' => $row['likes'],
+                    //'like' => Post::comprobarLike($row['id'],$usuario),
                     'usuario' => $row['usuario'],
                     'nick' => $row['nick'],
                     'foto' => $foto
@@ -224,6 +225,51 @@ class Post {
         }
         unset($conexion);
         return $datos;
+    }
+    
+    function comprobarLike($post, $usuario){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT likes from posts where id='$post'");
+        $cadLikes = null;
+        $existe = false;
+        while ($row = $consulta->fetch()) {
+            $cadLikes = $row['likes'];
+        }
+        if(isset($cadLikes)){
+            if(strpos($likes,",")){
+                $likes = split($cadLikes);
+                for($i=0;$i<count($likes);$i++){
+                    if($likes[$i]==$usuario){
+                        $existe = true;
+                    }
+                }
+            } else {
+                $likes = $cadLikes;
+                if($likes[$i]==$usuario){
+                    $existe = true;
+                }
+            }
+        }
+        unset($conexion);
+        return $existe;
+    }
+    
+    function darLike($post, $usuario){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT likes from posts where id='$post'");
+        $likes = null;
+        while ($row = $consulta->fetch()) {
+            $likes = $row['likes'];
+            if($likes!=null){
+                $sql = "UPDATE posts SET likes='$likes,$usuario' where id='$post'";
+            } else{
+                $sql = "UPDATE posts SET likes='$usuario' where id='$post'";
+            }
+        }
+        $conexion->exec($sql);
+        unset($conexion);
     }
 
 }

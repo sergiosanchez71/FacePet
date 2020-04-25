@@ -205,8 +205,21 @@ switch ($accion) {
     case "mostrarPostsAmigos":
         $usuario = Usuario::getIdUsuario($_SESSION['username']);
         $amigos = explode(",", Usuario::mostrarMisAmigos($usuario));
-        if (Post::mostrarPostsAmigos($amigos)) {
-            echo json_encode(Post::mostrarPostsAmigos($amigos));
+        if (Post::mostrarPostsAmigos($amigos,$usuario)) {
+            echo json_encode(Post::mostrarPostsAmigos($amigos,$usuario));
+        } else {
+            echo false;
+        }
+        break;
+        
+    case "darLike":
+        $usuario = Usuario::getIdUsuario($_SESSION['username']);
+        if (Post::comprobarLike($_REQUEST['post'],$usuario)){
+            if (Post::darLike($_REQUEST['post'],$usuario)){
+                echo true;
+            } else {
+                echo false;
+            }
         } else {
             echo false;
         }
@@ -249,7 +262,7 @@ switch ($accion) {
     case "mensajesUsuarioNoVistos":
         $usuario = Usuario::getIdUsuario($_SESSION['username']);
         if(Mensaje::mensajesUsuarioNoVistos($_REQUEST['usuario'],$usuario)){
-            echo json_encode(Mensaje::mensajesUsuarioNoVistos($usuario));
+            echo json_encode(Mensaje::mensajesUsuarioNoVistos($_REQUEST['usuario'],$usuario));
         } else {
             echo false;
         }

@@ -142,24 +142,25 @@ and open the template in the editor.
                     data: parametros,
                     success: function (respuesta) {
                         if (respuesta) {
+                            console.log(respuesta);
                             var posts = JSON.parse(respuesta);
                             for (var i = 0; i < posts.length; i++) {
                                 var post = document.createElement("div");
                                 post.setAttribute("class", "post");
 
                                 /*var a = document.createElement("button");
-                                a.setAttribute("value", posts[i].id);
-                                a.setAttribute("class", "botonEliminar");
-
-                                a.onclick = function () {
-                                    if (confirm("Esta seguro de eliminar este post")) {
-                                        eliminarPost(this.value);
-                                    }
-                                }
-
-                                var postEliminar = document.createElement("img");
-                                postEliminar.setAttribute("class", "postEliminar");
-                                postEliminar.setAttribute("src", "../controlador/img/eliminar.png");*/
+                                 a.setAttribute("value", posts[i].id);
+                                 a.setAttribute("class", "botonEliminar");
+                                 
+                                 a.onclick = function () {
+                                 if (confirm("Esta seguro de eliminar este post")) {
+                                 eliminarPost(this.value);
+                                 }
+                                 }
+                                 
+                                 var postEliminar = document.createElement("img");
+                                 postEliminar.setAttribute("class", "postEliminar");
+                                 postEliminar.setAttribute("src", "../controlador/img/eliminar.png");*/
 
 
                                 /* var postEliminarBoton = document.createElement("button");
@@ -203,7 +204,16 @@ and open the template in the editor.
 
                                 var postLikes = document.createElement("p");
                                 postLikes.setAttribute("class", "postLikes");
-                                postLikes.innerHTML += posts[i].likes + " Me gustas";
+
+                                if (posts[i].likes != null) {
+
+                                    var cadlikes = posts[i].likes;
+                                    var likes = cadlikes.split(",");
+                                    postLikes.innerHTML += likes.length + " Me gustas";
+
+                                } else {
+                                    postLikes.innerHTML = "0 Me gustas";
+                                }
 
                                 var iconos = document.createElement("p");
                                 iconos.setAttribute("class", "iconos");
@@ -213,6 +223,13 @@ and open the template in the editor.
                                 var postCorazonImg = document.createElement("img");
                                 postCorazonImg.setAttribute("class", "postCorazonImg");
                                 postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
+                                postCorazonImg.setAttribute("alt", posts[i].id);
+
+                                postCorazonImg.onclick = function () {
+                                    this.removeAttribute("src");
+                                    this.setAttribute("src", "../controlador/img/Like.png");
+                                    darLike(this.alt);
+                                }
 
                                 var postComentario = document.createElement("a");
                                 postComentario.setAttribute("class", "postComentario");
@@ -223,7 +240,7 @@ and open the template in the editor.
 
                                 $("#posts").append(post);
                                 /*post.append(a);
-                                a.append(postEliminar);*/
+                                 a.append(postEliminar);*/
                                 post.append(postUsuario);
 
                                 postUsuario.append(imgUsuario);
@@ -247,6 +264,27 @@ and open the template in the editor.
                                 iconos.append(postComentario);
                                 postCorazon.append(postCorazonImg);
                                 postComentario.append(postComentarioImg);
+
+                                function darLike(post) {
+                                    var parametros = {
+                                        "accion": "darLike",
+                                        "post": post
+                                    };
+
+                                    $.ajax({
+                                        url: "../controlador/acciones.php",
+                                        data: parametros,
+                                        success: function (respuesta) {
+                                            console.log(respuesta);
+                                        },
+                                        error: function (xhr, status) {
+                                            alert("Error en la eliminacion de post");
+                                        },
+                                        type: "POST",
+                                        dataType: "text"
+                                    });
+                                }
+
                             }
                         } else {
                             var h1 = document.createElement("h1");
@@ -261,7 +299,6 @@ and open the template in the editor.
                     dataType: "text"
                 });
             }
-
 
 
         </script>
@@ -329,7 +366,7 @@ and open the template in the editor.
                 </div>
                 <div id="posts">
                     <p id="name">Posts</p>
-                    
+
                 </div>
                 <div id="eventos">
                     <p id="name">Eventos</p>

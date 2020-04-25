@@ -244,11 +244,17 @@
                         if (respuesta) {
                             var amigos = JSON.parse(respuesta);
                             for (var i = 0; i < amigos.length; i++) {
-
+                                
+                                if(i==0){
+                                    mostrarCabeceraChat(amigos[i].id);
+                                    mostrarChat(amigos[i].id);
+                                    mensajesLeidos(amigos[i].id);
+                                }
+                                
                                 var amigoPerfil = document.createElement("div");
                                 amigoPerfil.setAttribute("id", amigos[i].id);
                                 amigoPerfil.setAttribute("class", "amigo");
-                                if(getMensajesNoVistos(amigos[i].id)){
+                                if(getMensajesNoVistos(amigos[i].id) > 0){
                                     console.log(getMensajesNoVistos(amigos[i].id));
                                 }
 
@@ -303,6 +309,9 @@
             }
 
             function getMensajesNoVistos(usuario) {
+                
+                var mensaje = 0;
+                
                 var parametros = {
                     "accion": "mensajesUsuarioNoVistos",
                     "usuario": usuario
@@ -311,23 +320,17 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+
                         if (respuesta) {
                             var mensajes = JSON.parse(respuesta);
-                            var mensaje = 0;
 
                             for (var i = 0; i < mensajes.length; i++) {
                                 if (mensajes[i].visto == 0) {
-                                    mensaje++;
+                                    mensaje += 1;
+                                    console.log(mensaje);
                                 }
-                            }
-                            
-                            return mensaje;
-                            
-                        } else {
-                            return 0;
-                        }
-                        
-
+                            }                           
+                        } 
                     },
                     error: function (xhr, status) {
                         alert("Error al mostrar notificaciones");
@@ -335,6 +338,7 @@
                     type: "POST",
                     dataType: "text"
                 });
+                return mensaje;
 
             }
 
@@ -467,9 +471,9 @@
                         </ul>
                     </li>
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
-                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><span class="alerta" class="mensaje"></span></a></li>
-                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><span class="alerta" class="notificacion"></span></a></li>
-                    <li id="liUsuario">
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p style="display:none;" class="alerta" id="mensaje"></p></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p style="display:none;" class="alerta" id="notificacion"></p></a></li>
+                   <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">
                             <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
