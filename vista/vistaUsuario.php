@@ -142,7 +142,6 @@ and open the template in the editor.
                     data: parametros,
                     success: function (respuesta) {
                         if (respuesta) {
-                            console.log(respuesta);
                             var posts = JSON.parse(respuesta);
                             for (var i = 0; i < posts.length; i++) {
                                 var post = document.createElement("div");

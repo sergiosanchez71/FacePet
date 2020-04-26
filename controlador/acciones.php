@@ -214,12 +214,8 @@ switch ($accion) {
         
     case "darLike":
         $usuario = Usuario::getIdUsuario($_SESSION['username']);
-        if (Post::comprobarLike($_REQUEST['post'],$usuario)){
-            if (Post::darLike($_REQUEST['post'],$usuario)){
-                echo true;
-            } else {
-                echo false;
-            }
+        if (!Post::comprobarLike($_REQUEST['post'],$usuario)){
+            echo Post::darLike($_REQUEST['post'],$usuario);
         } else {
             echo false;
         }

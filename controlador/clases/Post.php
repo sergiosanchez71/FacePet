@@ -214,7 +214,7 @@ class Post {
                     'multimedia' => $row['multimedia'],
                     'fecha_publicacion' => $row['fecha_publicacion'],
                     'likes' => $row['likes'],
-                    //'like' => Post::comprobarLike($row['id'],$usuario),
+                    'like' => Post::comprobarLike($row['id'],$usuario),
                     'usuario' => $row['usuario'],
                     'nick' => $row['nick'],
                     'foto' => $foto
@@ -237,8 +237,8 @@ class Post {
             $cadLikes = $row['likes'];
         }
         if(isset($cadLikes)){
-            if(strpos($likes,",")){
-                $likes = split($cadLikes);
+            if(strpos($cadLikes,",")){
+                $likes = explode(",",$cadLikes);
                 for($i=0;$i<count($likes);$i++){
                     if($likes[$i]==$usuario){
                         $existe = true;
@@ -246,7 +246,7 @@ class Post {
                 }
             } else {
                 $likes = $cadLikes;
-                if($likes[$i]==$usuario){
+                if($likes==$usuario){
                     $existe = true;
                 }
             }
@@ -260,16 +260,20 @@ class Post {
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT likes from posts where id='$post'");
         $likes = null;
+        $valor = false;
         while ($row = $consulta->fetch()) {
             $likes = $row['likes'];
             if($likes!=null){
                 $sql = "UPDATE posts SET likes='$likes,$usuario' where id='$post'";
+                $valor = true;
             } else{
                 $sql = "UPDATE posts SET likes='$usuario' where id='$post'";
+                $valor = true;
             }
         }
         $conexion->exec($sql);
         unset($conexion);
+        return $valor;
     }
 
 }
