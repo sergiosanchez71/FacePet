@@ -408,6 +408,18 @@ class Usuario {
         unset($conexion);
         return $amigos;
     }
+    
+    function esAmigo($user1,$user2){
+        $amigos = explode(",", Usuario::mostrarMisAmigos($user1));;
+        
+        $amigo = false;
+        for($i=0;$i<count($amigos);$i++){
+            if($user2 == $amigos[$i]){
+                $amigo = true;
+            }
+        }
+        return $amigo;
+    }
 
     function cambiarAvatar($usuario, $imagen) {
         $conexion = Conexion::conectar();

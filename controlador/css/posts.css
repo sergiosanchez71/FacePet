@@ -25,14 +25,14 @@
 }
 
 .imagenUsuario{
-    width: 3rem;
-    height: 3rem;
+    width: 4rem;
+    height: 4rem;
     border-radius: 3rem;
 }
 
 .nombreUsuario{
     position: relative;
-    bottom: 1.5rem;
+    bottom: 2rem;
     left: 1rem;
     font-weight: bold;
 }
@@ -40,8 +40,8 @@
 .postFecha{
     font-size: 0.8rem;
     position: relative;
-    bottom: 2rem;
-    left: 4rem;
+    bottom: 2.5rem;
+    left: 5rem;
 }
 
 .postCont{
@@ -84,6 +84,7 @@
 .postCorazonImg, .postComentarioImg{
     width: 2rem;
     padding-right: 1rem;
+    cursor: pointer;
 }
 
 @media (max-width: 1000px){

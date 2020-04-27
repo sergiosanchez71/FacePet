@@ -10,12 +10,14 @@ include 'clases/Animal.php';
 include 'clases/Raza.php';
 include 'clases/Usuario.php';
 include 'clases/Post.php';
+include 'clases/Comentario.php';
 include 'clases/Notificacion.php';
 include 'clases/Amistades.php';
 include 'clases/Mensaje.php';
 
 session_start();
 $accion = $_REQUEST['accion'];
+$idusuario = Usuario::getIdUsuario($_SESSION['username']);
 
 switch ($accion) {
 
@@ -124,8 +126,7 @@ switch ($accion) {
         break;
 
     case "mostrarMisAmigos":
-        $usuario = Usuario::getIdUsuario($_SESSION['username']);
-        $amigos = explode(",", Usuario::mostrarMisAmigos($usuario));
+        $amigos = explode(",", Usuario::mostrarMisAmigos($idusuario));
         echo json_encode(Usuario::getDatosAmigos($amigos));
         break;
 
@@ -197,48 +198,73 @@ switch ($accion) {
             echo false;
         }
         break;
+    case "verPost":
+        
+        break;
+    case "mostrarPost":
+        if(Post::mostrarPost($_REQUEST['post'],$idusuario)){
+            echo json_encode(Post::mostrarPost($_REQUEST['post'],$idusuario));
+        } else {
+            echo false;
+        }
+        break;
 
     case "eliminarPost":
         Post::eliminarPost($_REQUEST['post']);
         break;
 
     case "mostrarPostsAmigos":
-        $usuario = Usuario::getIdUsuario($_SESSION['username']);
-        $amigos = explode(",", Usuario::mostrarMisAmigos($usuario));
-        if (Post::mostrarPostsAmigos($amigos,$usuario)) {
-            echo json_encode(Post::mostrarPostsAmigos($amigos,$usuario));
+        $amigos = explode(",", Usuario::mostrarMisAmigos($idusuario));
+        if (Post::mostrarPostsAmigos($amigos,$idusuario)) {
+            echo json_encode(Post::mostrarPostsAmigos($amigos,$idusuario));
         } else {
             echo false;
         }
         break;
         
     case "darLike":
-        $usuario = Usuario::getIdUsuario($_SESSION['username']);
-        if (!Post::comprobarLike($_REQUEST['post'],$usuario)){
-            echo Post::darLike($_REQUEST['post'],$usuario);
+        if (!Post::comprobarLike($_REQUEST['post'],$idusuario)){
+            echo Post::darLike($_REQUEST['post'],$idusuario);
         } else {
             echo false;
         }
         break;
 
+    //Comentarios    
+    case "publicarComentario":
+        $fecha = date("Y-m-d H:i:s");
+        $comentario = new Comentario($_REQUEST['contenido'],$fecha, $_REQUEST['post'], $idusuario);
+        if(Comentario::publicarComentario($comentario)){
+            echo true;
+        } else {
+            echo false;
+        }
+        break;
+        
+    case "mostrarComentarios":
+        if (Comentario::mostrarComentarios($_REQUEST['post'])){
+            echo json_encode(Comentario::mostrarComentarios($_REQUEST['post']));
+        } else {
+            echo false;
+        }
+        break;
+        
     //Mensajes
     case "mostrarCabeceraChat":
         echo json_encode(Usuario::getDatos($_REQUEST['usuario']));
         break;
 
     case "mostrarChat":
-        $usuario = Usuario::getIdUsuario($_SESSION['username']);
-        if (Mensaje::mostrarChat($usuario, $_REQUEST['usuario'])) {
-            echo json_encode(Mensaje::mostrarChat($usuario, $_REQUEST['usuario']));
+        if (Mensaje::mostrarChat($idusuario, $_REQUEST['usuario'])) {
+            echo json_encode(Mensaje::mostrarChat($idusuario, $_REQUEST['usuario']));
         } else {
             echo false;
         }
         break;
 
     case "enviarMensaje":
-        $usuario = Usuario::getIdUsuario($_SESSION['username']);
         $fecha = date("Y-m-d H:i:s");
-        $mensaje = new Mensaje($usuario, $_REQUEST['usuario'], $_REQUEST['mensaje'], $fecha);
+        $mensaje = new Mensaje($idusuario, $_REQUEST['usuario'], $_REQUEST['mensaje'], $fecha);
         if (Mensaje::enviarMensaje($mensaje)) {
             echo "true";
         } else {
@@ -247,26 +273,23 @@ switch ($accion) {
         break;
         
     case "mensajesNoVistos":
-        $usuario = Usuario::getIdUsuario($_SESSION['username']);
-        if(Mensaje::mensajesNoVistos($usuario)){
-            echo json_encode(Mensaje::mensajesNoVistos($usuario));
+        if(Mensaje::mensajesNoVistos($idusuario)){
+            echo json_encode(Mensaje::mensajesNoVistos($idusuario));
         } else {
             echo false;
         }
         break;
         
     case "mensajesUsuarioNoVistos":
-        $usuario = Usuario::getIdUsuario($_SESSION['username']);
-        if(Mensaje::mensajesUsuarioNoVistos($_REQUEST['usuario'],$usuario)){
-            echo json_encode(Mensaje::mensajesUsuarioNoVistos($_REQUEST['usuario'],$usuario));
+        if(Mensaje::mensajesUsuarioNoVistos($_REQUEST['usuario'],$idusuario)){
+            echo json_encode(Mensaje::mensajesUsuarioNoVistos($_REQUEST['usuario'],$idusuario));
         } else {
             echo false;
         }
         break;
         
     case "mensajesLeidos":
-        $usuario = Usuario::getIdUsuario($_SESSION['username']);
-        if(Mensaje::mensajesLeidos($_REQUEST['usuario'],$usuario)){
+        if(Mensaje::mensajesLeidos($_REQUEST['usuario'],$idusuario)){
             echo true;
         } else {
             echo false;
@@ -295,8 +318,7 @@ switch ($accion) {
 
     //Más
     case "getDatosUsuario":
-        $usuario = Usuario::getIdUsuario($_SESSION['username']);
-        echo json_encode(Usuario::getDatos($usuario));
+        echo json_encode(Usuario::getDatos($idusuario));
         break;
 }
 

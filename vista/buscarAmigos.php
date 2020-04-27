@@ -46,6 +46,10 @@
                 float: left;
                 padding-bottom: 1rem;
             }
+            
+            .amigo:last-child{
+                margin-bottom: 5rem;
+            }
 
             .datos{
                 padding-left: 2rem;
@@ -174,11 +178,6 @@
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
-                    success: function (respuesta) {
-                        console.log(respuesta);
-
-
-                    },
                     error: function (xhr, status) {
                         alert("Error en la creación de post");
                     },
@@ -196,11 +195,6 @@
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
-                    success: function (respuesta) {
-                        console.log(respuesta);
-
-
-                    },
                     error: function (xhr, status) {
                         alert("Error en la creación de post");
                     },
@@ -235,7 +229,6 @@
 
                             for (var i = 0; i < usuarios.length; i++) {
                                 if (usuarios[i].amigos != null) {
-                                    console.log(usuarios[i].amigos);
                                     var cadenaAmigos = usuarios[i].amigos;
                                     var amigosArray = cadenaAmigos.split(",");
                                     var amigos = false;

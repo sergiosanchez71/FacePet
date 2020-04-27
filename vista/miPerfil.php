@@ -525,7 +525,20 @@ and open the template in the editor.
 
                                 var postLikes = document.createElement("p");
                                 postLikes.setAttribute("class", "postLikes");
-                                postLikes.innerHTML += posts[i].likes + " Me gustas";
+
+                                if (posts[i].likes != null) {
+
+                                    var cadlikes = posts[i].likes;
+                                    var likes = cadlikes.split(",");
+                                    if(likes.length > 1){
+                                       postLikes.innerHTML += likes.length + " Me gustas";
+                                    } else {
+                                        postLikes.innerHTML += likes.length + " Me gusta";
+                                    }
+
+                                } else {
+                                    postLikes.innerHTML = "0 Me gustas";
+                                }
 
                                 var iconos = document.createElement("p");
                                 iconos.setAttribute("class", "iconos");
@@ -534,7 +547,25 @@ and open the template in the editor.
 
                                 var postCorazonImg = document.createElement("img");
                                 postCorazonImg.setAttribute("class", "postCorazonImg");
-                                postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
+                                postCorazonImg.setAttribute("alt", posts[i].id);
+
+                                if (!posts[i].like) {
+                                    postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
+
+                                    postCorazonImg.onclick = function () {
+                                        this.removeAttribute("src");
+                                        this.setAttribute("src", "../controlador/img/Like.png");
+                                        darLike(this.alt);
+                                    }
+                                } else {
+                                    postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
+
+                                  /*  postCorazonImg.onclick = function () {
+                                        this.removeAttribute("src");
+                                        this.setAttribute("src", "../controlador/img/nolike.png");
+                                        darLike(this.alt);
+                                    }*/
+                                }
 
                                 var postComentario = document.createElement("a");
                                 postComentario.setAttribute("class", "postComentario");
@@ -569,6 +600,27 @@ and open the template in the editor.
                                 iconos.append(postComentario);
                                 postCorazon.append(postCorazonImg);
                                 postComentario.append(postComentarioImg);
+                                
+                                function darLike(post) {
+                                    var parametros = {
+                                        "accion": "darLike",
+                                        "post": post
+                                    };
+
+                                    $.ajax({
+                                        url: "../controlador/acciones.php",
+                                        data: parametros,
+                                        success: function (respuesta) {
+                                            console.log(respuesta);
+                                        },
+                                        error: function (xhr, status) {
+                                            alert("Error en la eliminacion de post");
+                                        },
+                                        type: "POST",
+                                        dataType: "text"
+                                    });
+                                }
+                                
                             }
                         } else {
                             var h1 = document.createElement("h1");

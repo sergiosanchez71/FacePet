@@ -17,7 +17,8 @@ if (isset($_REQUEST['subirImagen'])) {
     $file_ext = preg_split("/\./", $_FILES['userfile']['name']);
     $allowed_ext = preg_split("/\,/", $allowed_ext);
     foreach ($allowed_ext as $ext) {
-        if (strtolower($ext) == strtolower($file_ext[1])) {
+        $tam = count($file_ext);
+        if (strtolower($ext) == strtolower($file_ext[$tam-1])) {
             $match = true; // Permite el archivo
         }
     }
@@ -39,7 +40,8 @@ if (isset($_REQUEST['cambiarAvatar'])) {
     $file_ext = preg_split("/\./", $_FILES['userfile']['name']);
     $allowed_ext = preg_split("/\,/", $allowed_ext);
     foreach ($allowed_ext as $ext) {
-        if (strtolower($ext) == strtolower($file_ext[1])) {
+        $tam = count($file_ext);
+        if (strtolower($ext) == strtolower($file_ext[$tam-1])) {
             $match = true; // Permite el archivo
         }
     }

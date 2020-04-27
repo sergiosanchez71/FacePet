@@ -182,12 +182,42 @@ class Post {
                 'multimedia' => $row['multimedia'],
                 'fecha_publicacion' => $row['fecha_publicacion'],
                 'likes' => $row['likes'],
+                'like' => Post::comprobarLike($row['id'],$usuario),
                 'usuario' => $row['usuario'],
                 'nick' => $row['nick'],
                 'foto' => $foto
             );
 
             $i++;
+        }
+        unset($conexion);
+        return $datos;
+    }
+    
+    function mostrarPost($post, $usuario){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where p.id='$post' and p.usuario=u.id");
+        $datos = null;
+        while ($row = $consulta->fetch()) {
+            if ($row['foto'] == null) {
+                $foto = "0.jpg";
+            } else {
+                $foto = $row['foto'];
+            }
+            $datos = array(
+                'id' => $row['id'],
+                'titulo' => $row['titulo'],
+                'contenido' => $row['contenido'],
+                'multimedia' => $row['multimedia'],
+                'fecha_publicacion' => $row['fecha_publicacion'],
+                'likes' => $row['likes'],
+                'like' => Post::comprobarLike($row['id'],$usuario),
+                'usuario' => $row['usuario'],
+                'nick' => $row['nick'],
+                'foto' => $foto,
+                'amigo' => Usuario::esAmigo($usuario,$row['usuario'])
+            );
         }
         unset($conexion);
         return $datos;

@@ -208,7 +208,11 @@ and open the template in the editor.
 
                                     var cadlikes = posts[i].likes;
                                     var likes = cadlikes.split(",");
-                                    postLikes.innerHTML += likes.length + " Me gustas";
+                                    if(likes.length > 1){
+                                       postLikes.innerHTML += likes.length + " Me gustas";
+                                    } else {
+                                        postLikes.innerHTML += likes.length + " Me gusta";
+                                    }
 
                                 } else {
                                     postLikes.innerHTML = "0 Me gustas";
@@ -221,13 +225,24 @@ and open the template in the editor.
 
                                 var postCorazonImg = document.createElement("img");
                                 postCorazonImg.setAttribute("class", "postCorazonImg");
-                                postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
                                 postCorazonImg.setAttribute("alt", posts[i].id);
 
-                                postCorazonImg.onclick = function () {
-                                    this.removeAttribute("src");
-                                    this.setAttribute("src", "../controlador/img/Like.png");
-                                    darLike(this.alt);
+                                if (!posts[i].like) {
+                                    postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
+
+                                    postCorazonImg.onclick = function () {
+                                        this.removeAttribute("src");
+                                        this.setAttribute("src", "../controlador/img/Like.png");
+                                        darLike(this.alt);
+                                    }
+                                } else {
+                                    postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
+
+                                  /*  postCorazonImg.onclick = function () {
+                                        this.removeAttribute("src");
+                                        this.setAttribute("src", "../controlador/img/nolike.png");
+                                        darLike(this.alt);
+                                    }*/
                                 }
 
                                 var postComentario = document.createElement("a");
@@ -236,6 +251,11 @@ and open the template in the editor.
                                 var postComentarioImg = document.createElement("img");
                                 postComentarioImg.setAttribute("class", "postComentarioImg");
                                 postComentarioImg.setAttribute("src", "../controlador/img/comentario.png");
+                                postComentarioImg.setAttribute("alt", posts[i].id);
+
+                                postComentarioImg.onclick = function () {
+                                    window.location.href = "verPost.php?post="+this.alt;
+                                }
 
                                 $("#posts").append(post);
                                 /*post.append(a);
@@ -273,9 +293,6 @@ and open the template in the editor.
                                     $.ajax({
                                         url: "../controlador/acciones.php",
                                         data: parametros,
-                                        success: function (respuesta) {
-                                            console.log(respuesta);
-                                        },
                                         error: function (xhr, status) {
                                             alert("Error en la eliminacion de post");
                                         },
@@ -283,7 +300,24 @@ and open the template in the editor.
                                         dataType: "text"
                                     });
                                 }
-
+                                
+                               /* function verPost(post){
+                                    var parametros = {
+                                        "post":post
+                                    }
+                                    $.ajax({
+                                        url: "verPost.php",
+                                        data: parametros,
+                                        success: function (respuesta) {
+                                            window.location.href = "verPost.php";
+                                        },
+                                        error: function (xhr, status) {
+                                            alert("Error en la eliminacion de post");
+                                        },
+                                        type: "POST",
+                                        dataType: "text"
+                                    });
+                                }*/
                             }
                         } else {
                             var h1 = document.createElement("h1");
