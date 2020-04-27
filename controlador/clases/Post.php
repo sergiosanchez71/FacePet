@@ -93,13 +93,13 @@ class Post {
         $borrado = false;
         while ($row = $consulta->fetch()) {
             $multimedia = $row['multimedia'];
-            unlink("uploads/posts/".$multimedia);
+            unlink("uploads/posts/" . $multimedia);
             $borrado = true;
         }
         unset($conexion);
         return $borrado;
     }
-    
+
     function eliminarPost($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -137,6 +137,17 @@ class Post {
         }
         unset($conexion);
         return $posts;
+    }
+    
+    function getUsuarioPost($post){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT usuario from posts where id=$post");
+        while ($row = $consulta->fetch()) {
+            $usuario = $row['usuario'];
+        }
+        unset($conexion);
+        return $usuario;
     }
 
     function getDatosPostUsuario($usuario) {
@@ -182,10 +193,11 @@ class Post {
                 'multimedia' => $row['multimedia'],
                 'fecha_publicacion' => $row['fecha_publicacion'],
                 'likes' => $row['likes'],
-                'like' => Post::comprobarLike($row['id'],$usuario),
+                'like' => Post::comprobarLike($row['id'], $usuario),
                 'usuario' => $row['usuario'],
                 'nick' => $row['nick'],
-                'foto' => $foto
+                'foto' => $foto,
+                'comentarios' => Comentario::contarComentarios($row['id'])
             );
 
             $i++;
@@ -193,8 +205,8 @@ class Post {
         unset($conexion);
         return $datos;
     }
-    
-    function mostrarPost($post, $usuario){
+
+    function mostrarPost($post, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where p.id='$post' and p.usuario=u.id");
@@ -212,11 +224,11 @@ class Post {
                 'multimedia' => $row['multimedia'],
                 'fecha_publicacion' => $row['fecha_publicacion'],
                 'likes' => $row['likes'],
-                'like' => Post::comprobarLike($row['id'],$usuario),
+                'like' => Post::comprobarLike($row['id'], $usuario),
                 'usuario' => $row['usuario'],
                 'nick' => $row['nick'],
                 'foto' => $foto,
-                'amigo' => Usuario::esAmigo($usuario,$row['usuario'])
+                'amigo' => Usuario::esAmigo($usuario, $row['usuario'])
             );
         }
         unset($conexion);
@@ -244,10 +256,11 @@ class Post {
                     'multimedia' => $row['multimedia'],
                     'fecha_publicacion' => $row['fecha_publicacion'],
                     'likes' => $row['likes'],
-                    'like' => Post::comprobarLike($row['id'],$usuario),
+                    'like' => Post::comprobarLike($row['id'], $usuario),
                     'usuario' => $row['usuario'],
                     'nick' => $row['nick'],
-                    'foto' => $foto
+                    'foto' => $foto,
+                    'comentarios' => Comentario::contarComentarios($row['id'])
                 );
 
                 $i++;
@@ -256,8 +269,8 @@ class Post {
         unset($conexion);
         return $datos;
     }
-    
-    function comprobarLike($post, $usuario){
+
+    function comprobarLike($post, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT likes from posts where id='$post'");
@@ -266,17 +279,17 @@ class Post {
         while ($row = $consulta->fetch()) {
             $cadLikes = $row['likes'];
         }
-        if(isset($cadLikes)){
-            if(strpos($cadLikes,",")){
-                $likes = explode(",",$cadLikes);
-                for($i=0;$i<count($likes);$i++){
-                    if($likes[$i]==$usuario){
+        if (isset($cadLikes)) {
+            if (strpos($cadLikes, ",")) {
+                $likes = explode(",", $cadLikes);
+                for ($i = 0; $i < count($likes); $i++) {
+                    if ($likes[$i] == $usuario) {
                         $existe = true;
                     }
                 }
             } else {
                 $likes = $cadLikes;
-                if($likes==$usuario){
+                if ($likes == $usuario) {
                     $existe = true;
                 }
             }
@@ -284,8 +297,8 @@ class Post {
         unset($conexion);
         return $existe;
     }
-    
-    function darLike($post, $usuario){
+
+    function darLike($post, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT likes from posts where id='$post'");
@@ -293,10 +306,10 @@ class Post {
         $valor = false;
         while ($row = $consulta->fetch()) {
             $likes = $row['likes'];
-            if($likes!=null){
+            if ($likes != null) {
                 $sql = "UPDATE posts SET likes='$likes,$usuario' where id='$post'";
                 $valor = true;
-            } else{
+            } else {
                 $sql = "UPDATE posts SET likes='$usuario' where id='$post'";
                 $valor = true;
             }

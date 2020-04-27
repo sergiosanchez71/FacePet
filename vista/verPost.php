@@ -47,11 +47,15 @@ and open the template in the editor.
                 height: 3.3rem;
                 float: right;
             }
-            
+
             .comentario{
                 background: white;
                 padding: 1rem;
                 border-bottom: 1px solid #EEEEEE;
+            }
+
+            .comentario:last-child{
+                margin-bottom: 10rem;
             }
 
             .cImagenUsuario{
@@ -103,6 +107,7 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+                        $("#comentario").val(" ");
                         mostrarComentarios(post);
                     },
                     error: function (xhr, status) {
@@ -126,7 +131,15 @@ and open the template in the editor.
                         if (respuesta) {
                             console.log(respuesta);
                             var comentarios = JSON.parse(respuesta);
+                            $("#comentariosCont").text(" ");
+                            var textoComentarios = document.createElement("h1");
+                            textoComentarios.setAttribute("id", "textoComentarios");
+                            textoComentarios.innerHTML = "Comentarios";
+                            $("#comentariosCont").append(textoComentarios);
                             for (var i = 0; i < comentarios.length; i++) {
+
+
+
                                 var comentario = document.createElement("div");
                                 comentario.setAttribute("class", "comentario");
 
@@ -146,13 +159,15 @@ and open the template in the editor.
                                 cCont.setAttribute("class", "cCont");
                                 cCont.innerHTML += comentarios[i].contenido;
 
-                                $("#comentariosPost").append(comentario);
+                                $("#comentariosCont").append(comentario);
                                 comentario.append(cImgUsuario);
                                 comentario.append(cNombreUsuario);
                                 comentario.append(cFecha);
                                 comentario.append(cCont);
 
                             }
+                        } else {
+                            $("#comentario").css("margin-bottom","10rem");
                         }
                     },
                     error: function (xhr, status) {
@@ -394,7 +409,9 @@ and open the template in the editor.
                 <div id="comentariosPost">
                     <input type="text" id="comentario" maxlength="255" placeholder="Añadir comentario">
                     <button id="enviarComentario">Enviar Comentario </button>
-                    <h1 id="textoComentarios">Comentarios</h1>
+                    <div id="comentariosCont">
+                        
+                    </div>
                 </div>
 
             </div>

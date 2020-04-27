@@ -237,6 +237,8 @@
                             mensaje.setAttribute("class", "mensajeNoti");
                             if (notificaciones[i].tipo == "amistad") {
                                 mensaje.innerHTML = "te ha enviado una solicitud de amistad";
+                            } else if (notificaciones[i].tipo == "comentarioP") {
+                                mensaje.innerHTML = "ha comentado en tu post";
                             } else {
                                 mensaje.innerHTML = notificaciones[i].tipo;
                             }

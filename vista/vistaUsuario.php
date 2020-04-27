@@ -208,8 +208,8 @@ and open the template in the editor.
 
                                     var cadlikes = posts[i].likes;
                                     var likes = cadlikes.split(",");
-                                    if(likes.length > 1){
-                                       postLikes.innerHTML += likes.length + " Me gustas";
+                                    if (likes.length > 1) {
+                                        postLikes.innerHTML += likes.length + " Me gustas";
                                     } else {
                                         postLikes.innerHTML += likes.length + " Me gusta";
                                     }
@@ -238,11 +238,11 @@ and open the template in the editor.
                                 } else {
                                     postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
 
-                                  /*  postCorazonImg.onclick = function () {
-                                        this.removeAttribute("src");
-                                        this.setAttribute("src", "../controlador/img/nolike.png");
-                                        darLike(this.alt);
-                                    }*/
+                                    /*  postCorazonImg.onclick = function () {
+                                     this.removeAttribute("src");
+                                     this.setAttribute("src", "../controlador/img/nolike.png");
+                                     darLike(this.alt);
+                                     }*/
                                 }
 
                                 var postComentario = document.createElement("a");
@@ -254,8 +254,26 @@ and open the template in the editor.
                                 postComentarioImg.setAttribute("alt", posts[i].id);
 
                                 postComentarioImg.onclick = function () {
-                                    window.location.href = "verPost.php?post="+this.alt;
+                                    window.location.href = "verPost.php?post=" + this.alt;
                                 }
+
+                                var comentarios = document.createElement("span");
+                                comentarios.setAttribute("class", "comentariosPost");
+                                comentarios.setAttribute("title", posts[i].id);
+                                if (posts[i].comentarios > 0) {
+                                    if (posts[i].comentarios == 1) {
+                                        comentarios.innerHTML = "Ver " + posts[i].comentarios + " comentario";
+                                    } else {
+                                        comentarios.innerHTML = "Ver " + posts[i].comentarios + " comentarios";
+                                    }
+                                } else {
+                                    comentarios.innerHTML = "Hacer un comentario...";
+                                }
+
+                                comentarios.onclick = function () {
+                                    window.location.href = "verPost.php?post=" + this.title;
+                                }
+
 
                                 $("#posts").append(post);
                                 /*post.append(a);
@@ -283,6 +301,10 @@ and open the template in the editor.
                                 iconos.append(postComentario);
                                 postCorazon.append(postCorazonImg);
                                 postComentario.append(postComentarioImg);
+                                postCont.append(comentarios);
+
+
+
 
                                 function darLike(post) {
                                     var parametros = {
@@ -300,24 +322,24 @@ and open the template in the editor.
                                         dataType: "text"
                                     });
                                 }
-                                
-                               /* function verPost(post){
-                                    var parametros = {
-                                        "post":post
-                                    }
-                                    $.ajax({
-                                        url: "verPost.php",
-                                        data: parametros,
-                                        success: function (respuesta) {
-                                            window.location.href = "verPost.php";
-                                        },
-                                        error: function (xhr, status) {
-                                            alert("Error en la eliminacion de post");
-                                        },
-                                        type: "POST",
-                                        dataType: "text"
-                                    });
-                                }*/
+
+                                /* function verPost(post){
+                                 var parametros = {
+                                 "post":post
+                                 }
+                                 $.ajax({
+                                 url: "verPost.php",
+                                 data: parametros,
+                                 success: function (respuesta) {
+                                 window.location.href = "verPost.php";
+                                 },
+                                 error: function (xhr, status) {
+                                 alert("Error en la eliminacion de post");
+                                 },
+                                 type: "POST",
+                                 dataType: "text"
+                                 });
+                                 }*/
                             }
                         } else {
                             var h1 = document.createElement("h1");

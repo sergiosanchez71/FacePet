@@ -87,7 +87,7 @@ class Notificacion {
     function verNotificaciones($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT * from notificaciones where user2='$usuario'");
+        $consulta = $conexion->query("SELECT * from notificaciones where user2='$usuario' order by fecha desc");
         $i = 0;
         $datos = null;
         while ($row = $consulta->fetch()) {

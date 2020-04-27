@@ -87,6 +87,14 @@
     cursor: pointer;
 }
 
+.comentariosPost{
+    position: absolute;
+    cursor: pointer;
+    margin-left: 1rem;
+    color: grey;
+    font-size: 1.1rem;
+}
+
 @media (max-width: 1000px){
 
     .post{

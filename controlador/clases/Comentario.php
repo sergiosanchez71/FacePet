@@ -100,6 +100,19 @@ class Comentario {
         unset($conexion);
         return $datos;
     }
-
+    
+    function contarComentarios($post){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from comentarios c where post='$post'");
+        $i = 0;
+        $datos = null;
+        while ($row = $consulta->fetch()) {
+            $i++;
+        }
+        unset($conexion);
+        return $i;
+    }
+    
     
 }
