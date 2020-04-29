@@ -141,6 +141,7 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+                        console.log(respuesta);
                         if (respuesta) {
                             var posts = JSON.parse(respuesta);
                             for (var i = 0; i < posts.length; i++) {
@@ -168,6 +169,12 @@ and open the template in the editor.
 
                                 var postUsuario = document.createElement("p");
                                 postUsuario.setAttribute("class", "postUsuario");
+                                postUsuario.setAttribute("data-value",posts[i].usuario);
+                                
+                                postUsuario.onclick = function () {
+                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+                                }
+                                
                                 var imgUsuario = document.createElement("img");
                                 imgUsuario.setAttribute("class", "imagenUsuario");
                                 imgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + posts[i].foto);
@@ -225,7 +232,8 @@ and open the template in the editor.
 
                                 var postCorazonImg = document.createElement("img");
                                 postCorazonImg.setAttribute("class", "postCorazonImg");
-                                postCorazonImg.setAttribute("alt", posts[i].id);
+                                postCorazonImg.setAttribute("alt","Corazon");
+                                postCorazonImg.setAttribute("data-value", posts[i].id);
 
                                 if (!posts[i].like) {
                                     postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
@@ -233,7 +241,7 @@ and open the template in the editor.
                                     postCorazonImg.onclick = function () {
                                         this.removeAttribute("src");
                                         this.setAttribute("src", "../controlador/img/Like.png");
-                                        darLike(this.alt);
+                                        darLike(this.dataset.value);
                                     }
                                 } else {
                                     postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
@@ -251,15 +259,16 @@ and open the template in the editor.
                                 var postComentarioImg = document.createElement("img");
                                 postComentarioImg.setAttribute("class", "postComentarioImg");
                                 postComentarioImg.setAttribute("src", "../controlador/img/comentario.png");
-                                postComentarioImg.setAttribute("alt", posts[i].id);
+                                postComentarioImg.setAttribute("alt","Comentario");
+                                postComentarioImg.setAttribute("data-value", posts[i].id);
 
                                 postComentarioImg.onclick = function () {
-                                    window.location.href = "verPost.php?post=" + this.alt;
+                                    window.location.href = "verPost.php?post=" + this.dataset.value;
                                 }
 
                                 var comentarios = document.createElement("span");
                                 comentarios.setAttribute("class", "comentariosPost");
-                                comentarios.setAttribute("title", posts[i].id);
+                                comentarios.setAttribute("data-value", posts[i].id);
                                 if (posts[i].comentarios > 0) {
                                     if (posts[i].comentarios == 1) {
                                         comentarios.innerHTML = "Ver " + posts[i].comentarios + " comentario";
@@ -271,7 +280,7 @@ and open the template in the editor.
                                 }
 
                                 comentarios.onclick = function () {
-                                    window.location.href = "verPost.php?post=" + this.title;
+                                    window.location.href = "verPost.php?post=" + this.dataset.value;
                                 }
 
 

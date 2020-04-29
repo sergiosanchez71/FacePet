@@ -197,6 +197,8 @@ class Post {
                 'usuario' => $row['usuario'],
                 'nick' => $row['nick'],
                 'foto' => $foto,
+                'loginOperador' => $_SESSION['operador'],
+                'login' => Usuario::getIdUsuario($_SESSION['username']),
                 'comentarios' => Comentario::contarComentarios($row['id'])
             );
 
@@ -228,7 +230,9 @@ class Post {
                 'usuario' => $row['usuario'],
                 'nick' => $row['nick'],
                 'foto' => $foto,
-                'amigo' => Usuario::esAmigo($usuario, $row['usuario'])
+                'amigo' => Usuario::esAmigo($usuario, $row['usuario']),
+                'login' => Usuario::getIdUsuario($_SESSION['username']),
+                'loginOperador' => $_SESSION['operador']
             );
         }
         unset($conexion);

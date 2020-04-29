@@ -17,6 +17,10 @@
     border: 1px solid black;
 }
 
+.postUsuario{
+    cursor: pointer;
+}
+
 .postEliminar{
     width: 3rem;
     display: block;

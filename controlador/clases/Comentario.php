@@ -72,6 +72,14 @@ class Comentario {
         $conexion->exec($sql);
     }
     
+    
+    function eliminarComentario($comentario){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM comentarios WHERE id='$comentario'";
+        $conexion->exec($sql);
+    }
+    
     function mostrarComentarios($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -92,7 +100,9 @@ class Comentario {
                 'post' => $row['post'],
                 'usuario' => $row['usuario'],
                 'nick' => $row['nick'],
-                'foto' => $foto
+                'foto' => $foto,
+                'login' => Usuario::getIdUsuario($_SESSION['username']),
+                'loginOperador' => $_SESSION['operador']
             );
 
             $i++;
@@ -113,6 +123,7 @@ class Comentario {
         unset($conexion);
         return $i;
     }
+    
     
     
 }

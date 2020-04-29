@@ -101,7 +101,7 @@ switch ($accion) {
         include 'clases/Password.php';
         if (Usuario::existeUsuario($_REQUEST['username'])) {
             if (Password::verifymd5($_REQUEST['password'], Usuario::cifradaPassword($_REQUEST['username']))) {
-                $_SESSION['operador'] = Usuario::comprobarOperador($_REQUEST['username']);
+                $_SESSION['operador'] = Usuario::comprobarOperador(Usuario::getIdUsuario($_REQUEST['username']));
                 $_SESSION['username'] = $_REQUEST['username'];
                 $_SESSION['password'] = Usuario::cifradaPassword($_REQUEST['username']);
                 echo $_SESSION['operador'];
@@ -126,17 +126,22 @@ switch ($accion) {
         break;
 
     case "mostrarMisAmigos":
-        $amigos = explode(",", Usuario::mostrarMisAmigos($idusuario));
+        $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
+        echo json_encode(Usuario::getDatosAmigos($amigos));
+        break;
+
+    case "mostrarAmigos":
+        $amigos = explode(",", Usuario::mostrarAmigos($_REQUEST['usuario']));
         echo json_encode(Usuario::getDatosAmigos($amigos));
         break;
 
     case "cambiarAvatar":
         echo $idusuario;
         break;
-    
+
     case "eliminarAmigo":
-        echo Usuario::eliminarAmigo($idusuario,$_REQUEST['amigo']);
-        Usuario::eliminarAmigo($_REQUEST['amigo'],$idusuario);
+        echo Usuario::eliminarAmigo($idusuario, $_REQUEST['amigo']);
+        Usuario::eliminarAmigo($_REQUEST['amigo'], $idusuario);
         break;
 
     //Solicitud amistad
@@ -195,17 +200,21 @@ switch ($accion) {
         break;
 
     case "mostrarMisPosts":
-        //Post::buscarPosts($idusuario)
-
-        if (Post::getDatosPostsUsuario($idusuario)) {
+       if (Post::getDatosPostsUsuario($idusuario)) {
             echo json_encode(Post::getDatosPostsUsuario($idusuario));
         } else {
             echo false;
         }
         break;
-    case "verPost":
-
+        
+    case "mostrarPosts":
+        if (Post::getDatosPostsUsuario($_REQUEST['usuario'])) {
+            echo json_encode(Post::getDatosPostsUsuario($_REQUEST['usuario']));
+        } else {
+            echo false;
+        }
         break;
+        
     case "mostrarPost":
         if (Post::mostrarPost($_REQUEST['post'], $idusuario)) {
             echo json_encode(Post::mostrarPost($_REQUEST['post'], $idusuario));
@@ -219,7 +228,7 @@ switch ($accion) {
         break;
 
     case "mostrarPostsAmigos":
-        $amigos = explode(",", Usuario::mostrarMisAmigos($idusuario));
+        $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
         if (Post::mostrarPostsAmigos($amigos, $idusuario)) {
             echo json_encode(Post::mostrarPostsAmigos($amigos, $idusuario));
         } else {
@@ -239,7 +248,7 @@ switch ($accion) {
     case "publicarComentario":
         $fecha = date("Y-m-d H:i:s");
         $comentario = new Comentario($_REQUEST['contenido'], $fecha, $_REQUEST['post'], $idusuario);
-        if($idusuario!= Post::getUsuarioPost($_REQUEST['post'])){
+        if ($idusuario != Post::getUsuarioPost($_REQUEST['post'])) {
             $notificacion = new Notificacion($idusuario, Post::getUsuarioPost($_REQUEST['post']), "comentarioP", $fecha);
             Notificacion::crearNotificacion($notificacion);
         }
@@ -256,6 +265,10 @@ switch ($accion) {
         } else {
             echo false;
         }
+        break;
+        
+    case "eliminarComentario":
+        echo Comentario::eliminarComentario($_REQUEST['comentario']);
         break;
 
     //Mensajes
@@ -326,8 +339,12 @@ switch ($accion) {
         break;
 
     //Más
-    case "getDatosUsuario":
+    case "getDatosMiUsuario":
         echo json_encode(Usuario::getDatos($idusuario));
+        break;
+
+    case "getDatosUsuario":
+        echo json_encode(Usuario::getDatos($_REQUEST['usuario']));
         break;
 }
 

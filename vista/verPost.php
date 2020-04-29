@@ -83,6 +83,18 @@ and open the template in the editor.
                 font-size: 1rem;
             }
 
+            .botonEliminarA{
+                grid-area: eliminarAmigo;
+                width: 4rem;
+                display: block;
+                float: right;
+                cursor: pointer;
+            }
+
+            .amigoEliminar{
+                width: 3rem;
+            }
+
         </style>
         <script>
 
@@ -129,7 +141,6 @@ and open the template in the editor.
                     data: parametros,
                     success: function (respuesta) {
                         if (respuesta) {
-                            console.log(respuesta);
                             var comentarios = JSON.parse(respuesta);
                             $("#comentariosCont").text(" ");
                             var textoComentarios = document.createElement("h1");
@@ -138,10 +149,32 @@ and open the template in the editor.
                             $("#comentariosCont").append(textoComentarios);
                             for (var i = 0; i < comentarios.length; i++) {
 
-
-
                                 var comentario = document.createElement("div");
                                 comentario.setAttribute("class", "comentario");
+
+                                var info = document.createElement("div");
+                                info.setAttribute("data-value", comentarios[i].usuario);
+
+                                info.onclick = function () {
+                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+                                }
+                                
+                                if (comentarios[i].loginOperador == "1" || comentarios[i].login == comentarios[i].usuario) {
+
+                                    var a = document.createElement("button");
+                                    a.setAttribute("value", comentarios[i].id);
+                                    a.setAttribute("class", "botonEliminarA");
+
+                                    a.onclick = function () {
+                                        if (confirm("Esta seguro de eliminar este amigo")) {
+                                            eliminarComentario(this.value);
+                                        }
+                                    }
+
+                                    var amigoEliminar = document.createElement("img");
+                                    amigoEliminar.setAttribute("class", "amigoEliminar");
+                                    amigoEliminar.setAttribute("src", "../controlador/img/eliminar.png");
+                                }
 
                                 var cImgUsuario = document.createElement("img");
                                 cImgUsuario.setAttribute("class", "cImagenUsuario");
@@ -160,14 +193,37 @@ and open the template in the editor.
                                 cCont.innerHTML += comentarios[i].contenido;
 
                                 $("#comentariosCont").append(comentario);
-                                comentario.append(cImgUsuario);
-                                comentario.append(cNombreUsuario);
-                                comentario.append(cFecha);
+                                comentario.append(info);
+                                if (comentarios[i].loginOperador == "1" || comentarios[i].login == comentarios[i].usuario) {
+                                    comentario.append(a);
+                                    a.append(amigoEliminar);
+                                }
+                                info.append(cImgUsuario);
+                                info.append(cNombreUsuario);
+                                info.append(cFecha);
                                 comentario.append(cCont);
 
+                                function eliminarComentario(comentario) {
+                                    var parametros = {
+                                        "accion": "eliminarComentario",
+                                        "comentario": comentario
+                                    };
+
+                                    $.ajax({
+                                        url: "../controlador/acciones.php",
+                                        data: parametros,
+                                        success: function (respuesta) {
+                                        },
+                                        error: function (xhr, status) {
+                                            alert("Error en la eliminacion de post");
+                                        },
+                                        type: "POST",
+                                        dataType: "text"
+                                    });
+                                }
                             }
                         } else {
-                            $("#comentario").css("margin-bottom","10rem");
+                            $("#comentario").css("margin-bottom", "10rem");
                         }
                     },
                     error: function (xhr, status) {
@@ -190,11 +246,17 @@ and open the template in the editor.
                     success: function (respuesta) {
                         if (respuesta) {
                             var posts = JSON.parse(respuesta);
-                            if (posts.amigo) {
+                            if (posts.amigo || posts.loginOperador == "1") {
                                 var post = document.createElement("div");
                                 post.setAttribute("class", "post");
                                 var postUsuario = document.createElement("p");
                                 postUsuario.setAttribute("class", "postUsuario");
+                                postUsuario.setAttribute("data-value", posts.usuario);
+
+                                postUsuario.onclick = function () {
+                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+                                }
+
                                 var imgUsuario = document.createElement("img");
                                 imgUsuario.setAttribute("class", "imagenUsuario");
                                 imgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + posts.foto);
@@ -265,26 +327,11 @@ and open the template in the editor.
                                 } else {
                                     postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
 
-                                    /*  postCorazonImg.onclick = function () {
-                                     this.removeAttribute("src");
-                                     this.setAttribute("src", "../controlador/img/nolike.png");
-                                     darLike(this.alt);
-                                     }*/
                                 }
 
-                                /*  var postComentario = document.createElement("a");
-                                 postComentario.setAttribute("class", "postComentario");
-                                 
-                                 var postComentarioImg = document.createElement("img");
-                                 postComentarioImg.setAttribute("class", "postComentarioImg");
-                                 postComentarioImg.setAttribute("src", "../controlador/img/comentario.png");*/
                                 postCorazonImg.setAttribute("alt", posts.id);
 
-
-
                                 $("#menuPost").append(post);
-                                /*post.append(a);
-                                 a.append(postEliminar);*/
                                 post.append(postUsuario);
 
                                 postUsuario.append(imgUsuario);
@@ -305,9 +352,7 @@ and open the template in the editor.
                                 postBottom.append(postLikes);
                                 postBottom.append(iconos);
                                 iconos.append(postCorazon);
-                                // iconos.append(postComentario);
                                 postCorazon.append(postCorazonImg);
-                                //postComentario.append(postComentarioImg);
 
                                 function darLike(post) {
                                     var parametros = {
@@ -410,7 +455,7 @@ and open the template in the editor.
                     <input type="text" id="comentario" maxlength="255" placeholder="Añadir comentario">
                     <button id="enviarComentario">Enviar Comentario </button>
                     <div id="comentariosCont">
-                        
+
                     </div>
                 </div>
 

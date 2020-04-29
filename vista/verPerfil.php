@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Mi Perfil</title>
+        <title>Ver Perfil</title>
         <link rel="icon" href="../controlador/img/favicon.ico">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css">
@@ -15,7 +15,7 @@ and open the template in the editor.
         <script src="../controlador/js/header.js" type="text/javascript"></script>
         <?php
         session_start();
-        include '../controlador/gestion.php';
+        // include '../controlador/gestion.php';
         ?>
         <style>
 
@@ -55,9 +55,9 @@ and open the template in the editor.
                 z-index: 2;
             }
 
-            #contenidoPerfil:hover > #imgPerfil {
-                opacity: 0.3;
-            }
+            /*   #contenidoPerfil:hover > #imgPerfil {
+                   opacity: 0.3;
+               }*/
 
             #contenidoPerfil form{
                 position: absolute;
@@ -169,48 +169,6 @@ and open the template in the editor.
                 margin-left: 5rem;
             }
 
-            #cambiarImagen{
-                display: block;
-                margin: auto;
-            }
-
-            #cambiarImagen{
-                padding-bottom: 8rem;
-                text-align: center;
-                background: white;
-                border: 1px solid #BBBBBB;
-                position:fixed; 
-                right:50%; 
-                margin-right:-500px; 
-                margin-top: 10rem;
-                width:1000px;
-            }
-
-            #cambiarImagen h1{
-                font-size: 3rem;
-            }
-
-            #cambiarImagen input{
-                cursor: pointer;
-                font-size: 1.5rem;
-            }
-
-            #cambiarImagen #enviarImagen{
-                cursor: pointer;
-                background-color: #FFED91;
-                height: 3rem;
-                font-size: 2rem;
-                margin-top: 1.5rem;
-            }
-
-            #cambiarImagen #cerrarCambiarAvatar{
-                padding-top: 1.5rem;
-                width: 5rem;
-                display: inline-block;
-                margin-left: 85%;
-                cursor: pointer;
-            }
-
             .botonEliminarA{
                 grid-area: eliminarAmigo;
                 width: 4rem;
@@ -226,6 +184,10 @@ and open the template in the editor.
             .botonEliminar, .botonEliminarA{
                 background: #fffbed;
                 float: right;
+            }
+
+            #idUsuario{
+                display: none;
             }
 
             @media (max-width:1000px){
@@ -307,55 +269,10 @@ and open the template in the editor.
         </style>
         <script>
             $(document).ready(function () {
-                $("#cambiarImagen").hide();
-                getDatosMiPerfil();
-                mostrarMisPosts();
-                mostrarMisAmigos();
-                $("#imgPerfil").click(cambiarAvatar);
-                $("#textCambiarAvatar").click(cambiarAvatar);
-                $("#cerrarCambiarAvatar").click(cerrarCambiarAvatar);
+                getDatosPerfil($("#idUsuario").val());
+                mostrarPosts($("#idUsuario").val());
+                mostrarAmigos($("#idUsuario").val());
             });
-
-            function cerrarCambiarAvatar() {
-                $("#cambiarImagen").hide();
-                $("header").css("opacity", "1");
-                $("#cuerpo").css("opacity", "1");
-            }
-
-            function cambiarAvatar() {
-                $("#cambiarImagen").show();
-                $("header").css("opacity", "0.2");
-                $("#cuerpo").css("opacity", "0.2");
-
-                $("header").click(function () {
-                    cerrarCambiarAvatar();
-                });
-
-                var parametros = {
-                    "accion": "cambiarAvatar"
-                };
-
-                $.ajax({
-                    url: "../controlador/acciones.php",
-                    data: parametros,
-                    success: function (respuesta) {
-                        var cambiarImagen = document.getElementById("cambiarAvatar");
-                        var p = document.createElement("input");
-                        cambiarImagen.appendChild(p);
-                        p.setAttribute("type", "text");
-                        p.setAttribute("readonly", "readonly");
-                        p.setAttribute("name", "idusu");
-                        p.setAttribute("style", "display:none");
-                        p.setAttribute("value", respuesta);
-                    },
-                    error: function (xhr, status) {
-                        alert("Error en la creación de post");
-                    },
-                    type: "POST",
-                    dataType: "text"
-                });
-
-            }
 
             function eliminarPost(post) {
                 var parametros = {
@@ -376,8 +293,8 @@ and open the template in the editor.
                     dataType: "text"
                 });
             }
-            
-            function eliminarAmigo(amigo){
+
+            function eliminarAmigo(amigo) {
                 var parametros = {
                     "accion": "eliminarAmigo",
                     "amigo": amigo
@@ -387,8 +304,8 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        $(".usuario").remove();
-                        mostrarMisAmigos();
+                        $(".post").remove();
+                        mostrarMisPosts();
                     },
                     error: function (xhr, status) {
                         alert("Error en la eliminacion de post");
@@ -398,9 +315,10 @@ and open the template in the editor.
                 });
             }
 
-            function getDatosMiPerfil() {
+            function getDatosPerfil(usuario) {
                 var parametros = {
-                    "accion": "getDatosMiUsuario"
+                    "accion": "getDatosUsuario",
+                    "usuario": usuario
                 };
 
                 $.ajax({
@@ -424,9 +342,10 @@ and open the template in the editor.
                 });
             }
 
-            function mostrarMisAmigos() {
+            function mostrarAmigos(usuario) {
                 var parametros = {
-                    "accion": "mostrarMisAmigos"
+                    "accion": "mostrarAmigos",
+                    "usuario": usuario
                 };
 
                 $.ajax({
@@ -440,19 +359,23 @@ and open the template in the editor.
                                 var amigoPerfil = document.createElement("div");
                                 amigoPerfil.setAttribute("class", "amigoPerfil");
 
-                                var a = document.createElement("button");
-                                a.setAttribute("value", amigos[i].id);
-                                a.setAttribute("class", "botonEliminarA");
+                                if (amigos[i].loginOperador == "1" || amigos[i].login == usuario) {
 
-                                a.onclick = function () {
-                                    if (confirm("Esta seguro de eliminar este amigo")) {
-                                        eliminarAmigo(this.value);
+                                    var a = document.createElement("button");
+                                    a.setAttribute("value", amigos[i].id);
+                                    a.setAttribute("class", "botonEliminarA");
+
+                                    a.onclick = function () {
+                                        if (confirm("Esta seguro de eliminar este amigo")) {
+                                            eliminarAmigo(this.value);
+                                        }
                                     }
-                                }
 
-                                var amigoEliminar = document.createElement("img");
-                                amigoEliminar.setAttribute("class", "amigoEliminar");
-                                amigoEliminar.setAttribute("src", "../controlador/img/eliminar.png");
+                                    var amigoEliminar = document.createElement("img");
+                                    amigoEliminar.setAttribute("class", "amigoEliminar");
+                                    amigoEliminar.setAttribute("src", "../controlador/img/eliminar.png");
+
+                                }
 
                                 var img = document.createElement("img");
                                 img.setAttribute("src", "../controlador/uploads/usuarios/" + amigos[i].foto);
@@ -471,7 +394,6 @@ and open the template in the editor.
                                 divA.onclick = function () {
                                     window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
-
                                 var nombreAmigo = document.createElement("p");
                                 nombreAmigo.setAttribute("class", "nombreAmigo");
                                 nombreAmigo.innerHTML = amigos[i].nick;
@@ -487,8 +409,10 @@ and open the template in the editor.
                                 razaAmigo.innerHTML = " " + amigos[i].raza;
 
                                 $("#amigosPerfiles").append(amigoPerfil);
-                                amigoPerfil.append(a);
-                                a.append(amigoEliminar);
+                                if (amigos[i].loginOperador == 1 || amigos[i].login == usuario) {
+                                    amigoPerfil.append(a);
+                                    a.append(amigoEliminar);
+                                }
                                 amigoPerfil.append(img);
                                 amigoPerfil.append(divA);
                                 divA.append(nombreAmigo);
@@ -499,7 +423,7 @@ and open the template in the editor.
                             }
                         } else {
                             var h1 = document.createElement("h1");
-                            h1.innerHTML += "Aún no tienes posts, crea uno";
+                            h1.innerHTML += "Este usuario aún no tiene amigos";
                             $("#amigosPerfiles").append(h1);
                         }
 
@@ -513,9 +437,10 @@ and open the template in the editor.
                 });
             }
 
-            function mostrarMisPosts() {
+            function mostrarPosts(usuario) {
                 var parametros = {
-                    "accion": "mostrarMisPosts"
+                    "accion": "mostrarPosts",
+                    "usuario": usuario
                 };
 
                 $.ajax({
@@ -528,19 +453,23 @@ and open the template in the editor.
                                 var post = document.createElement("div");
                                 post.setAttribute("class", "post");
 
-                                var a = document.createElement("button");
-                                a.setAttribute("value", posts[i].id);
-                                a.setAttribute("class", "botonEliminar");
+                                if (posts[i].loginOperador == 1 || posts[i].login == usuario) {
 
-                                a.onclick = function () {
-                                    if (confirm("Esta seguro de eliminar este post")) {
-                                        eliminarPost(this.value);
+                                    var a = document.createElement("button");
+                                    a.setAttribute("value", posts[i].id);
+                                    a.setAttribute("class", "botonEliminar");
+
+                                    a.onclick = function () {
+                                        if (confirm("Esta seguro de eliminar este post")) {
+                                            eliminarPost(this.value);
+                                        }
                                     }
-                                }
 
-                                var postEliminar = document.createElement("img");
-                                postEliminar.setAttribute("class", "postEliminar");
-                                postEliminar.setAttribute("src", "../controlador/img/eliminar.png");
+                                    var postEliminar = document.createElement("img");
+                                    postEliminar.setAttribute("class", "postEliminar");
+                                    postEliminar.setAttribute("src", "../controlador/img/eliminar.png");
+
+                                }
 
 
                                 /* var postEliminarBoton = document.createElement("button");
@@ -662,8 +591,10 @@ and open the template in the editor.
                                 }
 
                                 $("#posts").append(post);
-                                post.append(a);
-                                a.append(postEliminar);
+                                if (posts[i].loginOperador == 1 || posts[i].login == usuario) {
+                                    post.append(a);
+                                    a.append(postEliminar);
+                                }
                                 post.append(postUsuario);
 
                                 postUsuario.append(imgUsuario);
@@ -688,11 +619,7 @@ and open the template in the editor.
                                 postCorazon.append(postCorazonImg);
                                 postComentario.append(postComentarioImg);
 
-
-
                                 postCont.append(comentarios);
-
-
 
                                 function darLike(post) {
                                     var parametros = {
@@ -717,7 +644,7 @@ and open the template in the editor.
                             }
                         } else {
                             var h1 = document.createElement("h1");
-                            h1.innerHTML += "Aún no tienes posts, crea uno";
+                            h1.innerHTML += "Este usuario aún no tiene posts creados";
                             $("#posts").append(h1);
                         }
                     },
@@ -787,11 +714,9 @@ and open the template in the editor.
             </header>
 
             <div id="cuerpo">
+                <input type="text" id="idUsuario" value="<?php echo $_REQUEST['usuario'] ?>">
                 <div id="cabeceraPerfil">
                     <p id="contenidoPerfil">
-                        <!--<form method="post" enctype="multipart/form-data">-->
-                        <span id="textCambiarAvatar">Cambiar Avatar</span>
-                        <!--</form>-->
                         <img id="imgPerfil" alt="imgPerfil">
                     </p>
                     <div id="datos">
@@ -827,14 +752,6 @@ and open the template in the editor.
                     </li>
                 </ul>
             </footer>
-            <div id="cambiarImagen">
-                <img src="../controlador/img/eliminar.png" id="cerrarCambiarAvatar" alt="cerrar">
-                <form method="post" id="cambiarAvatar" enctype="multipart/form-data">
-                    <h1>Cambiar imagen de perfil</h1>
-                    <input type="file" name="userfile" id="foto">
-                    <p><input type="submit" class="botonCrearPost" id="enviarImagen" name="cambiarAvatar" value="Cambiar foto de perfil"></p>
-                </form>
-            </div>
         </div>
     </div>
 

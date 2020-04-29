@@ -176,7 +176,7 @@ class Usuario {
     function comprobarOperador($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT operador from usuarios where nick='$usuario'");
+        $consulta = $conexion->query("SELECT operador from usuarios where id='$usuario'");
         while ($row = $consulta->fetch()) {
             $op = $row['operador'];
         }
@@ -353,7 +353,9 @@ class Usuario {
                     'localidad' => $row['localidad'],
                     'amigos' => $row['amigos'],
                     'baneado' => $row['baneado'],
-                    'operador' => $row['operador']
+                    'operador' => $row['operador'],
+                    'loginOperador' => $_SESSION['operador'],
+                    'login' => Usuario::getIdUsuario($_SESSION['username'])
                 ];
             }
         }
@@ -421,7 +423,7 @@ class Usuario {
         unset($conexion);
     }
 
-    function mostrarMisAmigos($id) {
+    function mostrarAmigos($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT amigos from usuarios where id='$id'");
@@ -434,7 +436,7 @@ class Usuario {
     }
 
     function esAmigo($user1, $user2) {
-        $amigos = explode(",", Usuario::mostrarMisAmigos($user1));
+        $amigos = explode(",", Usuario::mostrarAmigos($user1));
         
 
         $amigo = false;

@@ -18,8 +18,7 @@
                 grid-template-areas:
                     "listaAmigos mensajes";
                 grid-template-columns: 30% 70%;
-                height: 50rem;
-
+                height: 100%;
             }
 
             #listaAmigos{
@@ -128,7 +127,6 @@
 
             .mUser1, .mUser2{
                 max-width: 100%;
-                background-color: #EEEEEE;
                 margin-bottom: 1rem;
                 padding: 2rem 2rem 0.1px 2rem;
                 border-radius: 8rem;
@@ -138,10 +136,12 @@
 
             .mUser1{
                 margin-left: 10rem;
+                background-color: #d5edda;
             }
 
             .mUser2{
                 margin-right: 10rem;
+                background-color: #eeeeee;
             }
 
             .mUser1 .fecha, .mUser2 .fecha{
@@ -244,24 +244,24 @@
                         if (respuesta) {
                             var amigos = JSON.parse(respuesta);
                             for (var i = 0; i < amigos.length; i++) {
-                                
-                                if(i==0){
+
+                                if (i == 0) {
                                     mostrarCabeceraChat(amigos[i].id);
                                     mostrarChat(amigos[i].id);
                                     mensajesLeidos(amigos[i].id);
                                 }
-                                
+
                                 var amigoPerfil = document.createElement("div");
-                                amigoPerfil.setAttribute("id", amigos[i].id);
+                                amigoPerfil.setAttribute("data-value", amigos[i].id);
                                 amigoPerfil.setAttribute("class", "amigo");
-                                if(getMensajesNoVistos(amigos[i].id) > 0){
+                                if (getMensajesNoVistos(amigos[i].id) > 0) {
                                     console.log(getMensajesNoVistos(amigos[i].id));
                                 }
 
                                 amigoPerfil.onclick = function () {
-                                    mostrarCabeceraChat(this.id);
-                                    mostrarChat(this.id);
-                                    mensajesLeidos(this.id);
+                                    mostrarCabeceraChat(this.dataset.value);
+                                    mostrarChat(this.dataset.value);
+                                    mensajesLeidos(this.dataset.value);
                                 }
 
                                 var img = document.createElement("img");
@@ -309,9 +309,9 @@
             }
 
             function getMensajesNoVistos(usuario) {
-                
+
                 var mensaje = 0;
-                
+
                 var parametros = {
                     "accion": "mensajesUsuarioNoVistos",
                     "usuario": usuario
@@ -329,8 +329,8 @@
                                     mensaje += 1;
                                     console.log(mensaje);
                                 }
-                            }                           
-                        } 
+                            }
+                        }
                     },
                     error: function (xhr, status) {
                         alert("Error al mostrar notificaciones");
@@ -473,7 +473,7 @@
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
                     <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p style="display:none;" class="alerta" id="mensaje"></p></a></li>
                     <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p style="display:none;" class="alerta" id="notificacion"></p></a></li>
-                   <li id="liUsuario">
+                    <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">
                             <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
