@@ -200,13 +200,13 @@ switch ($accion) {
         break;
 
     case "mostrarMisPosts":
-       if (Post::getDatosPostsUsuario($idusuario)) {
+        if (Post::getDatosPostsUsuario($idusuario)) {
             echo json_encode(Post::getDatosPostsUsuario($idusuario));
         } else {
             echo false;
         }
         break;
-        
+
     case "mostrarPosts":
         if (Post::getDatosPostsUsuario($_REQUEST['usuario'])) {
             echo json_encode(Post::getDatosPostsUsuario($_REQUEST['usuario']));
@@ -214,7 +214,7 @@ switch ($accion) {
             echo false;
         }
         break;
-        
+
     case "mostrarPost":
         if (Post::mostrarPost($_REQUEST['post'], $idusuario)) {
             echo json_encode(Post::mostrarPost($_REQUEST['post'], $idusuario));
@@ -229,8 +229,15 @@ switch ($accion) {
 
     case "mostrarPostsAmigos":
         $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
-        if (Post::mostrarPostsAmigos($amigos, $idusuario)) {
-            echo json_encode(Post::mostrarPostsAmigos($amigos, $idusuario));
+        $posts = Post::mostrarPostsAmigos($amigos, $idusuario);
+        foreach ($posts as $clave => $post) {
+            $orden1[$clave] = $post['fecha_publicacion'];
+        }
+        
+        array_multisort($orden1, SORT_DESC, $posts);
+        
+        if ($posts) {
+            echo json_encode($posts);
         } else {
             echo false;
         }
@@ -266,12 +273,21 @@ switch ($accion) {
             echo false;
         }
         break;
-        
+
     case "eliminarComentario":
         echo Comentario::eliminarComentario($_REQUEST['comentario']);
         break;
 
     //Mensajes
+    case "mostrarMisAmigosyMensajes":
+        $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
+        if (Usuario::getDatosAmigosyMensajes($amigos)){
+            echo json_encode(Usuario::getDatosAmigosyMensajes($amigos));
+        } else {
+            echo false;
+        }
+        break;
+        
     case "mostrarCabeceraChat":
         echo json_encode(Usuario::getDatos($_REQUEST['usuario']));
         break;
@@ -317,6 +333,10 @@ switch ($accion) {
             echo false;
         }
         break;
+        
+        case "comprobarMensajesNuevos":
+            
+            break;
 
     //Subir multimedia
     case "cambiarImagen":

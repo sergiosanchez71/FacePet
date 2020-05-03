@@ -41,7 +41,8 @@
             .amigo{
                 display: grid;
                 grid-template-areas: 
-                    "imagen datos";
+                    "imagen datos mensajesAmigos";
+                grid-template-columns: auto auto 15%;
                 width: 20rem;
                 margin: auto;
                 padding: 1rem;
@@ -78,6 +79,21 @@
             .animalAmigo, .razaAmigo{
                 font-size: 0.8rem;
                 line-height: 0.6;
+            }
+
+            .divMensajesAmigo{
+                grid-area: mensajesAmigos;
+            }
+
+            .mensajesAmigo{
+                font-size: 1.5rem;
+                font-weight: bold;
+                width: 2rem;
+                height: 1.75rem;
+                margin: 1rem;
+                color: white;
+                text-align: center;
+                border-radius: 3rem;
             }
 
             #Cmensajes{
@@ -218,10 +234,11 @@
                     enviarMensaje($("#mensajeEscrito").val(), $("#idUsuario").val());
                 });
                 if ($("#idUsuario").length > 0) {
-                    setInterval(function () {
-                        mostrarChat($("#idUsuario").val());
-                        // $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
-                    }, 500);
+                    mostrarChat($("#idUsuario").val());
+                    /*setInterval(function () {
+                     mostrarChat($("#idUsuario").val());
+                     $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
+                     }, 500);*/
                 }
             });
 
@@ -234,13 +251,14 @@
 
             function mostrarMisAmigos() {
                 var parametros = {
-                    "accion": "mostrarMisAmigos"
+                    "accion": "mostrarMisAmigosyMensajes"
                 };
 
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+                        console.log(respuesta);
                         if (respuesta) {
                             var amigos = JSON.parse(respuesta);
                             for (var i = 0; i < amigos.length; i++) {
@@ -254,14 +272,16 @@
                                 var amigoPerfil = document.createElement("div");
                                 amigoPerfil.setAttribute("data-value", amigos[i].id);
                                 amigoPerfil.setAttribute("class", "amigo");
-                                if (getMensajesNoVistos(amigos[i].id) > 0) {
-                                    console.log(getMensajesNoVistos(amigos[i].id));
-                                }
+                                /*  if (amigos[i].visto) {
+                                 console.log(getMensajesNoVistos(amigos[i].visto));
+                                 }*/
 
                                 amigoPerfil.onclick = function () {
                                     mostrarCabeceraChat(this.dataset.value);
                                     mostrarChat(this.dataset.value);
                                     mensajesLeidos(this.dataset.value);
+                                    this.setAttribute("style", "background:white");
+                                    this.removeChild(divMensajesAmigo);
                                 }
 
                                 var img = document.createElement("img");
@@ -284,12 +304,39 @@
                                 razaAmigo.setAttribute("class", "razaAmigo");
                                 razaAmigo.innerHTML = " " + amigos[i].raza;
 
+                                var divMensajesAmigo = document.createElement("div");
+                                divMensajesAmigo.setAttribute("class", "divMensajesAmigo");
+
+                                var mensajes = document.createElement("p");
+                                mensajes.setAttribute("class", "mensajesAmigo");
+                                /*mensajes.setAttribute("onload", setInterval(function(){
+                                 comprobarMensajes(this);
+                                 },500));*/
+
+                                if (amigos[i].mensajes > 0) {
+                                    amigoPerfil.setAttribute("style", "background:#ffb5b5");
+                                    mensajes.setAttribute("style", "background:red");
+                                    mensajes.innerHTML = amigos[i].mensajes;
+                                }
+
+                                /* function comprobarMensajes(m) {
+                                 //this.setAttribute("style", "background:red");
+                                 //this.value(m);
+                                 console.log(m);
+                                 }*/
+
                                 $("#listaAmigos").append(amigoPerfil);
                                 amigoPerfil.append(img);
                                 amigoPerfil.append(datos);
                                 datos.append(nombreAmigo);
                                 datos.append(animalAmigo);
                                 datos.append(razaAmigo);
+                                amigoPerfil.append(divMensajesAmigo);
+                                divMensajesAmigo.append(mensajes);
+
+                                setInterval(function () {
+                                    // $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
+                                }, 2000);
 
                             }
                         } else {
@@ -306,40 +353,6 @@
                     type: "POST",
                     dataType: "text"
                 });
-            }
-
-            function getMensajesNoVistos(usuario) {
-
-                var mensaje = 0;
-
-                var parametros = {
-                    "accion": "mensajesUsuarioNoVistos",
-                    "usuario": usuario
-                };
-                $.ajax({
-                    url: "../controlador/acciones.php",
-                    data: parametros,
-                    success: function (respuesta) {
-
-                        if (respuesta) {
-                            var mensajes = JSON.parse(respuesta);
-
-                            for (var i = 0; i < mensajes.length; i++) {
-                                if (mensajes[i].visto == 0) {
-                                    mensaje += 1;
-                                    console.log(mensaje);
-                                }
-                            }
-                        }
-                    },
-                    error: function (xhr, status) {
-                        alert("Error al mostrar notificaciones");
-                    },
-                    type: "POST",
-                    dataType: "text"
-                });
-                return mensaje;
-
             }
 
             function mostrarCabeceraChat(usuario) {
@@ -376,6 +389,7 @@
                     data: parametros,
                     success: function (respuesta) {
                         $("#cuerpoCM").text("");
+                        console.log(respuesta);
                         if (respuesta) {
                             var mensajes = JSON.parse(respuesta);
                             for (var i = 0; i < mensajes.length; i++) {
@@ -399,6 +413,10 @@
                                 div.append(fecha);
                             }
                         }
+                        $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight});
+                        setInterval(function () {
+                            comprobarMensajesNuevos(usuario);
+                        }, 500);
 
 
                     },
@@ -409,6 +427,54 @@
                     dataType: "text"
                 });
             }
+
+            function comprobarMensajesNuevos(usuario) {
+                var parametros = {
+                    "accion": "mensajesUsuarioNoVistos",
+                    "usuario": usuario
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        if (respuesta) {
+                            var mensajes = JSON.parse(respuesta);
+                            for (var i = 0; i < mensajes.length; i++) {
+
+                                var div = document.createElement("div");
+                                if (mensajes[i].user1 == usuario) {
+                                    div.setAttribute("class", "mUser2");
+                                } else {
+                                    div.setAttribute("class", "mUser1");
+                                }
+
+                                var contenido = document.createElement("span");
+                                contenido.innerHTML = mensajes[i].mensaje;
+
+                                var fecha = document.createElement("p");
+                                fecha.setAttribute("class", "fecha");
+                                fecha.innerHTML = mensajes[i].fecha;
+
+                                $("#cuerpoCM").append(div);
+                                div.append(contenido);
+                                div.append(fecha);
+
+                                mensajesLeidos(usuario);
+                            }
+                        }
+                        
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+
+            }
+
 
             function enviarMensaje(mensaje, usuario) {
                 if (mensaje.trim() != "" && usuario.length > 0) {
@@ -423,6 +489,23 @@
                         data: parametros,
                         success: function (respuesta) {
                             $("#mensajeEscrito").val(" ");
+                            var div = document.createElement("div");
+                            div.setAttribute("class", "mUser1");
+
+                            var contenido = document.createElement("span");
+                            contenido.innerHTML = mensaje;
+
+                            var fecha = document.createElement("p");
+                            fecha.setAttribute("class", "fecha");
+                            var f = new Date();
+                            //var fecha = dateFormat(f, "yyyy, mm, dd h:MM:ss");
+                            fecha.innerHTML = f;
+
+                            $("#cuerpoCM").append(div);
+                            div.append(contenido);
+                            div.append(fecha);
+                            
+                            $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
                         },
                         error: function (xhr, status) {
                             alert("Error en la eliminacion de post");
@@ -446,6 +529,7 @@
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
+                    success: $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight}),
                     error: function (xhr, status) {
                         alert("Error en la eliminacion de post");
                     },

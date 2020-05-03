@@ -12,19 +12,20 @@
  * @author sergiosanchez
  */
 class Mensaje {
+
     private $id;
     private $user1;
     private $user2;
     private $mensaje;
     private $fecha;
-    
+
     function __construct($user1, $user2, $mensaje, $fecha) {
         $this->user1 = $user1;
         $this->user2 = $user2;
         $this->mensaje = $mensaje;
         $this->fecha = $fecha;
     }
-    
+
     function getId() {
         return $this->id;
     }
@@ -64,15 +65,15 @@ class Mensaje {
     function setFecha($fecha) {
         $this->fecha = $fecha;
     }
-    
-    function enviarMensaje($mensaje){
+
+    function enviarMensaje($mensaje) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO mensajes (user1,user2,mensaje,fecha) VALUES ('$mensaje->user1','$mensaje->user2','$mensaje->mensaje','$mensaje->fecha')";
         $conexion->exec($sql);
     }
 
-    function mostrarChat($user1,$user2){
+    function mostrarChat($user1, $user2) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from mensajes where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1) order by fecha asc");
@@ -92,8 +93,8 @@ class Mensaje {
         unset($conexion);
         return $datos;
     }
-    
-    function mensajesNoVistos($usuario){
+
+    function mensajesNoVistos($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from mensajes where user2=$usuario and visto=0");
@@ -113,8 +114,8 @@ class Mensaje {
         unset($conexion);
         return $datos;
     }
-    
-    function mensajesUsuarioNoVistos($user1,$user2){
+
+    function mensajesUsuarioNoVistos($user1, $user2) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from mensajes where user1=$user1 and user2=$user2 and visto=0");
@@ -134,7 +135,7 @@ class Mensaje {
         unset($conexion);
         return $datos;
     }
-    
+
     function mensajesLeidos($user1, $user2) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -142,10 +143,5 @@ class Mensaje {
         $conexion->exec($sql);
         unset($conexion);
     }
-    
-    
 
-
-    
-    
 }

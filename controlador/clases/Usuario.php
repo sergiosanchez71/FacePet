@@ -362,6 +362,44 @@ class Usuario {
         unset($conexion);
         return $datos;
     }
+    
+    function getDatosAmigosyMensajes($amigos) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        for ($i = 0; $i < count($amigos); $i++) {
+            $consulta = $conexion->query("SELECT * from usuarios where id='$amigos[$i]'");
+            while ($row = $consulta->fetch()) {
+                if ($row['foto'] == null) {
+                    $foto = "0.jpg";
+                } else {
+                    $foto = $row['foto'];
+                }
+                if(Mensaje::mensajesUsuarioNoVistos($row['id'],Usuario::getIdUsuario($_SESSION['username']))){
+                    $mensajes = count(Mensaje::mensajesUsuarioNoVistos($row['id'],Usuario::getIdUsuario($_SESSION['username'])));
+                } else {
+                    $mensajes = 0;
+                }
+                $datos[$i] = ['id' => $row['id'],
+                    'nick' => $row['nick'],
+                    'password' => $row['password'],
+                    'email' => $row['email'],
+                    'animal' => Animal::buscarConId($row['animal']),
+                    'raza' => Raza::buscarConId($row['raza']),
+                    'sexo' => $row['sexo'],
+                    'foto' => $foto,
+                    'localidad' => $row['localidad'],
+                    'amigos' => $row['amigos'],
+                    'baneado' => $row['baneado'],
+                    'operador' => $row['operador'],
+                    'mensajes' => $mensajes,
+                    'loginOperador' => $_SESSION['operador'],
+                    'login' => Usuario::getIdUsuario($_SESSION['username'])
+                ];
+            }
+        }
+        unset($conexion);
+        return $datos;
+    }
 
     function getDatosBuscar($cadena, $usuario) {
         $conexion = Conexion::conectar();

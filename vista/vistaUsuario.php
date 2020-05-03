@@ -141,7 +141,6 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
                         if (respuesta) {
                             var posts = JSON.parse(respuesta);
                             for (var i = 0; i < posts.length; i++) {
