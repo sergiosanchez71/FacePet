@@ -14,11 +14,8 @@ and open the template in the editor.
         <script src="../controlador/js/header.js" type="text/javascript"></script>
         <?php
         session_start();
-        if (isset($_SESSION['username']) && $_SESSION['operador'] == 1) {
-            //echo $_SESSION['username'];
-        } else {
-            header("Location: ../index.php");
-        }
+        include '../controlador/gestion.php';
+        comprobarLoginOp();
         ?>
         <style>
 

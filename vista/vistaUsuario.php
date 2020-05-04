@@ -11,11 +11,8 @@ and open the template in the editor.
         <link rel="icon" href="../controlador/img/favicon.ico">
         <?php
         session_start();
-        if (isset($_SESSION['username'])) {
-            //echo $_SESSION['username'];
-        } else {
-            header("Location: ../index.php");
-        }
+        include '../controlador/gestion.php';
+        comprobarLogin();
         ?>
         <script>
 

@@ -7,6 +7,8 @@
         <script src="../controlador/js/header.js" type="text/javascript"></script>
         <?php
         session_start();
+        include '../controlador/gestion.php';
+        comprobarLogin();
         ?>
         <style>
 
@@ -195,6 +197,9 @@
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
+                    succes: function(respuesta){
+                      console.log(respuesta)  ;
+                    },
                     error: function (xhr, status) {
                         alert("Error en la creación de post");
                     },
@@ -225,6 +230,7 @@
                         $("#buscadorAmigos").append(buscarAmigos);
 
                         if (respuesta != "null") {
+                            console.log(respuesta);
                             var usuarios = JSON.parse(respuesta);
 
                             for (var i = 0; i < usuarios.length; i++) {
@@ -280,12 +286,14 @@
                                     var solicitud = document.createElement("button");
                                     solicitud.setAttribute("value", usuarios[i].id);
 
-                                    if (!usuarios[i].solicitud) {
-                                        solicitud.setAttribute("class", "solicitud");
-                                        solicitud.innerHTML += "Enviar Solicitud ";
-                                    } else {
+                                    console.log(usuarios[i].solicitud);
+
+                                    if (usuarios[i].solicitud == "pendiente") {
                                         solicitud.setAttribute("class", "pendiente");
                                         solicitud.innerHTML += "Pendiente";
+                                    } else {
+                                        solicitud.setAttribute("class", "solicitud");
+                                        solicitud.innerHTML += "Enviar Solicitud ";
                                     }
 
                                     solicitud.onclick = function () {

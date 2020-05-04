@@ -7,6 +7,8 @@
         <script src="../controlador/js/header.js" type="text/javascript"></script>
         <?php
         session_start();
+        include '../controlador/gestion.php';
+        comprobarLogin();
         ?>
         <style>
             #cuerpo{
@@ -256,11 +258,10 @@
 
                             if (notificaciones[i].tipo == "amistad") {
                                 var cadenaAmigos = notificaciones[i].amigosAmigo;
-                                
                                 if (cadenaAmigos != null) {
                                     var amigos = cadenaAmigos.split(",");
+                                    var amigo = false;
                                     for (var j = 0; j < amigos.length; j++) {
-                                        var amigo = false;
                                         if (amigos[j] == notificaciones[i].user2) {
                                             amigo = true;
                                         }
@@ -268,7 +269,7 @@
                                 } else {
                                     var amigo = false;
                                 }
-                                
+                                                                
                                 if (!amigo) {
                                     
                                     var divOpciones = document.createElement("div");

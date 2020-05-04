@@ -16,6 +16,7 @@ and open the template in the editor.
         <?php
         session_start();
         include '../controlador/gestion.php';
+        comprobarLogin();
         ?>
         <style>
 
@@ -387,7 +388,12 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        $(".usuario").remove();
+                        console.log(respuesta);
+                        /*$("#amigosPerfiles").remove();
+                        var amigos = document.createElement("div");
+                        amigos.setAttribute("id","amigosPerfiles");
+                        $("#amigosPerfiles").append(amigos);*/
+                        $("#amigosPerfiles").text("");
                         mostrarMisAmigos();
                     },
                     error: function (xhr, status) {

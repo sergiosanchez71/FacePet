@@ -15,7 +15,8 @@ and open the template in the editor.
         <script src="../controlador/js/header.js" type="text/javascript"></script>
         <?php
         session_start();
-        // include '../controlador/gestion.php';
+        include '../controlador/gestion.php';
+        comprobarLogin();
         ?>
         <style>
 

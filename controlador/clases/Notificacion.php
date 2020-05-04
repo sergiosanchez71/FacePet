@@ -17,13 +17,15 @@ class Notificacion {
     private $user1;
     private $user2;
     private $tipo;
+    private $idelemento;
     private $visto;
     private $fecha;
 
-    function __construct($user1, $user2, $tipo, $fecha) {
+    function __construct($user1, $user2, $tipo, $idelemento, $fecha) {
         $this->user1 = $user1;
         $this->user2 = $user2;
         $this->tipo = $tipo;
+        $this->idelemento = $idelemento;
         $this->visto = false;
         $this->fecha = $fecha;
     }
@@ -71,7 +73,7 @@ class Notificacion {
     function crearNotificacion($notificacion) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO notificaciones (user1,user2,tipo,visto,fecha) VALUES ('$notificacion->user1','$notificacion->user2','$notificacion->tipo','$notificacion->visto','$notificacion->fecha')";
+        $sql = "INSERT INTO notificaciones (user1,user2,tipo,idelemento,visto,fecha) VALUES ('$notificacion->user1','$notificacion->user2','$notificacion->tipo','$notificacion->idelemento','$notificacion->visto','$notificacion->fecha')";
         $conexion->exec($sql);
         unset($conexion);
     }
@@ -95,6 +97,7 @@ class Notificacion {
                 'user1' => $row['user1'],
                 'user2' => $row['user2'],
                 'tipo' => $row['tipo'],
+                'idelemento' => $row['idelemento'],
                 'visto' => $row['visto'],
                 'fecha' => $row['fecha'],
                 'fotoAmigo' => Usuario::getFotoPerfilconId($row['user1']),

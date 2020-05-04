@@ -282,7 +282,7 @@ class Usuario {
     
     function eliminarAmigo($idusuario,$amigo){
         $fecha = date("Y-m-d H:i:s");
-        $notificacion = new Notificacion($idusuario, $amigo, "amistad", $fecha);
+        $notificacion = new Notificacion($idusuario, $amigo, "amistad",0, $fecha);
         Notificacion::borrarNotificacion($notificacion);
         Amistades::cancelarSolicitud($idusuario,$amigo);
         $conexion = Conexion::conectar();
@@ -431,6 +431,7 @@ class Usuario {
                 'amigos' => $row['amigos'],
                 'baneado' => $row['baneado'],
                 'operador' => $row['operador'],
+                'solicitud' => Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario),$row['id']),
                 'buscador' => Usuario::getIdUsuario($usuario)
             ];
             $i++;

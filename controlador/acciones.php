@@ -140,15 +140,15 @@ switch ($accion) {
         break;
 
     case "eliminarAmigo":
-        echo Usuario::eliminarAmigo($idusuario, $_REQUEST['amigo']);
         Usuario::eliminarAmigo($_REQUEST['amigo'], $idusuario);
+        echo Usuario::eliminarAmigo($idusuario, $_REQUEST['amigo']);
         break;
 
     //Solicitud amistad
 
     case "mandarSolicitud":
         $fecha = date("Y-m-d H:i:s");
-        $notificacion = new Notificacion($idusuario, $_REQUEST['usuario'], "amistad", $fecha);
+        $notificacion = new Notificacion($idusuario, $_REQUEST['usuario'], "amistad", 0, $fecha);
         Notificacion::crearNotificacion($notificacion);
         if (Amistades::mandarSolicitud($idusuario, $_REQUEST['usuario'])) {
             echo true;
@@ -158,7 +158,7 @@ switch ($accion) {
         break;
     case "cancelarSolicitud":
         $fecha = date("Y-m-d H:i:s");
-        $notificacion = new Notificacion($idusuario, $_REQUEST['usuario'], "amistad", $fecha);
+        $notificacion = new Notificacion($idusuario, $_REQUEST['usuario'], "amistad",0, $fecha);
         Notificacion::borrarNotificacion($notificacion);
         if (Amistades::cancelarSolicitud($idusuario, $_REQUEST['usuario'])) {
             echo true;
@@ -233,9 +233,9 @@ switch ($accion) {
         foreach ($posts as $clave => $post) {
             $orden1[$clave] = $post['fecha_publicacion'];
         }
-        
+
         array_multisort($orden1, SORT_DESC, $posts);
-        
+
         if ($posts) {
             echo json_encode($posts);
         } else {
@@ -256,7 +256,7 @@ switch ($accion) {
         $fecha = date("Y-m-d H:i:s");
         $comentario = new Comentario($_REQUEST['contenido'], $fecha, $_REQUEST['post'], $idusuario);
         if ($idusuario != Post::getUsuarioPost($_REQUEST['post'])) {
-            $notificacion = new Notificacion($idusuario, Post::getUsuarioPost($_REQUEST['post']), "comentarioP", $fecha);
+            $notificacion = new Notificacion($idusuario, Post::getUsuarioPost($_REQUEST['post']), "comentarioP", $_REQUEST['post'], $fecha);
             Notificacion::crearNotificacion($notificacion);
         }
         if (Comentario::publicarComentario($comentario)) {
@@ -281,13 +281,13 @@ switch ($accion) {
     //Mensajes
     case "mostrarMisAmigosyMensajes":
         $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
-        if (Usuario::getDatosAmigosyMensajes($amigos)){
+        if (Usuario::getDatosAmigosyMensajes($amigos)) {
             echo json_encode(Usuario::getDatosAmigosyMensajes($amigos));
         } else {
             echo false;
         }
         break;
-        
+
     case "mostrarCabeceraChat":
         echo json_encode(Usuario::getDatos($_REQUEST['usuario']));
         break;
@@ -333,10 +333,10 @@ switch ($accion) {
             echo false;
         }
         break;
-        
-        case "comprobarMensajesNuevos":
-            
-            break;
+
+    case "comprobarMensajesNuevos":
+
+        break;
 
     //Subir multimedia
     case "cambiarImagen":

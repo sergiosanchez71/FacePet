@@ -60,12 +60,12 @@ class Amistades {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT estado from amistades where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1)");
-        $existe = false;
+        $estado = false;
         while ($row = $consulta->fetch()) {
-            $existe = $row['estado'];
+            $estado = $row['estado'];
         }
         unset($conexion);
-        return $existe;
+        return $estado;
     }
     
     function cancelarSolicitud($user1,$user2){

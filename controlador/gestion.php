@@ -4,6 +4,22 @@ include 'clases/Conexion.php';
 include 'clases/Post.php';
 include 'clases/Usuario.php';
 
+function comprobarLogin() {
+    if (isset($_SESSION['username'])) {
+        //echo $_SESSION['username'];
+    } else {
+        header("Location: ../index.php");
+    }
+}
+
+function comprobarLoginOp() {
+    if (isset($_SESSION['username']) && $_SESSION['operador'] == 1) {
+        //echo $_SESSION['username'];
+    } else {
+        header("Location: ../index.php");
+    }
+}
+
 if (isset($_REQUEST['registro'])) {
     $usuario = new Usuario($_REQUEST['nick'], $_REQUEST['password'], $_REQUEST['email'], $_REQUEST['nombre'], $_REQUEST['animal'], $_REQUEST['raza'], $_REQUEST['sexo'], $_REQUEST['foto'], $_REQUEST['localidad']);
     Usuario::crearUsuario($usuario);
@@ -18,7 +34,7 @@ if (isset($_REQUEST['subirImagen'])) {
     $allowed_ext = preg_split("/\,/", $allowed_ext);
     foreach ($allowed_ext as $ext) {
         $tam = count($file_ext);
-        if (strtolower($ext) == strtolower($file_ext[$tam-1])) {
+        if (strtolower($ext) == strtolower($file_ext[$tam - 1])) {
             $match = true; // Permite el archivo
         }
     }
@@ -41,7 +57,7 @@ if (isset($_REQUEST['cambiarAvatar'])) {
     $allowed_ext = preg_split("/\,/", $allowed_ext);
     foreach ($allowed_ext as $ext) {
         $tam = count($file_ext);
-        if (strtolower($ext) == strtolower($file_ext[$tam-1])) {
+        if (strtolower($ext) == strtolower($file_ext[$tam - 1])) {
             $match = true; // Permite el archivo
         }
     }
@@ -57,7 +73,6 @@ if (isset($_REQUEST['cambiarAvatar'])) {
         rename($fichero_subido, $dir_subida . $_REQUEST['idusu'] . "." . $file_ext[1]);
         Usuario::cambiarAvatar($_REQUEST['idusu'], $_REQUEST['idusu'] . "." . $file_ext[1]);
         header("Location: ../vista/miPerfil.php");
-        
     }
 }
 ?>

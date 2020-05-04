@@ -3,6 +3,8 @@
         <title>Crear Post - FacePet</title>
         <?php
         session_start();
+        include '../controlador/gestion.php';
+        comprobarLogin();
         ?>
         <link rel="icon" href="../controlador/img/favicon.ico">
         <link rel="stylesheet" type="text/css" href="../controlador/css/header.css">
