@@ -174,7 +174,7 @@ and open the template in the editor.
                                 var imgUsuario = document.createElement("img");
                                 imgUsuario.setAttribute("class", "imagenUsuario");
                                 imgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + posts[i].foto);
-                                var nombreUsuario = document.createElement("span");
+                                var nombreUsuario = document.createElement("p");
                                 nombreUsuario.setAttribute("class", "nombreUsuario");
                                 nombreUsuario.innerHTML += posts[i].nick;
 

@@ -72,6 +72,7 @@
                 font-size: 1.5rem;
                 cursor: pointer;
                 float: left;
+                transition: 1s color ease;
             }
             
             .nombreAmigo:first-letter{
@@ -79,13 +80,14 @@
             }
             
             .nombreAmigo:hover{
-                color: white;
+                color: #f43333;
             }
 
             .sexo{
                 width: 2.5rem;
                 margin-left: 1rem;
                 margin-top: 1rem;
+                padding-bottom: 0.25rem;
             }
 
             .imagenAmigo{
@@ -96,6 +98,11 @@
                 float: left;
                 margin-right: 4rem;
                 cursor: pointer;
+                transition: 1s opacity ease;
+            }
+            
+            .imagenAmigo:hover{
+                opacity: 0.7;
             }
             
             .solicitud, .pendiente{
@@ -159,6 +166,13 @@
 
                 .nombreAmigo{
                     font-size: 2.5rem;
+                }
+                
+                .sexo{
+                    padding-bottom: 1rem;
+                    width: 4rem;
+                    margin-top: 1.5rem;
+                    margin-left: 2rem;
                 }
 
                 .animal, .raza, .localidad{

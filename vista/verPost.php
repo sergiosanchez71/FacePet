@@ -64,20 +64,37 @@ and open the template in the editor.
                 width: 3rem;
                 height: 3rem;
                 border-radius: 3rem;
+                float: left;
+                cursor: pointer;
+                transition: 1s opacity ease;
+            }
+            
+            .cImagenUsuario:hover{
+                opacity: 0.7;
             }
 
             .cNombreUsuario{
-                position: relative;
-                bottom: 1.5rem;
-                left: 1rem;
                 font-weight: bold;
+                margin-left: 4rem;
+                position: relative;
+                top: 0.5rem;
+                transition: 1s color ease;
+                margin-right: 92.5rem;
+                cursor: pointer;
+            }
+            
+            .cNombreUsuario:hover{
+                color:#f43333;
+            }
+            
+            .cNombreUsuario:first-letter{
+                text-transform: uppercase;
             }
 
             .cFecha{
                 font-size: 0.8rem;
-                position: relative;
-                bottom: 2rem;
-                left: 4rem;
+                margin-left: 4rem;
+                margin-bottom: 4rem;
             }
 
             .cCont{
@@ -182,7 +199,7 @@ and open the template in the editor.
                                 cImgUsuario.setAttribute("class", "cImagenUsuario");
                                 cImgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + comentarios[i].foto);
 
-                                var cNombreUsuario = document.createElement("span");
+                                var cNombreUsuario = document.createElement("p");
                                 cNombreUsuario.setAttribute("class", "cNombreUsuario");
                                 cNombreUsuario.innerHTML += comentarios[i].nick;
 
@@ -262,7 +279,7 @@ and open the template in the editor.
                                 var imgUsuario = document.createElement("img");
                                 imgUsuario.setAttribute("class", "imagenUsuario");
                                 imgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + posts.foto);
-                                var nombreUsuario = document.createElement("span");
+                                var nombreUsuario = document.createElement("p");
                                 nombreUsuario.setAttribute("class", "nombreUsuario");
                                 nombreUsuario.innerHTML += posts.nick;
 

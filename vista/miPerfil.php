@@ -134,6 +134,15 @@ and open the template in the editor.
                 background: #fffbed;
                 margin-bottom: 1rem;
                 cursor: pointer;
+                transition: 1s background ease;
+            }
+
+            .amigoPerfil:hover{
+                background: #ffeeba;
+            }
+            
+            .amigoPerfil:hover > .botonEliminarA{
+                background: #ffeeba;
             }
 
             .imagenAmigo{
@@ -218,6 +227,11 @@ and open the template in the editor.
                 display: block;
                 float: right;
                 cursor: pointer;
+                transition: 1s background ease;
+            }
+            
+            .botonEliminarA{
+                background: red;
             }
 
             .amigoEliminar{
@@ -569,7 +583,7 @@ and open the template in the editor.
                                 var imgUsuario = document.createElement("img");
                                 imgUsuario.setAttribute("class", "imagenUsuario");
                                 imgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + posts[i].foto);
-                                var nombreUsuario = document.createElement("span");
+                                var nombreUsuario = document.createElement("p");
                                 nombreUsuario.setAttribute("class", "nombreUsuario");
                                 nombreUsuario.innerHTML += posts[i].nick;
 
