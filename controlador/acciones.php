@@ -128,13 +128,17 @@ switch ($accion) {
         break;
 
     case "mostrarMisAmigos":
-        $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
-        echo json_encode(Usuario::getDatosAmigos($amigos));
+        if (Usuario::mostrarAmigos($idusuario)) {
+            $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
+            echo json_encode(Usuario::getDatosAmigos($amigos));
+        }
         break;
 
     case "mostrarAmigos":
-        $amigos = explode(",", Usuario::mostrarAmigos($_REQUEST['usuario']));
-        echo json_encode(Usuario::getDatosAmigos($amigos));
+        if (Usuario::mostrarAmigos($_REQUEST['usuario'])) {
+            $amigos = explode(",", Usuario::mostrarAmigos($_REQUEST['usuario']));
+            echo json_encode(Usuario::getDatosAmigos($amigos));
+        }
         break;
 
     case "cambiarAvatar":
@@ -232,13 +236,13 @@ switch ($accion) {
     case "mostrarPostsAmigos":
         $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
         $posts = Post::mostrarPostsAmigos($amigos, $idusuario);
-        foreach ($posts as $clave => $post) {
-            $orden1[$clave] = $post['fecha_publicacion'];
-        }
-
-        array_multisort($orden1, SORT_DESC, $posts);
-
         if ($posts) {
+            foreach ($posts as $clave => $post) {
+                $orden1[$clave] = $post['fecha_publicacion'];
+            }
+
+            array_multisort($orden1, SORT_DESC, $posts);
+
             echo json_encode($posts);
         } else {
             echo false;

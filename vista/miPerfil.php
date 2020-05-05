@@ -29,6 +29,7 @@ and open the template in the editor.
                 grid-template-columns: 30% 70%;
                 grid-template-rows: 28rem;
                 width: 100%;
+                min-height: 46rem;
                 background: white;
             }
 
@@ -40,6 +41,11 @@ and open the template in the editor.
                 display: flex;
                 flex-wrap: wrap;
                 margin: 3rem;
+                transition: 1s background ease;
+            }
+
+            #cabeceraPerfil:hover{
+                background: #fff7dd;
             }
 
             #botones{
@@ -132,17 +138,20 @@ and open the template in the editor.
                 grid-template-columns: 40% 60%;
                 border: 1px solid #999999;
                 background: #fffbed;
-                margin-bottom: 1rem;
                 cursor: pointer;
                 transition: 1s background ease;
             }
 
             .amigoPerfil:hover{
-                background: #ffeeba;
+                background: #fff7dd;
             }
             
             .amigoPerfil:hover > .botonEliminarA{
-                background: #ffeeba;
+                background: #fff7dd;
+            }
+            
+            .amigoPerfil:last-child{
+                margin-bottom: 5rem;
             }
 
             .imagenAmigo{
@@ -460,6 +469,10 @@ and open the template in the editor.
                     success: function (respuesta) {
                         if (respuesta) {
                             var amigos = JSON.parse(respuesta);
+                            var titular = document.createElement("p");
+                            titular.setAttribute("class","titularAmigosPerfil");
+                            $("#amigosPerfiles").append(titular);
+                            
                             for (var i = 0; i < amigos.length; i++) {
 
                                 var amigoPerfil = document.createElement("div");
@@ -524,7 +537,8 @@ and open the template in the editor.
                             }
                         } else {
                             var h1 = document.createElement("h1");
-                            h1.innerHTML += "Aún no tienes posts, crea uno";
+                            h1.setAttribute("style","text-align:center");
+                            h1.innerHTML += "Aún no tienes amigos, busca nuevos ";
                             $("#amigosPerfiles").append(h1);
                         }
 
@@ -742,6 +756,7 @@ and open the template in the editor.
                             }
                         } else {
                             var h1 = document.createElement("h1");
+                            h1.setAttribute("style","text-align:center");
                             h1.innerHTML += "Aún no tienes posts, crea uno";
                             $("#posts").append(h1);
                         }
@@ -830,7 +845,6 @@ and open the template in the editor.
                     <button id="botonPosts" class="boton"><span>Posts</span></button>
                 </div>
                 <div id="amigosPerfil">
-                    <p id="titularAmigosPerfil">Mis Amigos</p>
                     <div id="amigosPerfiles">
 
                     </div>

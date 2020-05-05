@@ -16,6 +16,11 @@
     padding: 1rem;
     border: 1px solid black;
     border-radius: 5rem;
+    transition: 1s background ease;
+}
+
+.post:hover{
+    background-color: #fff7dd;
 }
 
 .postUsuario{
@@ -56,7 +61,7 @@
     color: #f43333;
 }
 
-.nombreUsuario:first-letter{
+.nombreUsuario:first-letter, .postTitulo:first-letter, .postContenido:first-letter{
     text-transform: uppercase;
 }
 
@@ -68,7 +73,6 @@
     margin-left: 5rem;
     margin-right: 20rem;
 }
-
 
 .postCont{
     padding-bottom: 3rem;
@@ -125,6 +129,10 @@
     .post{
         min-height: 50rem;
     }
+    
+    .post:last-child{
+        margin-bottom: 10rem;
+    }
 
     .postEliminar{
         width: 6rem;
@@ -136,13 +144,14 @@
     }
 
     .nombreUsuario, .postFecha{
-        position: relative;
-        bottom: 3.5rem;
-    }
+        /*position: relative;
+        bottom: 3.5rem;*/
+        margin-right: 0rem;
+    }/*
 
     .postFecha{
         left: 8rem;
-    }
+    }*/
 
     .postImg{
         width: 25rem;

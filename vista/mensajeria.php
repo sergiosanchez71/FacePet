@@ -260,7 +260,6 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
                         if (respuesta) {
                             var amigos = JSON.parse(respuesta);
                             for (var i = 0; i < amigos.length; i++) {
@@ -343,8 +342,12 @@
                             }
                         } else {
                             var h1 = document.createElement("h1");
-                            h1.innerHTML += "Aún no tienes posts, crea uno";
-                            $("#amigosPerfiles").append(h1);
+                            h1.setAttribute("style","text-align:center");
+                            h1.innerHTML += "Aún no tienes amigos, busca nuevos ";
+                            $("#chatear").css("display","none");
+                            $("#buscador").css("display","none");
+                            $("#imgAmigoCM").css("display","none");
+                            $("#listaAmigos").append(h1);
                         }
 
 
@@ -391,7 +394,6 @@
                     data: parametros,
                     success: function (respuesta) {
                         $("#cuerpoCM").text("");
-                        console.log(respuesta);
                         if (respuesta) {
                             var mensajes = JSON.parse(respuesta);
                             for (var i = 0; i < mensajes.length; i++) {

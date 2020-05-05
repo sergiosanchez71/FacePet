@@ -79,7 +79,6 @@ and open the template in the editor.
                 position: relative;
                 top: 0.5rem;
                 transition: 1s color ease;
-                margin-right: 92.5rem;
                 cursor: pointer;
             }
             
@@ -87,7 +86,7 @@ and open the template in the editor.
                 color:#f43333;
             }
             
-            .cNombreUsuario:first-letter{
+            .cNombreUsuario:first-letter,.cCont:first-letter{
                 text-transform: uppercase;
             }
 
@@ -101,7 +100,7 @@ and open the template in the editor.
                 text-align: justify;
                 font-size: 1rem;
             }
-
+            
             .botonEliminarA{
                 grid-area: eliminarAmigo;
                 width: 4rem;

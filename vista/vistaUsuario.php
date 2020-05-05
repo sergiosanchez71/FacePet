@@ -140,28 +140,10 @@ and open the template in the editor.
                     success: function (respuesta) {
                         if (respuesta) {
                             var posts = JSON.parse(respuesta);
+                            
                             for (var i = 0; i < posts.length; i++) {
                                 var post = document.createElement("div");
                                 post.setAttribute("class", "post");
-
-                                /*var a = document.createElement("button");
-                                 a.setAttribute("value", posts[i].id);
-                                 a.setAttribute("class", "botonEliminar");
-                                 
-                                 a.onclick = function () {
-                                 if (confirm("Esta seguro de eliminar este post")) {
-                                 eliminarPost(this.value);
-                                 }
-                                 }
-                                 
-                                 var postEliminar = document.createElement("img");
-                                 postEliminar.setAttribute("class", "postEliminar");
-                                 postEliminar.setAttribute("src", "../controlador/img/eliminar.png");*/
-
-
-                                /* var postEliminarBoton = document.createElement("button");
-                                 postEliminarBoton.setAttribute("class","postEliminarBoton");
-                                 postEliminarBoton.innerHTML += postEliminar;*/
 
                                 var postUsuario = document.createElement("p");
                                 postUsuario.setAttribute("class", "postUsuario");

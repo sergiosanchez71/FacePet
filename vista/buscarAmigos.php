@@ -49,6 +49,11 @@
                 border-right:1px solid black;
                 border-left:1px solid black;
                 border-bottom:1px solid #BBBBBB;
+                transition: 1s background ease;
+            }
+            
+            .amigo:hover{
+                background: #fff7dd;
             }
 
             .amigo:first-child{

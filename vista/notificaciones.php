@@ -62,7 +62,7 @@
             .fechaNoti{
                 font-size: 0.75rem;
             }
-            
+
             .divOpciones{
                 width: 12.57rem;
                 margin-left: 13rem;
@@ -71,7 +71,7 @@
             .pA{
                 color : #555555;
             }
-            
+
             .aceptar,.rechazar{
                 font-size: 1.4rem;
                 padding: 5px;
@@ -118,7 +118,7 @@
                 .fechaNoti{
                     font-size: 1.5rem;
                 }
-                
+
                 .divOpciones{
                     margin-left: 15rem;
                     width: 25.4rem;
@@ -142,8 +142,8 @@
                 mostrarNotificaciones();
                 notificacionesVistas();
             });
-            
-            function notificacionesVistas(){
+
+            function notificacionesVistas() {
                 var parametros = {
                     "accion": "notificacionesVistas"
                 };
@@ -184,8 +184,8 @@
                     dataType: "text"
                 });
             }
-            
-            function rechazarSolicitud(usuario){
+
+            function rechazarSolicitud(usuario) {
                 var parametros = {
                     "accion": "cancelarSolicitud",
                     "usuario": usuario
@@ -205,7 +205,7 @@
                     dataType: "text"
                 });
             }
-            
+
 
             function mostrarNotificaciones() {
                 var parametros = {
@@ -217,109 +217,116 @@
                     data: parametros,
                     success: function (respuesta) {
                         console.log(respuesta);
-                        var notificaciones = JSON.parse(respuesta);
-                        for (var i = 0; i < notificaciones.length; i++) {
-                            var notificacion = document.createElement("div");
-                            notificacion.setAttribute("class", "notificacion");
+                        if (respuesta) {
+                            var notificaciones = JSON.parse(respuesta);
+                            for (var i = 0; i < notificaciones.length; i++) {
+                                var notificacion = document.createElement("div");
+                                notificacion.setAttribute("class", "notificacion");
 
-                            var datos = document.createElement("div");
-                            datos.setAttribute("class", "datos");
+                                var datos = document.createElement("div");
+                                datos.setAttribute("class", "datos");
 
-                            var img = document.createElement("img");
-                            img.setAttribute("src", "../controlador/uploads/usuarios/" + notificaciones[i].fotoAmigo);
-                            img.setAttribute("class", "imagenNotificacion");
-                            img.setAttribute("alt", "imagenPerfil");
+                                var img = document.createElement("img");
+                                img.setAttribute("src", "../controlador/uploads/usuarios/" + notificaciones[i].fotoAmigo);
+                                img.setAttribute("class", "imagenNotificacion");
+                                img.setAttribute("alt", "imagenPerfil");
 
-                            var usuario = document.createElement("p");
-                            usuario.setAttribute("class", "usuarioNoti");
-                            usuario.innerHTML = notificaciones[i].nickAmigo;
+                                var usuario = document.createElement("p");
+                                usuario.setAttribute("class", "usuarioNoti");
+                                usuario.innerHTML = notificaciones[i].nickAmigo;
 
-                            var mensaje = document.createElement("p");
-                            mensaje.setAttribute("class", "mensajeNoti");
-                            if (notificaciones[i].tipo == "amistad") {
-                                mensaje.innerHTML = "te ha enviado una solicitud de amistad";
-                            } else if (notificaciones[i].tipo == "comentarioP") {
-                                notificacion.setAttribute("data-value", notificaciones[i].elemento.id);
-                                notificacion.setAttribute("style", "cursor:pointer");
-                                mensaje.innerHTML = "ha comentado en tu post con titulo "+notificaciones[i].elemento.titulo;
-                                
-                                 notificacion.onclick = function () {
-                                    window.location.href = "verPost.php?post=" + this.dataset.value;
+                                var mensaje = document.createElement("p");
+                                mensaje.setAttribute("class", "mensajeNoti");
+                                if (notificaciones[i].tipo == "amistad") {
+                                    mensaje.innerHTML = "te ha enviado una solicitud de amistad";
+                                } else if (notificaciones[i].tipo == "comentarioP") {
+                                    notificacion.setAttribute("data-value", notificaciones[i].elemento.id);
+                                    notificacion.setAttribute("style", "cursor:pointer");
+                                    mensaje.innerHTML = "ha comentado en tu post con titulo " + notificaciones[i].elemento.titulo;
+
+                                    notificacion.onclick = function () {
+                                        window.location.href = "verPost.php?post=" + this.dataset.value;
+                                    }
+
+                                } else {
+                                    mensaje.innerHTML = notificaciones[i].tipo;
                                 }
-                                
-                            } else {
-                                mensaje.innerHTML = notificaciones[i].tipo;
-                            }
 
-                            var fecha = document.createElement("p");
-                            fecha.setAttribute("class", "fechaNoti");
-                            fecha.innerHTML = notificaciones[i].fecha;
+                                var fecha = document.createElement("p");
+                                fecha.setAttribute("class", "fechaNoti");
+                                fecha.innerHTML = notificaciones[i].fecha;
 
 
-                            $("#cuerpo").append(notificacion);
-                            notificacion.append(datos);
-                            datos.append(img);
-                            datos.append(usuario);
-                            datos.append(mensaje);
+                                $("#cuerpo").append(notificacion);
+                                notificacion.append(datos);
+                                datos.append(img);
+                                datos.append(usuario);
+                                datos.append(mensaje);
 
-                            if (notificaciones[i].tipo == "amistad") {
-                                var cadenaAmigos = notificaciones[i].amigosAmigo;
-                                if (cadenaAmigos != null) {
-                                    var amigos = cadenaAmigos.split(",");
-                                    var amigo = false;
-                                    for (var j = 0; j < amigos.length; j++) {
-                                        if (amigos[j] == notificaciones[i].user2) {
-                                            amigo = true;
+                                if (notificaciones[i].tipo == "amistad") {
+                                    var cadenaAmigos = notificaciones[i].amigosAmigo;
+                                    if (cadenaAmigos != null) {
+                                        var amigos = cadenaAmigos.split(",");
+                                        var amigo = false;
+                                        for (var j = 0; j < amigos.length; j++) {
+                                            if (amigos[j] == notificaciones[i].user2) {
+                                                amigo = true;
+                                            }
                                         }
-                                    }
-                                } else {
-                                    var amigo = false;
-                                }
-                                                                
-                                if (!amigo) {
-                                    
-                                    var divOpciones = document.createElement("div");
-                                    divOpciones.setAttribute("class", "divOpciones");
-                                    
-                                    divOpciones.onclick = function (){
-                                        //this.setAttribute("style","display:none");
-                                        var texto = document.createElement("p");
-                                        this.remove();
+                                    } else {
+                                        var amigo = false;
                                     }
 
-                                    var aceptar = document.createElement("button");
-                                    aceptar.setAttribute("class", "aceptar");
-                                    aceptar.setAttribute("value", notificaciones[i].user1);
-                                    aceptar.innerHTML = "Aceptar";
+                                    if (!amigo) {
 
-                                    aceptar.onclick = function (rechazar) {
-                                        aceptarSolicitud(this.value);
-                                    };
+                                        var divOpciones = document.createElement("div");
+                                        divOpciones.setAttribute("class", "divOpciones");
 
-                                    var rechazar = document.createElement("button");
-                                    rechazar.setAttribute("class", "rechazar");
-                                    rechazar.setAttribute("value", notificaciones[i].user1);
-                                    rechazar.innerHTML = "Rechazar";
+                                        divOpciones.onclick = function () {
+                                            //this.setAttribute("style","display:none");
+                                            var texto = document.createElement("p");
+                                            this.remove();
+                                        }
 
-                                    rechazar.onclick = function () {
-                                        rechazarSolicitud(this.value);
-                                    };
+                                        var aceptar = document.createElement("button");
+                                        aceptar.setAttribute("class", "aceptar");
+                                        aceptar.setAttribute("value", notificaciones[i].user1);
+                                        aceptar.innerHTML = "Aceptar";
 
-                                    datos.append(divOpciones);
-                                    divOpciones.append(aceptar);
-                                    divOpciones.append(rechazar);
+                                        aceptar.onclick = function (rechazar) {
+                                            aceptarSolicitud(this.value);
+                                        };
 
-                                } else {
-                                    var pA = document.createElement("p");
-                                    pA.setAttribute("class", "pA");
-                                    pA.innerHTML = "Este usuario y tú ya sois amigos";
+                                        var rechazar = document.createElement("button");
+                                        rechazar.setAttribute("class", "rechazar");
+                                        rechazar.setAttribute("value", notificaciones[i].user1);
+                                        rechazar.innerHTML = "Rechazar";
 
-                                    datos.append(pA);
+                                        rechazar.onclick = function () {
+                                            rechazarSolicitud(this.value);
+                                        };
+
+                                        datos.append(divOpciones);
+                                        divOpciones.append(aceptar);
+                                        divOpciones.append(rechazar);
+
+                                    } else {
+                                        var pA = document.createElement("p");
+                                        pA.setAttribute("class", "pA");
+                                        pA.innerHTML = "Este usuario y tú ya sois amigos";
+
+                                        datos.append(pA);
+                                    }
+
                                 }
+                                datos.append(fecha);
 
                             }
-                            datos.append(fecha);
-
+                        } else {
+                            var h1 = document.createElement("h1");
+                            h1.setAttribute("style","text-align:center");
+                            h1.innerHTML += "No tienes notificaciones disponibles";
+                            $("#cuerpo").append(h1);
                         }
                     },
                     error: function (xhr, status) {
@@ -328,6 +335,7 @@
                     type: "POST",
                     dataType: "text"
                 });
+            
 
             }
 
@@ -349,7 +357,7 @@
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
                     <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p style="display:none;" class="alerta" id="mensaje"></p></a></li>
                     <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p style="display:none;" class="alerta" id="notificacion"></p></a></li>
-                   <li id="liUsuario">
+                    <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">
                             <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>

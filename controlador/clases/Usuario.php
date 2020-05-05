@@ -279,12 +279,12 @@ class Usuario {
         unset($conexion);
         return $raza;
     }
-    
-    function eliminarAmigo($idusuario,$amigo){
+
+    function eliminarAmigo($idusuario, $amigo) {
         $fecha = date("Y-m-d H:i:s");
-        $notificacion = new Notificacion($idusuario, $amigo, "amistad",0, $fecha);
+        $notificacion = new Notificacion($idusuario, $amigo, "amistad", 0, $fecha);
         Notificacion::borrarNotificacion($notificacion);
-        Amistades::cancelarSolicitud($idusuario,$amigo);
+        Amistades::cancelarSolicitud($idusuario, $amigo);
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT amigos from usuarios where id='$idusuario'");
@@ -292,8 +292,8 @@ class Usuario {
             $amigoscad = $row['amigos'];
         }
         $amigos = explode(",", $amigoscad);
-        for($i=0;$i<count($amigos);$i++){
-            if($amigos[$i]==$amigo){
+        for ($i = 0; $i < count($amigos); $i++) {
+            if ($amigos[$i] == $amigo) {
                 unset($amigos[$i]);
             }
         }
@@ -334,6 +334,7 @@ class Usuario {
     function getDatosAmigos($amigos) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $datos = null;
         for ($i = 0; $i < count($amigos); $i++) {
             $consulta = $conexion->query("SELECT * from usuarios where id='$amigos[$i]'");
             while ($row = $consulta->fetch()) {
@@ -362,10 +363,11 @@ class Usuario {
         unset($conexion);
         return $datos;
     }
-    
+
     function getDatosAmigosyMensajes($amigos) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $datos = null;
         for ($i = 0; $i < count($amigos); $i++) {
             $consulta = $conexion->query("SELECT * from usuarios where id='$amigos[$i]'");
             while ($row = $consulta->fetch()) {
@@ -374,8 +376,8 @@ class Usuario {
                 } else {
                     $foto = $row['foto'];
                 }
-                if(Mensaje::mensajesUsuarioNoVistos($row['id'],Usuario::getIdUsuario($_SESSION['username']))){
-                    $mensajes = count(Mensaje::mensajesUsuarioNoVistos($row['id'],Usuario::getIdUsuario($_SESSION['username'])));
+                if (Mensaje::mensajesUsuarioNoVistos($row['id'], Usuario::getIdUsuario($_SESSION['username']))) {
+                    $mensajes = count(Mensaje::mensajesUsuarioNoVistos($row['id'], Usuario::getIdUsuario($_SESSION['username'])));
                 } else {
                     $mensajes = 0;
                 }
@@ -407,34 +409,31 @@ class Usuario {
         $consulta = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario'");
         $i = 0;
         while ($row = $consulta->fetch()) {
-            if ($row['foto'] == null) {
-                $foto = "0.jpg";
-            } else {
-                $foto = $row['foto'];
+            $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+            if ($solicitud != "aceptada") {
+                if ($row['foto'] == null) {
+                    $foto = "0.jpg";
+                } else {
+                    $foto = $row['foto'];
+                }
+
+                $datos[$i] = ['id' => $row['id'],
+                    'nick' => $row['nick'],
+                    'password' => $row['password'],
+                    'email' => $row['email'],
+                    'animal' => Animal::buscarConId($row['animal']),
+                    'raza' => Raza::buscarConId($row['raza']),
+                    'sexo' => $row['sexo'],
+                    'foto' => $foto,
+                    'localidad' => $row['localidad'],
+                    'amigos' => $row['amigos'],
+                    'baneado' => $row['baneado'],
+                    'operador' => $row['operador'],
+                    'solicitud' => $solicitud,
+                    'buscador' => Usuario::getIdUsuario($usuario)
+                ];
+                $i++;
             }
-
-            /* if (Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id'])) {
-              $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
-              } else {
-              $solicitud = false;
-              } */
-
-            $datos[$i] = ['id' => $row['id'],
-                'nick' => $row['nick'],
-                'password' => $row['password'],
-                'email' => $row['email'],
-                'animal' => Animal::buscarConId($row['animal']),
-                'raza' => Raza::buscarConId($row['raza']),
-                'sexo' => $row['sexo'],
-                'foto' => $foto,
-                'localidad' => $row['localidad'],
-                'amigos' => $row['amigos'],
-                'baneado' => $row['baneado'],
-                'operador' => $row['operador'],
-                'solicitud' => Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario),$row['id']),
-                'buscador' => Usuario::getIdUsuario($usuario)
-            ];
-            $i++;
         }
         unset($conexion);
 
@@ -476,7 +475,7 @@ class Usuario {
 
     function esAmigo($user1, $user2) {
         $amigos = explode(",", Usuario::mostrarAmigos($user1));
-        
+
 
         $amigo = false;
         if ($user1 == $user2) {

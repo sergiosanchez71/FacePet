@@ -76,21 +76,25 @@ class Mensaje {
     function mostrarChat($user1, $user2) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT * from mensajes where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1) order by fecha asc");
-        $i = 0;
-        $datos = null;
-        while ($row = $consulta->fetch()) {
-            $datos[$i] = array(
-                'id' => $row['id'],
-                'user1' => $row['user1'],
-                'user2' => $row['user2'],
-                'mensaje' => $row['mensaje'],
-                'visto' => $row['visto'],
-                'fecha' => $row['fecha']
-            );
-            $i++;
+        if ($user1 && $user2) {
+            $consulta = $conexion->query("SELECT * from mensajes where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1) order by fecha asc");
+            $i = 0;
+            $datos = null;
+            while ($row = $consulta->fetch()) {
+                $datos[$i] = array(
+                    'id' => $row['id'],
+                    'user1' => $row['user1'],
+                    'user2' => $row['user2'],
+                    'mensaje' => $row['mensaje'],
+                    'visto' => $row['visto'],
+                    'fecha' => $row['fecha']
+                );
+                $i++;
+            }
+            unset($conexion);
+        } else {
+            $datos = null;
         }
-        unset($conexion);
         return $datos;
     }
 
@@ -118,19 +122,23 @@ class Mensaje {
     function mensajesUsuarioNoVistos($user1, $user2) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT * from mensajes where user1=$user1 and user2=$user2 and visto=0");
-        $i = 0;
-        $datos = null;
-        while ($row = $consulta->fetch()) {
-            $datos[$i] = array(
-                'id' => $row['id'],
-                'user1' => $row['user1'],
-                'user2' => $row['user2'],
-                'mensaje' => $row['mensaje'],
-                'visto' => $row['visto'],
-                'fecha' => $row['fecha']
-            );
-            $i++;
+        if ($user1 && $user2) {
+            $consulta = $conexion->query("SELECT * from mensajes where user1=$user1 and user2=$user2 and visto=0");
+            $i = 0;
+            $datos = null;
+            while ($row = $consulta->fetch()) {
+                $datos[$i] = array(
+                    'id' => $row['id'],
+                    'user1' => $row['user1'],
+                    'user2' => $row['user2'],
+                    'mensaje' => $row['mensaje'],
+                    'visto' => $row['visto'],
+                    'fecha' => $row['fecha']
+                );
+                $i++;
+            }
+        } else {
+            $datos = null;
         }
         unset($conexion);
         return $datos;

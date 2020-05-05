@@ -29,6 +29,7 @@ and open the template in the editor.
                 grid-template-columns: 30% 70%;
                 grid-template-rows: 28rem;
                 width: 100%;
+                min-height: 46rem;
                 background: white;
             }
 
@@ -40,6 +41,11 @@ and open the template in the editor.
                 display: flex;
                 flex-wrap: wrap;
                 margin: 3rem;
+                transition: 1s background ease;
+            }
+
+            #cabeceraPerfil:hover{
+                background: #fff7dd;
             }
 
             #botones{
@@ -54,30 +60,31 @@ and open the template in the editor.
                 padding: 1rem;
                 transition: opacity 1.5s ease;
                 z-index: 2;
+                margin-top: 1rem;
             }
 
             /*   #contenidoPerfil:hover > #imgPerfil {
                    opacity: 0.3;
                }*/
 
-         /*   #contenidoPerfil form{
-                position: absolute;
-            }
+            /*   #contenidoPerfil form{
+                   position: absolute;
+               }
+   
+               #contenidoPerfil:hover > #textCambiarAvatar{
+                   opacity: 0.9;
+               }*/
 
-            #contenidoPerfil:hover > #textCambiarAvatar{
-                opacity: 0.9;
-            }*/
-
-           /* #textCambiarAvatar{
-                position: relative;
-                font-weight: bold;
-                font-size: 1.4rem;
-                top:9.5rem;
-                left: 3rem;
-                opacity: 0;
-                z-index: 1;
-                transition: opacity 1.5s ease;
-            }*/
+            /* #textCambiarAvatar{
+                 position: relative;
+                 font-weight: bold;
+                 font-size: 1.4rem;
+                 top:9.5rem;
+                 left: 3rem;
+                 opacity: 0;
+                 z-index: 1;
+                 transition: opacity 1.5s ease;
+             }*/
 
             #contenidoPerfil{
                 width: 15rem;
@@ -132,8 +139,20 @@ and open the template in the editor.
                 grid-template-columns: 40% 60%;
                 border: 1px solid #999999;
                 background: #fffbed;
-                margin-bottom: 1rem;
                 cursor: pointer;
+                transition: 1s background ease;
+            }
+
+            .amigoPerfil:hover{
+                background: #ffeeba;
+            }
+
+            .amigoPerfil:hover > .botonEliminarA{
+                background: #ffeeba;
+            }
+
+            .amigoPerfil:last-child{
+                margin-bottom: 5rem;
             }
 
             .imagenAmigo{
@@ -176,6 +195,7 @@ and open the template in the editor.
                 display: block;
                 float: right;
                 cursor: pointer;
+                transition: 1s background ease;
             }
 
             .amigoEliminar{
@@ -185,6 +205,16 @@ and open the template in the editor.
             .botonEliminar, .botonEliminarA{
                 background: #fffbed;
                 float: right;
+            }
+
+            .botonEliminar, .botonEliminarA{
+                background: #fffbed;
+                float: right;
+                margin-right: 2rem;
+            }
+
+            .botonEliminar{
+                margin-top: 1rem;
             }
 
             #idUsuario{
@@ -355,6 +385,10 @@ and open the template in the editor.
                     success: function (respuesta) {
                         if (respuesta) {
                             var amigos = JSON.parse(respuesta);
+                            var titular = document.createElement("p");
+                            titular.setAttribute("class", "titularAmigosPerfil");
+                            $("#amigosPerfiles").append(titular);
+
                             for (var i = 0; i < amigos.length; i++) {
 
                                 var amigoPerfil = document.createElement("div");
@@ -383,7 +417,7 @@ and open the template in the editor.
                                 img.setAttribute("class", "imagenAmigo");
                                 img.setAttribute("alt", "imagenAmigo");
                                 img.setAttribute("data-value", amigos[i].id);
-                                
+
                                 img.onclick = function () {
                                     window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
@@ -391,7 +425,7 @@ and open the template in the editor.
                                 var divA = document.createElement("div");
                                 divA.setAttribute("class", "informacionAmigo");
                                 divA.setAttribute("data-value", amigos[i].id);
-                                
+
                                 divA.onclick = function () {
                                     window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
@@ -425,6 +459,7 @@ and open the template in the editor.
                         } else {
                             var h1 = document.createElement("h1");
                             h1.innerHTML += "Este usuario aún no tiene amigos";
+                            h1.setAttribute("style", "text-align:center");
                             $("#amigosPerfiles").append(h1);
                         }
 
@@ -479,12 +514,12 @@ and open the template in the editor.
 
                                 var postUsuario = document.createElement("p");
                                 postUsuario.setAttribute("class", "postUsuario");
-                                postUsuario.setAttribute("data-value",posts[i].usuario);
-                                
+                                postUsuario.setAttribute("data-value", posts[i].usuario);
+
                                 postUsuario.onclick = function () {
                                     window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
-                                
+
                                 var imgUsuario = document.createElement("img");
                                 imgUsuario.setAttribute("class", "imagenUsuario");
                                 imgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + posts[i].foto);
@@ -731,7 +766,6 @@ and open the template in the editor.
                     <button id="botonPosts" class="boton"><span>Posts</span></button>
                 </div>
                 <div id="amigosPerfil">
-                    <p id="titularAmigosPerfil">Mis Amigos</p>
                     <div id="amigosPerfiles">
 
                     </div>
