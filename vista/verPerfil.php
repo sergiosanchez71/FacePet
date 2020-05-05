@@ -60,15 +60,15 @@ and open the template in the editor.
                    opacity: 0.3;
                }*/
 
-            #contenidoPerfil form{
+         /*   #contenidoPerfil form{
                 position: absolute;
             }
 
             #contenidoPerfil:hover > #textCambiarAvatar{
                 opacity: 0.9;
-            }
+            }*/
 
-            #textCambiarAvatar{
+           /* #textCambiarAvatar{
                 position: relative;
                 font-weight: bold;
                 font-size: 1.4rem;
@@ -77,12 +77,12 @@ and open the template in the editor.
                 opacity: 0;
                 z-index: 1;
                 transition: opacity 1.5s ease;
-            }
+            }*/
 
             #contenidoPerfil{
                 width: 15rem;
                 margin-left: 15rem;
-                cursor: pointer;
+                /*cursor: pointer;*/
             }
 
             #datos{

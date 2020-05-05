@@ -17,7 +17,9 @@ include 'clases/Mensaje.php';
 
 session_start();
 $accion = $_REQUEST['accion'];
-$idusuario = Usuario::getIdUsuario($_SESSION['username']);
+if (isset($_SESSION['username'])) {
+    $idusuario = Usuario::getIdUsuario($_SESSION['username']);
+}
 
 switch ($accion) {
 
@@ -158,7 +160,7 @@ switch ($accion) {
         break;
     case "cancelarSolicitud":
         $fecha = date("Y-m-d H:i:s");
-        $notificacion = new Notificacion($idusuario, $_REQUEST['usuario'], "amistad",0, $fecha);
+        $notificacion = new Notificacion($idusuario, $_REQUEST['usuario'], "amistad", 0, $fecha);
         Notificacion::borrarNotificacion($notificacion);
         if (Amistades::cancelarSolicitud($idusuario, $_REQUEST['usuario'])) {
             echo true;

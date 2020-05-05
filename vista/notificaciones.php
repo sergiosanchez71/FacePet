@@ -66,7 +66,6 @@
             .divOpciones{
                 width: 12.57rem;
                 margin-left: 13rem;
-                background: red;
             }
 
             .pA{
@@ -240,7 +239,14 @@
                             if (notificaciones[i].tipo == "amistad") {
                                 mensaje.innerHTML = "te ha enviado una solicitud de amistad";
                             } else if (notificaciones[i].tipo == "comentarioP") {
-                                mensaje.innerHTML = "ha comentado en tu post";
+                                notificacion.setAttribute("data-value", notificaciones[i].elemento.id);
+                                notificacion.setAttribute("style", "cursor:pointer");
+                                mensaje.innerHTML = "ha comentado en tu post con titulo "+notificaciones[i].elemento.titulo;
+                                
+                                 notificacion.onclick = function () {
+                                    window.location.href = "verPost.php?post=" + this.dataset.value;
+                                }
+                                
                             } else {
                                 mensaje.innerHTML = notificaciones[i].tipo;
                             }

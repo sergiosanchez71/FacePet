@@ -227,6 +227,11 @@ and open the template in the editor.
             .botonEliminar, .botonEliminarA{
                 background: #fffbed;
                 float: right;
+                margin-right: 2rem;
+            }
+
+            .botonEliminar{
+                margin-top: 1rem;
             }
 
             @media (max-width:1000px){
@@ -377,8 +382,8 @@ and open the template in the editor.
                     dataType: "text"
                 });
             }
-            
-            function eliminarAmigo(amigo){
+
+            function eliminarAmigo(amigo) {
                 var parametros = {
                     "accion": "eliminarAmigo",
                     "amigo": amigo
@@ -390,9 +395,9 @@ and open the template in the editor.
                     success: function (respuesta) {
                         console.log(respuesta);
                         /*$("#amigosPerfiles").remove();
-                        var amigos = document.createElement("div");
-                        amigos.setAttribute("id","amigosPerfiles");
-                        $("#amigosPerfiles").append(amigos);*/
+                         var amigos = document.createElement("div");
+                         amigos.setAttribute("id","amigosPerfiles");
+                         $("#amigosPerfiles").append(amigos);*/
                         $("#amigosPerfiles").text("");
                         mostrarMisAmigos();
                     },
@@ -465,7 +470,7 @@ and open the template in the editor.
                                 img.setAttribute("class", "imagenAmigo");
                                 img.setAttribute("alt", "imagenAmigo");
                                 img.setAttribute("data-value", amigos[i].id);
-                                
+
                                 img.onclick = function () {
                                     window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
@@ -473,7 +478,7 @@ and open the template in the editor.
                                 var divA = document.createElement("div");
                                 divA.setAttribute("class", "informacionAmigo");
                                 divA.setAttribute("data-value", amigos[i].id);
-                                
+
                                 divA.onclick = function () {
                                     window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
@@ -555,12 +560,12 @@ and open the template in the editor.
 
                                 var postUsuario = document.createElement("p");
                                 postUsuario.setAttribute("class", "postUsuario");
-                                postUsuario.setAttribute("data-value",posts[i].usuario);
-                                
+                                postUsuario.setAttribute("data-value", posts[i].usuario);
+
                                 postUsuario.onclick = function () {
                                     window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
-                                
+
                                 var imgUsuario = document.createElement("img");
                                 imgUsuario.setAttribute("class", "imagenUsuario");
                                 imgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + posts[i].foto);

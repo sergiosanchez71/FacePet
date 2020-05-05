@@ -93,11 +93,19 @@ class Notificacion {
         $i = 0;
         $datos = null;
         while ($row = $consulta->fetch()) {
+            
+            $identificacionElemento = null;
+            if($row['tipo']=="comentarioP"){
+               // $identificacionElemento = Post::mostrarTitulo($row['idelemento']);
+                $identificacionElemento = Post::mostrarPost($row['idelemento'],Usuario::getIdUsuario($_SESSION['username']));
+            }
+            
             $datos[$i] = ['id' => $row['id'],
                 'user1' => $row['user1'],
                 'user2' => $row['user2'],
                 'tipo' => $row['tipo'],
-                'idelemento' => $row['idelemento'],
+                //'idelemento' => $row['idelemento'],
+                'elemento'=> $identificacionElemento,
                 'visto' => $row['visto'],
                 'fecha' => $row['fecha'],
                 'fotoAmigo' => Usuario::getFotoPerfilconId($row['user1']),

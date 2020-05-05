@@ -44,13 +44,23 @@
             .amigo{
                 background: #fcf0c9;
                 width: 100%;
-                border:1px solid black;
                 float: left;
                 padding-bottom: 1rem;
+                border-right:1px solid black;
+                border-left:1px solid black;
+                border-bottom:1px solid #BBBBBB;
             }
-            
+
+            .amigo:first-child{
+                border-radius: 3rem 3rem 0 0;
+                border-top:1px solid black;
+            }
+
             .amigo:last-child{
                 margin-bottom: 5rem;
+                border-radius: 0 0 3rem 3rem;
+                border-right:1px solid black;
+                border-bottom:1px solid black;
             }
 
             .datos{
@@ -60,13 +70,22 @@
             .nombreAmigo{
                 font-weight: bold;
                 font-size: 1.5rem;
+                cursor: pointer;
+                float: left;
+            }
+            
+            .nombreAmigo:first-letter{
+                text-transform: uppercase;
+            }
+            
+            .nombreAmigo:hover{
+                color: white;
             }
 
             .sexo{
                 width: 2.5rem;
-                position: relative;
-                top: 0.5rem;
-                left: 1rem;
+                margin-left: 1rem;
+                margin-top: 1rem;
             }
 
             .imagenAmigo{
@@ -76,8 +95,9 @@
                 margin: 1rem;
                 float: left;
                 margin-right: 4rem;
+                cursor: pointer;
             }
-
+            
             .solicitud, .pendiente{
                 font-size: 1.2rem;
                 border-radius: 1rem;
@@ -197,8 +217,8 @@
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
-                    succes: function(respuesta){
-                      console.log(respuesta)  ;
+                    succes: function (respuesta) {
+                        console.log(respuesta);
                     },
                     error: function (xhr, status) {
                         alert("Error en la creación de post");
@@ -252,6 +272,10 @@
                                     var usuario = document.createElement("div");
                                     usuario.setAttribute("class", "amigo");
 
+                                    if (usuarios.length == 1) {
+                                        usuario.setAttribute("style", " border-radius:3rem");
+                                    }
+
                                     var datos = document.createElement("div");
                                     datos.setAttribute("class", "datos");
 
@@ -259,12 +283,22 @@
                                     imagenPerfil.setAttribute("src", "../controlador/uploads/usuarios/" + usuarios[i].foto);
                                     imagenPerfil.setAttribute("class", "imagenAmigo");
                                     imagenPerfil.setAttribute("alt", "imagenPerfil");
+                                    imagenPerfil.setAttribute("data-value", usuarios[i].id);
+
+                                    imagenPerfil.onclick = function () {
+                                        window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+                                    }
 
                                     var p = document.createElement("p");
 
-                                    var nombreAmigo = document.createElement("span");
+                                    var nombreAmigo = document.createElement("p");
                                     nombreAmigo.setAttribute("class", "nombreAmigo");
                                     nombreAmigo.innerHTML += usuarios[i].nick;
+                                    nombreAmigo.setAttribute("data-value", usuarios[i].id);
+
+                                    nombreAmigo.onclick = function () {
+                                        window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+                                    }
 
                                     var sexo = document.createElement("img");
                                     sexo.setAttribute("src", "../controlador/img/" + usuarios[i].sexo + ".png");
@@ -356,7 +390,7 @@
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
                     <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p style="display:none;" class="alerta" id="mensaje"></p></a></li>
                     <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p style="display:none;" class="alerta" id="notificacion"></p></a></li>
-                   <li id="liUsuario">
+                    <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">
                             <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>

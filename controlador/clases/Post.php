@@ -118,7 +118,18 @@ class Post {
         unset($conexion);
         return $id;
     }
-
+    
+    /*function mostrarTitulo($post){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT titulo from posts where id=$post");
+        while ($row = $consulta->fetch()) {
+            $titulo = $row['titulo'];
+        }
+        unset($conexion);
+        return $titulo;
+    }
+*/
     function subirMultimedia($id, $multimedia) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

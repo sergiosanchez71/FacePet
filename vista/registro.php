@@ -22,6 +22,7 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+                        console.log(respuesta);
                         var resp = JSON.parse(respuesta);
                         var animales = document.getElementById("animales");
                         for (var i = 0; i < resp.animal.length; i++) {
