@@ -263,10 +263,7 @@
                     data: parametros,
                     success: function (respuesta) {
 
-                        $("#buscarAmigos").remove();
-                        var buscarAmigos = document.createElement("div");
-                        buscarAmigos.setAttribute("id", "buscarAmigos");
-                        $("#buscadorAmigos").append(buscarAmigos);
+                        $("#buscarAmigos").empty();
 
                         if (respuesta != "null") {
                             console.log(respuesta);

@@ -26,15 +26,33 @@
                 margin: 0rem 5rem 0 5rem;
                 height: 100%;
             }
-
+            
             .datos{
                 display: block;
                 margin: auto;
-                border: 2px solid black;
+                border-right: 2px solid black;
+                border-left: 2px solid black;
+                border-bottom: 1px solid #BBBBBB;
                 padding: 1rem;
                 background: white;
                 width: 65%;
                 min-height: 8rem;
+                background: #fcf0c9;
+                transition: 1s background ease;
+            }
+            
+            .notificacion:first-child .datos{
+                border-top: 2px solid black;
+                margin-top: 5rem;
+            }
+            
+            .notificacion:last-child .datos{
+                border-bottom: 2px solid black;
+                margin-bottom: 10rem;
+            }
+            
+            .datos:hover{
+                background: #fff7dd;
             }
 
             .imagenNotificacion{
@@ -218,6 +236,10 @@
                     success: function (respuesta) {
                         console.log(respuesta);
                         if (respuesta) {
+                         /*   var h1 = document.createElement("h1");
+                            h1.setAttribute("style","text-align:center;margin-top:7rem");
+                            h1.innerHTML += "Notificaciones";
+                            $("#cuerpo").append(h1);*/
                             var notificaciones = JSON.parse(respuesta);
                             for (var i = 0; i < notificaciones.length; i++) {
                                 var notificacion = document.createElement("div");
@@ -240,9 +262,14 @@
                                 if (notificaciones[i].tipo == "amistad") {
                                     mensaje.innerHTML = "te ha enviado una solicitud de amistad";
                                 } else if (notificaciones[i].tipo == "comentarioP") {
-                                    notificacion.setAttribute("data-value", notificaciones[i].elemento.id);
+                                    notificacion.setAttribute("data-value", notificaciones[i].elemento[0].id);
                                     notificacion.setAttribute("style", "cursor:pointer");
-                                    mensaje.innerHTML = "ha comentado en tu post con titulo " + notificaciones[i].elemento.titulo;
+                                    var comentario = notificaciones[i].elemento[1].contenido;
+                                    if(comentario.length < 50){
+                                        mensaje.innerHTML = "ha comentado ' "+comentario+" ' en tu post con titulo " + notificaciones[i].elemento[0].titulo;
+                                    } else{
+                                        mensaje.innerHTML = "ha comentado ' "+comentario.substring(0,50)+"... ' en tu post con titulo " + notificaciones[i].elemento[0].titulo;
+                                    }
 
                                     notificacion.onclick = function () {
                                         window.location.href = "verPost.php?post=" + this.dataset.value;

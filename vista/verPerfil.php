@@ -557,17 +557,11 @@ and open the template in the editor.
                                 postLikes.setAttribute("class", "postLikes");
 
                                 if (posts[i].likes != null) {
-
                                     var cadlikes = posts[i].likes;
                                     var likes = cadlikes.split(",");
-                                    if (likes.length > 1) {
-                                        postLikes.innerHTML += likes.length + " Me gustas";
-                                    } else {
-                                        postLikes.innerHTML += likes.length + " Me gusta";
-                                    }
-
-                                } else {
-                                    postLikes.innerHTML = "0 Me gustas";
+                                    var slikes = document.createElement("span");
+                                    slikes.setAttribute("class", "likes");
+                                    slikes.innerHTML = likes.length;
                                 }
 
                                 var iconos = document.createElement("p");
@@ -578,6 +572,8 @@ and open the template in the editor.
                                 var postCorazonImg = document.createElement("img");
                                 postCorazonImg.setAttribute("class", "postCorazonImg");
                                 postCorazonImg.setAttribute("alt", posts[i].id);
+                                postCorazonImg.setAttribute("data-value", posts[i].id);
+                                postCorazonImg.setAttribute("data-pos", i);
 
                                 if (!posts[i].like) {
                                     postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
@@ -585,7 +581,13 @@ and open the template in the editor.
                                     postCorazonImg.onclick = function () {
                                         this.removeAttribute("src");
                                         this.setAttribute("src", "../controlador/img/Like.png");
-                                        darLike(this.alt);
+                                        darLike(this.dataset.value);
+                                        if (!this.dataset.like) {
+                                            var valor = $(".likes:eq(" + this.dataset.pos + ")").text();
+                                            var valor2 = parseInt(valor);
+                                            $(".likes:eq(" + this.dataset.pos + ")").text(parseInt(valor2 + 1));
+                                            this.setAttribute("data-like", true);
+                                        }
                                     }
                                 } else {
                                     postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
@@ -611,7 +613,7 @@ and open the template in the editor.
 
                                 var comentarios = document.createElement("span");
                                 comentarios.setAttribute("class", "comentariosPost");
-                                comentarios.setAttribute("title", posts[i].id);
+                                comentarios.setAttribute("data-value", posts[i].id);
                                 if (posts[i].comentarios > 0) {
                                     if (posts[i].comentarios == 1) {
                                         comentarios.innerHTML = "Ver " + posts[i].comentarios + " comentario";
@@ -623,7 +625,7 @@ and open the template in the editor.
                                 }
 
                                 comentarios.onclick = function () {
-                                    window.location.href = "verPost.php?post=" + this.title;
+                                    window.location.href = "verPost.php?post=" + this.dataset.value;
                                 }
 
                                 $("#posts").append(post);
@@ -648,7 +650,22 @@ and open the template in the editor.
 
                                 postCont.append(postBottom);
 
+                                postCont.append(postBottom);
+
                                 postBottom.append(postLikes);
+
+                                if (posts[i].likes != null) {
+                                    if (likes.length > 1) {
+                                        postLikes.append(slikes);
+                                        postLikes.append(" Me gustas");
+                                    } else {
+                                        postLikes.append(slikes);
+                                        postLikes.append(" Me gusta");
+                                    }
+                                } else {
+                                    postLikes.append("0 Me gustas");
+                                }
+
                                 postBottom.append(iconos);
                                 iconos.append(postCorazon);
                                 iconos.append(postComentario);

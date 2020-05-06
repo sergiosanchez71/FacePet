@@ -96,15 +96,16 @@ class Notificacion {
             
             $identificacionElemento = null;
             if($row['tipo']=="comentarioP"){
-               // $identificacionElemento = Post::mostrarTitulo($row['idelemento']);
-                $identificacionElemento = Post::mostrarPost($row['idelemento'],Usuario::getIdUsuario($_SESSION['username']));
+                $idusuario=Usuario::getIdUsuario($_SESSION['username']);
+                $idcomentario = Comentario::buscarIdComentario($row['idelemento'],$row['user1'],$row['fecha']);
+                $identificacionElemento[0] = Post::mostrarPost($row['idelemento'],$idusuario);
+                $identificacionElemento[1] = Comentario::mostrarComentariosConId($idcomentario);
             }
             
             $datos[$i] = ['id' => $row['id'],
                 'user1' => $row['user1'],
                 'user2' => $row['user2'],
                 'tipo' => $row['tipo'],
-                //'idelemento' => $row['idelemento'],
                 'elemento'=> $identificacionElemento,
                 'visto' => $row['visto'],
                 'fecha' => $row['fecha'],

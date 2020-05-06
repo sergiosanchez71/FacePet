@@ -129,15 +129,27 @@ switch ($accion) {
 
     case "mostrarMisAmigos":
         if (Usuario::mostrarAmigos($idusuario)) {
-            $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
-            echo json_encode(Usuario::getDatosAmigos($amigos));
+            $namigos = explode(",", Usuario::mostrarAmigos($idusuario));
+            $amigos = Usuario::getDatosAmigos($namigos);
+            foreach ($amigos as $clave => $amigo) {
+                $orden1[$clave] = $amigo['nick'];
+            }
+
+            array_multisort($orden1, SORT_ASC, $amigos);
+            echo json_encode($amigos);
         }
         break;
 
     case "mostrarAmigos":
         if (Usuario::mostrarAmigos($_REQUEST['usuario'])) {
-            $amigos = explode(",", Usuario::mostrarAmigos($_REQUEST['usuario']));
-            echo json_encode(Usuario::getDatosAmigos($amigos));
+            $namigos = explode(",", Usuario::mostrarAmigos($_REQUEST['usuario']));
+            $amigos = Usuario::getDatosAmigos($namigos);
+            foreach ($amigos as $clave => $amigo) {
+                $orden1[$clave] = $amigo['nick'];
+            }
+
+            array_multisort($orden1, SORT_ASC, $amigos);
+            echo json_encode($amigos);
         }
         break;
 
@@ -286,9 +298,15 @@ switch ($accion) {
 
     //Mensajes
     case "mostrarMisAmigosyMensajes":
-        $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
-        if (Usuario::getDatosAmigosyMensajes($amigos)) {
-            echo json_encode(Usuario::getDatosAmigosyMensajes($amigos));
+        $namigos = explode(",", Usuario::mostrarAmigos($idusuario));
+        if (Usuario::getDatosAmigosyMensajes($namigos,$_REQUEST['cadena'])) {
+            $amigos = Usuario::getDatosAmigosyMensajes($namigos,$_REQUEST['cadena']);
+            foreach ($amigos as $clave => $amigo) {
+                $orden1[$clave] = $amigo['nick'];
+            }
+
+            array_multisort($orden1, SORT_ASC, $amigos);
+            echo json_encode($amigos);
         } else {
             echo false;
         }

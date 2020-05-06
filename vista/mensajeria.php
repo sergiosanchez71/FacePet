@@ -116,6 +116,11 @@
                 border-bottom: 1px solid black;
                 grid-area:cabeceraCM;
             }
+            
+            #selecciona{
+                text-align: center;
+                padding: 1rem;
+            }
 
             #imgAmigoCM{
                 grid-area: imgAmigoCM;
@@ -232,16 +237,28 @@
 
             $(document).ready(function () {
                 mostrarMisAmigos();
+                $('#buscador').on('input', function () {
+                    mostrarMisAmigos();
+                });
                 $("#enviarMensaje").click(function () {
                     enviarMensaje($("#mensajeEscrito").val(), $("#idUsuario").val());
                 });
                 if ($("#idUsuario").length > 0) {
-                    mostrarChat($("#idUsuario").val());
+                    //mostrarChat($("#idUsuario").val());
                     /*setInterval(function () {
                      mostrarChat($("#idUsuario").val());
                      $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
                      }, 500);*/
                 }
+
+                $("#imgAmigoCM").css("display", "none");
+                $("#enviarMensaje").css("display", "none");
+                $("#mensajeEscrito").css("display", "none");
+                $("#cabeceraCM").append(h1);
+
+                /* mostrarCabeceraChat(amigos[i].id);
+                 mostrarChat(amigos[i].id);
+                 mensajesLeidos(amigos[i].id);*/
             });
 
 
@@ -252,23 +269,24 @@
             }
 
             function mostrarMisAmigos() {
+
+                var buscador = $("#buscador").val();
+
                 var parametros = {
-                    "accion": "mostrarMisAmigosyMensajes"
+                    "accion": "mostrarMisAmigosyMensajes",
+                    "cadena": buscador
                 };
 
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+                        $("#amigos").empty();
                         if (respuesta) {
+                            console.log(respuesta);
+
                             var amigos = JSON.parse(respuesta);
                             for (var i = 0; i < amigos.length; i++) {
-
-                                if (i == 0) {
-                                    mostrarCabeceraChat(amigos[i].id);
-                                    mostrarChat(amigos[i].id);
-                                    mensajesLeidos(amigos[i].id);
-                                }
 
                                 var amigoPerfil = document.createElement("div");
                                 amigoPerfil.setAttribute("data-value", amigos[i].id);
@@ -326,7 +344,7 @@
                                  console.log(m);
                                  }*/
 
-                                $("#listaAmigos").append(amigoPerfil);
+                                $("#amigos").append(amigoPerfil);
                                 amigoPerfil.append(img);
                                 amigoPerfil.append(datos);
                                 datos.append(nombreAmigo);
@@ -342,11 +360,13 @@
                             }
                         } else {
                             var h1 = document.createElement("h1");
-                            h1.setAttribute("style","text-align:center");
-                            h1.innerHTML += "Aún no tienes amigos, busca nuevos ";
-                            $("#chatear").css("display","none");
-                            $("#buscador").css("display","none");
-                            $("#imgAmigoCM").css("display","none");
+                            h1.setAttribute("style", "text-align:center");
+                            if (buscador.length < 1) {
+                                h1.innerHTML += "Aún no tienes amigos, busca nuevos";
+                            }
+                            /* $("#chatear").css("display","none");
+                             $("#buscador").css("display","none");
+                             $("#imgAmigoCM").css("display","none");*/
                             $("#listaAmigos").append(h1);
                         }
 
@@ -371,6 +391,11 @@
                     data: parametros,
                     success: function (respuesta) {
                         var amigo = JSON.parse(respuesta);
+                        $("#imgAmigoCM").css("display", "block");
+                        $("#enviarMensaje").css("display", "block");
+                        $("#mensajeEscrito").css("display", "block");
+                        $("#selecciona").css("display", "none");
+
                         $("#imgAmigoCM").attr("src", "../controlador/uploads/usuarios/" + amigo.foto);
                         $("#nombreAmigoCM").text(amigo.nick);
                         $("#idUsuario").attr("value", amigo.id);
@@ -467,7 +492,7 @@
                                 mensajesLeidos(usuario);
                             }
                         }
-                        
+
 
                     },
                     error: function (xhr, status) {
@@ -508,7 +533,7 @@
                             $("#cuerpoCM").append(div);
                             div.append(contenido);
                             div.append(fecha);
-                            
+
                             $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
                         },
                         error: function (xhr, status) {
@@ -599,10 +624,12 @@
                 <div id="listaAmigos">
                     <p id="chatear">Chatea con tus amigos</p>
                     <input type="text" id="buscador" placeholder="Busca a un amigo">
+                    <div id="amigos"></div>
 
                 </div>
                 <div id="Cmensajes">
                     <div id="cabeceraCM">
+                        <h1 id="selecciona">Selecciona un chat</h1>
                         <img id="imgAmigoCM" alt="imgAmigo">
                         <p id="nombreAmigoCM"></p>
                         <input type="text" id="idUsuario">

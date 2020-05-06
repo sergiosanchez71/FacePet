@@ -364,13 +364,21 @@ class Usuario {
         return $datos;
     }
 
-    function getDatosAmigosyMensajes($amigos) {
+    function getDatosAmigosyMensajes($amigos, $cadena) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $datos = null;
         for ($i = 0; $i < count($amigos); $i++) {
-            $consulta = $conexion->query("SELECT * from usuarios where id='$amigos[$i]'");
+            $consulta = $conexion->query("SELECT * from usuarios where id='$amigos[$i]' and nick like '$cadena%'");
             while ($row = $consulta->fetch()) {
+                /*if (isset($datos)) {
+                    if (count($datos) > 2) {
+                        if ($datos[0] == $datos[1]) {
+                            unset($conexion);
+                            return $datos;
+                        }
+                    }
+                }*/
                 if ($row['foto'] == null) {
                     $foto = "0.jpg";
                 } else {
@@ -406,7 +414,7 @@ class Usuario {
     function getDatosBuscar($cadena, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario'");
+        $consulta = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' order by nick asc");
         $i = 0;
         while ($row = $consulta->fetch()) {
             $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);

@@ -191,6 +191,7 @@ class Post {
         $i = 0;
         $datos = null;
         while ($row = $consulta->fetch()) {
+            $idusuario=Usuario::getIdUsuario($_SESSION['username']);
             if ($row['foto'] == null) {
                 $foto = "0.jpg";
             } else {
@@ -204,12 +205,12 @@ class Post {
                 'multimedia' => $row['multimedia'],
                 'fecha_publicacion' => $row['fecha_publicacion'],
                 'likes' => $row['likes'],
-                'like' => Post::comprobarLike($row['id'], $usuario),
+                'like' => Post::comprobarLike($row['id'], $idusuario),
                 'usuario' => $row['usuario'],
                 'nick' => $row['nick'],
                 'foto' => $foto,
                 'loginOperador' => $_SESSION['operador'],
-                'login' => Usuario::getIdUsuario($_SESSION['username']),
+                'login' => $idusuario,
                 'comentarios' => Comentario::contarComentarios($row['id'])
             );
 

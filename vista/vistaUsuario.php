@@ -140,19 +140,19 @@ and open the template in the editor.
                     success: function (respuesta) {
                         if (respuesta) {
                             var posts = JSON.parse(respuesta);
-                            
+
                             for (var i = 0; i < posts.length; i++) {
                                 var post = document.createElement("div");
                                 post.setAttribute("class", "post");
 
                                 var postUsuario = document.createElement("p");
                                 postUsuario.setAttribute("class", "postUsuario");
-                                postUsuario.setAttribute("data-value",posts[i].usuario);
-                                
+                                postUsuario.setAttribute("data-value", posts[i].usuario);
+
                                 postUsuario.onclick = function () {
                                     window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
-                                
+
                                 var imgUsuario = document.createElement("img");
                                 imgUsuario.setAttribute("class", "imagenUsuario");
                                 imgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + posts[i].foto);
@@ -193,14 +193,10 @@ and open the template in the editor.
 
                                     var cadlikes = posts[i].likes;
                                     var likes = cadlikes.split(",");
-                                    if (likes.length > 1) {
-                                        postLikes.innerHTML += likes.length + " Me gustas";
-                                    } else {
-                                        postLikes.innerHTML += likes.length + " Me gusta";
-                                    }
+                                    var slikes = document.createElement("span");
+                                    slikes.setAttribute("class", "likes");
+                                    slikes.innerHTML = likes.length;
 
-                                } else {
-                                    postLikes.innerHTML = "0 Me gustas";
                                 }
 
                                 var iconos = document.createElement("p");
@@ -210,16 +206,23 @@ and open the template in the editor.
 
                                 var postCorazonImg = document.createElement("img");
                                 postCorazonImg.setAttribute("class", "postCorazonImg");
-                                postCorazonImg.setAttribute("alt","Corazon");
+                                postCorazonImg.setAttribute("alt", "Corazon");
                                 postCorazonImg.setAttribute("data-value", posts[i].id);
+                                postCorazonImg.setAttribute("data-pos", i);
 
-                                if (!posts[i].like) {
+if (!posts[i].like) {
                                     postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
 
                                     postCorazonImg.onclick = function () {
                                         this.removeAttribute("src");
                                         this.setAttribute("src", "../controlador/img/Like.png");
                                         darLike(this.dataset.value);
+                                        if (!this.dataset.like) {
+                                            var valor = $(".likes:eq(" + this.dataset.pos + ")").text();
+                                            var valor2 = parseInt(valor);
+                                            $(".likes:eq(" + this.dataset.pos + ")").text(parseInt(valor2 + 1));
+                                            this.setAttribute("data-like", true);
+                                        }
                                     }
                                 } else {
                                     postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
@@ -231,13 +234,46 @@ and open the template in the editor.
                                      }*/
                                 }
 
+                               /* if (!posts[i].like) {
+                                    postCorazonImg.setAttribute("data-like", false);
+                                    postCorazonImg.setAttribute("src", "../controlador/img/noLike.png");
+                                } else {
+                                    postCorazonImg.setAttribute("data-like", true);
+                                    postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
+                                }
+
+                                postCorazonImg.onclick = function () {
+                                    this.removeAttribute("src");
+
+                                    if (!this.dataset.like) {
+                                        this.setAttribute("src", "../controlador/img/Like.png");
+                                        //darLike(this.dataset.value);
+                                        var valor = $(".likes:eq(" + this.dataset.pos + ")").text();
+                                        var valor2 = parseInt(valor);
+                                        $(".likes:eq(" + this.dataset.pos + ")").text(parseInt(valor2 + 1));
+                                    //this.removeAttribute("data-like");
+                                        this.attr("data-like",true);
+                                    } else {
+                                        this.setAttribute("src", "../controlador/img/noLike.png");
+                                        //quitarLike(this.dataset.value);
+                                        var valor = $(".likes:eq(" + this.dataset.pos + ")").text();
+                                        var valor2 = parseInt(valor);
+                                        $(".likes:eq(" + this.dataset.pos + ")").text(parseInt(valor2 - 1));
+                                        //this.removeAttribute("data-like");
+                                        this.attr("data-like", false);
+                                    }
+                                    //console.log(this.dataset.pos);
+                                    //console.log($(".likes:eq(" + this.dataset.pos + ")").text());
+
+                                }*/
+
                                 var postComentario = document.createElement("a");
                                 postComentario.setAttribute("class", "postComentario");
 
                                 var postComentarioImg = document.createElement("img");
                                 postComentarioImg.setAttribute("class", "postComentarioImg");
                                 postComentarioImg.setAttribute("src", "../controlador/img/comentario.png");
-                                postComentarioImg.setAttribute("alt","Comentario");
+                                postComentarioImg.setAttribute("alt", "Comentario");
                                 postComentarioImg.setAttribute("data-value", posts[i].id);
 
                                 postComentarioImg.onclick = function () {
@@ -279,10 +315,22 @@ and open the template in the editor.
                                 }
                                 postCont.append(postContenido);
 
-
                                 postCont.append(postBottom);
 
                                 postBottom.append(postLikes);
+
+                                if (posts[i].likes != null) {
+                                    if (likes.length > 1) {
+                                        postLikes.append(slikes);
+                                        postLikes.append(" Me gustas");
+                                    } else {
+                                        postLikes.append(slikes);
+                                        postLikes.append(" Me gusta");
+                                    }
+                                } else {
+                                    postLikes.append("0 Me gustas");
+                                }
+
                                 postBottom.append(iconos);
                                 iconos.append(postCorazon);
                                 iconos.append(postComentario);
