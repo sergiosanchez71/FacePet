@@ -138,6 +138,13 @@
 
             $(document).ready(function () {
                 $("#botonCrearPost").click(crearPost);
+                $("#botonCrearPost2").click(function(){
+                    crearPost();
+                    window.location.href = "miPerfil.php";
+                });
+                $("#subirImagen").click(function(){
+                    window.location.href = "miPerfil.php";
+                });
             });
 
             function crearPost() {
@@ -266,13 +273,14 @@
                         <textarea type="text" id="contenido" name="contenido" maxlength="1000"></textarea>
                         <!--<p><input type="radio" id="multimedia" value="imagen"><input type="radio" id="multimedia" value="video"></p>-->
                             <!--<button id="botonCrearPost">Crear Post<img src="../controlador/img/pata.png" id="pata" class="pata"></button>-->
-                        <p><input type="button" class="botonCrearPost" id="botonCrearPost" value="Paso 2"></p>
+                        <p><input type="button" class="botonCrearPost" id="botonCrearPost" value="Añadir Multimedia">
+                        <input type="button" class="botonCrearPost" id="botonCrearPost2" value="Subir Post"></p>
                     </form>
                     <form method="post" id="paso2" enctype="multipart/form-data">
                         <h2 class="paso">Paso 2</h2>
                         <p class="title">Añade una foto o vídeo (Opcional)</p>
                         <input type="file" name="userfile" id="multimedia">
-                        <p><input type="submit" class="botonCrearPost" name="subirImagen" value="Subir Multimedia"></p>
+                        <p><input type="submit" class="botonCrearPost" id="subirImagen" name="subirImagen" value="Subir Post"></p>
                     </form>
 
                 </div>

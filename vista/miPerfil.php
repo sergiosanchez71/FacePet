@@ -11,7 +11,9 @@ and open the template in the editor.
         <link rel="icon" href="../controlador/img/favicon.ico">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css">
+        <link href="../controlador/css/jquery.modal.min.css" rel="stylesheet" type="text/css"/>
         <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
+        <script src="../controlador/js/jquery.modal.min.js" type="text/javascript"></script>
         <script src="../controlador/js/header.js" type="text/javascript"></script>
         <?php
         session_start();
@@ -194,15 +196,15 @@ and open the template in the editor.
             }
 
             #cambiarImagen{
-                padding-bottom: 8rem;
+               /* padding-bottom: 8rem;*/
+               padding-bottom: 3rem;
                 text-align: center;
                 background: white;
                 border: 1px solid #BBBBBB;
-                position:fixed; 
+                /*position:fixed; 
                 right:50%; 
                 margin-right:-500px; 
-                margin-top: 10rem;
-                width:1000px;
+                margin-top: 10rem;*/
             }
 
             #cambiarImagen h1{
@@ -212,6 +214,10 @@ and open the template in the editor.
             #cambiarImagen input{
                 cursor: pointer;
                 font-size: 1.5rem;
+            }
+            
+            #cambiarImagen #idusu{
+                display: none;
             }
 
             #cambiarImagen #enviarImagen{
@@ -223,11 +229,8 @@ and open the template in the editor.
             }
 
             #cambiarImagen #cerrarCambiarAvatar{
-                padding-top: 1.5rem;
-                width: 5rem;
-                display: inline-block;
-                margin-left: 85%;
                 cursor: pointer;
+                margin: 5rem;
             }
 
             .botonEliminarA{
@@ -341,24 +344,29 @@ and open the template in the editor.
                 mostrarMisPosts();
                 mostrarMisAmigos();
                 $("#imgPerfil").click(cambiarAvatar);
-                $("#textCambiarAvatar").click(cambiarAvatar);
-                $("#cerrarCambiarAvatar").click(cerrarCambiarAvatar);
+                //$("#textCambiarAvatar").click(cambiarAvatar);
+                $("#textCambiarAvatar").click(function(){
+                    getId();
+                   $("#cambiarImagen").modal();
+                });
+                //$("#cerrarCambiarAvatar").click(cerrarCambiarAvatar);
             });
+            /*
 
             function cerrarCambiarAvatar() {
                 $("#cambiarImagen").hide();
                 $("header").css("opacity", "1");
                 $("#cuerpo").css("opacity", "1");
-            }
+            }*/
 
-            function cambiarAvatar() {
-                $("#cambiarImagen").show();
+            function getId() {
+                /*$("#cambiarImagen").show();
                 $("header").css("opacity", "0.2");
                 $("#cuerpo").css("opacity", "0.2");
 
                 $("header").click(function () {
                     cerrarCambiarAvatar();
-                });
+                });*/
 
                 var parametros = {
                     "accion": "cambiarAvatar"
@@ -368,14 +376,15 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        var cambiarImagen = document.getElementById("cambiarAvatar");
-                        var p = document.createElement("input");
-                        cambiarImagen.appendChild(p);
+                        //var cambiarImagen = document.getElementById("cambiarAvatar");
+                        /*var p = document.createElement("input");
+                        $("#cambiarImagen").append(p);
                         p.setAttribute("type", "text");
                         p.setAttribute("readonly", "readonly");
-                        p.setAttribute("name", "idusu");
-                        p.setAttribute("style", "display:none");
-                        p.setAttribute("value", respuesta);
+                        p.setAttribute("name", "idusu");*/
+                        //p.setAttribute("style", "display:none");
+                        console.log(respuesta);
+                        $("#idusu").attr("value", respuesta);
                     },
                     error: function (xhr, status) {
                         alert("Error en la creación de post");
@@ -396,7 +405,7 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        mostrarMisAmigos();
+                        mostrarMisPosts();
                     },
                     error: function (xhr, status) {
                         alert("Error en la eliminacion de post");
@@ -561,6 +570,7 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+                        $("#posts").empty();
                         if (respuesta) {
                             var posts = JSON.parse(respuesta);
                             for (var i = 0; i < posts.length; i++) {
@@ -659,6 +669,7 @@ and open the template in the editor.
                                             var valor = $(".likes:eq(" + this.dataset.pos + ")").text();
                                             var valor2 = parseInt(valor);
                                             $(".likes:eq(" + this.dataset.pos + ")").text(parseInt(valor2 + 1));
+                                            //console.log($(".likes:eq(0)").text());
                                             this.setAttribute("data-like", true);
                                         }
                                     }
@@ -736,6 +747,7 @@ and open the template in the editor.
                                 } else {
                                     postLikes.append("0 Me gustas");
                                 }
+                                
                                 postBottom.append(iconos);
                                 iconos.append(postCorazon);
                                 iconos.append(postComentario);
@@ -758,7 +770,7 @@ and open the template in the editor.
                                         url: "../controlador/acciones.php",
                                         data: parametros,
                                         success: function (respuesta) {
-                                            console.log(respuesta);
+                                            //console.log(respuesta);
                                         },
                                         error: function (xhr, status) {
                                             alert("Error en la eliminacion de post");
@@ -882,11 +894,12 @@ and open the template in the editor.
                 </ul>
             </footer>
             <div id="cambiarImagen">
-                <img src="../controlador/img/eliminar.png" id="cerrarCambiarAvatar" alt="cerrar">
+               <!-- <img src="../controlador/img/eliminar.png" id="cerrarCambiarAvatar" alt="cerrar">-->
                 <form method="post" id="cambiarAvatar" enctype="multipart/form-data">
-                    <h1>Cambiar imagen de perfil</h1>
+                    <h1>Cambiar foto de perfil</h1>
                     <input type="file" name="userfile" id="foto">
                     <p><input type="submit" class="botonCrearPost" id="enviarImagen" name="cambiarAvatar" value="Cambiar foto de perfil"></p>
+                    <input type="text" id="idusu" name="idusu">
                 </form>
             </div>
         </div>

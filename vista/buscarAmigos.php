@@ -443,7 +443,7 @@
             <div id="cuerpo">
                 <div id="buscadorAmigos">
                     <h1>Buscar Amigos</h1>
-                    <input type="text" id="buscador">
+                    <input type="text" id="buscador" placeholder="Busca a un amigo...">
                     <img src="../controlador/img/lupa.png" id="lupa" alt="lupa">
                     <div id="buscarAmigos">
 

@@ -210,7 +210,7 @@ and open the template in the editor.
                                 postCorazonImg.setAttribute("data-value", posts[i].id);
                                 postCorazonImg.setAttribute("data-pos", i);
 
-if (!posts[i].like) {
+                                if (!posts[i].like) {
                                     postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
 
                                     postCorazonImg.onclick = function () {
@@ -234,38 +234,38 @@ if (!posts[i].like) {
                                      }*/
                                 }
 
-                               /* if (!posts[i].like) {
-                                    postCorazonImg.setAttribute("data-like", false);
-                                    postCorazonImg.setAttribute("src", "../controlador/img/noLike.png");
-                                } else {
-                                    postCorazonImg.setAttribute("data-like", true);
-                                    postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
-                                }
-
-                                postCorazonImg.onclick = function () {
-                                    this.removeAttribute("src");
-
-                                    if (!this.dataset.like) {
-                                        this.setAttribute("src", "../controlador/img/Like.png");
-                                        //darLike(this.dataset.value);
-                                        var valor = $(".likes:eq(" + this.dataset.pos + ")").text();
-                                        var valor2 = parseInt(valor);
-                                        $(".likes:eq(" + this.dataset.pos + ")").text(parseInt(valor2 + 1));
-                                    //this.removeAttribute("data-like");
-                                        this.attr("data-like",true);
-                                    } else {
-                                        this.setAttribute("src", "../controlador/img/noLike.png");
-                                        //quitarLike(this.dataset.value);
-                                        var valor = $(".likes:eq(" + this.dataset.pos + ")").text();
-                                        var valor2 = parseInt(valor);
-                                        $(".likes:eq(" + this.dataset.pos + ")").text(parseInt(valor2 - 1));
-                                        //this.removeAttribute("data-like");
-                                        this.attr("data-like", false);
-                                    }
-                                    //console.log(this.dataset.pos);
-                                    //console.log($(".likes:eq(" + this.dataset.pos + ")").text());
-
-                                }*/
+                                /* if (!posts[i].like) {
+                                 postCorazonImg.setAttribute("data-like", false);
+                                 postCorazonImg.setAttribute("src", "../controlador/img/noLike.png");
+                                 } else {
+                                 postCorazonImg.setAttribute("data-like", true);
+                                 postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
+                                 }
+                                 
+                                 postCorazonImg.onclick = function () {
+                                 this.removeAttribute("src");
+                                 
+                                 if (!this.dataset.like) {
+                                 this.setAttribute("src", "../controlador/img/Like.png");
+                                 //darLike(this.dataset.value);
+                                 var valor = $(".likes:eq(" + this.dataset.pos + ")").text();
+                                 var valor2 = parseInt(valor);
+                                 $(".likes:eq(" + this.dataset.pos + ")").text(parseInt(valor2 + 1));
+                                 //this.removeAttribute("data-like");
+                                 this.attr("data-like",true);
+                                 } else {
+                                 this.setAttribute("src", "../controlador/img/noLike.png");
+                                 //quitarLike(this.dataset.value);
+                                 var valor = $(".likes:eq(" + this.dataset.pos + ")").text();
+                                 var valor2 = parseInt(valor);
+                                 $(".likes:eq(" + this.dataset.pos + ")").text(parseInt(valor2 - 1));
+                                 //this.removeAttribute("data-like");
+                                 this.attr("data-like", false);
+                                 }
+                                 //console.log(this.dataset.pos);
+                                 //console.log($(".likes:eq(" + this.dataset.pos + ")").text());
+                                 
+                                 }*/
 
                                 var postComentario = document.createElement("a");
                                 postComentario.setAttribute("class", "postComentario");
