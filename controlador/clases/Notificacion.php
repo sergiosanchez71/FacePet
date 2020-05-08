@@ -85,6 +85,14 @@ class Notificacion {
         $conexion->exec($sql);
         unset($conexion);
     }
+    
+    function borrarNotificacionIdElemento($idelemento){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM notificaciones where idelemento='$idelemento'";
+        $conexion->exec($sql);
+        unset($conexion);
+    }
 
     function verNotificaciones($usuario) {
         $conexion = Conexion::conectar();

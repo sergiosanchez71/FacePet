@@ -11,6 +11,7 @@ include 'clases/Raza.php';
 include 'clases/Usuario.php';
 include 'clases/Post.php';
 include 'clases/Comentario.php';
+include 'clases/Evento.php';
 include 'clases/Notificacion.php';
 include 'clases/Amistades.php';
 include 'clases/Mensaje.php';
@@ -294,6 +295,24 @@ switch ($accion) {
 
     case "eliminarComentario":
         echo Comentario::eliminarComentario($_REQUEST['comentario']);
+        break;
+    
+    //Eventos
+    
+    case "cargarCrearEvento":
+        $fecha = date("Y-m-d H:i:s");
+        echo $fecha;
+        break;
+    
+    case "crearEvento":
+        $fecha = date("Y-m-d H:i:s");
+        $evento = new Evento($_REQUEST['titulo'], $_REQUEST['contenido'],$_REQUEST['tipo'], $fecha,$_REQUEST['fecha'],null,$_REQUEST['lat'],$_REQUEST['lng'],$idusuario);
+        Evento::crearEvento($evento);
+        echo Evento::consultarId($evento);
+        break;
+    
+    case "mostrarEventos":
+        echo json_encode(Evento::mostrarEventos());
         break;
 
     //Mensajes

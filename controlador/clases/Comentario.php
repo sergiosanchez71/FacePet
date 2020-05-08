@@ -76,7 +76,24 @@ class Comentario {
     function eliminarComentario($comentario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from comentarios where id='$comentario'");
+        while ($row = $consulta->fetch()) {
+            $notificacion = new Notificacion($row['usuario'], Post::buscarCreador($row['post']), "comentarioP", $row['post'], $row['fecha']);
+            Notificacion::borrarNotificacion($notificacion);
+        }
         $sql = "DELETE FROM comentarios WHERE id='$comentario'";
+        $conexion->exec($sql);
+    }
+    
+    function eliminarComentarioConIdPost($post) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from comentarios where post='$post'");
+        while ($row = $consulta->fetch()) {
+            $notificacion = new Notificacion($row['usuario'], Post::buscarCreador($row['post']), "comentarioP", $row['post'], $row['fecha']);
+            Notificacion::borrarNotificacion($notificacion);
+        }
+        $sql = "DELETE FROM comentarios WHERE post='$post'";
         $conexion->exec($sql);
     }
 
@@ -130,7 +147,7 @@ class Comentario {
         return $datos;
     }
 
-    function buscarIdComentario($post,$usuario,$fecha) {
+    function buscarIdComentario($post, $usuario, $fecha) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id from comentarios where post='$post' and usuario='$usuario' and fecha='$fecha'");

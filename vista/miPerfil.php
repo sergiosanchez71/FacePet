@@ -405,6 +405,7 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+                        console.log(respuesta);
                         mostrarMisPosts();
                     },
                     error: function (xhr, status) {

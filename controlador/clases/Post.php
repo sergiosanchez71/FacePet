@@ -92,8 +92,10 @@ class Post {
         $consulta = $conexion->query("SELECT multimedia from posts where id=$id");
         $borrado = false;
         while ($row = $consulta->fetch()) {
+            if($row['multimedia']){
             $multimedia = $row['multimedia'];
             unlink("uploads/posts/" . $multimedia);
+            }
             $borrado = true;
         }
         unset($conexion);
@@ -103,6 +105,8 @@ class Post {
     function eliminarPost($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //Notificacion::borrarNotificacionIdElemento($id);
+        Comentario::eliminarComentarioConIdPost($id);
         Post::eliminarMultimedia($id);
         $sql = "DELETE FROM posts where id='$id'";
         $conexion->exec($sql);
@@ -112,11 +116,24 @@ class Post {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id from posts where fecha_publicacion='$post->fecha_publicacion' and usuario='$post->usuario'");
+        $id = null;
         while ($row = $consulta->fetch()) {
             $id = $row['id'];
         }
         unset($conexion);
         return $id;
+    }
+    
+    function buscarCreador($post){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT usuario from posts where id='$post'");
+        $usuario = null;
+        while ($row = $consulta->fetch()) {
+            $usuario = $row['usuario'];
+        }
+        unset($conexion);
+        return $usuario;
     }
     
     /*function mostrarTitulo($post){

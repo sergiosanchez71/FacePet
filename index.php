@@ -12,6 +12,12 @@
             function inicio() {
                 $("#entrar").click(entrar);
             }
+            
+            function pulsar(e) {
+                var tecla = (document.all) ? e.keyCode : e.which;
+                if (tecla == 13)
+                    entrar();
+            }
 
             function entrar() {
                 var username = $("#username").val();
@@ -156,9 +162,9 @@
         <div id="principal">
             <p><a href="index.php"><img src="controlador/img/facepet.png" id="facepet"></a></p>
             <p>Username</p>
-            <p><input type="text" id="username" maxlength="20"></p>
+            <p><input type="text" id="username" maxlength="20" onkeypress="pulsar(event)"></p>
             <p>Password</p>
-            <p><input type="password" id="password"></p>
+            <p><input type="password" id="password" onkeypress="pulsar(event)"></p>
             <p><button id="entrar">Entrar <img src="controlador/img/pata.png" id="imgPata" alt="pata"></button> </p>
 
             <a id="registro" href="vista/registro.php">¿Todavía no te has registrado?</a>

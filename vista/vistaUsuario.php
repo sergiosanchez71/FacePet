@@ -127,6 +127,7 @@ and open the template in the editor.
 
             $(document).ready(function () {
                 cargarPostsAmigos();
+                mostrarEventos();
             });
 
             function cargarPostsAmigos() {
@@ -380,6 +381,34 @@ and open the template in the editor.
                             var h1 = document.createElement("h1");
                             h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya";
                             $("#posts").append(h1);
+                        }
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+            
+            function mostrarEventos(){
+                var parametros = {
+                    "accion": "mostrarEventos"
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+                        if (respuesta) {
+                            var eventos = JSON.parse(respuesta);
+
+                            
+                        } else {
+                            var h1 = document.createElement("h1");
+                            h1.innerHTML += "Aquí se mostraran los eventos, pero ahora mismo no hay ninguno";
+                            $("#eventos").append(h1);
                         }
                     },
                     error: function (xhr, status) {

@@ -95,7 +95,7 @@
                 h1{
                     font-size: 4rem;
                 }
-                
+
                 .paso{
                     font-size: 3.5rem;
                 }
@@ -138,11 +138,15 @@
 
             $(document).ready(function () {
                 $("#botonCrearPost").click(crearPost);
-                $("#botonCrearPost2").click(function(){
+                $("#botonCrearPost2").click(function () {
                     crearPost();
-                    window.location.href = "miPerfil.php";
+                    var titulo = $("#titulo").val();
+                    var contenido = $("#contenido").val();
+                    if (titulo.trim() != "" && contenido.trim() != "") {
+                        window.location.href = "miPerfil.php";
+                    }
                 });
-                $("#subirImagen").click(function(){
+                $("#subirImagen").click(function () {
                     window.location.href = "miPerfil.php";
                 });
             });
@@ -150,7 +154,7 @@
             function crearPost() {
                 var titulo = $("#titulo").val();
                 var contenido = $("#contenido").val();
-                var fecha = $("#fecha").val();
+                // var fecha = $("#fecha").val();
                 var colorError = "#E95139";
                 var campoVacio = false;
 
@@ -174,8 +178,8 @@
                     var parametros = {
                         "accion": "crearPost",
                         "titulo": titulo,
-                        "contenido": contenido,
-                        "fecha": fecha
+                        "contenido": contenido//,
+                                //"fecha": fecha
                     };
 
                     $.ajax({
@@ -228,7 +232,7 @@
                     <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
                     <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p style="display:none;" class="alerta" id="mensaje"></p></a></li>
                     <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p style="display:none;" class="alerta" id="notificacion"></p></a></li>
-                   <li id="liUsuario">
+                    <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">
                             <span id="nombreUsuario"><?php echo $_SESSION['username']; ?></span>
@@ -274,13 +278,13 @@
                         <!--<p><input type="radio" id="multimedia" value="imagen"><input type="radio" id="multimedia" value="video"></p>-->
                             <!--<button id="botonCrearPost">Crear Post<img src="../controlador/img/pata.png" id="pata" class="pata"></button>-->
                         <p><input type="button" class="botonCrearPost" id="botonCrearPost" value="Añadir Multimedia">
-                        <input type="button" class="botonCrearPost" id="botonCrearPost2" value="Subir Post"></p>
+                            <input type="button" class="botonCrearPost" id="botonCrearPost2" value="Subir Post"></p>
                     </form>
                     <form method="post" id="paso2" enctype="multipart/form-data">
                         <h2 class="paso">Paso 2</h2>
                         <p class="title">Añade una foto o vídeo (Opcional)</p>
                         <input type="file" name="userfile" id="multimedia">
-                        <p><input type="submit" class="botonCrearPost" id="subirImagen" name="subirImagen" value="Subir Post"></p>
+                        <p><input type="submit" class="botonCrearPost" id="subirImagen" name="subirImagenP" value="Subir Post"></p>
                     </form>
 
                 </div>

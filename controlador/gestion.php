@@ -2,6 +2,7 @@
 
 include 'clases/Conexion.php';
 include 'clases/Post.php';
+include 'clases/Evento.php';
 include 'clases/Usuario.php';
 
 function comprobarLogin() {
@@ -25,7 +26,7 @@ if (isset($_REQUEST['registro'])) {
     Usuario::crearUsuario($usuario);
 }
 
-if (isset($_REQUEST['subirImagen'])) {
+if (isset($_REQUEST['subirImagenP'])) {
     //$post = new Post($_REQUEST['titulo'], $_REQUEST['contenido'], $_REQUEST['multimedia']);
     //Post::crearPost($post);
     $dir_subida = '../controlador/uploads/posts/';
@@ -44,6 +45,28 @@ if (isset($_REQUEST['subirImagen'])) {
         rename($fichero_subido, $dir_subida . $_REQUEST['idpost'] . "." . $file_ext[1]);
         Post::subirMultimedia($_REQUEST['idpost'], $_REQUEST['idpost'] . "." . $file_ext[1]);
         header("Location: ../vista/miPerfil.php");
+    }
+}
+
+if (isset($_REQUEST['subirImagenE'])) {
+    //$post = new Post($_REQUEST['titulo'], $_REQUEST['contenido'], $_REQUEST['multimedia']);
+    //Post::crearPost($post);
+    $dir_subida = '../controlador/uploads/eventos/';
+    $allowed_ext = "jpg,png,jpeg";
+    $file_ext = preg_split("/\./", $_FILES['userfile']['name']);
+    $allowed_ext = preg_split("/\,/", $allowed_ext);
+    foreach ($allowed_ext as $ext) {
+        $tam = count($file_ext);
+        if (strtolower($ext) == strtolower($file_ext[$tam - 1])) {
+            $match = true; // Permite el archivo
+        }
+    }
+    if (isset($match)) {
+        $fichero_subido = $dir_subida . basename($_FILES['userfile']['name']);
+        move_uploaded_file($_FILES['userfile']['tmp_name'], $fichero_subido);
+        rename($fichero_subido, $dir_subida . $_REQUEST['idevento'] . "." . $file_ext[1]);
+        Evento::subirMultimedia($_REQUEST['idevento'], $_REQUEST['idevento'] . "." . $file_ext[1]);
+        //header("Location: ../vista/miPerfil.php");
     }
 }
 
