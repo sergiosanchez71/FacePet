@@ -6,13 +6,19 @@
 
 .evento{
     background: white;
-    padding: 1rem;
+    padding: 2rem;
     background-color: #fffbed;
     border: 1px solid black;
     margin-bottom: 3rem;
     height: auto;
     word-wrap: break-word;
     overflow: hidden;
+    border-radius: 5rem;
+    transition: 1s background ease;
+}
+
+.evento:hover{
+    background-color: #fff7dd;
 }
 
 .eventoTitulo{
@@ -27,7 +33,8 @@
 }
 
 .eventoFecha{
-    font-size: 0.8rem;
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 .cont{
@@ -50,10 +57,16 @@
 
 
 .eventoAutor{
-    font-size: 0.8rem;
+    font-size: 1rem;
+    margin-top: 2rem;
 }
 
 .eventoNombreAutor{
     font-weight: bold;
     cursor: pointer;
+    transition: 1s color ease;
+}
+
+.eventoNombreAutor:hover{
+    color: #f43333;
 }

@@ -299,14 +299,20 @@ switch ($accion) {
     
     //Eventos
     
-    case "cargarCrearEvento":
-        $fecha = date("Y-m-d H:i:s");
-        echo $fecha;
+    case "getDateTime":
+        $fecha =  array(
+                'day' => date('d'),
+                'month' => date('m'),
+                'year' => date("yy"),
+                'hour' => date("H"),
+                'minutes' => date("i")
+            );
+        echo json_encode($fecha);
         break;
     
     case "crearEvento":
         $fecha = date("Y-m-d H:i:s");
-        $evento = new Evento($_REQUEST['titulo'], $_REQUEST['contenido'],$_REQUEST['tipo'], $fecha,$_REQUEST['fecha'],null,$_REQUEST['lat'],$_REQUEST['lng'],$idusuario);
+        $evento = new Evento($_REQUEST['titulo'], $_REQUEST['contenido'],$_REQUEST['tipo'], $fecha,$_REQUEST['fechai'],$_REQUEST['fechaf'],null,$_REQUEST['lat'],$_REQUEST['lng'],$_REQUEST['participable'],$idusuario);
         Evento::crearEvento($evento);
         echo Evento::consultarId($evento);
         break;

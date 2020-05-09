@@ -28,305 +28,66 @@ and open the template in the editor.
                 padding: 2rem;
             }
 
-           /* #map{
-                height: 20rem;
-                width: 20rem;
-            }*/
-            
+            .evento{
+                margin-top: 1rem;
+            }
+
+            /* #map{
+                 height: 20rem;
+                 width: 20rem;
+             }*/
+
             .visual{
                 display:grid;
                 grid-template-areas:
                     "img map";
                 grid-template-columns: 30% 70%;
             }
-            
+
             .visualMap{
                 height: 20rem;
                 grid-template-areas:
                     "map";
                 grid-template-columns: 100%;
             }
-            
+
             .visualImg{
                 display:grid;
                 grid-template-areas:
                     "img map";
                 grid-template-columns: 100%;
             }
-            
+
             .eventoImg{
                 grid-area:img;
             }
-            
+
             #map{
                 grid-area:map;
             }
-
-            /*.cont{
-                display: grid;
-                grid-template-areas: 
-                    "titulo"
-                    "tipo"
-                    "fecha"
-                    "contenido"
-                    "img"
-                    "autor";
-                word-wrap: break-word;
-                overflow: hidden;
-                background: white;
-            }
-
-            .eventoTitulo{
-                grid-area:titulo;
+            
+            #botonParticipar{
+                font-size: 1.5rem;
+                font-weight: bold;
+                width: 100%;
+                background-color: #FFED91;
+                height: 3rem;
+                font-size: 2rem;
+                transition: 1s background ease;
+                border-radius: 2rem;
+                cursor: pointer;
             }
             
-            .eventoTipo{
-                grid-area:tipo;
+            #botonParticipar:hover{
+                background-color:#FFF578;
             }
-
-            .eventoFecha{
-                grid-area:fecha;
-            }
-
-            .eventoImg{
-                grid-area:img;
-            }
-
-            .eventoContenido{
-                grid-area:contenido;
-            }
-
-            .eventoAutor{
-                grid-area:autor;
-            }*/
-
-            /* #menuPost,.comentario{
-                 margin-left: 5%; 
-                 margin-right: 5%;
-             }
- 
-             #enviarComentario{
-                 margin-right: 5%;
-             }
- 
-             #comentario,#textoComentarios{
-                 margin-left: 5%;
-             }
- 
-             #comentario{
-                 width: 74%;
-                 height: 3rem;
-                 font-size: 1.5rem;
-             }
- 
-             #enviarComentario{
-                 font-size: 1.5rem;
-                 width: 15%;
-                 height: 3.3rem;
-                 float: right;
-             }
- 
-             .comentario{
-                 background: white;
-                 padding: 1rem;
-                 border-bottom: 1px solid #EEEEEE;
-             }
- 
-             .comentario:last-child{
-                 margin-bottom: 10rem;
-             }
- 
-             .cImagenUsuario{
-                 width: 3rem;
-                 height: 3rem;
-                 border-radius: 3rem;
-                 float: left;
-                 cursor: pointer;
-                 transition: 1s opacity ease;
-             }
- 
-             .cImagenUsuario:hover{
-                 opacity: 0.7;
-             }
- 
-             .cNombreUsuario{
-                 font-weight: bold;
-                 margin-left: 4rem;
-                 position: relative;
-                 top: 0.5rem;
-                 transition: 1s color ease;
-                 cursor: pointer;
-             }
- 
-             .cNombreUsuario:hover{
-                 color:#f43333;
-             }
- 
-             .cNombreUsuario:first-letter,.cCont:first-letter{
-                 text-transform: uppercase;
-             }
- 
-             .cFecha{
-                 font-size: 0.8rem;
-                 margin-left: 4rem;
-                 margin-bottom: 4rem;
-             }
- 
-             .cCont{
-                 text-align: justify;
-                 font-size: 1rem;
-             }
- 
-             .botonEliminarA{
-                 grid-area: eliminarAmigo;
-                 width: 4rem;
-                 display: block;
-                 float: right;
-                 cursor: pointer;
-             }
- 
-             .amigoEliminar{
-                 width: 3rem;
-             }*/
-
+            
         </style>
         <script>
 
             $(document).ready(function () {
                 cargarEvento($("#idEvento").val());
-                /*mostrarComentarios($("#idEvento").val());
-                 $("#enviarComentario").click(function () {
-                 if ($("#comentario").val().trim() != "") {
-                 publicarComentario($("#idEvento").val(), $("#comentario").val());
-                 }
-                 });*/
             });
-
-            function publicarComentario(post, comentario) {
-                var parametros = {
-                    "accion": "publicarComentario",
-                    "post": post,
-                    "contenido": comentario
-                };
-
-                $.ajax({
-                    url: "../controlador/acciones.php",
-                    data: parametros,
-                    success: function (respuesta) {
-                        $("#comentario").val(" ");
-                        mostrarComentarios(post);
-                    },
-                    error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
-                    },
-                    type: "POST",
-                    dataType: "text"
-                });
-            }
-
-            function mostrarComentarios(post) {
-                var parametros = {
-                    "accion": "mostrarComentarios",
-                    "post": post
-                };
-
-                $.ajax({
-                    url: "../controlador/acciones.php",
-                    data: parametros,
-                    success: function (respuesta) {
-                        if (respuesta) {
-                            var comentarios = JSON.parse(respuesta);
-                            $("#comentariosCont").text(" ");
-                            var textoComentarios = document.createElement("h1");
-                            textoComentarios.setAttribute("id", "textoComentarios");
-                            textoComentarios.innerHTML = "Comentarios";
-                            $("#comentariosCont").append(textoComentarios);
-                            for (var i = 0; i < comentarios.length; i++) {
-
-                                var comentario = document.createElement("div");
-                                comentario.setAttribute("class", "comentario");
-
-                                var info = document.createElement("div");
-                                info.setAttribute("data-value", comentarios[i].usuario);
-
-                                info.onclick = function () {
-                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
-                                }
-
-                                if (comentarios[i].loginOperador == "1" || comentarios[i].login == comentarios[i].usuario) {
-
-                                    var a = document.createElement("button");
-                                    a.setAttribute("value", comentarios[i].id);
-                                    a.setAttribute("class", "botonEliminarA");
-
-                                    a.onclick = function () {
-                                        if (confirm("Esta seguro de eliminar este amigo")) {
-                                            eliminarComentario(this.value);
-                                        }
-                                    }
-
-                                    var amigoEliminar = document.createElement("img");
-                                    amigoEliminar.setAttribute("class", "amigoEliminar");
-                                    amigoEliminar.setAttribute("src", "../controlador/img/eliminar.png");
-                                }
-
-                                var cImgUsuario = document.createElement("img");
-                                cImgUsuario.setAttribute("class", "cImagenUsuario");
-                                cImgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + comentarios[i].foto);
-
-                                var cNombreUsuario = document.createElement("p");
-                                cNombreUsuario.setAttribute("class", "cNombreUsuario");
-                                cNombreUsuario.innerHTML += comentarios[i].nick;
-
-                                var cFecha = document.createElement("p");
-                                cFecha.setAttribute("class", "cFecha");
-                                cFecha.innerHTML += comentarios[i].fecha;
-
-                                var cCont = document.createElement("p");
-                                cCont.setAttribute("class", "cCont");
-                                cCont.innerHTML += comentarios[i].contenido;
-
-                                $("#comentariosCont").append(comentario);
-                                comentario.append(info);
-                                if (comentarios[i].loginOperador == "1" || comentarios[i].login == comentarios[i].usuario) {
-                                    comentario.append(a);
-                                    a.append(amigoEliminar);
-                                }
-                                info.append(cImgUsuario);
-                                info.append(cNombreUsuario);
-                                info.append(cFecha);
-                                comentario.append(cCont);
-
-                                function eliminarComentario(comentario) {
-                                    var parametros = {
-                                        "accion": "eliminarComentario",
-                                        "comentario": comentario
-                                    };
-
-                                    $.ajax({
-                                        url: "../controlador/acciones.php",
-                                        data: parametros,
-                                        success: function (respuesta) {
-                                        },
-                                        error: function (xhr, status) {
-                                            alert("Error en la eliminacion de post");
-                                        },
-                                        type: "POST",
-                                        dataType: "text"
-                                    });
-                                }
-                            }
-                        } else {
-                            $("#comentario").css("margin-bottom", "10rem");
-                        }
-                    },
-                    error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
-                    },
-                    type: "POST",
-                    dataType: "text"
-                });
-            }
 
             function cargarEvento(evento) {
                 var parametros = {
@@ -352,13 +113,29 @@ and open the template in the editor.
                                 window.location.href = "verEvento.php?evento=" + this.dataset.value;
                             }
 
-                            var tipo = document.createElement("p");
+                            var textTipo = document.createElement("p");
+                            textTipo.setAttribute("class", "textTipo");
+
+                            var tipo = document.createElement("span");
                             tipo.setAttribute("class", "eventoTipo");
                             tipo.innerHTML = eventos.tipo;
 
-                            var fecha = document.createElement("p");
-                            fecha.setAttribute("class", "eventoFecha");
-                            fecha.innerHTML = eventos.fecha;
+                            var textFechai = document.createElement("p");
+                            textFechai.setAttribute("class", "textFechai");
+
+                            var textFechaf = document.createElement("p");
+                            textFechaf.setAttribute("class", "textFechaf");
+
+                            var fechai = document.createElement("span");
+                            fechai.setAttribute("class", "eventoFecha");
+                            fechai.innerHTML = eventos.fechai;
+                            if (eventos.empezado) {
+                                fechai.setAttribute("style", "color:#126310")
+                            }
+
+                            var fechaf = document.createElement("span");
+                            fechaf.setAttribute("class", "eventoFecha");
+                            fechaf.innerHTML = eventos.fechaf;
 
                             var cont = document.createElement("div");
                             cont.setAttribute("class", "cont");
@@ -374,7 +151,7 @@ and open the template in the editor.
                                 img.setAttribute("src", "../controlador/uploads/eventos/" + eventos.foto);
                                 img.setAttribute("alt", "imgagenEvento");
                             }
-                            
+
 
                             if (eventos.lat && eventos.lng) {
                                 var map = document.createElement("div");
@@ -383,13 +160,13 @@ and open the template in the editor.
                             }
 
                             var visual = document.createElement("div");
-                            if(eventos.foto && eventos.lat && eventos.lng){
-                                visual.setAttribute("class","visual");
-                            } else if(eventos.foto){
-                                visual.setAttribute("class","visualImg");
+                            if (eventos.foto && eventos.lat && eventos.lng) {
+                                visual.setAttribute("class", "visual");
+                            } else if (eventos.foto) {
+                                visual.setAttribute("class", "visualImg");
                             } else {
-                                visual.setAttribute("class","visualMap");
-                                map.setAttribute("style","height:20rem");
+                                visual.setAttribute("class", "visualMap");
+                                map.setAttribute("style", "height:20rem");
                             }
 
                             var textAutor = document.createElement("p");
@@ -401,29 +178,62 @@ and open the template in the editor.
                             autor.innerHTML = eventos.autor;
                             autor.setAttribute("data-value", eventos.usuario);
 
+                            if (eventos.participable) {
+                                var textParticipantes = document.createElement("p");
+                                var participantes = document.createElement("span");
+                                var part;
+                                if (eventos.participable == "t") {
+                                    part = "0";
+                                } else {
+                                    part = eventos.participantes.length;
+                                }
+                                participantes.innerHTML = part;
+
+
+                                var botonParticipar = document.createElement("button");
+                                botonParticipar.setAttribute("id","botonParticipar");
+                                botonParticipar.innerHTML = "Participar en este Evento";
+                                
+                                botonParticipar.onclick = function(){
+                                    this.innerHTML = "Ya participas en este evento";
+                                    participarEvento();
+                                }
+                            }
+
                             autor.onclick = function () {
                                 window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                             }
 
-
-
                             $("#menuEvento").append(evento);
                             evento.append(cont);
                             cont.append(titulo);
-                            cont.append(tipo);
-                            cont.append(fecha);
+                            cont.append(textTipo);
+                            textTipo.append("Tipo de evento: ");
+                            textTipo.append(tipo);
+                            cont.append(textFechai);
+                            textFechai.append("Fecha inicio: ");
+                            textFechai.append(fechai);
+                            cont.append(textFechaf);
+                            textFechaf.append("Fecha fin: ");
+                            textFechaf.append(fechaf);
                             cont.append(contenido);
                             cont.append(visual);
                             if (eventos.foto) {
                                 visual.append(img);
-                            } 
-                               
+                            }
+
                             if (eventos.lat && eventos.lng) {
                                 visual.append(map);
                             }
                             cont.append(textAutor);
                             textAutor.append("Autor del evento: ");
                             textAutor.append(autor);
+                            if (eventos.participable) {
+                                cont.append(botonParticipar);
+                                cont.append(textParticipantes);
+                                textParticipantes.append("Participantes ");
+                                textParticipantes.append(participantes);
+                            }
 
                         } else {
                             window.location.href = "vistaUsuario.php";
@@ -452,6 +262,10 @@ and open the template in the editor.
                     position: {lat: parseFloat(lat), lng: parseFloat(lng)},
                     map: maps
                 });
+            }
+            
+            function participarEvento(){
+                
             }
 
         </script>
@@ -513,7 +327,6 @@ and open the template in the editor.
             <div id="cuerpo">
                 <input type="text" id="idEvento" value="<?php echo $_REQUEST['evento'] ?>">
                 <div id="menuEvento">
-                    <p id="name">Evento</p>
                 </div>
                 <!--<div id="comentariosPost">
                     <input type="text" id="comentario" maxlength="255" placeholder="Añadir comentario">

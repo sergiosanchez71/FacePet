@@ -52,7 +52,7 @@ and open the template in the editor.
             #eventos{
                 max-width: 40rem;
             }
-            
+
             .map{
                 width: 100%;
                 height: 20rem;
@@ -345,13 +345,29 @@ and open the template in the editor.
                                 }
 
 
-                                var tipo = document.createElement("p");
+                                var textTipo = document.createElement("p");
+                                textTipo.setAttribute("class", "textTipo");
+
+                                var tipo = document.createElement("span");
                                 tipo.setAttribute("class", "eventoTipo");
                                 tipo.innerHTML = eventos[i].tipo;
 
-                                var fecha = document.createElement("p");
-                                fecha.setAttribute("class", "eventoFecha");
-                                fecha.innerHTML = eventos[i].fecha;
+                                var textFechai = document.createElement("p");
+                                textFechai.setAttribute("class", "textFechai");
+
+                                var textFechaf = document.createElement("p");
+                                textFechaf.setAttribute("class", "textFechaf");
+
+                                var fechai = document.createElement("span");
+                                fechai.setAttribute("class", "eventoFecha");
+                                fechai.innerHTML = eventos[i].fechai;
+                                if (eventos[i].empezado) {
+                                    fechai.setAttribute("style", "color:#126310")
+                                }
+
+                                var fechaf = document.createElement("span");
+                                fechaf.setAttribute("class", "eventoFecha");
+                                fechaf.innerHTML = eventos[i].fechaf;
 
                                 var contenido = document.createElement("p");
                                 contenido.setAttribute("class", "eventoContenido");
@@ -374,7 +390,6 @@ and open the template in the editor.
                                 var textAutor = document.createElement("p");
                                 textAutor.setAttribute("class", "eventoAutor");
 
-
                                 var autor = document.createElement("span");
                                 autor.setAttribute("class", "eventoNombreAutor");
                                 autor.innerHTML = eventos[i].autor;
@@ -384,21 +399,44 @@ and open the template in the editor.
                                     window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
 
-
+                                if (eventos[i].participable) {
+                                    var textParticipantes = document.createElement("p");
+                                    var participantes = document.createElement("span");
+                                    var part;
+                                    if (eventos[i].participable == "t") {
+                                        part = "0";
+                                    } else {
+                                        part = eventos[i].participantes.length;
+                                    }
+                                    participantes.innerHTML = part;
+                                }
 
                                 $("#eventos").append(evento);
                                 evento.append(titulo);
-                                evento.append(tipo);
-                                evento.append(fecha);
+                                evento.append(textTipo);
+                                textTipo.append("Tipo de evento: ");
+                                textTipo.append(tipo);
+                                evento.append(textFechai);
+                                textFechai.append("Fecha inicio: ");
+                                textFechai.append(fechai);
+                                evento.append(textFechaf);
+                                textFechaf.append("Fecha fin: ");
+                                textFechaf.append(fechaf);
                                 evento.append(contenido);
                                 if (eventos[i].foto) {
                                     evento.append(img);
-                                } else if (eventos[i].lat && eventos[i].lng){
+                                } else if (eventos[i].lat && eventos[i].lng) {
                                     evento.append(map);
                                 }
                                 evento.append(textAutor);
                                 textAutor.append("Autor del evento: ");
                                 textAutor.append(autor);
+                                if (eventos[i].participable) {
+                                    evento.append(textParticipantes);
+                                    textParticipantes.append("Participantes ");
+                                    textParticipantes.append(participantes);
+                                }
+
                             }
 
                         } else {

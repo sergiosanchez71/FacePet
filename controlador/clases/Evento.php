@@ -12,31 +12,34 @@
  * @author sergiosanchez
  */
 class Evento {
+
     private $id;
     private $titulo;
     private $contenido;
     private $tipo;
     private $fecha_publicacion;
-    private $fecha;
+    private $fechai;
+    private $fechaf;
     private $foto;
     private $lat;
     private $lng;
     private $participantes;
     private $usuario;
-    
-    function __construct($titulo, $contenido, $tipo, $fecha_publicacion, $fecha, $foto, $lat, $lng, $usuario) {
+
+    function __construct($titulo, $contenido, $tipo, $fecha_publicacion, $fechai, $fechaf, $foto, $lat, $lng,$participantes, $usuario) {
         $this->titulo = $titulo;
         $this->contenido = $contenido;
         $this->tipo = $tipo;
         $this->fecha_publicacion = $fecha_publicacion;
-        $this->fecha = $fecha;
+        $this->fechai = $fechai;
+        $this->fechaf = $fechaf;
         $this->foto = $foto;
         $this->lat = $lat;
         $this->lng = $lng;
-        $this->participantes = null;
+        $this->participantes = $participantes;
         $this->usuario = $usuario;
     }
-    
+
     function getId() {
         return $this->id;
     }
@@ -52,13 +55,17 @@ class Evento {
     function getTipo() {
         return $this->tipo;
     }
-    
+
     function getFecha_publicacion() {
         return $this->fecha_publicacion;
     }
 
-    function getFecha() {
-        return $this->fecha;
+    function getFechai() {
+        return $this->fechai;
+    }
+
+    function getFechaf() {
+        return $this->fechaf;
     }
 
     function getFoto() {
@@ -96,13 +103,17 @@ class Evento {
     function setTipo($tipo) {
         $this->tipo = $tipo;
     }
-    
+
     function setFecha_publicacion($fecha_publicacion) {
         $this->fecha_publicacion = $fecha_publicacion;
     }
 
-    function setFecha($fecha) {
-        $this->fecha = $fecha;
+    function setFechai($fechai) {
+        $this->fechai = $fechai;
+    }
+
+    function setFechaf($fechaf) {
+        $this->fechaf = $fechaf;
     }
 
     function setFoto($foto) {
@@ -124,14 +135,14 @@ class Evento {
     function setUsuario($usuario) {
         $this->usuario = $usuario;
     }
-
+    
     function crearEvento($evento) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO eventos (titulo,contenido,tipo,fecha_publicacion,fecha,foto,lat,lng,usuario) VALUES ('$evento->titulo','$evento->contenido','$evento->tipo','$evento->fecha_publicacion','$evento->fecha','$evento->foto','$evento->lat','$evento->lng','$evento->usuario')";
+        $sql = "INSERT INTO eventos (titulo,contenido,tipo,fecha_publicacion,fechai,fechaf,foto,lat,lng,participantes,usuario) VALUES ('$evento->titulo','$evento->contenido','$evento->tipo','$evento->fecha_publicacion','$evento->fechai','$evento->fechaf','$evento->foto','$evento->lat','$evento->lng','$evento->participantes','$evento->usuario')";
         $conexion->exec($sql);
     }
-    
+
     function consultarId($evento) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -143,29 +154,29 @@ class Evento {
         unset($conexion);
         return $id;
     }
-    
+
     function subirMultimedia($id, $multimedia) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "UPDATE eventos SET foto='$multimedia' where id='$id'";
         $conexion->exec($sql);
     }
-    
+
     function mostrarEventos($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $fecha = date("Y-m-d H:i:s");
-        $consulta = $conexion->query("SELECT * from eventos where fecha>'$fecha' and usuario!='$usuario' order by fecha asc");
+        $consulta = $conexion->query("SELECT * from eventos where fechaf>'$fecha' and usuario!='$usuario' order by fechaf asc");
         $datos = null;
-        $i=0;
+        $i = 0;
         while ($row = $consulta->fetch()) {
             if ($row['foto'] == null) {
                 $foto = false;
             } else {
                 $foto = $row['foto'];
             }
-            
-            if($row['lat'] == 0 && $row['lng'] == 0){
+
+            if ($row['lat'] == 0 && $row['lng'] == 0) {
                 $lat = false;
                 $lng = false;
             } else {
@@ -173,17 +184,22 @@ class Evento {
                 $lng = $row['lng'];
             }
             
+            $participantes = explode(",", $row['participantes']);
+
             $datos[$i] = array(
                 'id' => $row['id'],
                 'titulo' => $row['titulo'],
                 'contenido' => $row['contenido'],
                 'tipo' => $row['tipo'],
                 'fecha_publicacion' => $row['fecha_publicacion'],
-                'fecha' => $row['fecha'],
+                'fechai' => $row['fechai'],
+                'fechaf' => $row['fechaf'],
+                'empezado' => Evento::empezado($row['fechai'],$fecha),
                 'foto' => $foto,
                 'lat' => $lat,
                 'lng' => $lng,
-                'participantes' => $row['participantes'],
+                'participable' => $row['participantes'],
+                'participantes' => $participantes,
                 'usuario' => $row['usuario'],
                 'autor' => Usuario::getNickName($row['usuario'])
             );
@@ -192,10 +208,11 @@ class Evento {
         unset($conexion);
         return $datos;
     }
-    function mostrarEvento($evento,$usuario) {
+
+    function mostrarEvento($evento, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //$fecha = date("Y-m-d H:i:s");
+        $fecha = date("Y-m-d H:i:s");
         $consulta = $conexion->query("SELECT * from eventos where id='$evento'");
         $datos = null;
         //$i=0;
@@ -205,8 +222,8 @@ class Evento {
             } else {
                 $foto = $row['foto'];
             }
-            
-            if($row['lat'] == 0 && $row['lng'] == 0){
+
+            if ($row['lat'] == 0 && $row['lng'] == 0) {
                 $lat = false;
                 $lng = false;
             } else {
@@ -214,17 +231,22 @@ class Evento {
                 $lng = $row['lng'];
             }
             
-            $datos/*[$i]*/ = array(
+            $participantes = explode(",", $row['participantes']);
+
+            $datos/* [$i] */ = array(
                 'id' => $row['id'],
                 'titulo' => $row['titulo'],
                 'contenido' => $row['contenido'],
                 'tipo' => $row['tipo'],
                 'fecha_publicacion' => $row['fecha_publicacion'],
-                'fecha' => $row['fecha'],
+                'fechai' => $row['fechai'],
+                'fechaf' => $row['fechaf'],
+                'empezado' => Evento::empezado($row['fechai'],$fecha),
                 'foto' => $foto,
                 'lat' => $lat,
                 'lng' => $lng,
-                'participantes' => $row['participantes'],
+                'participable' => $row['participantes'],
+                'participantes' => $participantes,
                 'usuario' => $row['usuario'],
                 'autor' => Usuario::getNickName($row['usuario'])
             );
@@ -233,7 +255,13 @@ class Evento {
         unset($conexion);
         return $datos;
     }
-    
 
-    
+    function empezado($inicio, $actual) {
+        if ($actual > $inicio) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

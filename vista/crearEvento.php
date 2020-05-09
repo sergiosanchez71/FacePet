@@ -11,7 +11,7 @@
         <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
         <script src="../controlador/js/header.js" type="text/javascript"></script>
         <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE&callback=initMap"></script>-->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE&callback=initMap" async defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE&libraries=places&callback=initMap" async defer></script>
 
         <style>
 
@@ -86,6 +86,15 @@
 
             #map{
                 height: 30rem;
+                z-index: 1;
+            }
+
+            #searchTextField{
+                width: 100%;
+                font-size: 1.5rem;
+                height: 2rem;
+                margin-top: 2rem;
+                z-index: 2;
             }
 
             #paso1{
@@ -145,57 +154,64 @@
         </style>
         <script>
             $(document).ready(function () {
+                getDate();
                 $("#botonCrearEvento").click(crearEvento);
                 $("#botonCrearEvento2").click(function () {
                     crearEvento();
                     var titulo = $("#titulo").val();
                     var contenido = $("#contenido").val();
                     var tipo = $("#tipo").val();
-                    var fecha = $("#fecha").val();
-                    if (titulo.trim() != "" && contenido.trim() != "" && tipo.trim() != "" && fecha.trim() != "" ) {
-                        window.location.href = "miPerfil.php";
+                    var fechai = $("#fechai").val();
+                    var fechaf = $("#fechaf").val();
+                    if (titulo.trim() != "" && contenido.trim() != "" && tipo.trim() != "" && fechai.trim() != "" && fechaf.trim() != "") {
+                      <!--  window.location.href = "miPerfil.php";-->
                     }
                 });
-                $("#subirImagen").click(function () {
-                    window.location.href = "miPerfil.php";
-                });
-                cargarCrearEvento();
+                /* $("#subirImagen").click(function () {
+                 window.location.href = "miPerfil.php";
+                 });*/
             });
-            
-            function cargarCrearEvento(){
 
+            function getDate() {
+                var parametros = {
+                    "accion": "getDateTime"
+                };
 
-                    var parametros = {
-                        "accion": "cargarCrearEvento"
-                    };
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        var fecha = JSON.parse(respuesta);
 
-                    $.ajax({
-                        url: "../controlador/acciones.php",
-                        data: parametros,
-                        success: function (respuesta) {
-                            console.log(respuesta);
-                            var fecha = document.createElement("input");
-                            fecha.setAttribute("type","datetime-local");
-                           // fecha.setAttribute("id",)
-                            fecha.setAttribute("value",Date.parse(respuesta));
-                            $("#cuerpo").append(fecha);
+                        var hora = parseInt(fecha.hour) + 1;
 
-                        },
-                        error: function (xhr, status) {
-                            alert("Error en la creación de Evento");
-                        },
-                        type: "post",
-                        dataType: "text"
-                    });
+                        $("#fechai").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                        $("#fechai").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                        $("#fechai").attr("max", "2099-12-31T23:59");
 
-                
+                        var hora = parseInt(fecha.hour) + 2;
+
+                        $("#fechaf").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                        $("#fechaf").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                        $("#fechaf").attr("max", "2099-12-31T23:59");
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la creación de Evento");
+                    },
+                    type: "post",
+                    dataType: "text"
+                });
             }
 
             function initMap() {
                 var map = new google.maps.Map(document.getElementById('map'), {
                     center: {lat: 40.4378698, lng: -3.8196215},
                     zoom: 15,
-                    streetViewControl: false
+                    streetViewControl: false,
+                    mapTypeControl: false,
+                    scaleControl: false,
+                    fullscreenControl: false
                 });
 
                 if (navigator.geolocation) {
@@ -214,16 +230,34 @@
                     setMark(event.latLng);
                 });
 
+                var input = document.getElementById('searchTextField');
+                var options = {
+                    //bounds: defaultBounds,
+                    types: ['(cities)']
+                };
+
+                var autocomplete = new google.maps.places.Autocomplete(input, options);
+                autocomplete.addListener('place_changed', function () {
+
+                    var place = autocomplete.getPlace();
+
+                    var pos = {
+                        lat: place.geometry.location.lat(),
+                        lng: place.geometry.location.lng()
+                    };
+                    map.setCenter(pos);
+
+                });
                 var marker = null;
 
                 function setMark(location) {
                     if (marker) {
-                        marker.setPosition(location);                        
+                        marker.setPosition(location);
                     } else {
                         marker = new google.maps.Marker({
                             position: location,
-                            map: map, 
-                            draggable:true
+                            map: map,
+                            draggable: true
                         });
                     }
                     $("#lat").val(marker.getPosition().lat().toString());
@@ -232,28 +266,20 @@
 
             }
 
-
-            /* function añadirPunto(lat, long) {
-             var accion = "añadirPunto";
-             var ruta = $('#ruta').val();
-             var xhr = new XMLHttpRequest();
-             xhr.onreadystatechange = function () {
-             if (this.readyState == 4 && this.status == 200) {
-             //alert(this.responseText);
-             }
-             }
-             xhr.open("POST", "../controlador/controladorPuntos.php", true);
-             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-             xhr.send("accion=" + accion + "&latitud=" + lat + "&longitud=" + long + "&ruta=" + ruta);
-             }*/
-
             function crearEvento() {
                 var titulo = $("#titulo").val();
                 var contenido = $("#contenido").val();
                 var tipo = $("#tipo").val();
-                var fecha = $("#fecha").val();
+                var fechai = $("#fechai").val();
+                var fechaf = $("#fechaf").val();
                 var lat = $("#lat").val();
                 var lng = $("#lng").val();
+                if ($("#participable").prop('checked')) {
+                    var participable = "t";
+                } else {
+                    var participable = "";
+                }
+                                
                 var colorError = "#E95139";
                 var campoVacio = false;
 
@@ -277,14 +303,20 @@
                 } else {
                     $("#tipo").css("background", "white");
                 }
-                
-                if (fecha.trim() == "") {
-                    $("#fecha").css("background", colorError);
+
+                if (fechai.trim() == "") {
+                    $("#fechai").css("background", colorError);
                     campoVacio = true;
                 } else {
-                    $("#fecha").css("background", "white");
+                    $("#fechai").css("background", "white");
                 }
 
+                if (fechaf.trim() == "") {
+                    $("#fechaf").css("background", colorError);
+                    campoVacio = true;
+                } else {
+                    $("#fechaf").css("background", "white");
+                }
 
                 if (!campoVacio) {
 
@@ -293,9 +325,11 @@
                         "titulo": titulo,
                         "contenido": contenido,
                         "tipo": tipo,
-                        "fecha":fecha,
+                        "fechai": fechai,
+                        "fechaf": fechaf,
                         "lat": lat,
-                        "lng": lng
+                        "lng": lng,
+                        "participable": participable
                     };
 
                     $.ajax({
@@ -393,14 +427,20 @@
                         <p id="info">(una promoción, zona de cría...)</p>
                             <!--<p><input type="radio" id="multimedia" value="imagen"><input type="radio" id="multimedia" value="video"></p>-->
                                 <!--<button id="botonCrearEvento">Crear Evento<img src="../controlador/img/pata.png" id="pata" class="pata"></button>-->
-                        <p class="title">Fecha y hora del evento</p>
-                        <input type="datetime-local" id="fecha">
+                        <p class="title">Fecha y hora del inicio del evento</p>
+                        <input type="datetime-local" id="fechai">
+                        <p class="title">Fecha y hora del fin del evento</p>
+                        <input type="datetime-local" id="fechaf">
                         <div id="ubicacion">
                             <p class="title">¿Donde se realizará el evento?</p>
+                            <input type="text" id="searchTextField">
                             <div id="map"></div>
                             <input type="text" id="lat">
                             <input type="text" id="lng">
                         </div>
+                        <p class="title">¿Participable?
+                            <input type="checkbox" id="participable" value="yes">
+                        </p>
                         <p><input type="button" class="botonCrearEvento" id="botonCrearEvento" value="Añadir Multimedia">
                             <input type="button" class="botonCrearEvento" id="botonCrearEvento2" value="Publicar Evento"></p>
                     </form>

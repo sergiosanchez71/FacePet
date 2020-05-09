@@ -66,7 +66,7 @@ if (isset($_REQUEST['subirImagenE'])) {
         move_uploaded_file($_FILES['userfile']['tmp_name'], $fichero_subido);
         rename($fichero_subido, $dir_subida . $_REQUEST['idevento'] . "." . $file_ext[1]);
         Evento::subirMultimedia($_REQUEST['idevento'], $_REQUEST['idevento'] . "." . $file_ext[1]);
-        //header("Location: ../vista/miPerfil.php");
+        header("Location: ../vista/miPerfil.php");
     }
 }
 

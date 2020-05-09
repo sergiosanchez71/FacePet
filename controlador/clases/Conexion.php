@@ -22,5 +22,5 @@ class Conexion {
             echo 'Falló la conexión: ' . $e->getMessage();
         }
     }
-
+ 
 }
