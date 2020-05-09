@@ -151,12 +151,13 @@ class Evento {
         $conexion->exec($sql);
     }
     
-    function mostrarEventos() {
+    function mostrarEventos($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $fecha = date("Y-m-d H:i:s");
-        $consulta = $conexion->query("SELECT * from eventos where fecha>'$fecha' order by fecha asc");
+        $consulta = $conexion->query("SELECT * from eventos where fecha>'$fecha' and usuario!='$usuario' order by fecha asc");
         $datos = null;
+        $i=0;
         while ($row = $consulta->fetch()) {
             if ($row['foto'] == null) {
                 $foto = false;
@@ -172,7 +173,7 @@ class Evento {
                 $lng = $row['lng'];
             }
             
-            $datos = array(
+            $datos[$i] = array(
                 'id' => $row['id'],
                 'titulo' => $row['titulo'],
                 'contenido' => $row['contenido'],
@@ -183,12 +184,56 @@ class Evento {
                 'lat' => $lat,
                 'lng' => $lng,
                 'participantes' => $row['participantes'],
-                'usuario' => $row['usuario']
+                'usuario' => $row['usuario'],
+                'autor' => Usuario::getNickName($row['usuario'])
             );
+            $i++;
         }
         unset($conexion);
         return $datos;
     }
+    function mostrarEvento($evento,$usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //$fecha = date("Y-m-d H:i:s");
+        $consulta = $conexion->query("SELECT * from eventos where id='$evento'");
+        $datos = null;
+        //$i=0;
+        while ($row = $consulta->fetch()) {
+            if ($row['foto'] == null) {
+                $foto = false;
+            } else {
+                $foto = $row['foto'];
+            }
+            
+            if($row['lat'] == 0 && $row['lng'] == 0){
+                $lat = false;
+                $lng = false;
+            } else {
+                $lat = $row['lat'];
+                $lng = $row['lng'];
+            }
+            
+            $datos/*[$i]*/ = array(
+                'id' => $row['id'],
+                'titulo' => $row['titulo'],
+                'contenido' => $row['contenido'],
+                'tipo' => $row['tipo'],
+                'fecha_publicacion' => $row['fecha_publicacion'],
+                'fecha' => $row['fecha'],
+                'foto' => $foto,
+                'lat' => $lat,
+                'lng' => $lng,
+                'participantes' => $row['participantes'],
+                'usuario' => $row['usuario'],
+                'autor' => Usuario::getNickName($row['usuario'])
+            );
+            //$i++;
+        }
+        unset($conexion);
+        return $datos;
+    }
+    
 
     
 }

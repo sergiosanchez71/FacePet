@@ -1,0 +1,59 @@
+
+
+#eventos{
+    padding: 3.7% 10% 5% 5%;
+}
+
+.evento{
+    background: white;
+    padding: 1rem;
+    background-color: #fffbed;
+    border: 1px solid black;
+    margin-bottom: 3rem;
+    height: auto;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.eventoTitulo{
+    font-weight: bold;
+    text-align: center;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.eventoTitulo:first-letter{
+    text-transform: uppercase;
+}
+
+.eventoFecha{
+    font-size: 0.8rem;
+}
+
+.cont{
+    width: 100%;
+    max-width: 65rem;
+    display: block;
+    margin: auto;
+}
+
+.eventoImg{
+    width: 15rem;;
+    display: block;
+    margin: auto;
+}
+
+.eventoContenido{
+    font-size: 1rem;
+    text-align: justify;
+}
+
+
+.eventoAutor{
+    font-size: 0.8rem;
+}
+
+.eventoNombreAutor{
+    font-weight: bold;
+    cursor: pointer;
+}

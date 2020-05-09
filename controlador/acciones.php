@@ -311,8 +311,21 @@ switch ($accion) {
         echo Evento::consultarId($evento);
         break;
     
+    case "mostrarEvento":
+        if (Evento::mostrarEvento($_REQUEST['evento'], $idusuario)) {
+            echo json_encode(Evento::mostrarEvento($_REQUEST['evento'], $idusuario));
+        } else {
+            echo false;
+        }
+        break;
+    
     case "mostrarEventos":
-        echo json_encode(Evento::mostrarEventos());
+        if (Evento::mostrarEventos($idusuario)) {
+            echo json_encode(Evento::mostrarEventos($idusuario));
+        } else {
+            echo false;
+        }
+
         break;
 
     //Mensajes
@@ -382,7 +395,7 @@ switch ($accion) {
         break;
 
     //Subir multimedia
-    case "cambiarImagen":
+  /*  case "cambiarImagen":
         $dir_subida = '../controlador/uploads/usuarios/';
         $allowed_ext = "jpg,png,jpeg";
         $file_ext = preg_split("/\./", $_FILES['userfile']['name']);
@@ -399,7 +412,7 @@ switch ($accion) {
             Post::subirMultimedia($_REQUEST['idpost'], $_REQUEST['idpost'] . "." . $file_ext[1]);
             header("Location: ../vista/miPerfil.php");
         }
-        break;
+        break;*/
 
     //Más
     case "getDatosMiUsuario":

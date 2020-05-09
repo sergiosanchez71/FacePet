@@ -487,7 +487,7 @@ and open the template in the editor.
             <div id="cuerpo">
                 <input type="text" id="idPost" value="<?php echo $_REQUEST['post'] ?>">
                 <div id="menuPost">
-                    <p id="name">Posts</p>
+                    <p id="name">Post</p>
                 </div>
                 <div id="comentariosPost">
                     <input type="text" id="comentario" maxlength="255" placeholder="Añadir comentario">

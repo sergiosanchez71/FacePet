@@ -19,8 +19,10 @@ and open the template in the editor.
         </script>
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css">
+        <link  rel="stylesheet" type="text/css" href="../controlador/css/eventos.css">
         <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
         <script src="../controlador/js/header.js" type="text/javascript"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE" async defer></script>
         <style>
 
             #cuerpo{
@@ -48,45 +50,12 @@ and open the template in the editor.
             }
 
             #eventos{
-                padding: 3.7% 10% 5% 5%;
+                max-width: 40rem;
             }
-
-            .evento{
-                background: white;
-                padding: 1rem;
-                background-color: #fffbed;
-                border: 1px solid black;
-                margin-bottom: 3rem;
-            }
-
-            .eventoTitulo{
-                font-weight: bold;
-                text-align: center;
-                font-size: 1.5rem;
-
-            }
-
-            .eventoFecha{
-                font-size: 0.8rem;
-            }
-
-            .eventoImg{
-                width: 15rem;;
-                display: block;
-                margin: auto;
-            }
-
-            .eventoContenido{
-                font-size: 1rem;
-                text-align: justify;
-            }
-
-            .eventoAutor{
-                font-size: 0.8rem;
-            }
-
-            .eventoNombreAutor{
-                font-weight: bold;
+            
+            .map{
+                width: 100%;
+                height: 20rem;
             }
 
             @media (max-width:1000px){
@@ -227,46 +196,8 @@ and open the template in the editor.
                                     }
                                 } else {
                                     postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
-
-                                    /*  postCorazonImg.onclick = function () {
-                                     this.removeAttribute("src");
-                                     this.setAttribute("src", "../controlador/img/nolike.png");
-                                     darLike(this.alt);
-                                     }*/
                                 }
 
-                                /* if (!posts[i].like) {
-                                 postCorazonImg.setAttribute("data-like", false);
-                                 postCorazonImg.setAttribute("src", "../controlador/img/noLike.png");
-                                 } else {
-                                 postCorazonImg.setAttribute("data-like", true);
-                                 postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
-                                 }
-                                 
-                                 postCorazonImg.onclick = function () {
-                                 this.removeAttribute("src");
-                                 
-                                 if (!this.dataset.like) {
-                                 this.setAttribute("src", "../controlador/img/Like.png");
-                                 //darLike(this.dataset.value);
-                                 var valor = $(".likes:eq(" + this.dataset.pos + ")").text();
-                                 var valor2 = parseInt(valor);
-                                 $(".likes:eq(" + this.dataset.pos + ")").text(parseInt(valor2 + 1));
-                                 //this.removeAttribute("data-like");
-                                 this.attr("data-like",true);
-                                 } else {
-                                 this.setAttribute("src", "../controlador/img/noLike.png");
-                                 //quitarLike(this.dataset.value);
-                                 var valor = $(".likes:eq(" + this.dataset.pos + ")").text();
-                                 var valor2 = parseInt(valor);
-                                 $(".likes:eq(" + this.dataset.pos + ")").text(parseInt(valor2 - 1));
-                                 //this.removeAttribute("data-like");
-                                 this.attr("data-like", false);
-                                 }
-                                 //console.log(this.dataset.pos);
-                                 //console.log($(".likes:eq(" + this.dataset.pos + ")").text());
-                                 
-                                 }*/
 
                                 var postComentario = document.createElement("a");
                                 postComentario.setAttribute("class", "postComentario");
@@ -339,9 +270,6 @@ and open the template in the editor.
                                 postComentario.append(postComentarioImg);
                                 postCont.append(comentarios);
 
-
-
-
                                 function darLike(post) {
                                     var parametros = {
                                         "accion": "darLike",
@@ -390,8 +318,8 @@ and open the template in the editor.
                     dataType: "text"
                 });
             }
-            
-            function mostrarEventos(){
+
+            function mostrarEventos() {
                 var parametros = {
                     "accion": "mostrarEventos"
                 };
@@ -403,13 +331,82 @@ and open the template in the editor.
                         console.log(respuesta);
                         if (respuesta) {
                             var eventos = JSON.parse(respuesta);
+                            for (var i = 0; i < eventos.length; i++) {
+                                var evento = document.createElement("div");
+                                evento.setAttribute("class", "evento");
 
-                            
+                                var titulo = document.createElement("p");
+                                titulo.setAttribute("class", "eventoTitulo");
+                                titulo.innerHTML = eventos[i].titulo;
+                                titulo.setAttribute("data-value", eventos[i].id);
+
+                                titulo.onclick = function () {
+                                    window.location.href = "verEvento.php?evento=" + this.dataset.value;
+                                }
+
+
+                                var tipo = document.createElement("p");
+                                tipo.setAttribute("class", "eventoTipo");
+                                tipo.innerHTML = eventos[i].tipo;
+
+                                var fecha = document.createElement("p");
+                                fecha.setAttribute("class", "eventoFecha");
+                                fecha.innerHTML = eventos[i].fecha;
+
+                                var contenido = document.createElement("p");
+                                contenido.setAttribute("class", "eventoContenido");
+                                contenido.innerHTML = eventos[i].contenido;
+
+                                if (eventos[i].foto) {
+
+                                    var img = document.createElement("img");
+                                    img.setAttribute("class", "eventoImg");
+                                    console.log(eventos[i].foto);
+                                    img.setAttribute("src", "../controlador/uploads/eventos/" + eventos[i].foto);
+                                    img.setAttribute("alt", "imgagenEvento");
+
+                                } else if (eventos[i].lat && eventos[i].lng) {
+                                    var map = document.createElement("div");
+                                    map.setAttribute("class", "map");
+                                    //map.setAttribute("style", "height:20rem");
+                                    initMap(map, eventos[i].lat, eventos[i].lng);
+                                }
+                                var textAutor = document.createElement("p");
+                                textAutor.setAttribute("class", "eventoAutor");
+
+
+                                var autor = document.createElement("span");
+                                autor.setAttribute("class", "eventoNombreAutor");
+                                autor.innerHTML = eventos[i].autor;
+                                autor.setAttribute("data-value", eventos[i].usuario);
+
+                                autor.onclick = function () {
+                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+                                }
+
+
+
+                                $("#eventos").append(evento);
+                                evento.append(titulo);
+                                evento.append(tipo);
+                                evento.append(fecha);
+                                evento.append(contenido);
+                                if (eventos[i].foto) {
+                                    evento.append(img);
+                                } else if (eventos[i].lat && eventos[i].lng){
+                                    evento.append(map);
+                                }
+                                evento.append(textAutor);
+                                textAutor.append("Autor del evento: ");
+                                textAutor.append(autor);
+                            }
+
                         } else {
                             var h1 = document.createElement("h1");
                             h1.innerHTML += "Aquí se mostraran los eventos, pero ahora mismo no hay ninguno";
                             $("#eventos").append(h1);
                         }
+
                     },
                     error: function (xhr, status) {
                         alert("Error en la eliminacion de post");
@@ -418,6 +415,25 @@ and open the template in the editor.
                     dataType: "text"
                 });
             }
+
+
+            function initMap(map, lat, lng) {
+                var maps = new google.maps.Map(map, {
+                    center: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                    zoom: 16,
+                    streetViewControl: false,
+                    mapTypeControl: false,
+                    scaleControl: false,
+                    zoomControl: false,
+                    scrollwheel: false,
+                    fullscreenControl: false
+                });
+                new google.maps.Marker({
+                    position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                    map: maps
+                });
+            }
+
 
 
         </script>
@@ -489,47 +505,7 @@ and open the template in the editor.
                 </div>
                 <div id="eventos">
                     <p id="name">Eventos</p>
-                    <div class="evento">
-                        <p class="eventoTitulo">Titulo</p>
-                        <p class="eventoTipo">tipo</p>
-                        <p class="eventoFecha">05-04-2020 13:33</p>
-                        <p class="eventoContenido">
-                            Maecenas vel magna gravida, ullamcorper urna efficitur, condimentum massa. 
-                            Etiam dui ex, venenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
-                            Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
-                            Morbi congue lobortis. digniss
-                        </p>
-                        <img src="../controlador/img/gato.png" class="eventoImg" alt="eventoImg">
-                        <p class="eventoAutor">Autor del evento: <span class="eventoNombreAutor">NombreAutor</span></p>
-                    </div>
 
-                    <div class="evento">
-                        <p class="eventoTitulo">Titulo</p>
-                        <p class="eventoTipo">tipo</p>
-                        <p class="eventoFecha">05-04-2020 13:33</p>
-                        <p class="eventoContenido">
-                            Maecenas vel magna gravida, ullamcorper urna efficitur, condimentum massa. 
-                            Etiam dui ex, venenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
-                            Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
-                            Morbi congue lobortis. digniss
-                        </p>
-                        <img src="../controlador/img/gato.png" class="eventoImg" alt="eventoImg">
-                        <p class="eventoAutor">Autor del evento: <span class="eventoNombreAutor">NombreAutor</span></p>
-                    </div>
-
-                    <div class="evento">
-                        <p class="eventoTitulo">Titulo</p>
-                        <p class="eventoTipo">tipo</p>
-                        <p class="eventoFecha">05-04-2020 13:33</p>
-                        <p class="eventoContenido">
-                            Maecenas vel magna gravida, ullamcorper urna efficitur, condimentum massa. 
-                            Etiam dui ex, venenatis in tortor eget, lobortis varius ante. Nullam tempor sapien sapien, venenatis feugiat est sagittis nec. 
-                            Phasellus dignissim sem mauris, sed pulvinar magna volutpat eget. Sed interdum ante at urna feugiat, at iaculis ligula finibus.
-                            Morbi congue lobortis. digniss
-                        </p>
-                        <img src="../controlador/img/gato.png" class="eventoImg" alt="eventoImg">
-                        <p class="eventoAutor">Autor del evento: <span class="eventoNombreAutor">NombreAutor</span></p>
-                    </div>
                 </div>
             </div>
 

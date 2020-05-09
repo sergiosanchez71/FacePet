@@ -254,7 +254,7 @@
                 $("#imgAmigoCM").css("display", "none");
                 $("#enviarMensaje").css("display", "none");
                 $("#mensajeEscrito").css("display", "none");
-                $("#cabeceraCM").append(h1);
+                //$("#cabeceraCM").append(h1);
 
                 /* mostrarCabeceraChat(amigos[i].id);
                  mostrarChat(amigos[i].id);
@@ -290,6 +290,7 @@
 
                                 var amigoPerfil = document.createElement("div");
                                 amigoPerfil.setAttribute("data-value", amigos[i].id);
+                                amigoPerfil.setAttribute("data-pos", i);
                                 amigoPerfil.setAttribute("class", "amigo");
                                 /*  if (amigos[i].visto) {
                                  console.log(getMensajesNoVistos(amigos[i].visto));
@@ -300,7 +301,8 @@
                                     mostrarChat(this.dataset.value);
                                     mensajesLeidos(this.dataset.value);
                                     this.setAttribute("style", "background:white");
-                                    this.removeChild(divMensajesAmigo);
+                                    //this.removeChild(divMensajesAmigo);
+                                    $(".divMensajesAmigo:eq(" + this.dataset.pos + ")").remove();
                                 }
 
                                 var img = document.createElement("img");
