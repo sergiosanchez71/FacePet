@@ -331,7 +331,22 @@ switch ($accion) {
         } else {
             echo false;
         }
-
+        break;
+        
+    case "participarEvento":
+        if (Evento::participarEvento($_REQUEST['evento'],$idusuario)) {
+            echo json_encode(Evento::participarEvento($_REQUEST['evento'],$idusuario));
+        } else {
+            echo false;
+        }
+        break;
+        
+    case "salirDeEvento":
+        if (Evento::salirDeEvento($_REQUEST['evento'],$idusuario)) {
+            echo json_encode(Evento::salirDeEvento($_REQUEST['evento'],$idusuario));
+        } else {
+            echo false;
+        }
         break;
 
     //Mensajes

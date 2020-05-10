@@ -44,8 +44,8 @@
                 display: grid;
                 grid-template-areas: 
                     "imagen datos mensajesAmigos";
-                grid-template-columns: auto auto 15%;
-                width: 20rem;
+                grid-template-columns: 45% 40% 15%;
+                width: 25rem;
                 margin: auto;
                 padding: 1rem;
                 margin-top: 0.5rem;

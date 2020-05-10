@@ -24,7 +24,7 @@
 
             #crearEvento{
                 margin: auto;
-                width: 40rem;
+                width: 60rem;
                 background: #FFFBED;
                 padding: 2rem;
                 margin-top: 3.5rem;
@@ -39,10 +39,14 @@
                 font-weight: bold;
             }
 
-            #titulo, #tipo{
+            #titulo, #tipo, #fechai, #fechaf{
                 width: 100%;
-                font-size: 1.2rem;
+                font-size: 1.5rem;
                 transition: 1s background ease;
+            }
+            
+            #fechai, #fechaf{
+                text-align: center;
             }
 
             textarea{
@@ -72,17 +76,13 @@
                 border-radius: 2rem;
                 cursor: pointer;
             }
-
-            #botonCrearEvento:hover, textarea:hover, #titulo:hover, #tipo:hover{
-                background-color:#FFF578;
-            }
-
-            #pata{
+            
+            /*#pata{
                 padding-left: 0.5rem;
                 width: 2rem;
                 position: relative;
                 top: 3px;
-            }
+            }*/
 
             #map{
                 height: 30rem;
@@ -91,12 +91,17 @@
 
             #searchTextField{
                 width: 100%;
-                font-size: 1.5rem;
+                font-size: 1.75rem;
                 height: 2rem;
-                margin-top: 2rem;
+                margin-top: -0.5rem;
                 z-index: 2;
+                transition: 1s background ease;
             }
 
+            #botonCrearEvento:hover, textarea:hover, #titulo:hover, #tipo:hover, #fechai:hover, #fechaf:hover, #searchTextField:hover{
+                background-color:#FFF578;
+            }
+            
             #paso1{
                 display: block;
             }
@@ -137,6 +142,11 @@
                 #multimedia{
                     font-size: 2.5rem;
                 }
+                
+                #searchTextField{
+                    height: 4rem;
+                    font-size: 3rem;
+                }
 
                 #botonCrearEvento{
                     margin-top: 2rem;
@@ -144,10 +154,10 @@
                     font-size: 4rem;
                 }
 
-                #pata{
+                /*#pata{
                     width: 3.5rem;
                     padding-left: 2rem;
-                }
+                }*/
 
             }
 
@@ -257,6 +267,7 @@
                         marker = new google.maps.Marker({
                             position: location,
                             map: map,
+                            icon:'../controlador/img/marker.ico',
                             draggable: true
                         });
                     }

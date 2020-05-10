@@ -26,7 +26,7 @@ class Evento {
     private $participantes;
     private $usuario;
 
-    function __construct($titulo, $contenido, $tipo, $fecha_publicacion, $fechai, $fechaf, $foto, $lat, $lng,$participantes, $usuario) {
+    function __construct($titulo, $contenido, $tipo, $fecha_publicacion, $fechai, $fechaf, $foto, $lat, $lng, $participantes, $usuario) {
         $this->titulo = $titulo;
         $this->contenido = $contenido;
         $this->tipo = $tipo;
@@ -135,7 +135,7 @@ class Evento {
     function setUsuario($usuario) {
         $this->usuario = $usuario;
     }
-    
+
     function crearEvento($evento) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -183,7 +183,7 @@ class Evento {
                 $lat = $row['lat'];
                 $lng = $row['lng'];
             }
-            
+
             $participantes = explode(",", $row['participantes']);
 
             $datos[$i] = array(
@@ -194,7 +194,7 @@ class Evento {
                 'fecha_publicacion' => $row['fecha_publicacion'],
                 'fechai' => $row['fechai'],
                 'fechaf' => $row['fechaf'],
-                'empezado' => Evento::empezado($row['fechai'],$fecha),
+                'empezado' => Evento::empezado($row['fechai'], $fecha),
                 'foto' => $foto,
                 'lat' => $lat,
                 'lng' => $lng,
@@ -230,7 +230,7 @@ class Evento {
                 $lat = $row['lat'];
                 $lng = $row['lng'];
             }
-            
+
             $participantes = explode(",", $row['participantes']);
 
             $datos/* [$i] */ = array(
@@ -241,12 +241,13 @@ class Evento {
                 'fecha_publicacion' => $row['fecha_publicacion'],
                 'fechai' => $row['fechai'],
                 'fechaf' => $row['fechaf'],
-                'empezado' => Evento::empezado($row['fechai'],$fecha),
+                'empezado' => Evento::empezado($row['fechai'], $fecha),
                 'foto' => $foto,
                 'lat' => $lat,
                 'lng' => $lng,
                 'participable' => $row['participantes'],
                 'participantes' => $participantes,
+                'participa' => Evento::esParticipante($evento,$usuario),
                 'usuario' => $row['usuario'],
                 'autor' => Usuario::getNickName($row['usuario'])
             );
@@ -262,6 +263,76 @@ class Evento {
         } else {
             return false;
         }
+    }
+
+    function mostrarParticipantes($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT participantes from eventos where id='$id'");
+        $participantes = null;
+        while ($row = $consulta->fetch()) {
+            $participantes = $row['participantes'];
+        }
+        unset($conexion);
+        return $participantes;
+    }
+
+    function esParticipante($id, $usuario) {
+        $participantes = explode(",", Evento::mostrarParticipantes($id));
+
+
+        $participante = false;
+        /* if ($user1 == $user2) {
+          $participante = true;
+          } else { */
+        for ($i = 0; $i < count($participantes); $i++) {
+            if ($usuario == $participantes[$i]) {
+                $participante = true;
+            }
+        }
+        //}
+        return $participante;
+    }
+
+    function participarEvento($id, $usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        if (!Evento::esParticipante($id, $usuario)) {
+            $consulta = $conexion->query("SELECT * from eventos where id='$id'");
+            $participantes = null;
+            while ($row = $consulta->fetch()) {
+                $participantes = $row['participantes'];
+                if ($participantes == "t") {
+                    $sql = "UPDATE eventos SET participantes='$usuario' where id='$id'";
+                } else if ($participantes != null) {
+                    $sql = "UPDATE eventos SET participantes='$participantes,$usuario' where id='$id'";
+                }
+            }
+            if ($participantes == "t" || $participantes != null) {
+                $conexion->exec($sql);
+            }
+        }
+
+        unset($conexion);
+    }
+    
+    function salirDeEvento($id, $participante) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT participantes from eventos where id='$id'");
+        while ($row = $consulta->fetch()) {
+            $participantescad = $row['participantes'];
+        }
+        $participantes = explode(",", $participantescad);
+        for ($i = 0; $i < count($participantes); $i++) {
+            if ($participantes[$i] == $participante) {
+                unset($participantes[$i]);
+            }
+        }
+        $participantesNewCad = implode(",", $participantes);
+        $sql = "UPDATE eventos SET participantes='$participantesNewCad' where id='$id'";
+        $conexion->exec($sql);
+        unset($conexion);
     }
 
 }

@@ -362,7 +362,8 @@ and open the template in the editor.
                                 fechai.setAttribute("class", "eventoFecha");
                                 fechai.innerHTML = eventos[i].fechai;
                                 if (eventos[i].empezado) {
-                                    fechai.setAttribute("style", "color:#126310")
+                                    fechai.setAttribute("style", "color:#126310");
+                                    fechai.setAttribute("title", "Evento actualmente activo");
                                 }
 
                                 var fechaf = document.createElement("span");
@@ -468,6 +469,7 @@ and open the template in the editor.
                 });
                 new google.maps.Marker({
                     position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                    icon: '../controlador/img/marker.ico',
                     map: maps
                 });
             }

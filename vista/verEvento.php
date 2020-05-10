@@ -65,8 +65,8 @@ and open the template in the editor.
             #map{
                 grid-area:map;
             }
-            
-            #botonParticipar{
+
+            #botonParticipar, #botonYaParticipa{
                 font-size: 1.5rem;
                 font-weight: bold;
                 width: 100%;
@@ -77,11 +77,11 @@ and open the template in the editor.
                 border-radius: 2rem;
                 cursor: pointer;
             }
-            
-            #botonParticipar:hover{
+
+            #botonParticipar:hover, #botonYaParticipa:hover{
                 background-color:#FFF578;
             }
-            
+
         </style>
         <script>
 
@@ -130,7 +130,8 @@ and open the template in the editor.
                             fechai.setAttribute("class", "eventoFecha");
                             fechai.innerHTML = eventos.fechai;
                             if (eventos.empezado) {
-                                fechai.setAttribute("style", "color:#126310")
+                                fechai.setAttribute("style", "color:#126310");
+                                fechai.setAttribute("title","Evento actualmente activo");
                             }
 
                             var fechaf = document.createElement("span");
@@ -191,12 +192,27 @@ and open the template in the editor.
 
 
                                 var botonParticipar = document.createElement("button");
-                                botonParticipar.setAttribute("id","botonParticipar");
+                                botonParticipar.setAttribute("id", "botonParticipar");
+                                botonParticipar.setAttribute("value", eventos.id);
                                 botonParticipar.innerHTML = "Participar en este Evento";
-                                
-                                botonParticipar.onclick = function(){
-                                    this.innerHTML = "Ya participas en este evento";
-                                    participarEvento();
+
+                                var botonYaParticipa = document.createElement("button");
+                                botonYaParticipa.setAttribute("id", "botonYaParticipa");
+                                botonYaParticipa.setAttribute("value", eventos.id);
+                                botonYaParticipa.innerHTML = "Ya participas en este evento";
+
+                                if (!eventos.participa) {
+                                    botonParticipar.onclick = function () {
+                                        //this.innerHTML = "Ya participas en este evento";
+                                        participarEvento(this.value);
+                                        window.location.reload();
+                                    }
+                                } else {
+                                    botonYaParticipa.onclick = function () {
+                                       // this.innerHTML = "Participar en este Evento";
+                                        salirDeEvento(this.value);
+                                        window.location.reload();
+                                    }
                                 }
                             }
 
@@ -229,7 +245,11 @@ and open the template in the editor.
                             textAutor.append("Autor del evento: ");
                             textAutor.append(autor);
                             if (eventos.participable) {
-                                cont.append(botonParticipar);
+                                if (!eventos.participa) {
+                                    cont.append(botonParticipar);
+                                } else {
+                                    cont.append(botonYaParticipa);
+                                }
                                 cont.append(textParticipantes);
                                 textParticipantes.append("Participantes ");
                                 textParticipantes.append(participantes);
@@ -260,12 +280,51 @@ and open the template in the editor.
                 });
                 new google.maps.Marker({
                     position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                    icon:'../controlador/img/marker.ico',
                     map: maps
                 });
             }
+
+            function participarEvento(evento) {
+                var parametros = {
+                    "accion": "participarEvento",
+                    "evento": evento
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
             
-            function participarEvento(){
-                
+            function salirDeEvento(evento){
+                var parametros = {
+                    "accion": "salirDeEvento",
+                    "evento": evento
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
             }
 
         </script>

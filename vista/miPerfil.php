@@ -147,11 +147,11 @@ and open the template in the editor.
             .amigoPerfil:hover{
                 background: #fff7dd;
             }
-            
+
             .amigoPerfil:hover > .botonEliminarA{
                 background: #fff7dd;
             }
-            
+
             .amigoPerfil:last-child{
                 margin-bottom: 5rem;
             }
@@ -196,8 +196,8 @@ and open the template in the editor.
             }
 
             #cambiarImagen{
-               /* padding-bottom: 8rem;*/
-               padding-bottom: 3rem;
+                /* padding-bottom: 8rem;*/
+                padding-bottom: 3rem;
                 text-align: center;
                 background: white;
                 border: 1px solid #BBBBBB;
@@ -215,7 +215,7 @@ and open the template in the editor.
                 cursor: pointer;
                 font-size: 1.5rem;
             }
-            
+
             #cambiarImagen #idusu{
                 display: none;
             }
@@ -241,7 +241,7 @@ and open the template in the editor.
                 cursor: pointer;
                 transition: 1s background ease;
             }
-            
+
             .botonEliminarA{
                 background: red;
             }
@@ -345,28 +345,28 @@ and open the template in the editor.
                 mostrarMisAmigos();
                 $("#imgPerfil").click(cambiarAvatar);
                 //$("#textCambiarAvatar").click(cambiarAvatar);
-                $("#textCambiarAvatar").click(function(){
+                $("#textCambiarAvatar").click(function () {
                     getId();
-                   $("#cambiarImagen").modal();
+                    $("#cambiarImagen").modal();
                 });
                 //$("#cerrarCambiarAvatar").click(cerrarCambiarAvatar);
             });
             /*
-
-            function cerrarCambiarAvatar() {
-                $("#cambiarImagen").hide();
-                $("header").css("opacity", "1");
-                $("#cuerpo").css("opacity", "1");
-            }*/
+             
+             function cerrarCambiarAvatar() {
+             $("#cambiarImagen").hide();
+             $("header").css("opacity", "1");
+             $("#cuerpo").css("opacity", "1");
+             }*/
 
             function getId() {
                 /*$("#cambiarImagen").show();
-                $("header").css("opacity", "0.2");
-                $("#cuerpo").css("opacity", "0.2");
-
-                $("header").click(function () {
-                    cerrarCambiarAvatar();
-                });*/
+                 $("header").css("opacity", "0.2");
+                 $("#cuerpo").css("opacity", "0.2");
+                 
+                 $("header").click(function () {
+                 cerrarCambiarAvatar();
+                 });*/
 
                 var parametros = {
                     "accion": "cambiarAvatar"
@@ -378,10 +378,10 @@ and open the template in the editor.
                     success: function (respuesta) {
                         //var cambiarImagen = document.getElementById("cambiarAvatar");
                         /*var p = document.createElement("input");
-                        $("#cambiarImagen").append(p);
-                        p.setAttribute("type", "text");
-                        p.setAttribute("readonly", "readonly");
-                        p.setAttribute("name", "idusu");*/
+                         $("#cambiarImagen").append(p);
+                         p.setAttribute("type", "text");
+                         p.setAttribute("readonly", "readonly");
+                         p.setAttribute("name", "idusu");*/
                         //p.setAttribute("style", "display:none");
                         console.log(respuesta);
                         $("#idusu").attr("value", respuesta);
@@ -480,9 +480,9 @@ and open the template in the editor.
                         if (respuesta) {
                             var amigos = JSON.parse(respuesta);
                             var titular = document.createElement("p");
-                            titular.setAttribute("class","titularAmigosPerfil");
+                            titular.setAttribute("class", "titularAmigosPerfil");
                             $("#amigosPerfiles").append(titular);
-                            
+
                             for (var i = 0; i < amigos.length; i++) {
 
                                 var amigoPerfil = document.createElement("div");
@@ -547,7 +547,7 @@ and open the template in the editor.
                             }
                         } else {
                             var h1 = document.createElement("h1");
-                            h1.setAttribute("style","text-align:center");
+                            h1.setAttribute("style", "text-align:center");
                             h1.innerHTML += "Aún no tienes amigos, busca nuevos ";
                             $("#amigosPerfiles").append(h1);
                         }
@@ -641,7 +641,7 @@ and open the template in the editor.
                                 var postLikes = document.createElement("p");
                                 postLikes.setAttribute("class", "postLikes");
 
-                               if (posts[i].likes != null) {
+                                if (posts[i].likes != null) {
                                     var cadlikes = posts[i].likes;
                                     var likes = cadlikes.split(",");
                                     var slikes = document.createElement("span");
@@ -748,7 +748,7 @@ and open the template in the editor.
                                 } else {
                                     postLikes.append("0 Me gustas");
                                 }
-                                
+
                                 postBottom.append(iconos);
                                 iconos.append(postCorazon);
                                 iconos.append(postComentario);
@@ -784,7 +784,7 @@ and open the template in the editor.
                             }
                         } else {
                             var h1 = document.createElement("h1");
-                            h1.setAttribute("style","text-align:center");
+                            h1.setAttribute("style", "text-align:center");
                             h1.innerHTML += "Aún no tienes posts, crea uno";
                             $("#posts").append(h1);
                         }
@@ -878,7 +878,12 @@ and open the template in the editor.
                     </div>
                 </div>
 
+                <div id="botones">
+                <button>Posts</button>
+                <button>Eventos</button>
+                </div>
                 <div id="posts">
+
 
                 </div>
             </div>
