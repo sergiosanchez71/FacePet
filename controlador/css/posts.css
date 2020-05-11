@@ -1,4 +1,8 @@
-#posts{
+#cadPosts{
+    display: none;
+}
+
+#posts, #contenido{
     grid-area: posts;
     padding: 2.5% 5% 5% 8%;
 }
@@ -10,7 +14,6 @@
 }
 
 .post{
-    min-height: 29rem;
     background-color: #fffbed;
     margin-bottom: 3rem;
     padding: 1rem;
@@ -93,6 +96,7 @@
 
 .postImg{
     width: 20rem;
+    max-height: 40rem;
     float:left;
     margin: 0 1rem 1rem 1rem;
 }

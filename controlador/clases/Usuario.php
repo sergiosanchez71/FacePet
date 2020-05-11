@@ -285,6 +285,7 @@ class Usuario {
         $notificacion = new Notificacion($idusuario, $amigo, "amistad", 0, $fecha);
         Notificacion::borrarNotificacion($notificacion);
         Amistades::cancelarSolicitud($idusuario, $amigo);
+        Mensaje::eliminarMensajes($idusuario,$amigo);
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT amigos from usuarios where id='$idusuario'");

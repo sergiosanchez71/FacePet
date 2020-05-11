@@ -244,9 +244,14 @@
                             for (var i = 0; i < notificaciones.length; i++) {
                                 var notificacion = document.createElement("div");
                                 notificacion.setAttribute("class", "notificacion");
+                                
 
                                 var datos = document.createElement("div");
                                 datos.setAttribute("class", "datos");
+
+                                if(!notificaciones[i].visto){
+                                    datos.setAttribute("style","background:#ffeeba");
+                                }
 
                                 var img = document.createElement("img");
                                 img.setAttribute("src", "../controlador/uploads/usuarios/" + notificaciones[i].fotoAmigo);

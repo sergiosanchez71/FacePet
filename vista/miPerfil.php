@@ -15,359 +15,68 @@ and open the template in the editor.
         <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
         <script src="../controlador/js/jquery.modal.min.js" type="text/javascript"></script>
         <script src="../controlador/js/header.js" type="text/javascript"></script>
+        <script src="../controlador/js/pintarObjetos.js" type="text/javascript"></script>
+        <link href="../controlador/css/perfil.css" rel="stylesheet" type="text/css"/>
+        <link href="../controlador/css/eventos.css" rel="stylesheet" type="text/css"/>
         <?php
         session_start();
         include '../controlador/gestion.php';
         comprobarLogin();
         ?>
         <style>
-
-            #cuerpo{
-                display: grid;
-                margin: auto;
-                grid-template-areas: 
-                    "cabeceraPerfil cabeceraPerfil"
-                    "amigosPerfil posts";
-                grid-template-columns: 30% 70%;
-                grid-template-rows: 28rem;
-                width: 100%;
-                min-height: 46rem;
-                background: white;
+            .evento{
+                margin-left: 4rem;
             }
-
-            #cabeceraPerfil{
-                grid-area: cabeceraPerfil;
-                margin-top: 1.5rem;
-                background: #fffbed;
-                border: 1px solid #999999;
-                display: flex;
-                flex-wrap: wrap;
-                margin: 3rem;
-                transition: 1s background ease;
-            }
-
-            #cabeceraPerfil:hover{
-                background: #fff7dd;
-            }
-
-            #botones{
-                grid-area:botones;
-                display: none;
-            }
-
-            #imgPerfil{
-                width: 15rem;
-                height: 15rem;
-                border-radius: 8rem;
-                padding: 1rem;
-                transition: opacity 1.5s ease;
-                z-index: 2;
-            }
-
-            #contenidoPerfil:hover > #imgPerfil {
-                opacity: 0.3;
-            }
-
-            #contenidoPerfil form{
-                position: absolute;
-            }
-
-            #contenidoPerfil:hover > #textCambiarAvatar{
-                opacity: 0.9;
-            }
-
-            #textCambiarAvatar{
-                position: relative;
-                font-weight: bold;
-                font-size: 1.4rem;
-                top:9.5rem;
-                left: 3rem;
-                opacity: 0;
-                z-index: 1;
-                transition: opacity 1.5s ease;
-            }
-
-            #contenidoPerfil{
-                width: 15rem;
-                margin-left: 15rem;
-                cursor: pointer;
-            }
-
-            #datos{
-                position: relative;
-                top: 6.5rem;
-                left: 3rem;
-            }
-
-            #animalRaza{
-                position: relative;
-                bottom: 1rem;
-            }
-
-            #localidadPerfilUsuario{
-                position: relative;
-                bottom: 1rem;
-            }
-
-            /*#localidadPerfilUsuario{
-                position: relative;
-                bottom: 3.2rem;
-                left: 20rem;
-            }*/
-
-            #descripcion{
-                padding: 2rem;
-            }
-
-            #nombrePerfilUsuario{
-                font-weight: bold;
-                font-size: 2rem;
-            }
-
-            #nombrePerfilUsuario:first-letter{
-                text-transform: uppercase;
-            }
-
-            #amigosPerfil{
-                grid-area: amigosPerfil;
-                margin-left: 3rem;
-            }
-
-            .amigoPerfil{
-                display: grid;
-                grid-template-areas: 
-                    "imagenAmigo informacionAmigo eliminarAmigo";
-                grid-template-columns: 40% 60%;
-                border: 1px solid #999999;
-                background: #fffbed;
-                cursor: pointer;
-                transition: 1s background ease;
-            }
-
-            .amigoPerfil:hover{
-                background: #fff7dd;
-            }
-
-            .amigoPerfil:hover > .botonEliminarA{
-                background: #fff7dd;
-            }
-
-            .amigoPerfil:last-child{
-                margin-bottom: 5rem;
-            }
-
-            .imagenAmigo{
-                width: 6rem;
-                height: 6rem;
-                border-radius: 4rem;
-                margin: 1rem;
-            }
-
-            .nombreAmigo:first-letter{
-                text-transform: uppercase;
-            }
-
-            .nombreAmigo{
-                font-weight: bold;
-            }
-
-            .informacionAmigo{
-                margin-top: 1.5rem;
-                margin-right: 1rem;
-            }
-
-            #posts{
-                grid-area:posts;
-            }
-
-            #titularAmigosPerfil,#titularPosts{
-                text-align: center;
-                font-weight: bold;
-                font-size: 1.5rem;
-            }
-
-            .post{
-                margin-left: 5rem;
-            }
-
-            #cambiarImagen{
-                display: block;
-                margin: auto;
-            }
-
-            #cambiarImagen{
-                /* padding-bottom: 8rem;*/
-                padding-bottom: 3rem;
-                text-align: center;
-                background: white;
-                border: 1px solid #BBBBBB;
-                /*position:fixed; 
-                right:50%; 
-                margin-right:-500px; 
-                margin-top: 10rem;*/
-            }
-
-            #cambiarImagen h1{
-                font-size: 3rem;
-            }
-
-            #cambiarImagen input{
-                cursor: pointer;
-                font-size: 1.5rem;
-            }
-
-            #cambiarImagen #idusu{
-                display: none;
-            }
-
-            #cambiarImagen #enviarImagen{
-                cursor: pointer;
-                background-color: #FFED91;
-                height: 3rem;
-                font-size: 2rem;
-                margin-top: 1.5rem;
-            }
-
-            #cambiarImagen #cerrarCambiarAvatar{
-                cursor: pointer;
-                margin: 5rem;
-            }
-
-            .botonEliminarA{
-                grid-area: eliminarAmigo;
-                width: 4rem;
-                display: block;
-                float: right;
-                cursor: pointer;
-                transition: 1s background ease;
-            }
-
-            .botonEliminarA{
-                background: red;
-            }
-
-            .amigoEliminar{
-                width: 3rem;
-            }
-
-            .botonEliminar, .botonEliminarA{
-                background: #fffbed;
-                float: right;
-                margin-right: 2rem;
-            }
-
-            .botonEliminar{
-                margin-top: 1rem;
-            }
-
-            @media (max-width:1000px){
-                #cuerpo{
-                    grid-template-areas: 
-                        "cabeceraPerfil"
-                        "botones"
-                        "amigosPerfil"
-                        "posts";
-                    grid-template-columns: 96%;
-                }
-
-                #contenidoPerfil, #datos{
-                    margin-left: 4rem;
-                }
-
-                #botones{
-                    display: block;
-                    grid-area: botones;
-                    margin: 3rem;
-                }
-
-                .boton{
-                    width: 49%;
-                    margin: auto;
-                    font-size: 3rem;
-                    font-weight: bold;
-                    background-color: #FFED91;
-                    height: 5rem;
-                    font-size: 2rem;
-                    transition: 1s background ease;
-                    border-radius: 2rem;
-                    cursor: pointer;
-                }
-
-                .boton span{
-                    font-size: 3rem;
-                }
-
-                .amigoPerfil{
-                    margin: auto;
-                    width: 90%;
-                }
-
-                .amigoPerfil .imagenAmigo{
-                    width: 10rem;
-                    height: 10rem;
-                    margin-left: 20%;
-                }
-
-                .amigoPerfil p{
-                    font-size: 2rem;
-                }
-
-                .amigoPerfil{
-                    margin-top: 2rem;
-                }
-
-                #datos{
-                    position: relative;
-                    top: 4rem;
-                }
-
-                #nombrePerfilUsuario{
-                    font-size: 3rem;
-                    margin-top: 1rem;
-                }
-
-                #posts{
-                    margin-left: -7rem;
-                }
-
-                #animalRaza, #localidadPerfilUsuario{
-                    font-size: 1.75rem;
-                }
-
-            }
-
         </style>
         <script>
+
+            var cargando = 0;
+            var cantidad = 5;
+
+            $(window).scroll(function () {
+                if ($(window).scrollTop() > $("#contenido").height() - 700) {
+                    cargando += 1;
+                    if (cargando == 1) {
+                        cantidad += 5;
+                        mostrarMisPosts(cantidad);
+                    }
+
+                } else {
+                    cargando = 0;
+                }
+            });
+
             $(document).ready(function () {
                 $("#cambiarImagen").hide();
                 getDatosMiPerfil();
-                mostrarMisPosts();
+                mostrarMisPostsInicio("5");
                 mostrarMisAmigos();
-                $("#imgPerfil").click(cambiarAvatar);
-                //$("#textCambiarAvatar").click(cambiarAvatar);
+                $("#botonPosts").hide();
+                $("#textoEventos").hide();
+                $("#textoPosts").hide();
+
+                $("#botonEventos").click(function () {
+                    $("#botonPosts").show();
+                    $("#botonEventos").hide();
+                    $("#textoPosts").hide();
+                    $("#contenido").empty();
+                    mostrarMisEventos();
+                });
+
+                $("#botonPosts").click(function () {
+                    $("#botonPosts").hide();
+                    $("#botonEventos").show();
+                    $("#textoEventos").hide();
+                    $("#contenido").empty();
+                    mostrarMisPostsInicio("5");
+                });
                 $("#textCambiarAvatar").click(function () {
                     getId();
                     $("#cambiarImagen").modal();
                 });
-                //$("#cerrarCambiarAvatar").click(cerrarCambiarAvatar);
             });
-            /*
-             
-             function cerrarCambiarAvatar() {
-             $("#cambiarImagen").hide();
-             $("header").css("opacity", "1");
-             $("#cuerpo").css("opacity", "1");
-             }*/
 
             function getId() {
-                /*$("#cambiarImagen").show();
-                 $("header").css("opacity", "0.2");
-                 $("#cuerpo").css("opacity", "0.2");
-                 
-                 $("header").click(function () {
-                 cerrarCambiarAvatar();
-                 });*/
-
                 var parametros = {
                     "accion": "cambiarAvatar"
                 };
@@ -376,13 +85,6 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        //var cambiarImagen = document.getElementById("cambiarAvatar");
-                        /*var p = document.createElement("input");
-                         $("#cambiarImagen").append(p);
-                         p.setAttribute("type", "text");
-                         p.setAttribute("readonly", "readonly");
-                         p.setAttribute("name", "idusu");*/
-                        //p.setAttribute("style", "display:none");
                         console.log(respuesta);
                         $("#idusu").attr("value", respuesta);
                     },
@@ -406,7 +108,7 @@ and open the template in the editor.
                     data: parametros,
                     success: function (respuesta) {
                         console.log(respuesta);
-                        mostrarMisPosts();
+                        mostrarMisPostsInicio("5");
                     },
                     error: function (xhr, status) {
                         alert("Error en la eliminacion de post");
@@ -427,10 +129,6 @@ and open the template in the editor.
                     data: parametros,
                     success: function (respuesta) {
                         console.log(respuesta);
-                        /*$("#amigosPerfiles").remove();
-                         var amigos = document.createElement("div");
-                         amigos.setAttribute("id","amigosPerfiles");
-                         $("#amigosPerfiles").append(amigos);*/
                         $("#amigosPerfiles").text("");
                         mostrarMisAmigos();
                     },
@@ -479,72 +177,8 @@ and open the template in the editor.
                     success: function (respuesta) {
                         if (respuesta) {
                             var amigos = JSON.parse(respuesta);
-                            var titular = document.createElement("p");
-                            titular.setAttribute("class", "titularAmigosPerfil");
-                            $("#amigosPerfiles").append(titular);
+                            pintarAmigos(amigos, "amigosPerfiles");
 
-                            for (var i = 0; i < amigos.length; i++) {
-
-                                var amigoPerfil = document.createElement("div");
-                                amigoPerfil.setAttribute("class", "amigoPerfil");
-
-                                var a = document.createElement("button");
-                                a.setAttribute("value", amigos[i].id);
-                                a.setAttribute("class", "botonEliminarA");
-
-                                a.onclick = function () {
-                                    if (confirm("Esta seguro de eliminar este amigo")) {
-                                        eliminarAmigo(this.value);
-                                    }
-                                }
-
-                                var amigoEliminar = document.createElement("img");
-                                amigoEliminar.setAttribute("class", "amigoEliminar");
-                                amigoEliminar.setAttribute("src", "../controlador/img/eliminar.png");
-
-                                var img = document.createElement("img");
-                                img.setAttribute("src", "../controlador/uploads/usuarios/" + amigos[i].foto);
-                                img.setAttribute("class", "imagenAmigo");
-                                img.setAttribute("alt", "imagenAmigo");
-                                img.setAttribute("data-value", amigos[i].id);
-
-                                img.onclick = function () {
-                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
-                                }
-
-                                var divA = document.createElement("div");
-                                divA.setAttribute("class", "informacionAmigo");
-                                divA.setAttribute("data-value", amigos[i].id);
-
-                                divA.onclick = function () {
-                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
-                                }
-
-                                var nombreAmigo = document.createElement("p");
-                                nombreAmigo.setAttribute("class", "nombreAmigo");
-                                nombreAmigo.innerHTML = amigos[i].nick;
-
-                                var p = document.createElement("p");
-
-                                var animalAmigo = document.createElement("span");
-                                animalAmigo.setAttribute("class", "animalAmigo");
-                                animalAmigo.innerHTML = amigos[i].animal;
-
-                                var razaAmigo = document.createElement("span");
-                                razaAmigo.setAttribute("class", "razaAmigo");
-                                razaAmigo.innerHTML = " " + amigos[i].raza;
-
-                                $("#amigosPerfiles").append(amigoPerfil);
-                                amigoPerfil.append(a);
-                                a.append(amigoEliminar);
-                                amigoPerfil.append(img);
-                                amigoPerfil.append(divA);
-                                divA.append(nombreAmigo);
-                                divA.append(p);
-                                p.append(animalAmigo);
-                                p.append(razaAmigo);
-
-                            }
                         } else {
                             var h1 = document.createElement("h1");
                             h1.setAttribute("style", "text-align:center");
@@ -562,235 +196,98 @@ and open the template in the editor.
                 });
             }
 
-            function mostrarMisPosts() {
+            function mostrarMisPosts(cantidad) {
                 var parametros = {
-                    "accion": "mostrarMisPosts"
+                    "accion": "mostrarMisPosts",
+                    "cantidad": cantidad,
+                    "array": $("#cadPosts").val()
                 };
 
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        $("#posts").empty();
+                        $("#textoPosts").show();
+                        console.log(respuesta);
+
                         if (respuesta) {
                             var posts = JSON.parse(respuesta);
-                            for (var i = 0; i < posts.length; i++) {
-                                var post = document.createElement("div");
-                                post.setAttribute("class", "post");
-
-                                var a = document.createElement("button");
-                                a.setAttribute("value", posts[i].id);
-                                a.setAttribute("class", "botonEliminar");
-
-                                a.onclick = function () {
-                                    if (confirm("Esta seguro de eliminar este post")) {
-                                        eliminarPost(this.value);
-                                    }
-                                }
-
-                                var postEliminar = document.createElement("img");
-                                postEliminar.setAttribute("class", "postEliminar");
-                                postEliminar.setAttribute("src", "../controlador/img/eliminar.png");
-
-
-                                /* var postEliminarBoton = document.createElement("button");
-                                 postEliminarBoton.setAttribute("class","postEliminarBoton");
-                                 postEliminarBoton.innerHTML += postEliminar;*/
-
-                                var postUsuario = document.createElement("p");
-                                postUsuario.setAttribute("class", "postUsuario");
-                                postUsuario.setAttribute("data-value", posts[i].usuario);
-
-                                postUsuario.onclick = function () {
-                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
-                                }
-
-                                var imgUsuario = document.createElement("img");
-                                imgUsuario.setAttribute("class", "imagenUsuario");
-                                imgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + posts[i].foto);
-                                var nombreUsuario = document.createElement("p");
-                                nombreUsuario.setAttribute("class", "nombreUsuario");
-                                nombreUsuario.innerHTML += posts[i].nick;
-
-                                var postFecha = document.createElement("p");
-                                postFecha.setAttribute("class", "postFecha");
-                                postFecha.innerHTML += posts[i].fecha_publicacion;
-
-                                var postCont = document.createElement("div");
-                                postCont.setAttribute("class", "postCont");
-
-                                var postTitulo = document.createElement("p");
-                                postTitulo.setAttribute("class", "postTitulo");
-                                postTitulo.innerHTML += posts[i].titulo;
-
-                                if (posts[i].multimedia != null) {
-
-                                    var postImg = document.createElement("img");
-                                    postImg.setAttribute("class", "postImg");
-                                    postImg.setAttribute("src", "../controlador/uploads/posts/" + posts[i].multimedia);
-
-                                }
-
-                                var postContenido = document.createElement("p");
-                                postContenido.setAttribute("class", "postContenido");
-                                postContenido.innerHTML += posts[i].contenido;
-
-                                var postBottom = document.createElement("div");
-                                postBottom.setAttribute("class", "postBottom")
-
-                                var postLikes = document.createElement("p");
-                                postLikes.setAttribute("class", "postLikes");
-
-                                if (posts[i].likes != null) {
-                                    var cadlikes = posts[i].likes;
-                                    var likes = cadlikes.split(",");
-                                    var slikes = document.createElement("span");
-                                    slikes.setAttribute("class", "likes");
-                                    slikes.innerHTML = likes.length;
-                                }
-
-                                var iconos = document.createElement("p");
-                                iconos.setAttribute("class", "iconos");
-                                var postCorazon = document.createElement("a");
-                                postCorazon.setAttribute("class", "postCorazon");
-
-                                var postCorazonImg = document.createElement("img");
-                                postCorazonImg.setAttribute("class", "postCorazonImg");
-                                postCorazonImg.setAttribute("data-value", posts[i].id);
-                                postCorazonImg.setAttribute("data-pos", i);
-
-                                if (!posts[i].like) {
-                                    postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
-
-                                    postCorazonImg.onclick = function () {
-                                        this.removeAttribute("src");
-                                        this.setAttribute("src", "../controlador/img/Like.png");
-                                        darLike(this.dataset.value);
-                                        if (!this.dataset.like) {
-                                            var valor = $(".likes:eq(" + this.dataset.pos + ")").text();
-                                            var valor2 = parseInt(valor);
-                                            $(".likes:eq(" + this.dataset.pos + ")").text(parseInt(valor2 + 1));
-                                            //console.log($(".likes:eq(0)").text());
-                                            this.setAttribute("data-like", true);
-                                        }
-                                    }
-                                } else {
-                                    postCorazonImg.setAttribute("src", "../controlador/img/Like.png");
-
-                                    /*  postCorazonImg.onclick = function () {
-                                     this.removeAttribute("src");
-                                     this.setAttribute("src", "../controlador/img/nolike.png");
-                                     darLike(this.alt);
-                                     }*/
-                                }
-
-                                var postComentario = document.createElement("a");
-                                postComentario.setAttribute("class", "postComentario");
-
-                                var postComentarioImg = document.createElement("img");
-                                postComentarioImg.setAttribute("class", "postComentarioImg");
-                                postComentarioImg.setAttribute("src", "../controlador/img/comentario.png");
-                                postComentarioImg.setAttribute("alt", posts[i].id);
-
-                                postComentarioImg.onclick = function () {
-                                    window.location.href = "verPost.php?post=" + this.alt;
-                                }
-
-                                var comentarios = document.createElement("span");
-                                comentarios.setAttribute("class", "comentariosPost");
-                                comentarios.setAttribute("data-value", posts[i].id);
-                                if (posts[i].comentarios > 0) {
-                                    if (posts[i].comentarios == 1) {
-                                        comentarios.innerHTML = "Ver " + posts[i].comentarios + " comentario";
-                                    } else {
-                                        comentarios.innerHTML = "Ver " + posts[i].comentarios + " comentarios";
-                                    }
-                                } else {
-                                    comentarios.innerHTML = "Hacer un comentario...";
-                                }
-
-                                comentarios.onclick = function () {
-                                    window.location.href = "verPost.php?post=" + this.dataset.value;
-                                }
-
-                                $("#posts").append(post);
-                                post.append(a);
-                                a.append(postEliminar);
-                                post.append(postUsuario);
-
-                                postUsuario.append(imgUsuario);
-                                postUsuario.append(nombreUsuario);
-
-                                post.append(postFecha);
-                                post.append(postCont);
-
-                                postCont.append(postTitulo);
-                                if (posts[i].multimedia != null) {
-                                    postCont.append(postImg);
-                                }
-                                postCont.append(postContenido);
-
-
-                                postCont.append(postBottom);
-
-                                postCont.append(postBottom);
-
-                                postBottom.append(postLikes);
-
-                                if (posts[i].likes != null) {
-                                    if (likes.length > 1) {
-                                        postLikes.append(slikes);
-                                        postLikes.append(" Me gustas");
-                                    } else {
-                                        postLikes.append(slikes);
-                                        postLikes.append(" Me gusta");
-                                    }
-                                } else {
-                                    postLikes.append("0 Me gustas");
-                                }
-
-                                postBottom.append(iconos);
-                                iconos.append(postCorazon);
-                                iconos.append(postComentario);
-                                postCorazon.append(postCorazonImg);
-                                postComentario.append(postComentarioImg);
-
-
-
-                                postCont.append(comentarios);
-
-
-
-                                function darLike(post) {
-                                    var parametros = {
-                                        "accion": "darLike",
-                                        "post": post
-                                    };
-
-                                    $.ajax({
-                                        url: "../controlador/acciones.php",
-                                        data: parametros,
-                                        success: function (respuesta) {
-                                            //console.log(respuesta);
-                                        },
-                                        error: function (xhr, status) {
-                                            alert("Error en la eliminacion de post");
-                                        },
-                                        type: "POST",
-                                        dataType: "text"
-                                    });
-                                }
-
-                            }
+                            pintarPosts(posts, "contenido");
                         } else {
                             var h1 = document.createElement("h1");
                             h1.setAttribute("style", "text-align:center");
                             h1.innerHTML += "Aún no tienes posts, crea uno";
-                            $("#posts").append(h1);
+                            $("#textoPosts").hide();
+                            h1.setAttribute("class", "noHay");
+                            $("#contenido").append(h1);
                         }
                     },
                     error: function (xhr, status) {
                         alert("Error en la creación de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
+            function mostrarMisPostsInicio(cantidad) {
+                var parametros = {
+                    "accion": "mostrarMisPostsInicio",
+                    "cantidad": cantidad
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        $("#textoPosts").show();
+                        if (respuesta) {
+                            var posts = JSON.parse(respuesta);
+                            pintarPosts(posts, "contenido");
+                        } else {
+                            var h1 = document.createElement("h1");
+                            h1.setAttribute("style", "text-align:center");
+                            h1.innerHTML += "Aún no tienes posts, crea uno";
+                            $("#textoPosts").hide();
+                            h1.setAttribute("class", "noHay");
+                            $("#contenido").append(h1);
+                        }
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la creación de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
+            function mostrarMisEventos() {
+                var parametros = {
+                    "accion": "mostrarEventosId"
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+                        if (respuesta) {
+
+                            $("#textoEventos").show();
+                            var eventos = JSON.parse(respuesta);
+                            pintarEventos(eventos, "contenido");
+
+                        } else {
+                            var h1 = document.createElement("h1");
+                            h1.innerHTML += "Aquí se mostraran los eventos, pero ahora mismo no hay ninguno";
+                            $("#textoEventos").hide();
+                            h1.setAttribute("class", "noHay");
+                            $("#contenido").append(h1);
+                        }
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de post");
                     },
                     type: "POST",
                     dataType: "text"
@@ -855,6 +352,7 @@ and open the template in the editor.
             </header>
 
             <div id="cuerpo">
+                <input type="text" id="cadPosts">
                 <div id="cabeceraPerfil">
                     <p id="contenidoPerfil">
                         <!--<form method="post" enctype="multipart/form-data">-->
@@ -868,9 +366,10 @@ and open the template in the editor.
                         <p id="localidadPerfilUsuario"></p>
                     </div>
                 </div>
-                <div id="botones">
-                    <button id="botonAmigos" class="boton"><span>Amigos</span></button>
-                    <button id="botonPosts" class="boton"><span>Posts</span></button>
+                <div id="botonesM">
+                    <button id="botonAmigosM" class="boton">Amigos</button>
+                    <button id="botonPostsM" class="boton">Posts</button>
+                    <button id="botonEventosM" class="boton">Eventos</button>
                 </div>
                 <div id="amigosPerfil">
                     <div id="amigosPerfiles">
@@ -879,10 +378,12 @@ and open the template in the editor.
                 </div>
 
                 <div id="botones">
-                <button>Posts</button>
-                <button>Eventos</button>
+                    <button id="botonPosts" class="boton">Ver mis Posts</button>
+                    <button id="botonEventos" class="boton">Ver mis Eventos</button>
+                    <h1 id="textoPosts" class="texto">Mis Posts</h1>
+                    <h1 id="textoEventos" class="texto">Mis Eventos</h1>
                 </div>
-                <div id="posts">
+                <div id="contenido">
 
 
                 </div>

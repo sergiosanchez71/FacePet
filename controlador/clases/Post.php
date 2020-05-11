@@ -92,9 +92,9 @@ class Post {
         $consulta = $conexion->query("SELECT multimedia from posts where id=$id");
         $borrado = false;
         while ($row = $consulta->fetch()) {
-            if($row['multimedia']){
-            $multimedia = $row['multimedia'];
-            unlink("uploads/posts/" . $multimedia);
+            if ($row['multimedia']) {
+                $multimedia = $row['multimedia'];
+                unlink("uploads/posts/" . $multimedia);
             }
             $borrado = true;
         }
@@ -123,8 +123,8 @@ class Post {
         unset($conexion);
         return $id;
     }
-    
-    function buscarCreador($post){
+
+    function buscarCreador($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT usuario from posts where id='$post'");
@@ -135,18 +135,19 @@ class Post {
         unset($conexion);
         return $usuario;
     }
-    
-    /*function mostrarTitulo($post){
-        $conexion = Conexion::conectar();
-        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT titulo from posts where id=$post");
-        while ($row = $consulta->fetch()) {
-            $titulo = $row['titulo'];
-        }
-        unset($conexion);
-        return $titulo;
-    }
-*/
+
+    /* function mostrarTitulo($post){
+      $conexion = Conexion::conectar();
+      $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $consulta = $conexion->query("SELECT titulo from posts where id=$post");
+      while ($row = $consulta->fetch()) {
+      $titulo = $row['titulo'];
+      }
+      unset($conexion);
+      return $titulo;
+      }
+     */
+
     function subirMultimedia($id, $multimedia) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -166,8 +167,8 @@ class Post {
         unset($conexion);
         return $posts;
     }
-    
-    function getUsuarioPost($post){
+
+    function getUsuarioPost($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT usuario from posts where id=$post");
@@ -201,35 +202,79 @@ class Post {
         return $datos;
     }
 
-    function getDatosPostsUsuario($usuario) {
+    function getDatosPostsUsuarioInicio($usuario, $cantidad) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where usuario='$usuario' and p.usuario=u.id order by fecha_publicacion desc");
         $i = 0;
         $datos = null;
         while ($row = $consulta->fetch()) {
-            $idusuario=Usuario::getIdUsuario($_SESSION['username']);
-            if ($row['foto'] == null) {
-                $foto = "0.jpg";
-            } else {
-                $foto = $row['foto'];
+
+            if ($i < $cantidad ) {
+
+                $idusuario = Usuario::getIdUsuario($_SESSION['username']);
+                if ($row['foto'] == null) {
+                    $foto = "0.jpg";
+                } else {
+                    $foto = $row['foto'];
+                }
+
+                $datos[$i] = array(
+                    'id' => $row['id'],
+                    'titulo' => $row['titulo'],
+                    'contenido' => $row['contenido'],
+                    'multimedia' => $row['multimedia'],
+                    'fecha_publicacion' => $row['fecha_publicacion'],
+                    'likes' => $row['likes'],
+                    'like' => Post::comprobarLike($row['id'], $idusuario),
+                    'usuario' => $row['usuario'],
+                    'nick' => $row['nick'],
+                    'foto' => $foto,
+                    'loginOperador' => $_SESSION['operador'],
+                    'login' => $idusuario,
+                    'comentarios' => Comentario::contarComentarios($row['id'])
+                );
             }
 
-            $datos[$i] = array(
-                'id' => $row['id'],
-                'titulo' => $row['titulo'],
-                'contenido' => $row['contenido'],
-                'multimedia' => $row['multimedia'],
-                'fecha_publicacion' => $row['fecha_publicacion'],
-                'likes' => $row['likes'],
-                'like' => Post::comprobarLike($row['id'], $idusuario),
-                'usuario' => $row['usuario'],
-                'nick' => $row['nick'],
-                'foto' => $foto,
-                'loginOperador' => $_SESSION['operador'],
-                'login' => $idusuario,
-                'comentarios' => Comentario::contarComentarios($row['id'])
-            );
+            $i++;
+        }
+        unset($conexion);
+        return $datos;
+    }
+    
+    function getDatosPostsUsuario($usuario, $cantidad, $array) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where usuario='$usuario' and p.usuario=u.id order by fecha_publicacion desc");
+        $i = 0;
+        $datos = null;
+        while ($row = $consulta->fetch()) {
+
+            if ($i < $cantidad && !Post::esMostrado($array, $row['id'])) {
+
+                $idusuario = Usuario::getIdUsuario($_SESSION['username']);
+                if ($row['foto'] == null) {
+                    $foto = "0.jpg";
+                } else {
+                    $foto = $row['foto'];
+                }
+
+                $datos[$i] = array(
+                    'id' => $row['id'],
+                    'titulo' => $row['titulo'],
+                    'contenido' => $row['contenido'],
+                    'multimedia' => $row['multimedia'],
+                    'fecha_publicacion' => $row['fecha_publicacion'],
+                    'likes' => $row['likes'],
+                    'like' => Post::comprobarLike($row['id'], $idusuario),
+                    'usuario' => $row['usuario'],
+                    'nick' => $row['nick'],
+                    'foto' => $foto,
+                    'loginOperador' => $_SESSION['operador'],
+                    'login' => $idusuario,
+                    'comentarios' => Comentario::contarComentarios($row['id'])
+                );
+            }
 
             $i++;
         }
@@ -268,7 +313,62 @@ class Post {
         return $datos;
     }
 
-    function mostrarPostsAmigos($amigos, $usuario) {
+    function mostrarPostsAmigos($amigos, $usuario, $cantidad, $array) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $i = 0;
+        $datos = null;
+        //$posts = explode(",", $_SESSION['posts']);
+        for ($j = 0; $j < count($amigos); $j++) {
+            $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where usuario='$amigos[$j]' and p.usuario=u.id order by fecha_publicacion desc");
+
+            while ($row = $consulta->fetch()) {
+
+                if ($i < $cantidad && !Post::esMostrado($array, $row['id'])) {
+
+                    if ($row['foto'] == null) {
+                        $foto = "0.jpg";
+                    } else {
+                        $foto = $row['foto'];
+                    }
+
+
+                    $datos[$i] = array(
+                        'id' => $row['id'],
+                        'titulo' => $row['titulo'],
+                        'contenido' => $row['contenido'],
+                        'multimedia' => $row['multimedia'],
+                        'fecha_publicacion' => $row['fecha_publicacion'],
+                        'likes' => $row['likes'],
+                        'like' => Post::comprobarLike($row['id'], $usuario),
+                        'usuario' => $row['usuario'],
+                        'nick' => $row['nick'],
+                        'foto' => $foto,
+                        'posts' => $array,
+                        'comentarios' => Comentario::contarComentarios($row['id'])
+                    );
+                }
+
+                $i++;
+            }
+        }
+        unset($conexion);
+        return $datos;
+    }
+
+    function esMostrado($array, $id) {
+        $mostrados = explode(",", $array);
+
+        $mostrado = false;
+        for ($i = 0; $i < count($mostrados); $i++) {
+            if ($id == $mostrados[$i]) {
+                $mostrado = true;
+            }
+        }
+        return $mostrado;
+    }
+
+    function mostrarPostsAmigosInicio($amigos, $usuario, $cantidad) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $i = 0;
@@ -276,25 +376,27 @@ class Post {
         for ($j = 0; $j < count($amigos); $j++) {
             $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where usuario='$amigos[$j]' and p.usuario=u.id order by fecha_publicacion desc");
             while ($row = $consulta->fetch()) {
-                if ($row['foto'] == null) {
-                    $foto = "0.jpg";
-                } else {
-                    $foto = $row['foto'];
-                }
+                if ($i < $cantidad) {
+                    if ($row['foto'] == null) {
+                        $foto = "0.jpg";
+                    } else {
+                        $foto = $row['foto'];
+                    }
 
-                $datos[$i] = array(
-                    'id' => $row['id'],
-                    'titulo' => $row['titulo'],
-                    'contenido' => $row['contenido'],
-                    'multimedia' => $row['multimedia'],
-                    'fecha_publicacion' => $row['fecha_publicacion'],
-                    'likes' => $row['likes'],
-                    'like' => Post::comprobarLike($row['id'], $usuario),
-                    'usuario' => $row['usuario'],
-                    'nick' => $row['nick'],
-                    'foto' => $foto,
-                    'comentarios' => Comentario::contarComentarios($row['id'])
-                );
+                    $datos[$i] = array(
+                        'id' => $row['id'],
+                        'titulo' => $row['titulo'],
+                        'contenido' => $row['contenido'],
+                        'multimedia' => $row['multimedia'],
+                        'fecha_publicacion' => $row['fecha_publicacion'],
+                        'likes' => $row['likes'],
+                        'like' => Post::comprobarLike($row['id'], $usuario),
+                        'usuario' => $row['usuario'],
+                        'nick' => $row['nick'],
+                        'foto' => $foto,
+                        'comentarios' => Comentario::contarComentarios($row['id'])
+                    );
+                }
 
                 $i++;
             }

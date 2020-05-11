@@ -48,6 +48,7 @@ and open the template in the editor.
                 width: 15%;
                 height: 3.3rem;
                 float: right;
+                margin-bottom: 10rem;
             }
 
             .comentario{
@@ -68,7 +69,7 @@ and open the template in the editor.
                 cursor: pointer;
                 transition: 1s opacity ease;
             }
-            
+
             .cImagenUsuario:hover{
                 opacity: 0.7;
             }
@@ -81,11 +82,11 @@ and open the template in the editor.
                 transition: 1s color ease;
                 cursor: pointer;
             }
-            
+
             .cNombreUsuario:hover{
                 color:#f43333;
             }
-            
+
             .cNombreUsuario:first-letter,.cCont:first-letter{
                 text-transform: uppercase;
             }
@@ -100,7 +101,7 @@ and open the template in the editor.
                 text-align: justify;
                 font-size: 1rem;
             }
-            
+
             .botonEliminarA{
                 grid-area: eliminarAmigo;
                 width: 4rem;
@@ -125,6 +126,14 @@ and open the template in the editor.
                     }
                 });
             });
+
+            function pulsar(e) {
+                var tecla = (document.all) ? e.keyCode : e.which;
+                if (tecla == 13)
+                    if ($("#comentario").val().trim() != "") {
+                        publicarComentario($("#idPost").val(), $("#comentario").val());
+                    }
+            }
 
             function publicarComentario(post, comentario) {
                 var parametros = {
@@ -160,7 +169,8 @@ and open the template in the editor.
                     success: function (respuesta) {
                         if (respuesta) {
                             var comentarios = JSON.parse(respuesta);
-                            $("#comentariosCont").text(" ");
+                            $("#comentario").css("margin-bottom", "0");
+                            $("#comentariosCont").empty();
                             var textoComentarios = document.createElement("h1");
                             textoComentarios.setAttribute("id", "textoComentarios");
                             textoComentarios.innerHTML = "Comentarios";
@@ -176,7 +186,7 @@ and open the template in the editor.
                                 info.onclick = function () {
                                     window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
-                                
+
                                 if (comentarios[i].loginOperador == "1" || comentarios[i].login == comentarios[i].usuario) {
 
                                     var a = document.createElement("button");
@@ -231,6 +241,7 @@ and open the template in the editor.
                                         url: "../controlador/acciones.php",
                                         data: parametros,
                                         success: function (respuesta) {
+                                            mostrarComentarios(post);
                                         },
                                         error: function (xhr, status) {
                                             alert("Error en la eliminacion de post");
@@ -241,7 +252,8 @@ and open the template in the editor.
                                 }
                             }
                         } else {
-                            $("#comentario").css("margin-bottom", "10rem");
+                            $("#comentario").css("margin-bottom", "0");
+                            $("#comentariosCont").empty();
                         }
                     },
                     error: function (xhr, status) {
@@ -299,6 +311,8 @@ and open the template in the editor.
                                     postImg.setAttribute("class", "postImg");
                                     postImg.setAttribute("src", "../controlador/uploads/posts/" + posts.multimedia);
 
+                                } else {
+                                    post.setAttribute("style","min-height:-20rem");
                                 }
 
                                 var postContenido = document.createElement("p");
@@ -375,7 +389,7 @@ and open the template in the editor.
                                 postCont.append(postBottom);
 
                                 postBottom.append(postLikes);
-                                
+
                                 if (posts.likes != null) {
                                     if (likes.length > 1) {
                                         postLikes.append(slikes);
@@ -387,7 +401,7 @@ and open the template in the editor.
                                 } else {
                                     postLikes.append("0 Me gustas");
                                 }
-                                
+
                                 postBottom.append(iconos);
                                 iconos.append(postCorazon);
                                 postCorazon.append(postCorazonImg);
@@ -490,7 +504,7 @@ and open the template in the editor.
                     <p id="name">Post</p>
                 </div>
                 <div id="comentariosPost">
-                    <input type="text" id="comentario" maxlength="255" placeholder="Añadir comentario">
+                    <input type="text" id="comentario" onkeypress="pulsar(event)" maxlength="255" placeholder="Añadir comentario">
                     <button id="enviarComentario">Enviar Comentario </button>
                     <div id="comentariosCont">
 

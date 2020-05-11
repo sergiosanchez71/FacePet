@@ -81,7 +81,7 @@ class Notificacion {
     function borrarNotificacion($notificacion) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "DELETE FROM notificaciones where (user1='$notificacion->user1' and user2='$notificacion->user2') or (user1='$notificacion->user2' and user2='$notificacion->user1') and tipo='$notificacion->tipo'";
+        $sql = "DELETE FROM notificaciones where (user1='$notificacion->user1' and user2='$notificacion->user2') or (user1='$notificacion->user2' and user2='$notificacion->user1') and tipo='$notificacion->tipo' and fecha='$notificacion->fecha'";
         $conexion->exec($sql);
         unset($conexion);
     }

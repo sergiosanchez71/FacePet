@@ -219,8 +219,16 @@ switch ($accion) {
         break;
 
     case "mostrarMisPosts":
-        if (Post::getDatosPostsUsuario($idusuario)) {
-            echo json_encode(Post::getDatosPostsUsuario($idusuario));
+        if (Post::getDatosPostsUsuario($idusuario,$_REQUEST['cantidad'],$_REQUEST['array'])) {
+            echo json_encode(Post::getDatosPostsUsuario($idusuario,$_REQUEST['cantidad'],$_REQUEST['array']));
+        } else {
+            echo false;
+        }
+        break;
+        
+        case "mostrarMisPostsInicio":
+        if (Post::getDatosPostsUsuarioInicio($idusuario,$_REQUEST['cantidad'])) {
+            echo json_encode(Post::getDatosPostsUsuarioInicio($idusuario,$_REQUEST['cantidad']));
         } else {
             echo false;
         }
@@ -248,7 +256,23 @@ switch ($accion) {
 
     case "mostrarPostsAmigos":
         $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
-        $posts = Post::mostrarPostsAmigos($amigos, $idusuario);
+        $posts = Post::mostrarPostsAmigos($amigos, $idusuario, $_REQUEST['cantidad'], $_REQUEST['array']);
+        if ($posts) {
+            foreach ($posts as $clave => $post) {
+                $orden1[$clave] = $post['fecha_publicacion'];
+            }
+
+            array_multisort($orden1, SORT_DESC, $posts);
+
+            echo json_encode($posts);
+        } else {
+            echo false;
+        }
+        break;
+        
+        case "mostrarPostsAmigosInicio":
+        $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
+        $posts = Post::mostrarPostsAmigosInicio($amigos, $idusuario, $_REQUEST['cantidad']);
         if ($posts) {
             foreach ($posts as $clave => $post) {
                 $orden1[$clave] = $post['fecha_publicacion'];
@@ -328,6 +352,19 @@ switch ($accion) {
     case "mostrarEventos":
         if (Evento::mostrarEventos($idusuario)) {
             echo json_encode(Evento::mostrarEventos($idusuario));
+        } else {
+            echo false;
+        }
+        break;
+        
+    case "mostrarEventosId":
+        if(isset($_REQUEST['usuario'])){
+            $usu = $_REQUEST['usuario'];
+        } else {
+            $usu = $idusuario;
+        }
+        if (Evento::mostrarMisEventos($usu)) {
+            echo json_encode(Evento::mostrarMisEventos($usu));
         } else {
             echo false;
         }

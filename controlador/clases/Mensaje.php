@@ -151,5 +151,13 @@ class Mensaje {
         $conexion->exec($sql);
         unset($conexion);
     }
+    
+    function  eliminarMensajes($user1,$user2){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM mensajes WHERE (user1=$user1 and user2=$user2) || (user2=$user1 && user1=$user2)";
+        $conexion->exec($sql);
+        unset($conexion);
+    }
 
 }

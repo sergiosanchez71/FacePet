@@ -1,0 +1,337 @@
+
+            #cuerpo{
+                display: grid;
+                margin: auto;
+                grid-template-areas: 
+                    "cabeceraPerfil cabeceraPerfil"
+                    "amigosPerfil botones"
+                    "amigosPerfil posts";
+                grid-template-columns: 30% 70%;
+                grid-template-rows: 28rem;
+                width: 100%;
+                min-height: 46rem;
+                background: white;
+            }
+
+            #cabeceraPerfil{
+                grid-area: cabeceraPerfil;
+                margin-top: 1.5rem;
+                background: #fffbed;
+                border: 1px solid #999999;
+                display: flex;
+                flex-wrap: wrap;
+                margin: 3rem;
+                transition: 1s background ease;
+            }
+
+            #cabeceraPerfil:hover{
+                background: #fff7dd;
+            }
+
+            #botones{
+                grid-area:botones;
+                margin-left: 10rem;
+                margin-right: 4rem;
+            }
+
+            .noHay{
+                padding-left: 4rem;
+                display: block;
+                margin: auto;
+                width: 40rem;
+                text-align: center;
+            }
+            
+            #botonesM{
+                display: none;
+            }
+
+            .boton{
+                width: 100%;
+                display: block;
+                margin: auto;
+                font-weight: bold;
+                background-color: #FFED91;
+                height: 5rem;
+                font-size: 2rem;
+                transition: 1s background ease;
+                border-radius: 2rem;
+                cursor: pointer;
+            }
+
+            .texto{
+                margin-top: 2rem;
+                margin-bottom: -0.5rem;
+                text-align: center;
+            }
+
+            #imgPerfil{
+                width: 15rem;
+                height: 15rem;
+                border-radius: 8rem;
+                padding: 1rem;
+                transition: opacity 1.5s ease;
+                z-index: 2;
+            }
+
+            #contenidoPerfil:hover > #imgPerfil {
+                opacity: 0.3;
+            }
+
+            #contenidoPerfil form{
+                position: absolute;
+            }
+
+            #contenidoPerfil:hover > #textCambiarAvatar{
+                opacity: 0.9;
+            }
+
+            #textCambiarAvatar{
+                position: relative;
+                font-weight: bold;
+                font-size: 1.4rem;
+                top:9.5rem;
+                left: 3rem;
+                opacity: 0;
+                z-index: 1;
+                transition: opacity 1.5s ease;
+            }
+
+            #contenidoPerfil{
+                width: 15rem;
+                margin-left: 15rem;
+                cursor: pointer;
+            }
+
+            #datos{
+                position: relative;
+                top: 6.5rem;
+                left: 3rem;
+            }
+
+            #animalRaza{
+                position: relative;
+                bottom: 1rem;
+            }
+
+            #localidadPerfilUsuario{
+                position: relative;
+                bottom: 1rem;
+            }
+
+            /*#localidadPerfilUsuario{
+                position: relative;
+                bottom: 3.2rem;
+                left: 20rem;
+            }*/
+
+            #descripcion{
+                padding: 2rem;
+            }
+
+            #nombrePerfilUsuario{
+                font-weight: bold;
+                font-size: 2rem;
+            }
+
+            #nombrePerfilUsuario:first-letter{
+                text-transform: uppercase;
+            }
+
+            #amigosPerfil{
+                grid-area: amigosPerfil;
+                margin-left: 3rem;
+            }
+
+            .amigoPerfil{
+                display: grid;
+                grid-template-areas: 
+                    "imagenAmigo informacionAmigo eliminarAmigo";
+                grid-template-columns: 40% 60%;
+                border: 1px solid #999999;
+                background: #fffbed;
+                cursor: pointer;
+                transition: 1s background ease;
+            }
+
+            .amigoPerfil:hover{
+                background: #fff7dd;
+            }
+
+            .amigoPerfil:hover > .botonEliminarA{
+                background: #fff7dd;
+            }
+
+            .amigoPerfil:last-child{
+                margin-bottom: 5rem;
+            }
+
+            .imagenAmigo{
+                width: 6rem;
+                height: 6rem;
+                border-radius: 4rem;
+                margin: 1rem;
+            }
+
+            .nombreAmigo:first-letter{
+                text-transform: uppercase;
+            }
+
+            .nombreAmigo{
+                font-weight: bold;
+            }
+
+            .informacionAmigo{
+                margin-top: 1.5rem;
+                margin-right: 1rem;
+            }
+
+            #contenido{
+                grid-area:posts;
+            }
+
+            #titularAmigosPerfil,#titularPosts{
+                text-align: center;
+                font-weight: bold;
+                font-size: 1.5rem;
+            }
+
+            .post{
+                margin-left: 5rem;
+            }
+
+            #cambiarImagen{
+                display: block;
+                margin: auto;
+            }
+
+            #cambiarImagen{
+                /* padding-bottom: 8rem;*/
+                padding-bottom: 3rem;
+                text-align: center;
+                background: white;
+                border: 1px solid #BBBBBB;
+                /*position:fixed; 
+                right:50%; 
+                margin-right:-500px; 
+                margin-top: 10rem;*/
+            }
+
+            #cambiarImagen h1{
+                font-size: 3rem;
+            }
+
+            #cambiarImagen input{
+                cursor: pointer;
+                font-size: 1.5rem;
+            }
+
+            #cambiarImagen #idusu{
+                display: none;
+            }
+
+            #cambiarImagen #enviarImagen{
+                cursor: pointer;
+                background-color: #FFED91;
+                height: 3rem;
+                font-size: 2rem;
+                margin-top: 1.5rem;
+            }
+
+            #cambiarImagen #cerrarCambiarAvatar{
+                cursor: pointer;
+                margin: 5rem;
+            }
+
+            .botonEliminarA{
+                grid-area: eliminarAmigo;
+                width: 4rem;
+                display: block;
+                float: right;
+                cursor: pointer;
+                transition: 1s background ease;
+            }
+
+            .botonEliminarA{
+                background: red;
+            }
+
+            .amigoEliminar{
+                width: 3rem;
+            }
+
+            .botonEliminar, .botonEliminarA{
+                background: #fffbed;
+                float: right;
+                margin-right: 2rem;
+            }
+
+            .botonEliminar{
+                margin-top: 1rem;
+            }
+
+            @media (max-width:1000px){
+                #cuerpo{
+                    grid-template-areas: 
+                        "cabeceraPerfil"
+                        "botonesM"
+                        "amigosPerfil"
+                        "posts";
+                    grid-template-columns: 96%;
+                }
+
+                #contenidoPerfil, #datos{
+                    margin-left: 4rem;
+                }
+                
+                #botones{
+                    display: none;
+                }
+
+                #botonesM{
+                    display: block;
+                    grid-area: botonesM;
+                    margin: 3rem;
+                }
+
+                .boton{
+                    font-size: 3rem;
+                }
+                .amigoPerfil{
+                    margin: auto;
+                    width: 90%;
+                }
+
+                .amigoPerfil .imagenAmigo{
+                    width: 10rem;
+                    height: 10rem;
+                    margin-left: 20%;
+                }
+
+                .amigoPerfil p{
+                    font-size: 2rem;
+                }
+
+                .amigoPerfil{
+                    margin-top: 2rem;
+                }
+
+                #datos{
+                    position: relative;
+                    top: 4rem;
+                }
+
+                #nombrePerfilUsuario{
+                    font-size: 3rem;
+                    margin-top: 1rem;
+                }
+
+                #contenido{
+                    margin-left: -7rem;
+                }
+
+                #animalRaza, #localidadPerfilUsuario{
+                    font-size: 1.75rem;
+                }
+
+            }

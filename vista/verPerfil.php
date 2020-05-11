@@ -11,290 +11,21 @@ and open the template in the editor.
         <link rel="icon" href="../controlador/img/favicon.ico">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css">
+        <link href="../controlador/css/perfil.css" rel="stylesheet" type="text/css"/>
         <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
         <script src="../controlador/js/header.js" type="text/javascript"></script>
+                <script src="../controlador/js/pintarObjetos.js" type="text/javascript"></script>
+
+        <link href="../controlador/css/eventos.css" rel="stylesheet" type="text/css"/>
+
         <?php
         session_start();
         include '../controlador/gestion.php';
         comprobarLogin();
         ?>
         <style>
-
-            #cuerpo{
-                display: grid;
-                margin: auto;
-                grid-template-areas: 
-                    "cabeceraPerfil cabeceraPerfil"
-                    "amigosPerfil posts";
-                grid-template-columns: 30% 70%;
-                grid-template-rows: 28rem;
-                width: 100%;
-                min-height: 46rem;
-                background: white;
-            }
-
-            #cabeceraPerfil{
-                grid-area: cabeceraPerfil;
-                margin-top: 1.5rem;
-                background: #fffbed;
-                border: 1px solid #999999;
-                display: flex;
-                flex-wrap: wrap;
-                margin: 3rem;
-                transition: 1s background ease;
-            }
-
-            #cabeceraPerfil:hover{
-                background: #fff7dd;
-            }
-
-            #botones{
-                grid-area:botones;
-                display: none;
-            }
-
-            #imgPerfil{
-                width: 15rem;
-                height: 15rem;
-                border-radius: 8rem;
-                padding: 1rem;
-                transition: opacity 1.5s ease;
-                z-index: 2;
-                margin-top: 1rem;
-            }
-
-            /*   #contenidoPerfil:hover > #imgPerfil {
-                   opacity: 0.3;
-               }*/
-
-            /*   #contenidoPerfil form{
-                   position: absolute;
-               }
-   
-               #contenidoPerfil:hover > #textCambiarAvatar{
-                   opacity: 0.9;
-               }*/
-
-            /* #textCambiarAvatar{
-                 position: relative;
-                 font-weight: bold;
-                 font-size: 1.4rem;
-                 top:9.5rem;
-                 left: 3rem;
-                 opacity: 0;
-                 z-index: 1;
-                 transition: opacity 1.5s ease;
-             }*/
-
-            #contenidoPerfil{
-                width: 15rem;
-                margin-left: 15rem;
-                /*cursor: pointer;*/
-            }
-
-            #datos{
-                position: relative;
-                top: 6.5rem;
-                left: 3rem;
-            }
-
-            #animalRaza{
-                position: relative;
-                bottom: 1rem;
-            }
-
-            #localidadPerfilUsuario{
-                position: relative;
-                bottom: 1rem;
-            }
-
-            /*#localidadPerfilUsuario{
-                position: relative;
-                bottom: 3.2rem;
-                left: 20rem;
-            }*/
-
-            #descripcion{
-                padding: 2rem;
-            }
-
-            #nombrePerfilUsuario{
-                font-weight: bold;
-                font-size: 2rem;
-            }
-
-            #nombrePerfilUsuario:first-letter{
-                text-transform: uppercase;
-            }
-
-            #amigosPerfil{
-                grid-area: amigosPerfil;
-                margin-left: 3rem;
-            }
-
-            .amigoPerfil{
-                display: grid;
-                grid-template-areas: 
-                    "imagenAmigo informacionAmigo eliminarAmigo";
-                grid-template-columns: 40% 60%;
-                border: 1px solid #999999;
-                background: #fffbed;
-                cursor: pointer;
-                transition: 1s background ease;
-            }
-
-            .amigoPerfil:hover{
-                background: #ffeeba;
-            }
-
-            .amigoPerfil:hover > .botonEliminarA{
-                background: #ffeeba;
-            }
-
-            .amigoPerfil:last-child{
-                margin-bottom: 5rem;
-            }
-
-            .imagenAmigo{
-                width: 6rem;
-                height: 6rem;
-                border-radius: 4rem;
-                margin: 1rem;
-            }
-
-            .nombreAmigo:first-letter{
-                text-transform: uppercase;
-            }
-
-            .nombreAmigo{
-                font-weight: bold;
-            }
-
-            .informacionAmigo{
-                margin-top: 1.5rem;
-                margin-right: 1rem;
-            }
-
-            #posts{
-                grid-area:posts;
-            }
-
-            #titularAmigosPerfil,#titularPosts{
-                text-align: center;
-                font-weight: bold;
-                font-size: 1.5rem;
-            }
-
-            .post{
-                margin-left: 5rem;
-            }
-
-            .botonEliminarA{
-                grid-area: eliminarAmigo;
-                width: 4rem;
-                display: block;
-                float: right;
-                cursor: pointer;
-                transition: 1s background ease;
-            }
-
-            .amigoEliminar{
-                width: 3rem;
-            }
-
-            .botonEliminar, .botonEliminarA{
-                background: #fffbed;
-                float: right;
-            }
-
-            .botonEliminar, .botonEliminarA{
-                background: #fffbed;
-                float: right;
-                margin-right: 2rem;
-            }
-
-            .botonEliminar{
-                margin-top: 1rem;
-            }
-
-            #idUsuario{
-                display: none;
-            }
-
-            @media (max-width:1000px){
-                #cuerpo{
-                    grid-template-areas: 
-                        "cabeceraPerfil"
-                        "botones"
-                        "amigosPerfil"
-                        "posts";
-                    grid-template-columns: 96%;
-                }
-
-                #contenidoPerfil, #datos{
-                    margin-left: 4rem;
-                }
-
-                #botones{
-                    display: block;
-                    grid-area: botones;
-                    margin: 3rem;
-                }
-
-                .boton{
-                    width: 49%;
-                    margin: auto;
-                    font-size: 3rem;
-                    font-weight: bold;
-                    background-color: #FFED91;
-                    height: 5rem;
-                    font-size: 2rem;
-                    transition: 1s background ease;
-                    border-radius: 2rem;
-                    cursor: pointer;
-                }
-
-                .boton span{
-                    font-size: 3rem;
-                }
-
-                .amigoPerfil{
-                    margin: auto;
-                    width: 90%;
-                }
-
-                .amigoPerfil .imagenAmigo{
-                    width: 10rem;
-                    height: 10rem;
-                    margin-left: 20%;
-                }
-
-                .amigoPerfil p{
-                    font-size: 2rem;
-                }
-
-                .amigoPerfil{
-                    margin-top: 2rem;
-                }
-
-                #datos{
-                    position: relative;
-                    top: 4rem;
-                }
-
-                #nombrePerfilUsuario{
-                    font-size: 3rem;
-                    margin-top: 1rem;
-                }
-
-                #posts{
-                    margin-left: -7rem;
-                }
-
-                #animalRaza, #localidadPerfilUsuario{
-                    font-size: 1.75rem;
-                }
-
+            .evento{
+                margin-left: 4rem;
             }
 
         </style>
@@ -303,6 +34,26 @@ and open the template in the editor.
                 getDatosPerfil($("#idUsuario").val());
                 mostrarPosts($("#idUsuario").val());
                 mostrarAmigos($("#idUsuario").val());
+                $("#botonPosts").hide();
+                $("#textoEventos").hide();
+                $("#idUsuario").hide();
+                $("#textoPosts").hide();
+
+                $("#botonEventos").click(function () {
+                    $("#botonPosts").show();
+                    $("#botonEventos").hide();
+                    $("#textoPosts").hide();
+                    $("#contenido").empty();
+                    mostrarEventos($("#idUsuario").val());
+                });
+
+                $("#botonPosts").click(function () {
+                    $("#botonPosts").hide();
+                    $("#botonEventos").show();
+                    $("#textoEventos").hide();
+                    $("#contenido").empty();
+                    mostrarPosts($("#idUsuario").val());
+                });
             });
 
             function eliminarPost(post) {
@@ -459,7 +210,6 @@ and open the template in the editor.
                         } else {
                             var h1 = document.createElement("h1");
                             h1.innerHTML += "Este usuario aún no tiene amigos";
-                            h1.setAttribute("style", "text-align:center");
                             $("#amigosPerfiles").append(h1);
                         }
 
@@ -484,6 +234,7 @@ and open the template in the editor.
                     data: parametros,
                     success: function (respuesta) {
                         if (respuesta) {
+                            $("#textoPosts").show();
                             var posts = JSON.parse(respuesta);
                             for (var i = 0; i < posts.length; i++) {
                                 var post = document.createElement("div");
@@ -628,7 +379,7 @@ and open the template in the editor.
                                     window.location.href = "verPost.php?post=" + this.dataset.value;
                                 }
 
-                                $("#posts").append(post);
+                                $("#contenido").append(post);
                                 if (posts[i].loginOperador == 1 || posts[i].login == usuario) {
                                     post.append(a);
                                     a.append(postEliminar);
@@ -698,11 +449,151 @@ and open the template in the editor.
                         } else {
                             var h1 = document.createElement("h1");
                             h1.innerHTML += "Este usuario aún no tiene posts creados";
-                            $("#posts").append(h1);
+                            h1.setAttribute("class", "noHay");
+                            $("#contenido").append(h1);
                         }
                     },
                     error: function (xhr, status) {
                         alert("Error en la creación de post");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
+            function mostrarEventos(usuario) {
+                var parametros = {
+                    "accion": "mostrarEventosId",
+                    "usuario": usuario
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+                        if (respuesta) {
+                            $("#textoEventos").show();
+                            var eventos = JSON.parse(respuesta);
+                            for (var i = 0; i < eventos.length; i++) {
+                                var evento = document.createElement("div");
+                                evento.setAttribute("class", "evento");
+
+                                var titulo = document.createElement("p");
+                                titulo.setAttribute("class", "eventoTitulo");
+                                titulo.innerHTML = eventos[i].titulo;
+                                titulo.setAttribute("data-value", eventos[i].id);
+
+                                titulo.onclick = function () {
+                                    window.location.href = "verEvento.php?evento=" + this.dataset.value;
+                                }
+
+
+                                var textTipo = document.createElement("p");
+                                textTipo.setAttribute("class", "textTipo");
+
+                                var tipo = document.createElement("span");
+                                tipo.setAttribute("class", "eventoTipo");
+                                tipo.innerHTML = eventos[i].tipo;
+
+                                var textFechai = document.createElement("p");
+                                textFechai.setAttribute("class", "textFechai");
+
+                                var textFechaf = document.createElement("p");
+                                textFechaf.setAttribute("class", "textFechaf");
+
+                                var fechai = document.createElement("span");
+                                fechai.setAttribute("class", "eventoFecha");
+                                fechai.innerHTML = eventos[i].fechai;
+                                if (eventos[i].empezado) {
+                                    fechai.setAttribute("style", "color:#126310");
+                                    fechai.setAttribute("title", "Evento actualmente activo");
+                                }
+
+                                var fechaf = document.createElement("span");
+                                fechaf.setAttribute("class", "eventoFecha");
+                                fechaf.innerHTML = eventos[i].fechaf;
+
+                                var contenido = document.createElement("p");
+                                contenido.setAttribute("class", "eventoContenido");
+                                contenido.innerHTML = eventos[i].contenido;
+
+                                if (eventos[i].foto) {
+
+                                    var img = document.createElement("img");
+                                    img.setAttribute("class", "eventoImg");
+                                    console.log(eventos[i].foto);
+                                    img.setAttribute("src", "../controlador/uploads/eventos/" + eventos[i].foto);
+                                    img.setAttribute("alt", "imgagenEvento");
+
+                                } else if (eventos[i].lat && eventos[i].lng) {
+                                    var map = document.createElement("div");
+                                    map.setAttribute("class", "map");
+                                    //map.setAttribute("style", "height:20rem");
+                                    initMap(map, eventos[i].lat, eventos[i].lng);
+                                }
+                                var textAutor = document.createElement("p");
+                                textAutor.setAttribute("class", "eventoAutor");
+
+                                var autor = document.createElement("span");
+                                autor.setAttribute("class", "eventoNombreAutor");
+                                autor.innerHTML = eventos[i].autor;
+                                autor.setAttribute("data-value", eventos[i].usuario);
+
+                                autor.onclick = function () {
+                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+                                }
+
+                                if (eventos[i].participable) {
+                                    var textParticipantes = document.createElement("p");
+                                    var participantes = document.createElement("span");
+                                    var part;
+                                    if (eventos[i].participable == "t") {
+                                        part = "0";
+                                    } else {
+                                        part = eventos[i].participantes.length;
+                                    }
+                                    participantes.innerHTML = part;
+                                }
+
+                                $("#contenido").append(evento);
+                                evento.append(titulo);
+                                evento.append(textTipo);
+                                textTipo.append("Tipo de evento: ");
+                                textTipo.append(tipo);
+                                evento.append(textFechai);
+                                textFechai.append("Fecha inicio: ");
+                                textFechai.append(fechai);
+                                evento.append(textFechaf);
+                                textFechaf.append("Fecha fin: ");
+                                textFechaf.append(fechaf);
+                                evento.append(contenido);
+                                if (eventos[i].foto) {
+                                    evento.append(img);
+                                } else if (eventos[i].lat && eventos[i].lng) {
+                                    evento.append(map);
+                                }
+                                evento.append(textAutor);
+                                textAutor.append("Autor del evento: ");
+                                textAutor.append(autor);
+                                if (eventos[i].participable) {
+                                    evento.append(textParticipantes);
+                                    textParticipantes.append("Participantes ");
+                                    textParticipantes.append(participantes);
+                                }
+
+                            }
+
+                        } else {
+                            var h1 = document.createElement("h1");
+                            h1.innerHTML += "Este usuario aún no tiene eventos creados";
+                            h1.setAttribute("class", "noHay");
+                            $("#contenido").append(h1);
+                        }
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de post");
                     },
                     type: "POST",
                     dataType: "text"
@@ -778,9 +669,10 @@ and open the template in the editor.
                         <p id="localidadPerfilUsuario"></p>
                     </div>
                 </div>
-                <div id="botones">
-                    <button id="botonAmigos" class="boton"><span>Amigos</span></button>
-                    <button id="botonPosts" class="boton"><span>Posts</span></button>
+                <div id="botonesM">
+                    <button id="botonAmigosM" class="boton">Amigos</button>
+                    <button id="botonPostsM" class="boton">Posts</button>
+                    <button id="botonEventosM" class="boton">Eventos</button>
                 </div>
                 <div id="amigosPerfil">
                     <div id="amigosPerfiles">
@@ -788,7 +680,14 @@ and open the template in the editor.
                     </div>
                 </div>
 
-                <div id="posts">
+                <div id="botones">
+                    <button id="botonPosts" class="boton">Ver Posts</button>
+                    <button id="botonEventos" class="boton">Ver Eventos</button>
+                    <h1 id="textoPosts" class="texto">Posts</h1>
+                    <h1 id="textoEventos" class="texto">Eventos</h1>
+                </div>
+
+                <div id="contenido">
 
                 </div>
             </div>
