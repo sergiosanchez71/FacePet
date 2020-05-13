@@ -208,7 +208,7 @@ class Evento {
         unset($conexion);
         return $datos;
     }
-    
+
     function mostrarMisEventos($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -294,7 +294,7 @@ class Evento {
                 'lng' => $lng,
                 'participable' => $row['participantes'],
                 'participantes' => $participantes,
-                'participa' => Evento::esParticipante($evento,$usuario),
+                'participa' => Evento::esParticipante($evento, $usuario),
                 'usuario' => $row['usuario'],
                 'autor' => Usuario::getNickName($row['usuario'])
             );
@@ -362,7 +362,7 @@ class Evento {
 
         unset($conexion);
     }
-    
+
     function salirDeEvento($id, $participante) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -377,7 +377,11 @@ class Evento {
             }
         }
         $participantesNewCad = implode(",", $participantes);
-        $sql = "UPDATE eventos SET participantes='$participantesNewCad' where id='$id'";
+        if ($participantesNewCad != "") {
+            $sql = "UPDATE eventos SET participantes='$participantesNewCad' where id='$id'";
+        } else {
+            $sql = "UPDATE eventos SET participantes='t' where id='$id'";
+        }
         $conexion->exec($sql);
         unset($conexion);
     }

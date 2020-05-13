@@ -20,7 +20,9 @@
                 grid-template-areas:
                     "listaAmigos mensajes";
                 grid-template-columns: 30% 70%;
-                height: 100%;
+                grid-template-rows: 60%;
+                height: 70rem;
+                max-height: 70rem;
             }
 
             #listaAmigos{
@@ -106,7 +108,7 @@
                     "cabeceraCM"
                     "cuerpoCM"
                     "pieCM";
-                grid-template-rows: 7rem 45rem 5rem;
+                grid-template-rows: 17.5% 67.5% 15%;
             }
 
             #cabeceraCM{
@@ -116,7 +118,7 @@
                 border-bottom: 1px solid black;
                 grid-area:cabeceraCM;
             }
-            
+
             #selecciona{
                 text-align: center;
                 padding: 1rem;
@@ -355,9 +357,9 @@
                                 amigoPerfil.append(divMensajesAmigo);
                                 divMensajesAmigo.append(mensajes);
 
-                                setInterval(function () {
-                                    // $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
-                                }, 2000);
+                                /*setInterval(function () {
+                                 // $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
+                                 }, 2000);*/
 
                             }
                         } else {
@@ -420,7 +422,10 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        $("#cuerpoCM").text("");
+                        $("#cuerpoCM").empty();
+                       /* var cuerpoCM = document.createElement("div");
+                        cuerpoCM.setAttribute("id","cuerpoCM");
+                        $("#CMensajes").append(cuerpoCM);*/
                         if (respuesta) {
                             var mensajes = JSON.parse(respuesta);
                             for (var i = 0; i < mensajes.length; i++) {
@@ -445,9 +450,14 @@
                             }
                         }
                         $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight});
+                        //$("#cuerpoCM").css({scrollTop: $("#cuerpoCM").height()});
                         setInterval(function () {
                             comprobarMensajesNuevos(usuario);
                         }, 500);
+
+                        $("#cuerpoCM").scroll(function () {
+                            console.log($("#cuerpoCM").scrollTop());
+                        });
 
 
                     },

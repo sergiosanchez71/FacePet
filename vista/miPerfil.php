@@ -31,18 +31,33 @@ and open the template in the editor.
         <script>
 
             var cargando = 0;
-            var cantidad = 5;
+            var cantidad = 0;
 
             $(window).scroll(function () {
                 if ($(window).scrollTop() > $("#contenido").height() - 700) {
-                    cargando += 1;
-                    if (cargando == 1) {
-                        cantidad += 5;
-                        mostrarMisPosts(cantidad);
-                    }
-
+                    /*if ($("#cadPosts").empty) {
+                        mostrarMisPostsInicio("5");
+                    } else {*/
+                        cargando += 1;
+                        if (cargando == 1) {
+                            cantidad += 5;
+                            mostrarMisPosts(cantidad);
+                            console.log($("#cadPosts").val());
+                        }
+                    //}
                 } else {
                     cargando = 0;
+                }
+                
+                if($("#contenido").height()> 600)
+                
+                if($(window).scrollTop()> 500){
+                    $("#amigosPerfil").css("position","fixed");
+                    $("#amigosPerfil").css("top","0.5rem");
+                    $("#amigosPerfil").css("width","23%");
+                } else {
+                    $("#amigosPerfil").css("position","relative");
+                    $("#amigosPerfil").css("width","75%");
                 }
             });
 
@@ -68,6 +83,7 @@ and open the template in the editor.
                     $("#botonEventos").show();
                     $("#textoEventos").hide();
                     $("#contenido").empty();
+                    $("#cadPosts").val("");
                     mostrarMisPostsInicio("5");
                 });
                 $("#textCambiarAvatar").click(function () {
@@ -207,19 +223,10 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        $("#textoPosts").show();
-                        console.log(respuesta);
-
                         if (respuesta) {
                             var posts = JSON.parse(respuesta);
                             pintarPosts(posts, "contenido");
-                        } else {
-                            var h1 = document.createElement("h1");
-                            h1.setAttribute("style", "text-align:center");
-                            h1.innerHTML += "Aún no tienes posts, crea uno";
-                            $("#textoPosts").hide();
-                            h1.setAttribute("class", "noHay");
-                            $("#contenido").append(h1);
+                            console.log(respuesta);
                         }
                     },
                     error: function (xhr, status) {
@@ -295,8 +302,7 @@ and open the template in the editor.
             }
 
         </script>
-        <?php
-        ?>
+        <?php ?>
     </head>
     <body>
 

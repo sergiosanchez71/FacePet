@@ -13,7 +13,7 @@ and open the template in the editor.
         session_start();
         include '../controlador/gestion.php';
         comprobarLogin();
-        $_SESSION['posts']="";
+        $_SESSION['posts'] = "";
         ?>
         <script>
 
@@ -55,9 +55,15 @@ and open the template in the editor.
                 max-width: 40rem;
             }
 
+            .eventoImg{
+                width: 10rem;
+                display: block;
+                margin: auto;
+            }
+
             .map{
                 width: 100%;
-                height: 20rem;
+                height: 10rem;
             }
 
             @media (max-width:1000px){
@@ -95,12 +101,12 @@ and open the template in the editor.
 
         </style>
         <script>
-            
+
             var cargando = 0;
-            var cantidad = 5;
+            var cantidad = 0;
 
             $(window).scroll(function () {
-                if ($(window).scrollTop() > $("#cuerpo").height() - 700) {
+                if ($(window).scrollTop() > $("#cuerpo").height() - 800) {
                     cargando += 1;
                     if (cargando == 1) {
                         cantidad += 5;
@@ -134,10 +140,10 @@ and open the template in the editor.
                             pintarPosts(posts, "posts");
 
                         }/* else {
-                            var h1 = document.createElement("h1");
-                            h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya";
-                            $("#posts").append(h1);
-                        }*/
+                         var h1 = document.createElement("h1");
+                         h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya";
+                         $("#posts").append(h1);
+                         }*/
                     },
                     error: function (xhr, status) {
                         alert("Error en la eliminacion de post");
@@ -146,12 +152,11 @@ and open the template in the editor.
                     dataType: "text"
                 });
             }
-            
+
             function cargarPostsAmigosInicio(cantidad) {
                 var parametros = {
                     "accion": "mostrarPostsAmigosInicio",
-                    "cantidad": cantidad,
-                    "array": $("#cadPosts").val()
+                    "cantidad": cantidad
                 };
 
                 $.ajax({

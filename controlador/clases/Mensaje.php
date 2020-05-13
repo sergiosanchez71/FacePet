@@ -77,7 +77,7 @@ class Mensaje {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if ($user1 && $user2) {
-            $consulta = $conexion->query("SELECT * from mensajes where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1) order by fecha asc");
+            $consulta = $conexion->query("SELECT * from mensajes where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1) order by fecha desc limit 15");
             $i = 0;
             $datos = null;
             while ($row = $consulta->fetch()) {
