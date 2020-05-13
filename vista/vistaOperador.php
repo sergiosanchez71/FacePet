@@ -31,7 +31,7 @@ and open the template in the editor.
 
 
         </style>
-        
+
         <script>
 
             $(document).ready(function () {
@@ -40,9 +40,6 @@ and open the template in the editor.
                 $("#botonBAnimal").click(verBAnimal);
                 $("#botonCRaza").click(verCRaza);
                 $("#botonBRaza").click(verBRaza);
-                
-
-
             });
 
             function volver() {
@@ -76,7 +73,9 @@ and open the template in the editor.
                 $("#borrarRaza").show();
                 $("#botones").hide();
                 mostrarAnimales();
+                mostrarRazasBorrar();
                 $("#botonBorrarRaza").click(borrarRaza);
+                $("#listadoSelectBAnimales").change(mostrarRazasBorrar);
             }
 
             function mostrarAnimales() {
@@ -90,21 +89,21 @@ and open the template in the editor.
                     success: function (respuesta) {
                         var resp = JSON.parse(respuesta);
 
-                        document.getElementById("listadoUlAnimales").innerHTML = " ";
-                        var animalesUl = document.getElementById("listadoUlAnimales");
+                        $("#listadoUlAnimales").empty();
+                        //var animalesUl = document.getElementById("listadoUlAnimales");
                         for (var i = 0; i < resp.animal.length; i++) {
                             var li = document.createElement("li");
-                            animalesUl.appendChild(li);
-                            li.innerHTML += resp.animal[i];
+                            $("#listadoUlAnimales").append(li);
+                            li.innerHTML = resp.animal[i];
                         }
 
-                        document.getElementById("listadoBAnimales").innerHTML = " ";
-                        var animalesTable = document.getElementById("listadoBAnimales");
+                        $("#listadoBAnimales").empty();
+                        //var animalesTable = document.getElementById("listadoBAnimales");
                         for (var i = 0; i < resp.animal.length; i++) {
                             var td = document.createElement("td");
                             var tr = document.createElement("tr");
                             var input = document.createElement("input");
-                            animalesTable.appendChild(tr);
+                            $("#listadoBAnimales").append(tr);
                             tr.appendChild(td);
                             td.innerHTML += resp.animal[i];
                             input.setAttribute("type", "checkbox");
@@ -114,19 +113,19 @@ and open the template in the editor.
                         }
 
                         //document.getElementById("listadoSelectAnimales").innerHTML = " ";
-                        var animalesSelect = document.getElementById("listadoSelectAnimales");
+                        //var animalesSelect = document.getElementById("listadoSelectAnimales");
                         for (var i = 0; i < resp.animal.length; i++) {
                             var option = document.createElement("option");
                             option.setAttribute("value", resp.id[i]);
-                            animalesSelect.appendChild(option);
-                            option.innerHTML += resp.animal[i];
+                            $("#listadoSelectAnimales").append(option);
+                            option.innerHTML = resp.animal[i];
                         }
 
-                        var animalesSelect = document.getElementById("listadoSelectBAnimales");
+                        //var animalesSelect = document.getElementById("listadoSelectBAnimales");
                         for (var i = 0; i < resp.animal.length; i++) {
                             var option = document.createElement("option");
                             option.setAttribute("value", resp.id[i]);
-                            animalesSelect.appendChild(option);
+                            $("#listadoSelectBAnimales").append(option);
                             option.innerHTML += resp.animal[i];
                         }
 
@@ -210,27 +209,24 @@ and open the template in the editor.
 
             function mostrarRazas() {
                 var entrada = $("#listadoSelectAnimales").val();
-                var animalB = $("#listadoSelectBAnimales").val();
-                $("#animalRD").val(entrada);
+                //$("#animalRD").val(entrada);
 
                 var parametros = {
                     "accion": "consultarRazas",
-                    "animal": entrada,
-                    "animalB": animalB
+                    "animal": entrada
                 };
 
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        mostrarRazas();
                         var resp = JSON.parse(respuesta);
-                        document.getElementById("listadoUlRazas").innerHTML = " ";
-                        var razasUl = document.getElementById("listadoUlRazas");
+                        $("#listadoUlRazas").empty();
+                        //var razasUl = document.getElementById("listadoUlRazas");
                         for (var i = 0; i < resp.raza.length; i++) {
 
                             var li = document.createElement("li");
-                            razasUl.appendChild(li);
+                            $("#listadoUlRazas").append(li);
                             li.setAttribute("class", "listaRaza");
                             if (resp.raza[i] != "Otro") {
                                 li.innerHTML += resp.raza[i];
@@ -240,19 +236,52 @@ and open the template in the editor.
                             }
                         }
 
-                        document.getElementById("listadoBRazas").innerHTML = " ";
-                        var razasTable = document.getElementById("listadoBRazas");
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en mostrar razas");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
+            function mostrarRazasBorrar() {
+                var entrada = $("#listadoSelectBAnimales").val();
+                console.log($("#listadoSelectBAnimales").val());
+                //$("#animalRD").val(entrada);
+
+                var parametros = {
+                    "accion": "consultarRazas",
+                    "animal": entrada
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        var resp = JSON.parse(respuesta);
+                        console.log(respuesta);
+
+                        $("#listadoBRazas").empty();
+                        // var razasTable = document.getElementById("listadoBRazas");
                         for (var i = 0; i < resp.raza.length; i++) {
                             var td = document.createElement("td");
                             var tr = document.createElement("tr");
-                            var input = document.createElement("input");
-                            razasTable.appendChild(tr);
+                            $("#listadoBRazas").append(tr);
                             tr.appendChild(td);
-                            td.innerHTML += resp.raza[i];
-                            input.setAttribute("type", "checkbox");
-                            input.setAttribute("class", "checkRaza");
-                            input.setAttribute("value", resp.id[i]);
-                            td.appendChild(input);
+                            if (resp.id[i] != 0) {
+                                td.innerHTML = resp.raza[i];
+                                var input = document.createElement("input");
+                                input.setAttribute("type", "checkbox");
+                                input.setAttribute("class", "checkRaza");
+                                input.setAttribute("value", resp.id[i]);
+                                console.log(resp.id[i]);
+                                td.appendChild(input);
+                            } else {
+                                td.innerHTML = "Este animal no tiene razas creadas";
+                            }
+
                         }
 
 
@@ -292,7 +321,56 @@ and open the template in the editor.
             }
 
             function borrarRaza() {
+                var razas = new Array(), i = 0;
 
+                $("input:checkbox:checked").each(function () {
+                    razas[i] = $(this).val();
+                    i++;
+                });
+
+                if (i != 0) {
+                    var r = false;
+                    if (i == 1) {
+                        r = confirm("¿Estás seguro de eliminar esta raza?");
+                    } else {
+                        r = confirm("¿Estás seguro de eliminar estas razas?");
+                    }
+
+                    if (r) {
+                        var parametros = {
+                            "accion": "borrarRazas",
+                            "razas": razas
+                        };
+
+                        $.ajax({
+                            url: "../controlador/acciones.php",
+                            data: parametros,
+                            success: function (respuesta) {
+                                console.log(respuesta);
+                                // alert(respuesta);
+                                mostrarRazasBorrar();
+                            },
+                            error: function (xhr, status) {
+                                alert("Error en la creación de animal");
+                            },
+                            type: "POST",
+                            dataType: "text"
+                        });
+                    }
+                } else {
+                    alert("No has seleccionado ningún animal");
+                }
+            }
+
+            function pulsar(e, accion) {
+                var tecla = (document.all) ? e.keyCode : e.which;
+                if (tecla == 13) {
+                    if (accion == "crearraza") {
+                        crearRaza();
+                    } else if (accion == "crearanimal"){
+                        crearAnimal();
+                    }
+                }
             }
 
         </script>
@@ -362,7 +440,7 @@ and open the template in the editor.
 
                 <div id="crearAnimal" style="display: none;">
                     <h1>Crear un nuevo animal</h1>
-                    Nombre: <input type="text" id="nombreCAnimal">
+                    Nombre: <input type="text" id="nombreCAnimal" onkeypress="pulsar(event, 'crearanimal')">
                     <button id="botonCrearAnimal">Crear animal</button>
                     <button class="volver" >Volver</button>
                     <div>
@@ -382,7 +460,7 @@ and open the template in the editor.
 
                 <div id="crearRaza" style="display: none;">
                     <h1>Crear una nueva raza</h1>
-                    Nombre: <input type="text" id="nombreCRaza">
+                    Nombre: <input type="text" id="nombreCRaza" onkeypress="pulsar(event, 'crearraza')">
                     Animal: <select id="listadoSelectAnimales"></select>
                     <button id="botonCrearRaza">Crear raza</button>
                     <button class="volver" >Volver</button>

@@ -55,7 +55,7 @@ switch ($accion) {
 
     //Razas
     case "crearRaza":
-        if (!Raza::comprobarNombre($_REQUEST['nombre'])) {
+        if (!Raza::comprobarNombre($_REQUEST['nombre'], $_REQUEST['animal'])) {
             Raza::crearRaza($_REQUEST['nombre'], $_REQUEST['animal']);
             echo "Raza creada correctamente";
         } else {
@@ -63,11 +63,11 @@ switch ($accion) {
         }
         break;
 
-    case "borrarRaza":
-        $animal = $_REQUEST['animalB'];
+    case "borrarRazas":
+        //$animal = $_REQUEST['animalB'];
         $razas = $_REQUEST['razas'];
         for ($i = 0; $i < count($razas); $i++) {
-            Raza::borrarRaza($razas[$i], $animal);
+            Raza::borrarRaza($razas[$i]);
         }
         if (count($razas) > 1) {
             echo "Razas eliminadas correctamente";

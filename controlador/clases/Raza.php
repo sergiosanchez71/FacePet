@@ -97,10 +97,10 @@ class Raza {
         return $razas;
     }
     
-    function comprobarNombre($raza) {
+    function comprobarNombre($raza, $animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT nombre from razas where lower(nombre)=lower('$raza')");
+        $consulta = $conexion->query("SELECT nombre from razas where lower(nombre)=lower('$raza') and animal='$animal'");
         $existe = false;
         while ($row = $consulta->fetch()) {
             $existe = true;
@@ -116,10 +116,10 @@ class Raza {
         $conexion->exec($sql);
     }
     
-    function borrarRaza($raza, $animal){
+    function borrarRaza($raza){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "DELETE FROM animales where id='$raza' and animal='$animal'";
+        $sql = "DELETE FROM razas where id='$raza'";
         $conexion->exec($sql);
     }
 
