@@ -12,7 +12,7 @@
             function inicio() {
                 $("#entrar").click(entrar);
             }
-            
+
             function pulsar(e) {
                 var tecla = (document.all) ? e.keyCode : e.which;
                 if (tecla == 13)
@@ -22,37 +22,72 @@
             function entrar() {
                 var username = $("#username").val();
                 var password = $("#password").val();
+                var colorError = "#E95139";
+                var campoVacio = false;
+                var mensaje;
 
-                var parametros = {
-                    "accion": "entrar",
-                    "username": username.toLowerCase(),
-                    "password": password
-                };
+                if (username.trim() != "" || password.trim() != "") {
 
-                $.ajax({
-                    url: "controlador/acciones.php",
-                    data: parametros,
-                    success: function (respuesta) {
-                        if (respuesta == 1) {
-                            window.location.replace("vista/vistaOperador.php");
-                        } else {
-                            window.location.replace("vista/vistaUsuario.php");
-                        }
-                    },
-                    error: function (xhr, status) {
-                        alert("Error en el logueo");
-                    },
-                    type: "POST",
-                    dataType: "text"
-                });
+                    if (username.trim() == "") {
+                        $("#username").css("background", colorError);
+                        campoVacio = true;
+                        mensaje = "No ha introducido el nombre de usuario";
+                    } else {
+                        $("#username").css("background", "white");
+                    }
+
+                    if (password.trim() == "") {
+                        $("#password").css("background", colorError);
+                        campoVacio = true;
+                        mensaje = "No ha introducido la contraseña";
+                    } else {
+                        $("#password").css("background", "white");
+                    }
+
+                } else {
+                    $("#username").css("background", colorError);
+                    $("#password").css("background", colorError);
+                    campoVacio = true;
+                    mensaje = "No ha introducido el nombre de usuario ni la contraseña";
+                }
+
+                if (!campoVacio) {
+
+                    var parametros = {
+                        "accion": "entrar",
+                        "username": username.toLowerCase(),
+                        "password": password
+                    };
+
+                    $.ajax({
+                        url: "controlador/acciones.php",
+                        data: parametros,
+                        success: function (respuesta) {
+                            if (respuesta) {
+                                if (respuesta == 1) {
+                                    window.location.replace("vista/vistaOperador.php");
+                                } else if(respuesta==0) {
+                                    window.location.replace("vista/vistaUsuario.php");
+                                } else {
+                                    alert(respuesta);
+                                }
+                            } 
+                        },
+                        error: function (xhr, status) {
+                            alert("Error en el logueo");
+                        },
+                        type: "POST",
+                        dataType: "text"
+                    });
+                } else {
+                    alert(mensaje);
+                }
             }
 
         </script>
         <?php
-        
         session_start();
         session_destroy();
-        
         ?>
         <style>
 

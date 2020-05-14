@@ -124,7 +124,7 @@ switch ($accion) {
         if (Usuario::getDatosBuscar($_REQUEST['cadena'], $_SESSION['username'])) {
             echo json_encode(Usuario::getDatosBuscar($_REQUEST['cadena'], $_SESSION['username']));
         } else {
-            echo "null";
+            echo false;
         }
         break;
 
@@ -177,7 +177,7 @@ switch ($accion) {
         break;
     case "cancelarSolicitud":
         $fecha = date("Y-m-d H:i:s");
-        $notificacion = new Notificacion($idusuario, $_REQUEST['usuario'], "amistad", 0, $fecha);
+        $notificacion = new Notificacion( $_REQUEST['usuario'],$idusuario, "amistad", 0, $fecha);
         Notificacion::borrarNotificacion($notificacion);
         if (Amistades::cancelarSolicitud($idusuario, $_REQUEST['usuario'])) {
             echo true;

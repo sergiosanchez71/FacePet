@@ -28,6 +28,193 @@ and open the template in the editor.
                 border: 1px solid red;
             }
 
+            /*#cuerpo{
+                width: 100%;
+                margin: auto;
+                background: white;
+                height: 100%;
+                min-height: 50rem;
+            }
+
+            #buscadorUsuarios{
+                padding: 2.5% 13% 5% 13%;
+            }
+
+            #buscador{
+                width: 90%;
+                height: 2rem;
+                font-size: 1.3rem;
+            }
+
+            #lupa{
+                width: 3rem;
+                position: relative;
+                top: 1rem;
+                cursor: pointer;
+            }*/
+
+            .usuario:first-child{
+                margin-top: 3rem;
+            }
+
+            .usuario{
+                background: #fcf0c9;
+                width: 100%;
+                float: left;
+                padding-bottom: 1rem;
+                border-right:1px solid black;
+                border-left:1px solid black;
+                border-bottom:1px solid #BBBBBB;
+                transition: 1s background ease;
+            }
+
+            .usuario:hover{
+                background: #fff7dd;
+            }
+
+            .usuario:first-child{
+                border-radius: 3rem 3rem 0 0;
+                border-top:1px solid black;
+            }
+
+            .usuario:last-child{
+                margin-bottom: 5rem;
+                border-radius: 0 0 3rem 3rem;
+                border-right:1px solid black;
+                border-bottom:1px solid black;
+            }
+
+            .datos{
+                padding-left: 2rem;
+            }
+
+            .nombreUsuario{
+                font-weight: bold;
+                font-size: 1.5rem;
+                cursor: pointer;
+                float: left;
+                transition: 1s color ease;
+            }
+
+            .nombreUsuario:first-letter{
+                text-transform: uppercase;
+            }
+
+            .nombreUsuario:hover{
+                color: #f43333;
+            }
+
+            .sexo{
+                width: 2.5rem;
+                margin-left: 1rem;
+                margin-top: 1rem;
+                padding-bottom: 0.25rem;
+            }
+
+            .imagenUsuario{
+                width: 10rem;
+                height: 10rem;
+                border-radius: 4rem;
+                margin: 1rem;
+                float: left;
+                margin-right: 4rem;
+                cursor: pointer;
+                transition: 1s opacity ease;
+            }
+
+            .imagenUsuario:hover{
+                opacity: 0.7;
+            }
+
+            .solicitud, .pendiente{
+                font-size: 1.2rem;
+                border-radius: 1rem;
+                cursor: pointer;
+                transition: 1s background ease;
+            }
+
+            .sancionarB,.eliminarB{
+                font-size: 1.4rem;
+                padding: 5px;
+                cursor: pointer;
+                transition: 1s background ease;
+            }
+
+            .sancionarB{
+                background-color: #fffcce;
+            }
+
+            .fechaS{
+                font-size: 1.5rem;
+            }
+
+            .eliminarB{
+                background-color: #f7a5a5;
+            }
+
+            @media (max-width: 1000px){
+
+                h1{
+                    font-size: 4rem;
+                }
+
+                #buscador{
+                    height: 4rem;
+                    font-size: 3rem;
+                }
+
+                #lupa{
+                    width: 4rem;
+                }
+
+                #buscadorUsuarios{
+                    padding: 5%;
+                }
+
+                #buscarUsuarios{
+                    width: 100%;
+                    padding: 0;
+                }
+
+                .usuario:last-child{
+                    margin-bottom: 10rem;
+                }
+
+                .imagenUsuario{
+                    width: 14rem;
+                    height: 14rem;
+                    margin-top: 2rem;
+                }
+
+                .nombreUsuario{
+                    font-size: 2.5rem;
+                }
+
+                .sexo{
+                    padding-bottom: 1rem;
+                    width: 4rem;
+                    margin-top: 1.5rem;
+                    margin-left: 2rem;
+                }
+
+                .animal, .raza, .localidad{
+                    font-size: 1.5rem;
+                }
+
+                .solicitud, .pendiente{
+                    font-size: 2.5rem;
+                    font-weight: bold;
+                }
+
+                .imgPata{
+                    width: 2.5rem;
+                }
+
+            }
+
+
+
+
 
 
         </style>
@@ -36,46 +223,208 @@ and open the template in the editor.
 
             $(document).ready(function () {
                 $(".volver").click(volver);
-                $("#botonCAnimal").click(verCAnimal);
-                $("#botonBAnimal").click(verBAnimal);
-                $("#botonCRaza").click(verCRaza);
-                $("#botonBRaza").click(verBRaza);
+                $("#botonCAnimal").click(function () {
+                    $("#crearAnimal").show();
+                    $("#botones").hide();
+                    mostrarAnimales();
+                    $("#botonCrearAnimal").click(crearAnimal);
+                });
+
+                $("#botonBAnimal").click(function () {
+                    $("#borrarAnimal").show();
+                    $("#botones").hide();
+                    mostrarAnimales();
+                    $("#botonBorrarAnimal").click(borrarAnimal);
+                });
+
+                $("#botonCRaza").click(function () {
+                    $("#crearRaza").show();
+                    $("#botones").hide();
+                    mostrarAnimales();
+                    mostrarRazas();
+                    $("#botonCrearRaza").click(crearRaza);
+                    $("#listadoSelectAnimales").change(mostrarRazas);
+                });
+
+                $("#botonBRaza").click(function () {
+                    $("#borrarRaza").show();
+                    $("#botones").hide();
+                    mostrarAnimales();
+                    mostrarRazasBorrar();
+                    $("#botonBorrarRaza").click(borrarRaza);
+                    $("#listadoSelectBAnimales").change(mostrarRazasBorrar);
+                });
+
+                $("#botonSUsuario").click(function () {
+                    $("#sancionarUsuarios").show();
+                    $("#botones").hide();
+                    mostrarUsuarios();
+                    $("#sancionarUsuarioText").on('input', function () {
+                        mostrarUsuarios();
+                    });
+                });
             });
 
             function volver() {
                 location.reload();
             }
 
-            function verCAnimal() {
-                $("#crearAnimal").show();
-                $("#botones").hide();
-                mostrarAnimales();
-                $("#botonCrearAnimal").click(crearAnimal);
+            function mostrarUsuarios() {
+                var nombre = $("#sancionarUsuarioText").val();
+
+                var parametros = {
+                    "accion": "buscarUsuarios",
+                    "cadena": nombre
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        $("#usuariosSancionar").empty();
+                        if (respuesta) {
+                            var usuarios = JSON.parse(respuesta);
+                            console.log(respuesta);
+                            for (var i = 0; i < usuarios.length; i++) {
+                                var usuario = document.createElement("div");
+                                usuario.setAttribute("class", "usuario");
+
+                                if (usuarios.length == 1) {
+                                    usuario.setAttribute("style", " border-radius:3rem");
+                                }
+
+                                var datos = document.createElement("div");
+                                datos.setAttribute("class", "datos");
+
+                                var imagenPerfil = document.createElement("img");
+                                imagenPerfil.setAttribute("src", "../controlador/uploads/usuarios/" + usuarios[i].foto);
+                                imagenPerfil.setAttribute("class", "imagenUsuario");
+                                imagenPerfil.setAttribute("alt", "imagenPerfil");
+                                imagenPerfil.setAttribute("data-value", usuarios[i].id);
+
+                                imagenPerfil.onclick = function () {
+                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+                                }
+
+                                var p = document.createElement("p");
+
+                                var nombreUsuario = document.createElement("p");
+                                nombreUsuario.setAttribute("class", "nombreUsuario");
+                                nombreUsuario.innerHTML += usuarios[i].nick;
+                                nombreUsuario.setAttribute("data-value", usuarios[i].id);
+
+                                nombreUsuario.onclick = function () {
+                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+                                }
+
+                                var sexo = document.createElement("img");
+                                sexo.setAttribute("src", "../controlador/img/" + usuarios[i].sexo + ".png");
+                                sexo.setAttribute("class", "sexo");
+                                sexo.setAttribute("alt", "sexo");
+
+                                var animal = document.createElement("p");
+                                animal.setAttribute("class", "animal");
+                                animal.innerHTML += "<strong>Animal</strong> " + usuarios[i].animal;
+
+                                var raza = document.createElement("p");
+                                raza.setAttribute("class", "raza");
+                                raza.innerHTML += "<strong>Raza</strong> " + usuarios[i].raza;
+
+                                var localidad = document.createElement("p");
+                                localidad.setAttribute("class", "localidad");
+                                localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].localidad;
+
+                                var sancionar = document.createElement("button");
+                                sancionar.setAttribute("class", "sancionarB");
+                                sancionar.setAttribute("value", usuarios[i].id);
+                                sancionar.setAttribute("data-pos", i);
+                                sancionar.innerHTML = "Sancionar";
+
+                                sancionar.onclick = function () {
+                                    this.remove();
+                                    $(".eliminarB:eq(" + this.dataset.pos + ")").remove();
+                                    var sancionarF = document.createElement("input");
+                                    sancionarF.setAttribute("type", "datetime-local");
+                                    sancionarF.setAttribute("class", "fechaS");
+                                    var sancionarBoton = document.createElement("button");
+                                    sancionarBoton.setAttribute("class", "sancionarB");
+                                    sancionarBoton.setAttribute("data-pos", this.dataset.pos);
+                                    sancionarBoton.setAttribute("value", this.value);
+                                    sancionarBoton.innerHTML = "Sancionar";
+                                    $(".usuario:eq(" + this.dataset.pos + ")").append(sancionarF);
+                                    $(".usuario:eq(" + this.dataset.pos + ")").append(sancionarBoton);
+
+                                    sancionarBoton.onclick = function () {
+                                        var usuario = this.value;
+                                        var fecha = $(".fechaS:eq(" + this.dataset.pos + ")").val();
+                                        //sancionarUsuario(fecha, usuario);
+                                    }
+                                    
+                                   /* function getDate() {
+                                        var parametros = {
+                                            "accion": "getDateTime"
+                                        };
+
+                                        $.ajax({
+                                            url: "../controlador/acciones.php",
+                                            data: parametros,
+                                            success: function (respuesta) {
+                                                var fecha = JSON.parse(respuesta);
+
+                                                var hora = parseInt(fecha.hour) + 1;
+
+                                                $(".fechaS:eq(" + this.dataset.pos + ")").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                                                $(".fechaS:eq(" + this.dataset.pos + ")").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                                                $(".fechaS:eq(" + this.dataset.pos + ")").attr("max", "2099-12-31T23:59");
+
+                                                var hora = parseInt(fecha.hour) + 2;
+
+                                                $("#fechaf").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                                                $("#fechaf").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                                                $("#fechaf").attr("max", "2099-12-31T23:59");
+
+                                            },
+                                            error: function (xhr, status) {
+                                                alert("Error en la creación de Evento");
+                                            },
+                                            type: "post",
+                                            dataType: "text"
+                                        });
+                                    }*/
+                                }
+
+                                var eliminar = document.createElement("button");
+                                eliminar.setAttribute("class", "eliminarB");
+                                sancionar.setAttribute("value", usuarios[i].id);
+                                eliminar.innerHTML = "Eliminar";
+
+                                $("#usuariosSancionar").append(usuario);
+                                usuario.append(datos);
+
+                                datos.append(imagenPerfil);
+                                datos.append(p);
+                                p.append(nombreUsuario);
+                                p.append(sexo);
+                                datos.append(animal);
+                                datos.append(raza);
+                                datos.append(localidad);
+                                datos.append(sancionar);
+                                datos.append(eliminar);
+
+                            }
+                        }
+                        //}
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la creación de animal");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
             }
 
-            function verBAnimal() {
-                $("#borrarAnimal").show();
-                $("#botones").hide();
-                mostrarAnimales();
-                $("#botonBorrarAnimal").click(borrarAnimal);
-            }
+            function sancionarUsuario() {
 
-            function verCRaza() {
-                $("#crearRaza").show();
-                $("#botones").hide();
-                mostrarAnimales();
-                mostrarRazas();
-                $("#botonCrearRaza").click(crearRaza);
-                $("#listadoSelectAnimales").change(mostrarRazas);
-            }
-
-            function verBRaza() {
-                $("#borrarRaza").show();
-                $("#botones").hide();
-                mostrarAnimales();
-                mostrarRazasBorrar();
-                $("#botonBorrarRaza").click(borrarRaza);
-                $("#listadoSelectBAnimales").change(mostrarRazasBorrar);
             }
 
             function mostrarAnimales() {
@@ -367,7 +716,7 @@ and open the template in the editor.
                 if (tecla == 13) {
                     if (accion == "crearraza") {
                         crearRaza();
-                    } else if (accion == "crearanimal"){
+                    } else if (accion == "crearanimal") {
                         crearAnimal();
                     }
                 }
@@ -391,7 +740,7 @@ and open the template in the editor.
                             <li><a href="crearEvento.php">Crear Evento</a></li>
                         </ul>
                     </li>
-                    <li><a href="buscarAmigos.php">Buscar Amigos</a></li>
+                    <li><a href="buscarUsuarios.php">Buscar Usuarios</a></li>
                     <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p style="display:none;" class="alerta" id="mensaje"></p></a></li>
                     <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p style="display:none;" class="alerta" id="notificacion"></p></a></li>
                     <li id="liUsuario">
@@ -423,7 +772,7 @@ and open the template in the editor.
                             <a href="miPerfil.php"><li>Mi Perfil</li></a>
                             <a href="crearPost.php"><li>Crear Post</li></a>
                             <a href="crearEvento.php"><li>Crear Evento</li></a>
-                            <a href="buscarAmigos.php"><li>Buscar Amigos</li></a>
+                            <a href="buscarAmigoss.php"><li>Buscar Amigos</li></a>
                         </ul>
                     </nav>
                 </div>
@@ -432,10 +781,11 @@ and open the template in the editor.
             <div id="cuerpo">
 
                 <div id="botones">
-                    <button id="botonCAnimal">Crear Animal</button>
-                    <button id="botonBAnimal">Borrar Animal</button>
-                    <button id="botonCRaza">Crear Raza</button>
-                    <button id="botonBRaza">Borrar Raza</button>
+                    <button id="botonCAnimal" class="boton">Crear Animal</button>
+                    <button id="botonBAnimal" class="boton">Borrar Animal</button>
+                    <button id="botonCRaza" class="boton">Crear Raza</button>
+                    <button id="botonBRaza" class="boton">Borrar Raza</button>
+                    <button id="botonSUsuario" class="boton">Sancionar Usuario</button>
                 </div>
 
                 <div id="crearAnimal" style="display: none;">
@@ -479,6 +829,15 @@ and open the template in the editor.
                         <button class="volver" >Volver</button>
                     </div>
                 </div>
+
+                <div id="sancionarUsuarios" style="display:none;">
+                    <h1>Sancionar Usuarios</h1>
+                    <div>
+                        Usuario: <input type="text" id="sancionarUsuarioText">
+                        <div id="usuariosSancionar"></div>
+                    </div>
+                </div>
+
             </div>
             <footer>
                 <ul id="segundoMenu">

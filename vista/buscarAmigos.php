@@ -265,7 +265,7 @@
 
                         $("#buscarAmigos").empty();
 
-                        if (respuesta != "null") {
+                        if (respuesta) {
                             console.log(respuesta);
                             var usuarios = JSON.parse(respuesta);
 
