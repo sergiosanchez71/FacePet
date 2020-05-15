@@ -285,7 +285,7 @@ class Usuario {
         $notificacion = new Notificacion($idusuario, $amigo, "amistad", 0, $fecha);
         Notificacion::borrarNotificacion($notificacion);
         Amistades::cancelarSolicitud($idusuario, $amigo);
-        Mensaje::eliminarMensajes($idusuario,$amigo);
+        Mensaje::eliminarMensajes($idusuario, $amigo);
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT amigos from usuarios where id='$idusuario'");
@@ -372,14 +372,14 @@ class Usuario {
         for ($i = 0; $i < count($amigos); $i++) {
             $consulta = $conexion->query("SELECT * from usuarios where id='$amigos[$i]' and nick like '$cadena%'");
             while ($row = $consulta->fetch()) {
-                /*if (isset($datos)) {
-                    if (count($datos) > 2) {
-                        if ($datos[0] == $datos[1]) {
-                            unset($conexion);
-                            return $datos;
-                        }
-                    }
-                }*/
+                /* if (isset($datos)) {
+                  if (count($datos) > 2) {
+                  if ($datos[0] == $datos[1]) {
+                  unset($conexion);
+                  return $datos;
+                  }
+                  }
+                  } */
                 if ($row['foto'] == null) {
                     $foto = "0.jpg";
                 } else {
@@ -419,6 +419,7 @@ class Usuario {
         $i = 0;
         while ($row = $consulta->fetch()) {
             $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+            $fecha = date("Y-m-d H:i:s");
             if ($solicitud != "aceptada") {
                 if ($row['foto'] == null) {
                     $foto = "0.jpg";
@@ -437,6 +438,7 @@ class Usuario {
                     'localidad' => $row['localidad'],
                     'amigos' => $row['amigos'],
                     'baneado' => $row['baneado'],
+                    'fechaH' => $fecha,
                     'operador' => $row['operador'],
                     'solicitud' => $solicitud,
                     'buscador' => Usuario::getIdUsuario($usuario)
@@ -503,6 +505,46 @@ class Usuario {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "UPDATE usuarios SET foto='$imagen' where id='$usuario'";
+        $conexion->exec($sql);
+        unset($conexion);
+    }
+
+    function sancionarUsuario($tiempo, $usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "UPDATE usuarios SET baneado='$tiempo' where id='$usuario'";
+        $conexion->exec($sql);
+        unset($conexion);
+    }
+    
+    function hoy(){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT NOW()");
+        
+    }
+
+    function estaBaneado($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT baneado from usuarios where nick='$usuario'");
+        $baneado = null;
+        while ($row = $consulta->fetch()) {
+            $fecha = date("Y-m-d H:i:s");
+            if ($fecha < $row['baneado']) {
+                $baneado = $row['baneado'];
+            } else {
+                $baneado = null;
+            }
+        }
+        unset($conexion);
+        return $baneado;
+    }
+
+    function quitarSancion($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "UPDATE usuarios SET baneado='' where id='$usuario'";
         $conexion->exec($sql);
         unset($conexion);
     }

@@ -82,6 +82,20 @@ switch ($accion) {
         echo json_encode($data);
         break;
 
+    //Admin Usuarios
+
+    case "sancionarUsuario":
+        if (Usuario::sancionarUsuario($_REQUEST['tiempo'], $_REQUEST['usuario'])) {
+            echo json_encode(Usuario::sancionarUsuario($_REQUEST['tiempo'], $_REQUEST['usuario']));
+        } else {
+            echo false;
+        }
+        break;
+        
+    case "eliminarSancion":
+        Usuario::quitarSancion($_REQUEST['usuario']);
+        break;
+
     //Usuarios
     case "crearUsuario":
         include 'clases/Password.php';
@@ -104,10 +118,15 @@ switch ($accion) {
         include 'clases/Password.php';
         if (Usuario::existeUsuario($_REQUEST['username'])) {
             if (Password::verifymd5($_REQUEST['password'], Usuario::cifradaPassword($_REQUEST['username']))) {
-                $_SESSION['operador'] = Usuario::comprobarOperador(Usuario::getIdUsuario($_REQUEST['username']));
-                $_SESSION['username'] = $_REQUEST['username'];
-                $_SESSION['password'] = Usuario::cifradaPassword($_REQUEST['username']);
-                echo $_SESSION['operador'];
+                if (!Usuario::estaBaneado($_REQUEST['username'])) {
+                    $_SESSION['operador'] = Usuario::comprobarOperador(Usuario::getIdUsuario($_REQUEST['username']));
+                    $_SESSION['username'] = $_REQUEST['username'];
+                    $_SESSION['password'] = Usuario::cifradaPassword($_REQUEST['username']);
+                    echo $_SESSION['operador'];
+                } else {
+                    //$tiempo = Usuario::estaBaneado($_REQUEST['username']);
+                    echo "Esta sancionado hasta ".Usuario::estaBaneado($_REQUEST['username']);
+                }
             } else {
                 echo "La contraseña no es correcta";
             }
@@ -177,7 +196,7 @@ switch ($accion) {
         break;
     case "cancelarSolicitud":
         $fecha = date("Y-m-d H:i:s");
-        $notificacion = new Notificacion( $_REQUEST['usuario'],$idusuario, "amistad", 0, $fecha);
+        $notificacion = new Notificacion($_REQUEST['usuario'], $idusuario, "amistad", 0, $fecha);
         Notificacion::borrarNotificacion($notificacion);
         if (Amistades::cancelarSolicitud($idusuario, $_REQUEST['usuario'])) {
             echo true;
@@ -219,16 +238,16 @@ switch ($accion) {
         break;
 
     case "mostrarMisPosts":
-        if (Post::getDatosPostsUsuario($idusuario,$_REQUEST['cantidad'],$_REQUEST['array'])) {
-            echo json_encode(Post::getDatosPostsUsuario($idusuario,$_REQUEST['cantidad'],$_REQUEST['array']));
+        if (Post::getDatosPostsUsuario($idusuario, $_REQUEST['cantidad'], $_REQUEST['array'])) {
+            echo json_encode(Post::getDatosPostsUsuario($idusuario, $_REQUEST['cantidad'], $_REQUEST['array']));
         } else {
             echo false;
         }
         break;
-        
-        case "mostrarMisPostsInicio":
-        if (Post::getDatosPostsUsuarioInicio($idusuario,$_REQUEST['cantidad'])) {
-            echo json_encode(Post::getDatosPostsUsuarioInicio($idusuario,$_REQUEST['cantidad']));
+
+    case "mostrarMisPostsInicio":
+        if (Post::getDatosPostsUsuarioInicio($idusuario, $_REQUEST['cantidad'])) {
+            echo json_encode(Post::getDatosPostsUsuarioInicio($idusuario, $_REQUEST['cantidad']));
         } else {
             echo false;
         }
@@ -269,8 +288,8 @@ switch ($accion) {
             echo false;
         }
         break;
-        
-        case "mostrarPostsAmigosInicio":
+
+    case "mostrarPostsAmigosInicio":
         $amigos = explode(",", Usuario::mostrarAmigos($idusuario));
         $posts = Post::mostrarPostsAmigosInicio($amigos, $idusuario, $_REQUEST['cantidad']);
         if ($posts) {
@@ -320,27 +339,27 @@ switch ($accion) {
     case "eliminarComentario":
         echo Comentario::eliminarComentario($_REQUEST['comentario']);
         break;
-    
+
     //Eventos
-    
+
     case "getDateTime":
-        $fecha =  array(
-                'day' => date('d'),
-                'month' => date('m'),
-                'year' => date("yy"),
-                'hour' => date("H"),
-                'minutes' => date("i")
-            );
+        $fecha = array(
+            'day' => date('d'),
+            'month' => date('m'),
+            'year' => date("yy"),
+            'hour' => date("H"),
+            'minutes' => date("i")
+        );
         echo json_encode($fecha);
         break;
-    
+
     case "crearEvento":
         $fecha = date("Y-m-d H:i:s");
-        $evento = new Evento($_REQUEST['titulo'], $_REQUEST['contenido'],$_REQUEST['tipo'], $fecha,$_REQUEST['fechai'],$_REQUEST['fechaf'],null,$_REQUEST['lat'],$_REQUEST['lng'],$_REQUEST['participable'],$idusuario);
+        $evento = new Evento($_REQUEST['titulo'], $_REQUEST['contenido'], $_REQUEST['tipo'], $fecha, $_REQUEST['fechai'], $_REQUEST['fechaf'], null, $_REQUEST['lat'], $_REQUEST['lng'], $_REQUEST['participable'], $idusuario);
         Evento::crearEvento($evento);
         echo Evento::consultarId($evento);
         break;
-    
+
     case "mostrarEvento":
         if (Evento::mostrarEvento($_REQUEST['evento'], $idusuario)) {
             echo json_encode(Evento::mostrarEvento($_REQUEST['evento'], $idusuario));
@@ -348,7 +367,7 @@ switch ($accion) {
             echo false;
         }
         break;
-    
+
     case "mostrarEventos":
         if (Evento::mostrarEventos($idusuario)) {
             echo json_encode(Evento::mostrarEventos($idusuario));
@@ -356,9 +375,9 @@ switch ($accion) {
             echo false;
         }
         break;
-        
+
     case "mostrarEventosId":
-        if(isset($_REQUEST['usuario'])){
+        if (isset($_REQUEST['usuario'])) {
             $usu = $_REQUEST['usuario'];
         } else {
             $usu = $idusuario;
@@ -369,18 +388,18 @@ switch ($accion) {
             echo false;
         }
         break;
-        
+
     case "participarEvento":
-        if (Evento::participarEvento($_REQUEST['evento'],$idusuario)) {
-            echo json_encode(Evento::participarEvento($_REQUEST['evento'],$idusuario));
+        if (Evento::participarEvento($_REQUEST['evento'], $idusuario)) {
+            echo json_encode(Evento::participarEvento($_REQUEST['evento'], $idusuario));
         } else {
             echo false;
         }
         break;
-        
+
     case "salirDeEvento":
-        if (Evento::salirDeEvento($_REQUEST['evento'],$idusuario)) {
-            echo json_encode(Evento::salirDeEvento($_REQUEST['evento'],$idusuario));
+        if (Evento::salirDeEvento($_REQUEST['evento'], $idusuario)) {
+            echo json_encode(Evento::salirDeEvento($_REQUEST['evento'], $idusuario));
         } else {
             echo false;
         }
@@ -389,8 +408,8 @@ switch ($accion) {
     //Mensajes
     case "mostrarMisAmigosyMensajes":
         $namigos = explode(",", Usuario::mostrarAmigos($idusuario));
-        if (Usuario::getDatosAmigosyMensajes($namigos,$_REQUEST['cadena'])) {
-            $amigos = Usuario::getDatosAmigosyMensajes($namigos,$_REQUEST['cadena']);
+        if (Usuario::getDatosAmigosyMensajes($namigos, $_REQUEST['cadena'])) {
+            $amigos = Usuario::getDatosAmigosyMensajes($namigos, $_REQUEST['cadena']);
             foreach ($amigos as $clave => $amigo) {
                 $orden1[$clave] = $amigo['nick'];
             }
@@ -453,24 +472,24 @@ switch ($accion) {
         break;
 
     //Subir multimedia
-  /*  case "cambiarImagen":
-        $dir_subida = '../controlador/uploads/usuarios/';
-        $allowed_ext = "jpg,png,jpeg";
-        $file_ext = preg_split("/\./", $_FILES['userfile']['name']);
-        $allowed_ext = preg_split("/\,/", $allowed_ext);
-        foreach ($allowed_ext as $ext) {
-            if (strtolower($ext) == strtolower($file_ext[1])) {
-                $match = true; // Permite el archivo
-            }
-        }
-        if (isset($match)) {
-            $fichero_subido = $dir_subida . basename($_FILES['userfile']['name']);
-            move_uploaded_file($_FILES['userfile']['tmp_name'], $fichero_subido);
-            rename($fichero_subido, $dir_subida . $_REQUEST['idpost'] . "." . $file_ext[1]);
-            Post::subirMultimedia($_REQUEST['idpost'], $_REQUEST['idpost'] . "." . $file_ext[1]);
-            header("Location: ../vista/miPerfil.php");
-        }
-        break;*/
+    /*  case "cambiarImagen":
+      $dir_subida = '../controlador/uploads/usuarios/';
+      $allowed_ext = "jpg,png,jpeg";
+      $file_ext = preg_split("/\./", $_FILES['userfile']['name']);
+      $allowed_ext = preg_split("/\,/", $allowed_ext);
+      foreach ($allowed_ext as $ext) {
+      if (strtolower($ext) == strtolower($file_ext[1])) {
+      $match = true; // Permite el archivo
+      }
+      }
+      if (isset($match)) {
+      $fichero_subido = $dir_subida . basename($_FILES['userfile']['name']);
+      move_uploaded_file($_FILES['userfile']['tmp_name'], $fichero_subido);
+      rename($fichero_subido, $dir_subida . $_REQUEST['idpost'] . "." . $file_ext[1]);
+      Post::subirMultimedia($_REQUEST['idpost'], $_REQUEST['idpost'] . "." . $file_ext[1]);
+      header("Location: ../vista/miPerfil.php");
+      }
+      break; */
 
     //Más
     case "getDatosMiUsuario":

@@ -133,7 +133,7 @@ and open the template in the editor.
                 transition: 1s background ease;
             }
 
-            .sancionarB,.eliminarB{
+            .sancionarB,.eliminarB, .eliminarSancion{
                 font-size: 1.4rem;
                 padding: 5px;
                 cursor: pointer;
@@ -141,6 +141,10 @@ and open the template in the editor.
             }
 
             .sancionarB{
+                background-color: #fffcce;
+            }
+
+            .eliminarSancion{
                 background-color: #fffcce;
             }
 
@@ -333,6 +337,7 @@ and open the template in the editor.
                                 var localidad = document.createElement("p");
                                 localidad.setAttribute("class", "localidad");
                                 localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].localidad;
+                                console.log(usuarios[i].fechaH);
 
                                 var sancionar = document.createElement("button");
                                 sancionar.setAttribute("class", "sancionarB");
@@ -341,11 +346,13 @@ and open the template in the editor.
                                 sancionar.innerHTML = "Sancionar";
 
                                 sancionar.onclick = function () {
-                                    this.remove();
-                                    $(".eliminarB:eq(" + this.dataset.pos + ")").remove();
+                                    this.setAttribute("style", "display:none");
+                                    $(".eliminarB:eq(" + this.dataset.pos + ")").hide();
                                     var sancionarF = document.createElement("input");
                                     sancionarF.setAttribute("type", "datetime-local");
+                                    sancionarF.setAttribute("class","sancionarF");
                                     sancionarF.setAttribute("class", "fechaS");
+                                    getDate(this.dataset.pos);
                                     var sancionarBoton = document.createElement("button");
                                     sancionarBoton.setAttribute("class", "sancionarB");
                                     sancionarBoton.setAttribute("data-pos", this.dataset.pos);
@@ -357,10 +364,47 @@ and open the template in the editor.
                                     sancionarBoton.onclick = function () {
                                         var usuario = this.value;
                                         var fecha = $(".fechaS:eq(" + this.dataset.pos + ")").val();
-                                        //sancionarUsuario(fecha, usuario);
+
+                                        $(".eliminarSancion:eq(" + this.dataset.pos + ")").show();
+                                        $(".eliminarB:eq(" + this.dataset.pos + ")").show();
+                                        this.setAttribute("style","display:none");
+                                        /*if (getDate(this.dataset.pos, true)) {
+                                         alert(fecha);
+                                         }*/
+                                        sancionarUsuario(this.dataset.pos, fecha, usuario);
                                     }
-                                    
-                                   /* function getDate() {
+
+                                    function sancionarUsuario(pos, fecha, usuario) {
+                                        var fechaL = $(".fechaS:eq(" + pos + ")").val();
+                                        var fechaH = $("#fechaH").val();
+                                        if (fechaH <= fechaL) {
+
+                                            var parametros = {
+                                                "accion": "sancionarUsuario",
+                                                "tiempo": fecha,
+                                                "usuario": usuario
+                                            };
+
+                                            $.ajax({
+                                                url: "../controlador/acciones.php",
+                                                data: parametros,
+                                                success: function (respuesta) {
+                                                    $(".fechaS:eq(" + pos + ")").hide();
+
+                                                },
+                                                error: function (xhr, status) {
+                                                    alert("Error en la creación de Evento");
+                                                },
+                                                type: "post",
+                                                dataType: "text"
+                                            });
+                                        } else {
+                                            alert("La fecha de sanción no puede ser menor de una hora");
+                                        }
+                                    }
+
+
+                                    function getDate(pos) {
                                         var parametros = {
                                             "accion": "getDateTime"
                                         };
@@ -371,17 +415,21 @@ and open the template in the editor.
                                             success: function (respuesta) {
                                                 var fecha = JSON.parse(respuesta);
 
+
                                                 var hora = parseInt(fecha.hour) + 1;
 
-                                                $(".fechaS:eq(" + this.dataset.pos + ")").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
-                                                $(".fechaS:eq(" + this.dataset.pos + ")").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
-                                                $(".fechaS:eq(" + this.dataset.pos + ")").attr("max", "2099-12-31T23:59");
+                                                console.log($(".fechaS:eq(" + pos + ")").val());
 
-                                                var hora = parseInt(fecha.hour) + 2;
+                                                $(".fechaS:eq(" + pos + ")").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                                                $(".fechaS:eq(" + pos + ")").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                                                $(".fechaS:eq(" + pos + ")").attr("max", "2099-12-31T23:59");
 
-                                                $("#fechaf").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
-                                                $("#fechaf").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
-                                                $("#fechaf").attr("max", "2099-12-31T23:59");
+                                                var fechaH = document.createElement("input");
+                                                fechaH.setAttribute("type", "datetime-local");
+                                                fechaH.setAttribute("value", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                                                fechaH.setAttribute("id", "fechaH");
+                                                fechaH.setAttribute("style", "display:none");
+                                                $("#usuariosSancionar").append(fechaH);
 
                                             },
                                             error: function (xhr, status) {
@@ -390,12 +438,54 @@ and open the template in the editor.
                                             type: "post",
                                             dataType: "text"
                                         });
-                                    }*/
+                                    }
                                 }
+
+                                var eliminarSancion = document.createElement("button");
+                                eliminarSancion.setAttribute("class", "eliminarSancion");
+                                eliminarSancion.setAttribute("data-pos", i);
+                                eliminarSancion.setAttribute("value", usuarios[i].id);
+                                eliminarSancion.innerHTML = "Quitar Sanción";
+
+                                eliminarSancion.onclick = function () {
+                                    eliminarSancionF(this.value);
+                                    this.setAttribute("style", "display:none");
+                                    $(".sancionarB:eq(" + this.dataset.pos + ")").show();
+
+                                }
+
+                                function eliminarSancionF(usuario) {
+                                    var parametros = {
+                                        "accion": "eliminarSancion",
+                                        "usuario": usuario
+                                    };
+
+                                    $.ajax({
+                                        url: "../controlador/acciones.php",
+                                        data: parametros,
+                                        success: function (respuesta) {
+
+
+                                        },
+                                        error: function (xhr, status) {
+                                            alert("Error en la creación de Evento");
+                                        },
+                                        type: "post",
+                                        dataType: "text"
+                                    });
+                                }
+
+
+                                if (!usuarios[i].baneado || usuarios[i].baneado < usuarios[i].fechaH) {
+                                    eliminarSancion.setAttribute("style", "display:none");
+                                } else {
+                                    sancionar.setAttribute("style", "display:none");
+                                }
+
 
                                 var eliminar = document.createElement("button");
                                 eliminar.setAttribute("class", "eliminarB");
-                                sancionar.setAttribute("value", usuarios[i].id);
+                                eliminar.setAttribute("value", usuarios[i].id);
                                 eliminar.innerHTML = "Eliminar";
 
                                 $("#usuariosSancionar").append(usuario);
@@ -408,7 +498,11 @@ and open the template in the editor.
                                 datos.append(animal);
                                 datos.append(raza);
                                 datos.append(localidad);
+                                //if (!usuarios[i].baneado || usuarios[i].baneado < usuarios[i].fechaH) {
                                 datos.append(sancionar);
+                                //} else {
+                                datos.append(eliminarSancion);
+                                //}
                                 datos.append(eliminar);
 
                             }
