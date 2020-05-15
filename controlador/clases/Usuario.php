@@ -564,6 +564,20 @@ class Usuario {
         unset($conexion);
     }
 
+    function eliminarFotoDePerfil($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT foto from usuarios where id='$id'");
+        $foto = null;
+        while ($row = $consulta->fetch()) {
+            unlink("uploads/usuarios/" . $row['foto']);
+            $foto = true;
+            $sql = "UPDATE usuarios SET foto='0.jpg' where id='$id'";
+            $conexion->exec($sql);
+        }
+        unset($conexion);
+    }
+
     function eliminarUsuario($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -575,6 +589,7 @@ class Usuario {
         Notificacion::borrarNotificacionesUsuario($id);
         Evento::salirDeEventosUsuario($id);
         Usuario::eliminarAmigosUsuario($id);
+        Usuario::eliminarFotoDePerfil($id);
         $sql = "DELETE FROM usuarios where id='$id'";
         $conexion->exec($sql);
     }
