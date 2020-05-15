@@ -386,4 +386,36 @@ class Evento {
         unset($conexion);
     }
 
+    function salirDeEventosUsuario($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT id,participantes from eventos");
+        while ($row = $consulta->fetch()) {
+            $participantescad = $row['participantes'];
+            $id = $row['id'];
+            $participantes = explode(",", $participantescad);
+            for ($i = 0; $i < count($participantes); $i++) {
+                if ($participantes[$i] == $usuario) {
+                    unset($participantes[$i]);
+                }
+            }
+            $participantesNewCad = implode(",", $participantes);
+            if ($participantesNewCad != "") {
+                $sql = "UPDATE eventos SET participantes='$participantesNewCad' where id='$id'";
+            } else {
+                $sql = "UPDATE eventos SET participantes='t' where id='$id'";
+            }
+            $conexion->exec($sql);
+        }
+        unset($conexion);
+    }
+
+    function eliminarEventosUsuario($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM eventos WHERE usuario=$usuario";
+        $conexion->exec($sql);
+        unset($conexion);
+    }
+
 }

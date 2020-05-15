@@ -91,9 +91,21 @@ switch ($accion) {
             echo false;
         }
         break;
-        
+
     case "eliminarSancion":
-        Usuario::quitarSancion($_REQUEST['usuario']);
+        if (Usuario::quitarSancion($_REQUEST['usuario'])) {
+            echo Usuario::quitarSancion($_REQUEST['usuario']);
+        } else {
+            echo false;
+        }
+        break;
+
+    case "eliminarUsuario":
+        if (Usuario::eliminarUsuario($_REQUEST['usuario'])) {
+            echo Usuario::eliminarUsuario($_REQUEST['usuario']);
+        } else {
+            echo false;
+        }
         break;
 
     //Usuarios
@@ -125,7 +137,7 @@ switch ($accion) {
                     echo $_SESSION['operador'];
                 } else {
                     //$tiempo = Usuario::estaBaneado($_REQUEST['username']);
-                    echo "Esta sancionado hasta ".Usuario::estaBaneado($_REQUEST['username']);
+                    echo "Esta sancionado hasta " . Usuario::estaBaneado($_REQUEST['username']);
                 }
             } else {
                 echo "La contraseña no es correcta";
@@ -136,7 +148,11 @@ switch ($accion) {
         break;
 
     case "getFotoPerfil":
-        echo Usuario::getFotoPerfil($_SESSION['username']);
+        if (Usuario::getFotoPerfil($_SESSION['username'])) {
+            echo Usuario::getFotoPerfil($_SESSION['username']);
+        } else {
+            header("Location: ../index.php");
+        }
         break;
 
     case "buscarUsuarios":
@@ -150,13 +166,17 @@ switch ($accion) {
     case "mostrarMisAmigos":
         if (Usuario::mostrarAmigos($idusuario)) {
             $namigos = explode(",", Usuario::mostrarAmigos($idusuario));
-            $amigos = Usuario::getDatosAmigos($namigos);
-            foreach ($amigos as $clave => $amigo) {
-                $orden1[$clave] = $amigo['nick'];
-            }
+            if (Usuario::getDatosAmigos($namigos)) {
+                $amigos = Usuario::getDatosAmigos($namigos);
+                foreach ($amigos as $clave => $amigo) {
+                    $orden1[$clave] = $amigo['nick'];
+                }
 
-            array_multisort($orden1, SORT_ASC, $amigos);
-            echo json_encode($amigos);
+                array_multisort($orden1, SORT_ASC, $amigos);
+                echo json_encode($amigos);
+            } else {
+                echo false;
+            }
         }
         break;
 

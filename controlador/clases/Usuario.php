@@ -188,6 +188,7 @@ class Usuario {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id from usuarios where nick='$usuario'");
+        $id = null;
         while ($row = $consulta->fetch()) {
             $id = $row['id'];
         }
@@ -301,6 +302,27 @@ class Usuario {
         $amigosNewCad = implode(",", $amigos);
         $sql = "UPDATE usuarios SET amigos='$amigosNewCad' where id='$idusuario'";
         $conexion->exec($sql);
+        unset($conexion);
+    }
+
+    function eliminarAmigosUsuario($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT id,amigos from usuarios");
+        while ($row = $consulta->fetch()) {
+            $amigoscad = $row['amigos'];
+            $id = $row['id'];
+            $amigos = explode(",", $amigoscad);
+            for ($i = 0; $i < count($amigos); $i++) {
+                if ($amigos[$i] == $usuario) {
+                    unset($amigos[$i]);
+                }
+            }
+            $amigosNewCad = implode(",", $amigos);
+            $sql = "UPDATE usuarios SET amigos='$amigosNewCad' where id='$id'";
+            $conexion->exec($sql);
+        }
+
         unset($conexion);
     }
 
@@ -516,13 +538,6 @@ class Usuario {
         $conexion->exec($sql);
         unset($conexion);
     }
-    
-    function hoy(){
-        $conexion = Conexion::conectar();
-        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT NOW()");
-        
-    }
 
     function estaBaneado($usuario) {
         $conexion = Conexion::conectar();
@@ -541,12 +556,27 @@ class Usuario {
         return $baneado;
     }
 
-    function quitarSancion($usuario) {
+    function quitarSancion($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "UPDATE usuarios SET baneado='' where id='$usuario'";
+        $sql = "UPDATE usuarios SET baneado='' where id='$id'";
         $conexion->exec($sql);
         unset($conexion);
+    }
+
+    function eliminarUsuario($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        Post::eliminarPostsUsuario($id);
+        Post::quitarLikesUsuario($id);
+        Mensaje::eliminarMensajesUsuario($id);
+        Evento::eliminarEventosUsuario($id);
+        Amistades::borrarSolicitudes($id);
+        Notificacion::borrarNotificacionesUsuario($id);
+        Evento::salirDeEventosUsuario($id);
+        Usuario::eliminarAmigosUsuario($id);
+        $sql = "DELETE FROM usuarios where id='$id'";
+        $conexion->exec($sql);
     }
 
 }

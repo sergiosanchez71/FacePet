@@ -31,10 +31,10 @@ and open the template in the editor.
         <script>
 
             var cargando = 0;
-            var cantidad = 0;
+            var cantidad = 5;
 
             $(window).scroll(function () {
-                if ($(window).scrollTop() > $("#contenido").height() - 700) {
+                if ($(window).scrollTop() > $("#contenido").height() - 400) {
                     /*if ($("#cadPosts").empty) {
                         mostrarMisPostsInicio("5");
                     } else {*/
@@ -51,7 +51,7 @@ and open the template in the editor.
                 
                 if($("#contenido").height()> 600)
                 
-                if($(window).scrollTop()> 500){
+                if($(window).scrollTop()> 500 && $(window).width() > 1000){
                     $("#amigosPerfil").css("position","fixed");
                     $("#amigosPerfil").css("top","0.5rem");
                     $("#amigosPerfil").css("width","23%");
@@ -397,8 +397,8 @@ and open the template in the editor.
             <footer>
                 <ul id="segundoMenu">
                     <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" class="cerrarsesion" alt="cerrarSesion"></a></li>
-                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
-                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p class="alerta">1</p></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p class="alerta" id="mensajeM">1</p></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p class="alerta" id="notificacionM">1</p></a></li>
                     <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">

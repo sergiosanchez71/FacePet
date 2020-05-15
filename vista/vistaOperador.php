@@ -133,14 +133,14 @@ and open the template in the editor.
                 transition: 1s background ease;
             }
 
-            .sancionarB,.eliminarB, .eliminarSancion{
+            .sancionarB,.sancionarBot, .eliminarB,.eliminarSancion,.atras{
                 font-size: 1.4rem;
                 padding: 5px;
                 cursor: pointer;
                 transition: 1s background ease;
             }
 
-            .sancionarB{
+            .sancionarB,.sancionarBot,.atras{
                 background-color: #fffcce;
             }
 
@@ -350,16 +350,22 @@ and open the template in the editor.
                                     $(".eliminarB:eq(" + this.dataset.pos + ")").hide();
                                     var sancionarF = document.createElement("input");
                                     sancionarF.setAttribute("type", "datetime-local");
-                                    sancionarF.setAttribute("class","sancionarF");
+                                    sancionarF.setAttribute("class", "sancionarF");
                                     sancionarF.setAttribute("class", "fechaS");
                                     getDate(this.dataset.pos);
                                     var sancionarBoton = document.createElement("button");
-                                    sancionarBoton.setAttribute("class", "sancionarB");
+                                    sancionarBoton.setAttribute("class", "sancionarBot");
                                     sancionarBoton.setAttribute("data-pos", this.dataset.pos);
                                     sancionarBoton.setAttribute("value", this.value);
                                     sancionarBoton.innerHTML = "Sancionar";
+                                    var atras = document.createElement("button");
+                                    atras.setAttribute("data-pos", this.dataset.pos);
+                                    atras.setAttribute("class", "atras");
+                                    atras.innerHTML = "Atrás";
+
                                     $(".usuario:eq(" + this.dataset.pos + ")").append(sancionarF);
                                     $(".usuario:eq(" + this.dataset.pos + ")").append(sancionarBoton);
+                                    $(".usuario:eq(" + this.dataset.pos + ")").append(atras);
 
                                     sancionarBoton.onclick = function () {
                                         var usuario = this.value;
@@ -367,11 +373,23 @@ and open the template in the editor.
 
                                         $(".eliminarSancion:eq(" + this.dataset.pos + ")").show();
                                         $(".eliminarB:eq(" + this.dataset.pos + ")").show();
-                                        this.setAttribute("style","display:none");
+                                        this.setAttribute("style", "display:none");
                                         /*if (getDate(this.dataset.pos, true)) {
                                          alert(fecha);
                                          }*/
+                                        $(".usuario:eq(" + this.dataset.pos + ") .fechaS").hide();
+                                        $(".usuario:eq(" + this.dataset.pos + ") .atras").hide();
+
                                         sancionarUsuario(this.dataset.pos, fecha, usuario);
+                                    }
+
+                                    atras.onclick = function () {
+                                        $(".usuario:eq(" + this.dataset.pos + ") .fechaS").hide();
+                                        $(".usuario:eq(" + this.dataset.pos + ") .sancionarBot").hide();
+                                        $(".usuario:eq(" + this.dataset.pos + ") .atras").hide();
+                                        //$(".usuario:eq(" + this.dataset.pos + ") .sancionarB").show();
+                                        $(".usuario:eq(" + this.dataset.pos + ") .sancionarB").show();
+                                        $(".usuario:eq(" + this.dataset.pos + ") .eliminarB").show();
                                     }
 
                                     function sancionarUsuario(pos, fecha, usuario) {
@@ -389,7 +407,7 @@ and open the template in the editor.
                                                 url: "../controlador/acciones.php",
                                                 data: parametros,
                                                 success: function (respuesta) {
-                                                    $(".fechaS:eq(" + pos + ")").hide();
+
 
                                                 },
                                                 error: function (xhr, status) {
@@ -420,9 +438,9 @@ and open the template in the editor.
 
                                                 console.log($(".fechaS:eq(" + pos + ")").val());
 
-                                                $(".fechaS:eq(" + pos + ")").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
-                                                $(".fechaS:eq(" + pos + ")").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
-                                                $(".fechaS:eq(" + pos + ")").attr("max", "2099-12-31T23:59");
+                                                $(".usuario:eq(" + pos + ") .fechaS").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                                                $(".usuario:eq(" + pos + ") .fechaS").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                                                $(".usuario:eq(" + pos + ") .fechaS").attr("max", "2099-12-31T23:59");
 
                                                 var fechaH = document.createElement("input");
                                                 fechaH.setAttribute("type", "datetime-local");
@@ -485,8 +503,36 @@ and open the template in the editor.
 
                                 var eliminar = document.createElement("button");
                                 eliminar.setAttribute("class", "eliminarB");
+                                eliminar.setAttribute("data-post", i);
                                 eliminar.setAttribute("value", usuarios[i].id);
                                 eliminar.innerHTML = "Eliminar";
+
+                                eliminar.onclick = function () {
+                                    if (confirm("¿Esta seguro de eliminar a este usuario?"+this.value)) {
+                                        console.log(this.value);
+                                        eliminarUsuario(this.value,this.dataset.pos);
+                                    }
+                                }
+                                
+                                function eliminarUsuario(usuario,pos){
+                                    var parametros = {
+                                        "accion": "eliminarUsuario",
+                                        "usuario": usuario
+                                    };
+
+                                    $.ajax({
+                                        url: "../controlador/acciones.php",
+                                        data: parametros,
+                                        success: function (respuesta) {
+                                            console.log(respuesta);
+                                        },
+                                        error: function (xhr, status) {
+                                            alert("Error en la creación de Evento");
+                                        },
+                                        type: "post",
+                                        dataType: "text"
+                                    });
+                                }
 
                                 $("#usuariosSancionar").append(usuario);
                                 usuario.append(datos);
@@ -515,10 +561,6 @@ and open the template in the editor.
                     type: "POST",
                     dataType: "text"
                 });
-            }
-
-            function sancionarUsuario() {
-
             }
 
             function mostrarAnimales() {
@@ -834,7 +876,7 @@ and open the template in the editor.
                             <li><a href="crearEvento.php">Crear Evento</a></li>
                         </ul>
                     </li>
-                    <li><a href="buscarUsuarios.php">Buscar Usuarios</a></li>
+                    <li><a href="buscarAmigos.php">Buscar Usuarios</a></li>
                     <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p style="display:none;" class="alerta" id="mensaje"></p></a></li>
                     <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p style="display:none;" class="alerta" id="notificacion"></p></a></li>
                     <li id="liUsuario">
@@ -936,8 +978,8 @@ and open the template in the editor.
             <footer>
                 <ul id="segundoMenu">
                     <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" class="cerrarsesion" alt="cerrarSesion"></a></li>
-                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><span class="alerta">1</span></a></li>
-                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p class="alerta">1</p></a></li>
+                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p class="alerta" id="mensajeM">1</p></a></li>
+                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p class="alerta" id="notificacionM">1</p></a></li>
                     <li id="liUsuario">
                         <a href="miPerfil.php">
                             <img class="perfil" alt="imgPerfil">

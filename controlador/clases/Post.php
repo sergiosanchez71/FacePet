@@ -102,6 +102,22 @@ class Post {
         return $borrado;
     }
 
+    function eliminarMultimediaUsuario($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT multimedia from posts where usuario=$usuario");
+        $borrado = false;
+        while ($row = $consulta->fetch()) {
+            if ($row['multimedia']) {
+                $multimedia = $row['multimedia'];
+                unlink("uploads/posts/" . $multimedia);
+            }
+            $borrado = true;
+        }
+        unset($conexion);
+        return $borrado;
+    }
+
     function eliminarPost($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -109,6 +125,17 @@ class Post {
         Comentario::eliminarComentarioConIdPost($id);
         Post::eliminarMultimedia($id);
         $sql = "DELETE FROM posts where id='$id'";
+        $conexion->exec($sql);
+    }
+
+    function eliminarPostsUsuario($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //Notificacion::borrarNotificacionIdElemento($id);
+        Comentario::eliminarComentariosUsuario($id);
+        Comentario::eliminarComentariosDeMisPosts($id);
+        Post::eliminarMultimediaUsuario($id);
+        $sql = "DELETE FROM posts where usuario='$id'";
         $conexion->exec($sql);
     }
 
@@ -210,7 +237,7 @@ class Post {
         $datos = null;
         while ($row = $consulta->fetch()) {
 
-            if ($i < $cantidad ) {
+            if ($i < $cantidad) {
 
                 $idusuario = Usuario::getIdUsuario($_SESSION['username']);
                 if ($row['foto'] == null) {
@@ -241,7 +268,7 @@ class Post {
         unset($conexion);
         return $datos;
     }
-    
+
     function getDatosPostsUsuario($usuario, $cantidad, $array) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -250,7 +277,7 @@ class Post {
         $datos = null;
         while ($row = $consulta->fetch()) {
 
-            if ($i < $cantidad && !Post::esMostrado($array, $row['id'])) {
+            //if ($i < $cantidad && !Post::esMostrado($array, $row['id'])) {
 
                 $idusuario = Usuario::getIdUsuario($_SESSION['username']);
                 if ($row['foto'] == null) {
@@ -274,7 +301,7 @@ class Post {
                     'login' => $idusuario,
                     'comentarios' => Comentario::contarComentarios($row['id'])
                 );
-            }
+            //}
 
             $i++;
         }
@@ -452,6 +479,39 @@ class Post {
         $conexion->exec($sql);
         unset($conexion);
         return $valor;
+    }
+
+    function quitarLikesUsuario($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT id,likes from posts");
+        $cadLikes = null;
+        $existe = false;
+        while ($row = $consulta->fetch()) {
+            $post = $row['id'];
+            $cadLikes = $row['likes'];
+            if (isset($cadLikes)) {
+                if (strpos($cadLikes, ",")) {
+                    $likes = explode(",", $cadLikes);
+                    for ($i = 0; $i < count($likes); $i++) {
+                        if ($likes[$i] == $usuario) {
+                            unset($likes[$i]);
+                        }
+                    }
+                    $cadLikes = implode(",", $likes);
+                } else {
+                    $likes = $cadLikes;
+                    if ($likes == $usuario) {
+                        $cadLikes = "";
+                    }
+                }
+            }
+            $sql = "UPDATE posts SET likes='$cadLikes' where id='$post'";
+            $conexion->exec($sql);
+        }
+
+
+        unset($conexion);
     }
 
 }

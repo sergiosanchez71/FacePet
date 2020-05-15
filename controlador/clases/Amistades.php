@@ -95,5 +95,13 @@ class Amistades {
         $conexion->exec($sql);
         unset($conexion);
     }
+    
+    function borrarSolicitudes($usuario){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM amistades WHERE user1=$usuario or user2=$usuario";
+        $conexion->exec($sql);
+        unset($conexion);
+    }
 
 }

@@ -265,9 +265,9 @@ li .alerta{
     
     .icono .alerta{
         display: none;
-        left: 5.5rem;
+        left: 6rem;
         font-size: 3rem;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
     }
 
     #segundoMenu li{

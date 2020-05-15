@@ -18,9 +18,12 @@ function getFotoPerfil() {
         url: "../controlador/acciones.php",
         data: parametros,
         success: function (respuesta) {
-            var p = document.getElementsByClassName("perfil");
-            for (var i = 0; i < p.length; i++) {
-                p[i].setAttribute("src", "../controlador/uploads/usuarios/" + respuesta);
+            if (respuesta) {
+                console.log(respuesta);
+                var p = document.getElementsByClassName("perfil");
+                for (var i = 0; i < p.length; i++) {
+                    p[i].setAttribute("src", "../controlador/uploads/usuarios/" + respuesta);
+                }
             }
 
         },
@@ -33,7 +36,7 @@ function getFotoPerfil() {
 
 }
 
-function getMensajes(){
+function getMensajes() {
     var parametros = {
         "accion": "mensajesNoVistos"
     };
@@ -52,13 +55,17 @@ function getMensajes(){
                 }
                 if (mensaje > 0) {
                     $("#mensaje").css("display", "block");
+                    $("#mensajeM").css("display","block");
                     $("#mensaje").text(mensaje);
+                    $("#mensajeM").text(mensaje);
                 } else {
                     $("#mensaje").css("display", "none");
+                    $("#mensajeM").css("display", "none");
                 }
 
             } else {
                 $("#mensaje").css("display", "none");
+                $("#mensajeM").css("display", "none");
             }
 
         },
@@ -68,7 +75,7 @@ function getMensajes(){
         type: "POST",
         dataType: "text"
     });
-    
+
 }
 
 function getNotificaciones() {
@@ -93,12 +100,15 @@ function getNotificaciones() {
                 if (notificacion > 0) {
                     $("#notificacion").css("display", "block");
                     $("#notificacion").text(notificacion);
+                    $("#notificacionM").css("display", "block");
+                    $("#notificacionM").text(notificacion);
                 } else {
                     $("#notificacion").css("display", "none");
+                    $("#notificacionM").css("display", "none");
                 }
 
             } else {
-                $("#notificacion").css("display", "none");
+                $("#notificacionM").css("display", "none");
             }
 
         },

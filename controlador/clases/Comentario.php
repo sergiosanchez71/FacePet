@@ -84,7 +84,7 @@ class Comentario {
         $sql = "DELETE FROM comentarios WHERE id='$comentario'";
         $conexion->exec($sql);
     }
-    
+
     function eliminarComentarioConIdPost($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -94,6 +94,18 @@ class Comentario {
             Notificacion::borrarNotificacion($notificacion);
         }
         $sql = "DELETE FROM comentarios WHERE post='$post'";
+        $conexion->exec($sql);
+    }
+
+    function eliminarComentariosUsuario($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from comentarios where usuario='$usuario'");
+        while ($row = $consulta->fetch()) {
+            $notificacion = new Notificacion($row['usuario'], Post::buscarCreador($row['post']), "comentarioP", $row['post'], $row['fecha']);
+            Notificacion::borrarNotificacion($notificacion);
+        }
+        $sql = "DELETE FROM comentarios WHERE usuario='$usuario'";
         $conexion->exec($sql);
     }
 
@@ -170,6 +182,23 @@ class Comentario {
         }
         unset($conexion);
         return $i;
+    }
+
+    function eliminarComentariosDeMisPosts($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from comentarios");
+        while ($row = $consulta->fetch()) {
+            if (Post::buscarCreador($row['post']) == $usuario) {
+                $notificacion = new Notificacion($row['usuario'], Post::buscarCreador($row['post']), "comentarioP", $row['post'], $row['fecha']);
+                Notificacion::borrarNotificacion($notificacion);
+                $comentario = $row['id'];
+                $sql = "DELETE FROM comentarios WHERE id='$comentario'";
+                $conexion->exec($sql);
+            }
+        }
+            unset($conexion);
+
     }
 
 }

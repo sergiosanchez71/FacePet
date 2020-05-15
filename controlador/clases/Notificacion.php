@@ -139,5 +139,13 @@ class Notificacion {
         $conexion->exec($sql);
         unset($conexion);
     }
+    
+    function borrarNotificacionesUsuario($usuario){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM notificaciones WHERE user1=$usuario or user2=$usuario";
+        $conexion->exec($sql);
+        unset($conexion);
+    }
 
 }
