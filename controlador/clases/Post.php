@@ -277,7 +277,7 @@ class Post {
         $datos = null;
         while ($row = $consulta->fetch()) {
 
-            //if ($i < $cantidad && !Post::esMostrado($array, $row['id'])) {
+            if ($i < $cantidad) {
 
                 $idusuario = Usuario::getIdUsuario($_SESSION['username']);
                 if ($row['foto'] == null) {
@@ -301,7 +301,7 @@ class Post {
                     'login' => $idusuario,
                     'comentarios' => Comentario::contarComentarios($row['id'])
                 );
-            //}
+            }
 
             $i++;
         }

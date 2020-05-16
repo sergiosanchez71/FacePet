@@ -44,7 +44,7 @@
                 font-size: 1.5rem;
                 transition: 1s background ease;
             }
-            
+
             #fechai, #fechaf{
                 text-align: center;
             }
@@ -76,7 +76,7 @@
                 border-radius: 2rem;
                 cursor: pointer;
             }
-            
+
             /*#pata{
                 padding-left: 0.5rem;
                 width: 2rem;
@@ -101,7 +101,7 @@
             #botonCrearEvento:hover, textarea:hover, #titulo:hover, #tipo:hover, #fechai:hover, #fechaf:hover, #searchTextField:hover{
                 background-color:#FFF578;
             }
-            
+
             #paso1{
                 display: block;
             }
@@ -142,7 +142,7 @@
                 #multimedia{
                     font-size: 2.5rem;
                 }
-                
+
                 #searchTextField{
                     height: 4rem;
                     font-size: 3rem;
@@ -174,7 +174,7 @@
                     var fechai = $("#fechai").val();
                     var fechaf = $("#fechaf").val();
                     if (titulo.trim() != "" && contenido.trim() != "" && tipo.trim() != "" && fechai.trim() != "" && fechaf.trim() != "") {
-                      <!--  window.location.href = "miPerfil.php";-->
+                        /*  window.location.href = "miPerfil.php";*/
                     }
                 });
                 /* $("#subirImagen").click(function () {
@@ -193,13 +193,19 @@
                     success: function (respuesta) {
                         var fecha = JSON.parse(respuesta);
 
-                        var hora = parseInt(fecha.hour) + 1;
+                        if (fecha.hour < 10) {
+                            var hora = parseInt(fecha.hour) + 1;
+                            hora = 0+""+hora;
+                        }
 
                         $("#fechai").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                         $("#fechai").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                         $("#fechai").attr("max", "2099-12-31T23:59");
 
-                        var hora = parseInt(fecha.hour) + 2;
+                        if (fecha.hour < 10) {
+                            var hora = parseInt(fecha.hour) + 2;
+                            hora = 0+""+hora;
+                        }
 
                         $("#fechaf").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                         $("#fechaf").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
@@ -267,7 +273,7 @@
                         marker = new google.maps.Marker({
                             position: location,
                             map: map,
-                            icon:'../controlador/img/marker.ico',
+                            icon: '../controlador/img/marker.ico',
                             draggable: true
                         });
                     }
@@ -290,7 +296,7 @@
                 } else {
                     var participable = "";
                 }
-                                
+
                 var colorError = "#E95139";
                 var campoVacio = false;
 
@@ -470,7 +476,7 @@
                 <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" class="cerrarsesion" alt="cerrarSesion"></a></li>
                 <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p class="alerta" id="mensajeM">1</p></a></li>
                 <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p class="alerta" id="notificacionM">1</p></a></li>
-                     <li id="liUsuario">
+                <li id="liUsuario">
                     <a href="miPerfil.php">
                         <img class="perfil" alt="imgPerfil">
                     </a>

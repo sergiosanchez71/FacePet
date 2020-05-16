@@ -434,7 +434,10 @@ and open the template in the editor.
                                                 var fecha = JSON.parse(respuesta);
 
 
-                                                var hora = parseInt(fecha.hour) + 1;
+                                                if (fecha.hour < 10) {
+                                                    var hora = parseInt(fecha.hour) + 1;
+                                                    hora = 0 + "" + hora;
+                                                }
 
                                                 console.log($(".fechaS:eq(" + pos + ")").val());
 
@@ -508,13 +511,13 @@ and open the template in the editor.
                                 eliminar.innerHTML = "Eliminar";
 
                                 eliminar.onclick = function () {
-                                    if (confirm("¿Esta seguro de eliminar a este usuario?"+this.value)) {
+                                    if (confirm("¿Esta seguro de eliminar a este usuario?" + this.value)) {
                                         console.log(this.value);
-                                        eliminarUsuario(this.value,this.dataset.pos);
+                                        eliminarUsuario(this.value, this.dataset.pos);
                                     }
                                 }
-                                
-                                function eliminarUsuario(usuario,pos){
+
+                                function eliminarUsuario(usuario, pos) {
                                     var parametros = {
                                         "accion": "eliminarUsuario",
                                         "usuario": usuario

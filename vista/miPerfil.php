@@ -34,37 +34,37 @@ and open the template in the editor.
             var cantidad = 5;
 
             $(window).scroll(function () {
-                if ($(window).scrollTop() > $("#contenido").height() - 400) {
+                if ($(window).scrollTop() > $("#contenido").height() - 400 && ($("#contenido").height() > 1000)) {
                     /*if ($("#cadPosts").empty) {
-                        mostrarMisPostsInicio("5");
-                    } else {*/
-                        cargando += 1;
-                        if (cargando == 1) {
-                            cantidad += 5;
-                            mostrarMisPosts(cantidad);
-                            console.log($("#cadPosts").val());
-                        }
+                     mostrarMisPostsInicio("5");
+                     } else {*/
+                    console.log($("#contenido").height());
+                    cargando += 1;
+                    if (cargando == 1) {
+                        cantidad += 5;
+                        mostrarMisPosts(cantidad);
+                        console.log($("#cadPosts").val());
+                    }
                     //}
                 } else {
                     cargando = 0;
                 }
-                
-                if($("#contenido").height()> 600)
-                
-                if($(window).scrollTop()> 500 && $(window).width() > 1000){
-                    $("#amigosPerfil").css("position","fixed");
-                    $("#amigosPerfil").css("top","0.5rem");
-                    $("#amigosPerfil").css("width","23%");
-                } else {
-                    $("#amigosPerfil").css("position","relative");
-                    $("#amigosPerfil").css("width","75%");
-                }
+
+                if ($("#contenido").height() > 600)
+                    if ($(window).scrollTop() > 500 && $(window).width() > 1000) {
+                        $("#amigosPerfil").css("position", "fixed");
+                        $("#amigosPerfil").css("top", "0.5rem");
+                        $("#amigosPerfil").css("width", "23%");
+                    } else {
+                        $("#amigosPerfil").css("position", "relative");
+                        $("#amigosPerfil").css("width", "75%");
+                    }
             });
 
             $(document).ready(function () {
                 $("#cambiarImagen").hide();
                 getDatosMiPerfil();
-                mostrarMisPostsInicio("5");
+                mostrarMisPosts("5");
                 mostrarMisAmigos();
                 $("#botonPosts").hide();
                 $("#textoEventos").hide();
@@ -84,7 +84,7 @@ and open the template in the editor.
                     $("#textoEventos").hide();
                     $("#contenido").empty();
                     $("#cadPosts").val("");
-                    mostrarMisPostsInicio("5");
+                    mostrarMisPosts("5");
                 });
                 $("#textCambiarAvatar").click(function () {
                     getId();
@@ -124,7 +124,9 @@ and open the template in the editor.
                     data: parametros,
                     success: function (respuesta) {
                         console.log(respuesta);
-                        mostrarMisPostsInicio("5");
+                        $("#cadPosts").val("");
+                        $("#contenido").empty();
+                        mostrarMisPosts("5");
                     },
                     error: function (xhr, status) {
                         alert("Error en la eliminacion de post");

@@ -274,8 +274,8 @@ switch ($accion) {
         break;
 
     case "mostrarPosts":
-        if (Post::getDatosPostsUsuario($_REQUEST['usuario'])) {
-            echo json_encode(Post::getDatosPostsUsuario($_REQUEST['usuario']));
+        if (Post::getDatosPostsUsuario($_REQUEST['usuario'],$_REQUEST['cantidad'],$_REQUEST['array'])) {
+            echo json_encode(Post::getDatosPostsUsuario($_REQUEST['usuario'],$_REQUEST['cantidad'],$_REQUEST['array']));
         } else {
             echo false;
         }

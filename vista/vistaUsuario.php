@@ -103,7 +103,7 @@ and open the template in the editor.
         <script>
 
             var cargando = 0;
-            var cantidad = 0;
+            var cantidad = 5;
 
             $(window).scroll(function () {
                 if ($(window).scrollTop() > $("#cuerpo").height() - 800) {
@@ -119,7 +119,7 @@ and open the template in the editor.
             });
 
             $(document).ready(function () {
-                cargarPostsAmigosInicio("5");
+                cargarPostsAmigos("5");
                 mostrarEventos();
             });
 
@@ -153,7 +153,7 @@ and open the template in the editor.
                 });
             }
 
-            function cargarPostsAmigosInicio(cantidad) {
+           /* function cargarPostsAmigosInicio(cantidad) {
                 var parametros = {
                     "accion": "mostrarPostsAmigosInicio",
                     "cantidad": cantidad
@@ -180,7 +180,7 @@ and open the template in the editor.
                     type: "POST",
                     dataType: "text"
                 });
-            }
+            }*/
 
             function mostrarEventos() {
                 var parametros = {
