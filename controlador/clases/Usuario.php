@@ -433,6 +433,46 @@ class Usuario {
         unset($conexion);
         return $datos;
     }
+    
+    function mostrarTodosNombresUsuarios($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from usuarios where nick nick!='$usuario' order by nick asc");
+        $i = 0;
+        while ($row = $consulta->fetch()) {
+            $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+            if ($solicitud != "aceptada") {
+                $datos[$i] = $row['nick'];
+                $i++;
+            }
+        }
+        unset($conexion);
+
+        if ($i == 0) {
+            return false;
+        }
+        return $datos;
+    }
+
+    function mostrarNombresUsuarios($cadena, $usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' order by nick asc");
+        $i = 0;
+        while ($row = $consulta->fetch()) {
+            $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+            if ($solicitud != "aceptada") {
+                $datos[$i] = $row['nick'];
+                $i++;
+            }
+        }
+        unset($conexion);
+
+        if ($i == 0) {
+            return false;
+        }
+        return $datos;
+    }
 
     function getDatosBuscar($cadena, $usuario) {
         $conexion = Conexion::conectar();

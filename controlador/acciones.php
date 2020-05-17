@@ -162,6 +162,14 @@ switch ($accion) {
             echo false;
         }
         break;
+        
+    case "mostrarNombresUsuarios":
+        echo json_encode(Usuario::mostrarNombresUsuarios($_REQUEST['cadena'],$idusuario));
+        break;
+    
+    case "mostrarTodosNombresUsuarios":
+        echo json_encode(Usuario::mostrarTodosNombresUsuarios($idusuario));
+        break;
 
     case "mostrarMisAmigos":
         if (Usuario::mostrarAmigos($idusuario)) {

@@ -229,6 +229,14 @@ and open the template in the editor.
                             var posts = JSON.parse(respuesta);
                             pintarPosts(posts, "contenido");
                             console.log(respuesta);
+                        } else {
+                            if (cantidad == "5") {
+                                var h1 = document.createElement("h1");
+                                h1.innerHTML += "Aquí se mostraran los posts, pero ahora mismo no tienes ninguno";
+                                $("#textoEventos").hide();
+                                h1.setAttribute("class", "noHay");
+                                $("#contenido").append(h1);
+                            }
                         }
                     },
                     error: function (xhr, status) {

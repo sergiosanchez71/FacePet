@@ -139,11 +139,13 @@ and open the template in the editor.
                             var posts = JSON.parse(respuesta);
                             pintarPosts(posts, "posts");
 
-                        }/* else {
-                         var h1 = document.createElement("h1");
-                         h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya";
-                         $("#posts").append(h1);
-                         }*/
+                        } else {
+                            if (cantidad == "5") {
+                                var h1 = document.createElement("h1");
+                                h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya";
+                                $("#posts").append(h1);
+                            }
+                        }
                     },
                     error: function (xhr, status) {
                         alert("Error en la eliminacion de post");
@@ -153,34 +155,34 @@ and open the template in the editor.
                 });
             }
 
-           /* function cargarPostsAmigosInicio(cantidad) {
-                var parametros = {
-                    "accion": "mostrarPostsAmigosInicio",
-                    "cantidad": cantidad
-                };
-
-                $.ajax({
-                    url: "../controlador/acciones.php",
-                    data: parametros,
-                    success: function (respuesta) {
-                        if (respuesta) {
-                            //console.log(respuesta);
-                            var posts = JSON.parse(respuesta);
-                            pintarPosts(posts, "posts");
-
-                        } else {
-                            var h1 = document.createElement("h1");
-                            h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya";
-                            $("#posts").append(h1);
-                        }
-                    },
-                    error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
-                    },
-                    type: "POST",
-                    dataType: "text"
-                });
-            }*/
+            /* function cargarPostsAmigosInicio(cantidad) {
+             var parametros = {
+             "accion": "mostrarPostsAmigosInicio",
+             "cantidad": cantidad
+             };
+             
+             $.ajax({
+             url: "../controlador/acciones.php",
+             data: parametros,
+             success: function (respuesta) {
+             if (respuesta) {
+             //console.log(respuesta);
+             var posts = JSON.parse(respuesta);
+             pintarPosts(posts, "posts");
+             
+             } else {
+             var h1 = document.createElement("h1");
+             h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya";
+             $("#posts").append(h1);
+             }
+             },
+             error: function (xhr, status) {
+             alert("Error en la eliminacion de post");
+             },
+             type: "POST",
+             dataType: "text"
+             });
+             }*/
 
             function mostrarEventos() {
                 var parametros = {
