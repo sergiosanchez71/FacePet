@@ -9,11 +9,12 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title></title>
         <link rel="icon" href="../controlador/img/favicon.ico">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE" async defer></script>
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <link href="../controlador/css/eventos.css" rel="stylesheet" type="text/css"/>
         <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
         <script src="../controlador/js/header.js" type="text/javascript"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE" async defer></script>
+        <script src="../controlador/js/pintarObjetos.js" type="text/javascript"></script>
         <?php
         session_start();
         include '../controlador/gestion.php';
@@ -100,160 +101,8 @@ and open the template in the editor.
                     data: parametros,
                     success: function (respuesta) {
                         if (respuesta) {
-                            var eventos = JSON.parse(respuesta);
-                            var evento = document.createElement("div");
-                            evento.setAttribute("class", "evento");
-
-                            var titulo = document.createElement("p");
-                            titulo.setAttribute("class", "eventoTitulo");
-                            titulo.innerHTML = eventos.titulo;
-                            titulo.setAttribute("data-value", eventos.id);
-
-                            titulo.onclick = function () {
-                                window.location.href = "verEvento.php?evento=" + this.dataset.value;
-                            }
-
-                            var textTipo = document.createElement("p");
-                            textTipo.setAttribute("class", "textTipo");
-
-                            var tipo = document.createElement("span");
-                            tipo.setAttribute("class", "eventoTipo");
-                            tipo.innerHTML = eventos.tipo;
-
-                            var textFechai = document.createElement("p");
-                            textFechai.setAttribute("class", "textFechai");
-
-                            var textFechaf = document.createElement("p");
-                            textFechaf.setAttribute("class", "textFechaf");
-
-                            var fechai = document.createElement("span");
-                            fechai.setAttribute("class", "eventoFecha");
-                            fechai.innerHTML = eventos.fechai;
-                            if (eventos.empezado) {
-                                fechai.setAttribute("style", "color:#126310");
-                                fechai.setAttribute("title","Evento actualmente activo");
-                            }
-
-                            var fechaf = document.createElement("span");
-                            fechaf.setAttribute("class", "eventoFecha");
-                            fechaf.innerHTML = eventos.fechaf;
-
-                            var cont = document.createElement("div");
-                            cont.setAttribute("class", "cont");
-
-
-                            var contenido = document.createElement("p");
-                            contenido.setAttribute("class", "eventoContenido");
-                            contenido.innerHTML = eventos.contenido;
-
-                            if (eventos.foto) {
-                                var img = document.createElement("img");
-                                img.setAttribute("class", "eventoImg");
-                                img.setAttribute("src", "../controlador/uploads/eventos/" + eventos.foto);
-                                img.setAttribute("alt", "imgagenEvento");
-                            }
-
-
-                            if (eventos.lat && eventos.lng) {
-                                var map = document.createElement("div");
-                                map.setAttribute("id", "map");
-                                initMap(map, eventos.lat, eventos.lng);
-                            }
-
-                            var visual = document.createElement("div");
-                            if (eventos.foto && eventos.lat && eventos.lng) {
-                                visual.setAttribute("class", "visual");
-                            } else if (eventos.foto) {
-                                visual.setAttribute("class", "visualImg");
-                            } else {
-                                visual.setAttribute("class", "visualMap");
-                                map.setAttribute("style", "height:20rem");
-                            }
-
-                            var textAutor = document.createElement("p");
-                            textAutor.setAttribute("class", "eventoAutor");
-
-
-                            var autor = document.createElement("span");
-                            autor.setAttribute("class", "eventoNombreAutor");
-                            autor.innerHTML = eventos.autor;
-                            autor.setAttribute("data-value", eventos.usuario);
-
-                            if (eventos.participable) {
-                                var textParticipantes = document.createElement("p");
-                                var participantes = document.createElement("span");
-                                var part;
-                                if (eventos.participable == "t") {
-                                    part = "0";
-                                } else {
-                                    part = eventos.participantes.length;
-                                }
-                                participantes.innerHTML = part;
-
-
-                                var botonParticipar = document.createElement("button");
-                                botonParticipar.setAttribute("id", "botonParticipar");
-                                botonParticipar.setAttribute("value", eventos.id);
-                                botonParticipar.innerHTML = "Participar en este Evento";
-
-                                var botonYaParticipa = document.createElement("button");
-                                botonYaParticipa.setAttribute("id", "botonYaParticipa");
-                                botonYaParticipa.setAttribute("value", eventos.id);
-                                botonYaParticipa.innerHTML = "Ya participas en este evento";
-
-                                if (!eventos.participa) {
-                                    botonParticipar.onclick = function () {
-                                        //this.innerHTML = "Ya participas en este evento";
-                                        participarEvento(this.value);
-                                        window.location.reload();
-                                    }
-                                } else {
-                                    botonYaParticipa.onclick = function () {
-                                       // this.innerHTML = "Participar en este Evento";
-                                        salirDeEvento(this.value);
-                                        window.location.reload();
-                                    }
-                                }
-                            }
-
-                            autor.onclick = function () {
-                                window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
-                            }
-
-                            $("#menuEvento").append(evento);
-                            evento.append(cont);
-                            cont.append(titulo);
-                            cont.append(textTipo);
-                            textTipo.append("Tipo de evento: ");
-                            textTipo.append(tipo);
-                            cont.append(textFechai);
-                            textFechai.append("Fecha inicio: ");
-                            textFechai.append(fechai);
-                            cont.append(textFechaf);
-                            textFechaf.append("Fecha fin: ");
-                            textFechaf.append(fechaf);
-                            cont.append(contenido);
-                            cont.append(visual);
-                            if (eventos.foto) {
-                                visual.append(img);
-                            }
-
-                            if (eventos.lat && eventos.lng) {
-                                visual.append(map);
-                            }
-                            cont.append(textAutor);
-                            textAutor.append("Autor del evento: ");
-                            textAutor.append(autor);
-                            if (eventos.participable) {
-                                if (!eventos.participa) {
-                                    cont.append(botonParticipar);
-                                } else {
-                                    cont.append(botonYaParticipa);
-                                }
-                                cont.append(textParticipantes);
-                                textParticipantes.append("Participantes ");
-                                textParticipantes.append(participantes);
-                            }
+                            var evento = JSON.parse(respuesta);
+                            pintarUnEvento(evento);
 
                         } else {
                             window.location.href = "vistaUsuario.php";
@@ -267,7 +116,7 @@ and open the template in the editor.
                 });
             }
 
-            function initMap(map, lat, lng) {
+            /*function initMap(map, lat, lng) {
                 var maps = new google.maps.Map(map, {
                     center: {lat: parseFloat(lat), lng: parseFloat(lng)},
                     zoom: 16,
@@ -283,7 +132,7 @@ and open the template in the editor.
                     icon:'../controlador/img/marker.ico',
                     map: maps
                 });
-            }
+            }*/
 
             function participarEvento(evento) {
                 var parametros = {

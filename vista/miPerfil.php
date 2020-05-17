@@ -9,6 +9,7 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title>Mi Perfil</title>
         <link rel="icon" href="../controlador/img/favicon.ico">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE" async defer></script>
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css">
         <link href="../controlador/css/jquery.modal.min.css" rel="stylesheet" type="text/css"/>
@@ -87,6 +88,11 @@ and open the template in the editor.
                     mostrarMisPosts("5");
                 });
                 $("#textCambiarAvatar").click(function () {
+                    getId();
+                    $("#cambiarImagen").modal();
+                });
+                
+                $("#imgPerfil").click(function () {
                     getId();
                     $("#cambiarImagen").modal();
                 });
@@ -246,38 +252,7 @@ and open the template in the editor.
                     dataType: "text"
                 });
             }
-
-            function mostrarMisPostsInicio(cantidad) {
-                var parametros = {
-                    "accion": "mostrarMisPostsInicio",
-                    "cantidad": cantidad
-                };
-
-                $.ajax({
-                    url: "../controlador/acciones.php",
-                    data: parametros,
-                    success: function (respuesta) {
-                        $("#textoPosts").show();
-                        if (respuesta) {
-                            var posts = JSON.parse(respuesta);
-                            pintarPosts(posts, "contenido");
-                        } else {
-                            var h1 = document.createElement("h1");
-                            h1.setAttribute("style", "text-align:center");
-                            h1.innerHTML += "Aún no tienes posts, crea uno";
-                            $("#textoPosts").hide();
-                            h1.setAttribute("class", "noHay");
-                            $("#contenido").append(h1);
-                        }
-                    },
-                    error: function (xhr, status) {
-                        alert("Error en la creación de post");
-                    },
-                    type: "POST",
-                    dataType: "text"
-                });
-            }
-
+            
             function mostrarMisEventos() {
                 var parametros = {
                     "accion": "mostrarEventosId"
@@ -289,7 +264,6 @@ and open the template in the editor.
                     success: function (respuesta) {
                         console.log(respuesta);
                         if (respuesta) {
-
                             $("#textoEventos").show();
                             var eventos = JSON.parse(respuesta);
                             pintarEventos(eventos, "contenido");
@@ -310,9 +284,32 @@ and open the template in the editor.
                     dataType: "text"
                 });
             }
+            
+            function eliminarEvento(evento){
+                var parametros = {
+                    "accion": "eliminarEvento",
+                    "evento": evento
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        console.log(respuesta);
+                        //$("#cadEventos").val("");
+                        $("#contenido").empty();
+                        //mostrarMisPosts("5");
+                        mostrarMisEventos();
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de evento");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
 
         </script>
-        <?php ?>
     </head>
     <body>
 

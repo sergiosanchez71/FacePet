@@ -33,22 +33,22 @@ function pintarPosts(posts, div) {
             }
 
             if (posts[i].loginOperador == 1 || posts[i].login == posts[i].usuario) {
-             
-             var a = document.createElement("button");
-             a.setAttribute("value", posts[i].id);
-             a.setAttribute("class", "botonEliminar");
-             
-             a.onclick = function () {
-             if (confirm("Esta seguro de eliminar este post")) {
-             eliminarPost(this.value);
-             }
-             }
-             
-             var postEliminar = document.createElement("img");
-             postEliminar.setAttribute("class", "postEliminar");
-             postEliminar.setAttribute("src", "../controlador/img/eliminar.png");
-             
-             }
+
+                var a = document.createElement("button");
+                a.setAttribute("value", posts[i].id);
+                a.setAttribute("class", "botonEliminar");
+
+                a.onclick = function () {
+                    if (confirm("Esta seguro de eliminar este post")) {
+                        eliminarPost(this.value);
+                    }
+                }
+
+                var postEliminar = document.createElement("img");
+                postEliminar.setAttribute("class", "postEliminar");
+                postEliminar.setAttribute("src", "../controlador/img/eliminar.png");
+
+            }
 
             var imgUsuario = document.createElement("img");
             imgUsuario.setAttribute("class", "imagenUsuario");
@@ -158,10 +158,10 @@ function pintarPosts(posts, div) {
 
 
             $("#" + div).append(post);
-             if (posts[i].loginOperador == 1 || posts[i].login == posts[i].usuario) {
-             post.append(a);
-             a.append(postEliminar);
-             }
+            if (posts[i].loginOperador == 1 || posts[i].login == posts[i].usuario) {
+                post.append(a);
+                a.append(postEliminar);
+            }
             post.append(postUsuario);
 
 
@@ -227,6 +227,26 @@ function pintarEventos(eventos, div) {
         var evento = document.createElement("div");
         evento.setAttribute("class", "evento");
 
+        if (eventos[i].loginOperador == 1 || eventos[i].login == eventos[i].usuario) {
+
+            var a = document.createElement("button");
+            a.setAttribute("value", eventos[i].id);
+            a.setAttribute("class", "botonEliminar");
+
+            a.onclick = function () {
+                if (confirm("Esta seguro de eliminar este evento")) {
+                    eliminarEvento(this.value);
+                }
+            }
+
+            var eventoEliminar = document.createElement("img");
+            eventoEliminar.setAttribute("class", "postEliminar");
+            eventoEliminar.setAttribute("src", "../controlador/img/eliminar.png");
+
+            a.append(eventoEliminar);
+
+        }
+
         var titulo = document.createElement("p");
         titulo.setAttribute("class", "eventoTitulo");
         titulo.innerHTML = eventos[i].titulo;
@@ -262,9 +282,9 @@ function pintarEventos(eventos, div) {
         fechaf.setAttribute("class", "eventoFecha");
         fechaf.innerHTML = eventos[i].fechaf;
 
-       /* var contenido = document.createElement("p");
-        contenido.setAttribute("class", "eventoContenido");
-        contenido.innerHTML = eventos[i].contenido;*/
+        /* var contenido = document.createElement("p");
+         contenido.setAttribute("class", "eventoContenido");
+         contenido.innerHTML = eventos[i].contenido;*/
 
         if (eventos[i].foto) {
 
@@ -275,10 +295,11 @@ function pintarEventos(eventos, div) {
             img.setAttribute("alt", "imgagenEvento");
 
         } else if (eventos[i].lat && eventos[i].lng) {
+
             var map = document.createElement("div");
             map.setAttribute("class", "map");
-            //map.setAttribute("style", "height:20rem");
             initMap(map, eventos[i].lat, eventos[i].lng);
+
         }
         var textAutor = document.createElement("p");
         textAutor.setAttribute("class", "eventoAutor");
@@ -305,6 +326,9 @@ function pintarEventos(eventos, div) {
         }
 
         $("#" + div).append(evento);
+        if (eventos[i].loginOperador == 1 || eventos[i].login == eventos[i].usuario) {
+            evento.append(a);
+        }
         evento.append(titulo);
         evento.append(textTipo);
         textTipo.append("Tipo de evento: ");
@@ -330,6 +354,199 @@ function pintarEventos(eventos, div) {
             textParticipantes.append(participantes);
         }
 
+        function initMap(map, lat, lng) {
+            var maps = new google.maps.Map(map, {
+                center: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                zoom: 16,
+                streetViewControl: false,
+                mapTypeControl: false,
+                scaleControl: false,
+                zoomControl: false,
+                scrollwheel: false,
+                fullscreenControl: false
+            });
+            new google.maps.Marker({
+                position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                icon: '../controlador/img/marker.ico',
+                map: maps
+            });
+        }
+
+    }
+}
+
+function pintarUnEvento(eventos) {
+    var evento = document.createElement("div");
+    evento.setAttribute("class", "evento");
+
+    var titulo = document.createElement("p");
+    titulo.setAttribute("class", "eventoTitulo");
+    titulo.innerHTML = eventos.titulo;
+    titulo.setAttribute("data-value", eventos.id);
+
+    titulo.onclick = function () {
+        window.location.href = "verEvento.php?evento=" + this.dataset.value;
+    }
+
+    var textTipo = document.createElement("p");
+    textTipo.setAttribute("class", "textTipo");
+
+    var tipo = document.createElement("span");
+    tipo.setAttribute("class", "eventoTipo");
+    tipo.innerHTML = eventos.tipo;
+
+    var textFechai = document.createElement("p");
+    textFechai.setAttribute("class", "textFechai");
+
+    var textFechaf = document.createElement("p");
+    textFechaf.setAttribute("class", "textFechaf");
+
+    var fechai = document.createElement("span");
+    fechai.setAttribute("class", "eventoFecha");
+    fechai.innerHTML = eventos.fechai;
+    if (eventos.empezado) {
+        fechai.setAttribute("style", "color:#126310");
+        fechai.setAttribute("title", "Evento actualmente activo");
+    }
+
+    var fechaf = document.createElement("span");
+    fechaf.setAttribute("class", "eventoFecha");
+    fechaf.innerHTML = eventos.fechaf;
+
+    var cont = document.createElement("div");
+    cont.setAttribute("class", "cont");
+
+
+    var contenido = document.createElement("p");
+    contenido.setAttribute("class", "eventoContenido");
+    contenido.innerHTML = eventos.contenido;
+
+    if (eventos.foto) {
+        var img = document.createElement("img");
+        img.setAttribute("class", "eventoImg");
+        img.setAttribute("src", "../controlador/uploads/eventos/" + eventos.foto);
+        img.setAttribute("alt", "imgagenEvento");
+    }
+
+
+    if (eventos.lat && eventos.lng) {
+        var map = document.createElement("div");
+        map.setAttribute("id", "map");
+        initMap(map, eventos.lat, eventos.lng);
+    }
+
+    var visual = document.createElement("div");
+    if (eventos.foto && eventos.lat && eventos.lng) {
+        visual.setAttribute("class", "visual");
+    } else if (eventos.foto) {
+        visual.setAttribute("class", "visualImg");
+    } else {
+        visual.setAttribute("class", "visualMap");
+        map.setAttribute("style", "height:20rem");
+    }
+
+    var textAutor = document.createElement("p");
+    textAutor.setAttribute("class", "eventoAutor");
+
+
+    var autor = document.createElement("span");
+    autor.setAttribute("class", "eventoNombreAutor");
+    autor.innerHTML = eventos.autor;
+    autor.setAttribute("data-value", eventos.usuario);
+
+    if (eventos.participable) {
+        var textParticipantes = document.createElement("p");
+        var participantes = document.createElement("span");
+        var part;
+        if (eventos.participable == "t") {
+            part = "0";
+        } else {
+            part = eventos.participantes.length;
+        }
+        participantes.innerHTML = part;
+
+
+        var botonParticipar = document.createElement("button");
+        botonParticipar.setAttribute("id", "botonParticipar");
+        botonParticipar.setAttribute("value", eventos.id);
+        botonParticipar.innerHTML = "Participar en este Evento";
+
+        var botonYaParticipa = document.createElement("button");
+        botonYaParticipa.setAttribute("id", "botonYaParticipa");
+        botonYaParticipa.setAttribute("value", eventos.id);
+        botonYaParticipa.innerHTML = "Ya participas en este evento";
+
+        if (!eventos.participa) {
+            botonParticipar.onclick = function () {
+                //this.innerHTML = "Ya participas en este evento";
+                participarEvento(this.value);
+                window.location.reload();
+            }
+        } else {
+            botonYaParticipa.onclick = function () {
+                // this.innerHTML = "Participar en este Evento";
+                salirDeEvento(this.value);
+                window.location.reload();
+            }
+        }
+
+    }
+
+    function initMap(map, lat, lng) {
+        var maps = new google.maps.Map(map, {
+            center: {lat: parseFloat(lat), lng: parseFloat(lng)},
+            zoom: 16,
+            streetViewControl: false,
+            mapTypeControl: false,
+            scaleControl: false,
+            zoomControl: false,
+            scrollwheel: false,
+            fullscreenControl: false
+        });
+        new google.maps.Marker({
+            position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+            icon: '../controlador/img/marker.ico',
+            map: maps
+        });
+    }
+
+    autor.onclick = function () {
+        window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+    }
+
+    $("#menuEvento").append(evento);
+    evento.append(cont);
+    cont.append(titulo);
+    cont.append(textTipo);
+    textTipo.append("Tipo de evento: ");
+    textTipo.append(tipo);
+    cont.append(textFechai);
+    textFechai.append("Fecha inicio: ");
+    textFechai.append(fechai);
+    cont.append(textFechaf);
+    textFechaf.append("Fecha fin: ");
+    textFechaf.append(fechaf);
+    cont.append(contenido);
+    cont.append(visual);
+    if (eventos.foto) {
+        visual.append(img);
+    }
+
+    if (eventos.lat && eventos.lng) {
+        visual.append(map);
+    }
+    cont.append(textAutor);
+    textAutor.append("Autor del evento: ");
+    textAutor.append(autor);
+    if (eventos.participable) {
+        if (!eventos.participa) {
+            cont.append(botonParticipar);
+        } else {
+            cont.append(botonYaParticipa);
+        }
+        cont.append(textParticipantes);
+        textParticipantes.append("Participantes ");
+        textParticipantes.append(participantes);
     }
 }
 

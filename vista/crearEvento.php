@@ -65,7 +65,7 @@
                 font-size: 1.2rem;
             }
 
-            #botonCrearEvento, #botonCrearEvento2{
+            .botonCrearEvento{
                 font-size: 1.5rem;
                 font-weight: bold;
                 width: 100%;
@@ -193,8 +193,9 @@
                     success: function (respuesta) {
                         var fecha = JSON.parse(respuesta);
 
+                        var hora = parseInt(fecha.hour) + 1;
+
                         if (fecha.hour < 10) {
-                            var hora = parseInt(fecha.hour) + 1;
                             hora = 0+""+hora;
                         }
 
@@ -202,8 +203,8 @@
                         $("#fechai").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                         $("#fechai").attr("max", "2099-12-31T23:59");
 
+                        var hora = parseInt(fecha.hour) + 2;
                         if (fecha.hour < 10) {
-                            var hora = parseInt(fecha.hour) + 2;
                             hora = 0+""+hora;
                         }
 

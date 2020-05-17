@@ -248,7 +248,9 @@ class Evento {
                 'participable' => $row['participantes'],
                 'participantes' => $participantes,
                 'usuario' => $row['usuario'],
-                'autor' => Usuario::getNickName($row['usuario'])
+                'autor' => Usuario::getNickName($row['usuario']),
+                'login' => Usuario::getIdUsuario($_SESSION['username']),
+                'loginOperador' => $_SESSION['operador']
             );
             $i++;
         }
@@ -416,6 +418,30 @@ class Evento {
         $sql = "DELETE FROM eventos WHERE usuario=$usuario";
         $conexion->exec($sql);
         unset($conexion);
+    }
+    
+    function eliminarEvento($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        Evento::eliminarMultimedia($id);
+        $sql = "DELETE FROM eventos where id='$id'";
+        $conexion->exec($sql);
+    }
+    
+    function eliminarMultimedia($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT foto from eventos where id=$id");
+        $borrado = false;
+        while ($row = $consulta->fetch()) {
+            if ($row['foto']) {
+                $multimedia = $row['foto'];
+                unlink("uploads/eventos/" . $multimedia);
+            }
+            $borrado = true;
+        }
+        unset($conexion);
+        return $borrado;
     }
 
 }

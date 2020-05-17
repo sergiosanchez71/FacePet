@@ -203,11 +203,7 @@
         </style>
         <script>
 
-            var nombres = [
-                "benito",
-                "oscar",
-                "federico"
-            ];
+            var nombres = [];
 
             $(document).ready(function () {
                 mostrarTodosNombresUsuarios();
@@ -217,39 +213,23 @@
                     minLength: 0,
                     change: function (event, ui) {
                         $("#buscador").val($(this).val());
+                        console.log($("#buscador").val());
                         buscarUsuarios();
                         $('#d1').html(" <b>Triggered Change event:  </b> " + $(this).val());
                     }
                 });
                 $("#buscador").on('input', function () {
                     buscarUsuarios();
-                    //mostrarNombresUsuarios();
                 });
-                /* $('#buscador').on('input', function () {
-                 //buscarUsuarios();
-                 $("#buscador").autocomplete({
-                 source: function (request, response) {
-                 var nombres = [
-                 "benito",
-                 "federico",
-                 "operador"
-                 ];
-                 response(nombres);
-                 return;
-                 },
-                 
-                 select: function () {
-                 console.log($("#buscador").val());
-                 buscarUsuarios();
-                 }
-                 });
-                 });*/
-                /* $('#ui-id-1').click('input', function () {
-                 buscarUsuarios();
-                 console.log("a");
-                 });*/
 
             });
+
+            function pulsar(e) {
+                var tecla = (document.all) ? e.keyCode : e.which;
+                if (tecla === 13) {
+                    buscarUsuarios();
+                }
+            }
 
 
             function mandarSolicitud(usuario) {
@@ -290,27 +270,8 @@
                 });
             }
 
-            function mostrarNombresUsuarios(cad) {
-                var parametros = {
-                    "accion": "mostrarNombresUsuarios",
-                    "cad": cad
-                };
-
-                $.ajax({
-                    url: "../controlador/acciones.php",
-                    data: parametros,
-                    succes: function (respuesta) {
-                        nombres = respuesta;
-                    },
-                    error: function (xhr, status) {
-                        alert("Error en la creación de post");
-                    },
-                    type: "POST",
-                    dataType: "text"
-                });
-            }
-
             function mostrarTodosNombresUsuarios() {
+                console.log("a");
                 var parametros = {
                     "accion": "mostrarTodosNombresUsuarios"
                 };
@@ -318,12 +279,15 @@
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
-                    succes: function (respuesta) {
+                    success: function (respuesta) {
                         console.log(respuesta);
-                        //nombres = respuesta;
+                        var usuarios = JSON.parse(respuesta);
+                        for (var i = 0; i < usuarios.length; i++) {
+                            nombres[i] = usuarios[i];
+                        }
                     },
                     error: function (xhr, status) {
-                        alert("Error en la creación de post");
+                        alert("Error en la eliminacion de post");
                     },
                     type: "POST",
                     dataType: "text"
@@ -522,7 +486,7 @@
                 </div>
             </header>
             <div id="cuerpo">
-                <div id="buscadorAmigos" class="ui-widget">
+                <div id="buscadorAmigos" class="ui-widget" onkeypress="pulsar(event)">
                     <h1>Buscar Amigos</h1>
                     <input type="text" id="buscador" placeholder="Busca a un amigo...">
                     <img src="../controlador/img/lupa.png" id="lupa" alt="lupa">

@@ -61,11 +61,6 @@ and open the template in the editor.
                 margin: auto;
             }
 
-            .map{
-                width: 100%;
-                height: 10rem;
-            }
-
             @media (max-width:1000px){
 
                 #cuerpo{

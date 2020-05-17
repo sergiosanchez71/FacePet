@@ -121,7 +121,6 @@ class Post {
     function eliminarPost($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //Notificacion::borrarNotificacionIdElemento($id);
         Comentario::eliminarComentarioConIdPost($id);
         Post::eliminarMultimedia($id);
         $sql = "DELETE FROM posts where id='$id'";

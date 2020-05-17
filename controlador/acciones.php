@@ -162,13 +162,13 @@ switch ($accion) {
             echo false;
         }
         break;
-        
-    case "mostrarNombresUsuarios":
-        echo json_encode(Usuario::mostrarNombresUsuarios($_REQUEST['cadena'],$idusuario));
-        break;
-    
+
     case "mostrarTodosNombresUsuarios":
-        echo json_encode(Usuario::mostrarTodosNombresUsuarios($idusuario));
+        if (Usuario::mostrarTodosNombresUsuarios($_SESSION['username'])) {
+            echo json_encode(Usuario::mostrarTodosNombresUsuarios($_SESSION['username']));
+        } else {
+            echo false;
+        }
         break;
 
     case "mostrarMisAmigos":
@@ -282,8 +282,8 @@ switch ($accion) {
         break;
 
     case "mostrarPosts":
-        if (Post::getDatosPostsUsuario($_REQUEST['usuario'],$_REQUEST['cantidad'],$_REQUEST['array'])) {
-            echo json_encode(Post::getDatosPostsUsuario($_REQUEST['usuario'],$_REQUEST['cantidad'],$_REQUEST['array']));
+        if (Post::getDatosPostsUsuario($_REQUEST['usuario'], $_REQUEST['cantidad'], $_REQUEST['array'])) {
+            echo json_encode(Post::getDatosPostsUsuario($_REQUEST['usuario'], $_REQUEST['cantidad'], $_REQUEST['array']));
         } else {
             echo false;
         }
@@ -431,6 +431,10 @@ switch ($accion) {
         } else {
             echo false;
         }
+        break;
+        
+    case "eliminarEvento":
+        Evento::eliminarEvento($_REQUEST['evento']);
         break;
 
     //Mensajes

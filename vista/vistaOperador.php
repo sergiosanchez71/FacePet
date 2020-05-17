@@ -434,8 +434,8 @@ and open the template in the editor.
                                                 var fecha = JSON.parse(respuesta);
 
 
+                                                var hora = parseInt(fecha.hour) + 1;
                                                 if (fecha.hour < 10) {
-                                                    var hora = parseInt(fecha.hour) + 1;
                                                     hora = 0 + "" + hora;
                                                 }
 
