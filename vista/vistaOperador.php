@@ -20,38 +20,102 @@ and open the template in the editor.
         <style>
 
             #cuerpo{
-                width: 100%;
+                width: 60%;
                 background: white;
+                display: block;
+                margin: auto;
+            }
+
+            .boton{
+                font-size: 1.5rem;
+                font-weight: bold;
+                width: 100%;
+                background-color: #FFED91;
+                height: 5rem;
+                font-size: 2rem;
+                transition: 1s background ease;
+                border-radius: 2rem;
+                cursor: pointer;
+                margin-top: 2rem;
+            }
+
+            .boton:hover{
+                background-color:#FFF578;
+            }
+
+            #cuerpo .submenu{
+                margin-top: 3rem;
+            }
+
+            .atrasPrin{
+                cursor: pointer;
+                float: right;
+            }
+
+            .atrasPrin img{
+                width: 4rem;
+            }
+
+            .submenu{
+                display: block;
+                margin: auto;
+                width: 100%;
+            }
+
+            .submenu td{
+                font-size: 1.5rem;
+            }
+
+            .submenu .checkAnimal, .submenu .checkRaza{
+                width: 1rem;
+                height: 1rem;
+            }
+
+            .submenu .listaRaza{
+                font-size: 1.5rem;
+            }
+
+            .submenu input{
+                font-size: 1.5rem;
+            }
+
+            .submenu h1 {
+                font-size: 2.5rem;
+            }
+
+            .submenu h2{
+                font-size: 2rem;
+            }
+
+            .submenu ul li{
+                font-size: 1.5rem;
+            }
+
+            .submenu span{
+                font-size: 1.5rem;
+            }
+
+            .submenu select{
+                font-size: 1.5rem;
             }
 
             #listadoBAnimales tr{
                 border: 1px solid red;
             }
 
-            /*#cuerpo{
-                width: 100%;
-                margin: auto;
-                background: white;
-                height: 100%;
-                min-height: 50rem;
+            #usuarioSancionarText{
+                font-size: 1.5rem;
             }
 
-            #buscadorUsuarios{
-                padding: 2.5% 13% 5% 13%;
-            }
-
-            #buscador{
-                width: 90%;
-                height: 2rem;
+            #sancionarUsuarioText{
                 font-size: 1.3rem;
+                width: 80%;
+                transition: 1s background ease;
             }
 
-            #lupa{
-                width: 3rem;
-                position: relative;
-                top: 1rem;
-                cursor: pointer;
-            }*/
+            #sancionarUsuarioText:hover{
+                background: #FFF578;
+            }
 
             .usuario:first-child{
                 margin-top: 3rem;
@@ -133,14 +197,19 @@ and open the template in the editor.
                 transition: 1s background ease;
             }
 
-            .sancionarB,.sancionarBot, .eliminarB,.eliminarSancion,.atras{
+            .sancionarB,.sancionarBot, .eliminarB,.eliminarSancion,.atras, .submenu button{
                 font-size: 1.4rem;
+                width: 10rem;
                 padding: 5px;
                 cursor: pointer;
                 transition: 1s background ease;
             }
 
-            .sancionarB,.sancionarBot,.atras{
+            .sancionarB:hover, .sancionarBot:hover, .eliminarSancion:hover, .atras:hover{
+                background: #FFF578;
+            }
+
+            .sancionarB,.sancionarBot,.atras,.submenu button{
                 background-color: #fffcce;
             }
 
@@ -154,6 +223,10 @@ and open the template in the editor.
 
             .eliminarB{
                 background-color: #f7a5a5;
+            }
+
+            .eliminarB:hover{
+                background: #ff8989;
             }
 
             @media (max-width: 1000px){
@@ -216,17 +289,12 @@ and open the template in the editor.
 
             }
 
-
-
-
-
-
         </style>
 
         <script>
 
             $(document).ready(function () {
-                $(".volver").click(volver);
+                $(".atrasPrin").click(volver);
                 $("#botonCAnimal").click(function () {
                     $("#crearAnimal").show();
                     $("#botones").hide();
@@ -593,11 +661,11 @@ and open the template in the editor.
                             var input = document.createElement("input");
                             $("#listadoBAnimales").append(tr);
                             tr.appendChild(td);
-                            td.innerHTML += resp.animal[i];
                             input.setAttribute("type", "checkbox");
                             input.setAttribute("class", "checkAnimal");
                             input.setAttribute("value", resp.id[i]);
                             td.appendChild(input);
+                            td.innerHTML += resp.animal[i];
                         }
 
                         //document.getElementById("listadoSelectAnimales").innerHTML = " ";
@@ -759,13 +827,13 @@ and open the template in the editor.
                             $("#listadoBRazas").append(tr);
                             tr.appendChild(td);
                             if (resp.id[i] != 0) {
-                                td.innerHTML = resp.raza[i];
                                 var input = document.createElement("input");
                                 input.setAttribute("type", "checkbox");
                                 input.setAttribute("class", "checkRaza");
                                 input.setAttribute("value", resp.id[i]);
                                 console.log(resp.id[i]);
                                 td.appendChild(input);
+                                td.innerHTML += resp.raza[i];
                             } else {
                                 td.innerHTML = "Este animal no tiene razas creadas";
                             }
@@ -927,52 +995,63 @@ and open the template in the editor.
                     <button id="botonSUsuario" class="boton">Sancionar Usuario</button>
                 </div>
 
-                <div id="crearAnimal" style="display: none;">
+                <div id="crearAnimal" style="display: none;" class="submenu">
+                    <a class="atrasPrin">
+                        <img src="../controlador/img/atras.png" alt="atras">
+                    </a>
                     <h1>Crear un nuevo animal</h1>
-                    Nombre: <input type="text" id="nombreCAnimal" onkeypress="pulsar(event, 'crearanimal')">
+                    <span>Nombre:</span> <input type="text" id="nombreCAnimal" onkeypress="pulsar(event, 'crearanimal')">
                     <button id="botonCrearAnimal">Crear animal</button>
-                    <button class="volver" >Volver</button>
                     <div>
                         <h2>Animales ya disponibles</h2>
                         <ul id="listadoUlAnimales"></ul>
                     </div>
                 </div>
 
-                <div id="borrarAnimal" style="display:none;">
+                <div id="borrarAnimal" style="display:none;" class="submenu">
+                    <a class="atrasPrin">
+                        <img src="../controlador/img/atras.png" alt="atras">
+                    </a>
                     <h1>Borrar animales</h1>
                     <div>
                         <table id="listadoBAnimales"></table>
                         <button id="botonBorrarAnimal">Borrar Animales</button>
-                        <button class="volver" >Volver</button>
                     </div>
                 </div>
 
-                <div id="crearRaza" style="display: none;">
+                <div id="crearRaza" style="display: none;" class="submenu">
+                    <a class="atrasPrin">
+                        <img src="../controlador/img/atras.png" alt="atras">
+                    </a>
                     <h1>Crear una nueva raza</h1>
-                    Nombre: <input type="text" id="nombreCRaza" onkeypress="pulsar(event, 'crearraza')">
-                    Animal: <select id="listadoSelectAnimales"></select>
+                    <span>Nombre:</span> <input type="text" id="nombreCRaza" onkeypress="pulsar(event, 'crearraza')">
+                    <span>Animal:</span> <select id="listadoSelectAnimales"></select>
                     <button id="botonCrearRaza">Crear raza</button>
-                    <button class="volver" >Volver</button>
                     <div>
                         <h2>Razas ya disponibles</h2>
                         <ul id="listadoUlRazas"></ul>
                     </div>
                 </div>
 
-                <div id="borrarRaza" style="display:none;">
+                <div id="borrarRaza" style="display:none;" class="submenu">
+                    <a class="atrasPrin">
+                        <img src="../controlador/img/atras.png" alt="atras">
+                    </a>
                     <h1>Borrar razas</h1>
                     <div>
-                        Animal: <select id="listadoSelectBAnimales"></select>
+                        <span>Animal:</span> <select id="listadoSelectBAnimales"></select>
                         <table id="listadoBRazas"></table>
                         <button id="botonBorrarRaza">Borrar Razas</button>
-                        <button class="volver" >Volver</button>
                     </div>
                 </div>
 
                 <div id="sancionarUsuarios" style="display:none;">
+                    <a href="vistaOperador.php" class="atrasPrin">
+                        <img src="../controlador/img/atras.png" alt="atras">
+                    </a>
                     <h1>Sancionar Usuarios</h1>
                     <div>
-                        Usuario: <input type="text" id="sancionarUsuarioText">
+                        <span id="usuarioSancionarText">Usuario:</span> <input type="text" id="sancionarUsuarioText">
                         <div id="usuariosSancionar"></div>
                     </div>
                 </div>

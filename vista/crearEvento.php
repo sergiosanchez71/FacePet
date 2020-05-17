@@ -111,7 +111,7 @@
             }
 
             @media (max-width:1000px){
-
+                
                 #crearEvento{
                     width: 90%;
                     margin-bottom: 10rem;
