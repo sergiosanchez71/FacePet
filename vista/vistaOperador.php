@@ -313,7 +313,6 @@ and open the template in the editor.
                     $("#crearRaza").show();
                     $("#botones").hide();
                     mostrarAnimales();
-                    mostrarRazas();
                     $("#botonCrearRaza").click(crearRaza);
                     $("#listadoSelectAnimales").change(mostrarRazas);
                 });
@@ -322,6 +321,7 @@ and open the template in the editor.
                     $("#borrarRaza").show();
                     $("#botones").hide();
                     mostrarAnimales();
+                    mostrarRazas();
                     mostrarRazasBorrar();
                     $("#botonBorrarRaza").click(borrarRaza);
                     $("#listadoSelectBAnimales").change(mostrarRazasBorrar);

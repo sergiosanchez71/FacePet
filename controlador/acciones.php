@@ -115,12 +115,12 @@ switch ($accion) {
         $usuario = new Usuario($_REQUEST['nick'], $password, $_REQUEST['email'], $_REQUEST['animal'], $_REQUEST['raza'], $_REQUEST['sexo'], null, $_REQUEST['localidad']);
 
         if (!Usuario::existeUsuario($_REQUEST['nick'])) {
-            if (!Usuario::existeEmail($usuario)) {
+            //if (!Usuario::existeEmail($usuario)) {
                 Usuario::crearUsuario($usuario);
                 echo "Usuario registrado correctamente";
-            } else {
+            /*} else {
                 echo "El correo electrónico ya está en uso";
-            }
+            }*/
         } else {
             echo "El nombre de usuario ya está en uso";
         }
@@ -383,7 +383,7 @@ switch ($accion) {
 
     case "crearEvento":
         $fecha = date("Y-m-d H:i:s");
-        $evento = new Evento($_REQUEST['titulo'], $_REQUEST['contenido'], $_REQUEST['tipo'], $fecha, $_REQUEST['fechai'], $_REQUEST['fechaf'], null, $_REQUEST['lat'], $_REQUEST['lng'], $_REQUEST['participable'], $idusuario);
+        $evento = new Evento($_REQUEST['titulo'], $_REQUEST['contenido'], $_REQUEST['tipo'], $fecha, $_REQUEST['fechai'], $_REQUEST['fechaf'], null,$_REQUEST['direccion'],$_REQUEST['cp'],$_REQUEST['ciudad'],$_REQUEST['provincia'], $_REQUEST['lat'], $_REQUEST['lng'], $_REQUEST['participable'], $idusuario);
         Evento::crearEvento($evento);
         echo Evento::consultarId($evento);
         break;

@@ -106,12 +106,12 @@
                 display: block;
             }
 
-            #paso2,#lat,#lng{
+            #paso2,.invisible{
                 display: none;
             }
 
             @media (max-width:1000px){
-                
+
                 #crearEvento{
                     width: 90%;
                     margin-bottom: 10rem;
@@ -195,18 +195,18 @@
 
                         var hora = parseInt(fecha.hour) + 1;
 
-                        if (fecha.hour < 10) {
-                            hora = 0+""+hora;
-                        }
+                        /*if (fecha.hour < 10) {
+                         hora = 0+""+hora;
+                         }*/
 
                         $("#fechai").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                         $("#fechai").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                         $("#fechai").attr("max", "2099-12-31T23:59");
 
                         var hora = parseInt(fecha.hour) + 2;
-                        if (fecha.hour < 10) {
-                            hora = 0+""+hora;
-                        }
+                        /*if (fecha.hour < 10) {
+                         hora = 0+""+hora;
+                         }*/
 
                         $("#fechaf").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                         $("#fechaf").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
@@ -222,6 +222,7 @@
             }
 
             function initMap() {
+
                 var map = new google.maps.Map(document.getElementById('map'), {
                     center: {lat: 40.4378698, lng: -3.8196215},
                     zoom: 15,
@@ -245,6 +246,7 @@
 
                 google.maps.event.addListener(map, 'click', function (event) {
                     setMark(event.latLng);
+                    geocodeLatLng(geocoder, map, infowindow);
                 });
 
                 var input = document.getElementById('searchTextField');
@@ -266,6 +268,8 @@
 
                 });
                 var marker = null;
+                var geocoder = new google.maps.Geocoder();
+                var infowindow = new google.maps.InfoWindow;
 
                 function setMark(location) {
                     if (marker) {
@@ -282,6 +286,51 @@
                     $("#lng").val(marker.getPosition().lng().toString());
                 }
 
+                function geocodeLatLng(geocoder, map, infowindow) {
+                    /*var input = document.getElementById('latlng').value;
+                     var latlngStr = input.split(',', 2);*/
+                    var latinp = $("#lat").val();
+                    var lnginp = $("#lng").val();
+                    var latlng = {lat: parseFloat(latinp), lng: parseFloat(lnginp)};
+                    geocoder.geocode({'location': latlng}, function (results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                var address = results[0].formatted_address.split(',');
+                                infowindow.setContent(results[0].formatted_address);
+                                infowindow.open(map, marker);
+                                if (address.length > 4) {
+                                    $("#calle").val(address[0]);
+                                    var estado = address[2].split(' ');
+                                    $("#provincia").val(address[3]);
+                                } else if (address.length > 3) {
+                                    $("#calle").val(address[0]);
+                                    var estado = address[1].split(' ');
+                                    $("#provincia").val(address[2]);
+                                } else {
+                                    var estado = address[0].split(' ');
+                                    $("#provincia").val(address[1]);
+                                }
+                                $("#cp").val(estado[1]);
+                                if (estado[2] != null) {
+                                    removeItemFromArr(estado, estado[1]);
+                                    var ciudad = estado.toString();
+                                    ciudad = ciudad.replace(',', ' ').trim();
+                                    var re = /,/g;
+                                    $("#estado").val(ciudad.replace(re, ' '));
+                                }
+                            } else {
+                                window.alert('No results found');
+                            }
+                        } else {
+                            window.alert('Geocoder failed due to: ' + status);
+                        }
+                    });
+                    function removeItemFromArr(arr, item) {
+                        var i = arr.indexOf(item);
+                        arr.splice(i, 1);
+                    }
+                }
+
             }
 
             function crearEvento() {
@@ -290,6 +339,10 @@
                 var tipo = $("#tipo").val();
                 var fechai = $("#fechai").val();
                 var fechaf = $("#fechaf").val();
+                var direccion = $("#calle").val();
+                var cp = $("#cp").val();
+                var ciudad = $("#estado").val();
+                var provincia = $("#provincia").val();
                 var lat = $("#lat").val();
                 var lng = $("#lng").val();
                 if ($("#participable").prop('checked')) {
@@ -345,6 +398,10 @@
                         "tipo": tipo,
                         "fechai": fechai,
                         "fechaf": fechaf,
+                        "direccion": direccion,
+                        "cp": cp,
+                        "ciudad": ciudad,
+                        "provincia": provincia,
                         "lat": lat,
                         "lng": lng,
                         "participable": participable
@@ -453,8 +510,12 @@
                             <p class="title">¿Donde se realizará el evento?</p>
                             <input type="text" id="searchTextField">
                             <div id="map"></div>
-                            <input type="text" id="lat">
-                            <input type="text" id="lng">
+                            <input type="text" id="lat" class="invisible">
+                            <input type="text" id="lng" class="invisible">
+                            <input type="text" id="calle" class="invisible">
+                            <input type="text" id="cp" class="invisible">
+                            <input type="text" id="estado" class="invisible">
+                            <input type="text" id="provincia" class="invisible">
                         </div>
                         <p class="title">¿Participable?
                             <input type="checkbox" id="participable" value="yes">

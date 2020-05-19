@@ -21,12 +21,16 @@ class Evento {
     private $fechai;
     private $fechaf;
     private $foto;
+    private $direccion;
+    private $cp;
+    private $ciudad;
+    private $provincia;
     private $lat;
     private $lng;
     private $participantes;
     private $usuario;
 
-    function __construct($titulo, $contenido, $tipo, $fecha_publicacion, $fechai, $fechaf, $foto, $lat, $lng, $participantes, $usuario) {
+    function __construct($titulo, $contenido, $tipo, $fecha_publicacion, $fechai, $fechaf, $foto,$direccion,$cp,$ciudad,$provincia, $lat, $lng, $participantes, $usuario) {
         $this->titulo = $titulo;
         $this->contenido = $contenido;
         $this->tipo = $tipo;
@@ -34,6 +38,10 @@ class Evento {
         $this->fechai = $fechai;
         $this->fechaf = $fechaf;
         $this->foto = $foto;
+        $this->direccion = $direccion;
+        $this->cp = $cp;
+        $this->ciudad = $ciudad;
+        $this->provincia = $provincia;
         $this->lat = $lat;
         $this->lng = $lng;
         $this->participantes = $participantes;
@@ -70,6 +78,22 @@ class Evento {
 
     function getFoto() {
         return $this->foto;
+    }
+    
+    function getDireccion() {
+        return $this->direccion;
+    }
+
+    function getCp() {
+        return $this->cp;
+    }
+
+    function getCiudad() {
+        return $this->ciudad;
+    }
+
+    function getProvincia() {
+        return $this->provincia;
     }
 
     function getLat() {
@@ -119,6 +143,22 @@ class Evento {
     function setFoto($foto) {
         $this->foto = $foto;
     }
+    
+    function setDireccion($direccion) {
+        $this->direccion = $direccion;
+    }
+
+    function setCp($cp) {
+        $this->cp = $cp;
+    }
+
+    function setCiudad($ciudad) {
+        $this->ciudad = $ciudad;
+    }
+
+    function setProvincia($provincia) {
+        $this->provincia = $provincia;
+    }
 
     function setLat($lat) {
         $this->lat = $lat;
@@ -139,7 +179,7 @@ class Evento {
     function crearEvento($evento) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO eventos (titulo,contenido,tipo,fecha_publicacion,fechai,fechaf,foto,lat,lng,participantes,usuario) VALUES ('$evento->titulo','$evento->contenido','$evento->tipo','$evento->fecha_publicacion','$evento->fechai','$evento->fechaf','$evento->foto','$evento->lat','$evento->lng','$evento->participantes','$evento->usuario')";
+        $sql = "INSERT INTO eventos (titulo,contenido,tipo,fecha_publicacion,fechai,fechaf,foto,direccion,cp,ciudad,provincia,lat,lng,participantes,usuario) VALUES ('$evento->titulo','$evento->contenido','$evento->tipo','$evento->fecha_publicacion','$evento->fechai','$evento->fechaf','$evento->foto','$evento->direccion','$evento->cp','$evento->ciudad','$evento->provincia','$evento->lat','$evento->lng','$evento->participantes','$evento->usuario')";
         $conexion->exec($sql);
     }
 
@@ -196,6 +236,10 @@ class Evento {
                 'fechaf' => $row['fechaf'],
                 'empezado' => Evento::empezado($row['fechai'], $fecha),
                 'foto' => $foto,
+                'direccion' => $row['direccion'],
+                'cp' => $row['cp'],
+                'ciudad' => $row['ciudad'],
+                'provincia' => $row['provincia'],
                 'lat' => $lat,
                 'lng' => $lng,
                 'participable' => $row['participantes'],
@@ -243,6 +287,10 @@ class Evento {
                 'fechaf' => $row['fechaf'],
                 'empezado' => Evento::empezado($row['fechai'], $fecha),
                 'foto' => $foto,
+                'direccion' => $row['direccion'],
+                'cp' => $row['cp'],
+                'ciudad' => $row['ciudad'],
+                'provincia' => $row['provincia'],
                 'lat' => $lat,
                 'lng' => $lng,
                 'participable' => $row['participantes'],
@@ -292,6 +340,10 @@ class Evento {
                 'fechaf' => $row['fechaf'],
                 'empezado' => Evento::empezado($row['fechai'], $fecha),
                 'foto' => $foto,
+                'direccion' => $row['direccion'],
+                'cp' => $row['cp'],
+                'ciudad' => $row['ciudad'],
+                'provincia' => $row['provincia'],
                 'lat' => $lat,
                 'lng' => $lng,
                 'participable' => $row['participantes'],

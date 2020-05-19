@@ -79,8 +79,7 @@
                 var email = $("#email").val();
                 var animal = $("#animales").val();
                 var raza = $("#razas").val();
-                var sexo = $("#sexo").val();
-                var foto = $("#foto").val();
+                var sexo = $('input[name=sexo]:checked').val();
                 var localidad = $("#localidad").val();
 
                 var colorError = "#E95139";
@@ -114,13 +113,6 @@
                     $(".imgSexo").css("background", "white");
                 }
 
-                /*if (foto.trim() == "") {
-                 $("#foto").css("background", colorError);
-                 campoVacio = true;
-                 } else {
-                 $("#foto").css("background", "white");
-                 }*/
-
                 if (localidad.trim() == "") {
                     $("#localidad").css("background", colorError);
                     campoVacio = true;
@@ -138,7 +130,6 @@
                         "animal": animal,
                         "raza": raza,
                         "sexo": sexo,
-                        // "foto": foto,
                         "localidad": localidad
                     };
 
