@@ -15,6 +15,8 @@ include 'clases/Evento.php';
 include 'clases/Notificacion.php';
 include 'clases/Amistades.php';
 include 'clases/Mensaje.php';
+include 'clases/Provincia.php';
+include 'clases/Municipio.php';
 
 session_start();
 $accion = $_REQUEST['accion'];
@@ -82,6 +84,24 @@ switch ($accion) {
         echo json_encode($data);
         break;
 
+    //Provincias
+    case "consultarProvincias":
+        if (Provincia::consultarProvincias()){
+            echo json_encode(Provincia::consultarProvincias(),JSON_UNESCAPED_UNICODE);
+        } else {
+            echo false;
+        }
+        break;
+        
+    //Municipios
+    case "consultarMunicipios":
+        if (Municipio::consultarMunicipios($_REQUEST['provincia'])){
+            echo json_encode(Municipio::consultarMunicipios($_REQUEST['provincia']),JSON_UNESCAPED_UNICODE);
+        } else {
+            echo false;
+        }
+        break;
+    
     //Admin Usuarios
 
     case "sancionarUsuario":

@@ -9,7 +9,9 @@
 
             $(document).ready(function () {
                 mostrarAnimales();
+                mostrarProvincias();
                 $("#animales").change(mostrarRazas);
+                $("#provincias").change(mostrarMunicipios);
                 $("#registro").click(crearUsuario);
             });
 
@@ -22,7 +24,6 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
                         var resp = JSON.parse(respuesta);
                         var animales = document.getElementById("animales");
                         for (var i = 0; i < resp.animal.length; i++) {
@@ -55,7 +56,7 @@
                     data: parametros,
                     success: function (respuesta) {
                         var resp = JSON.parse(respuesta);
-                        document.getElementById("razas").innerHTML = " ";
+                        $("#razas").empty();
                         var razas = document.getElementById("razas");
                         for (var i = 0; i < resp.raza.length; i++) {
                             var option = document.createElement("option");
@@ -67,6 +68,64 @@
                     },
                     error: function (xhr, status) {
                         alert("Error en mostrar razas");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+            
+            function mostrarProvincias() {
+                var parametros = {
+                    "accion": "consultarProvincias"
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        var resp = JSON.parse(respuesta);
+                        var provincias = document.getElementById("provincias");
+                        for (var i = 0; i < resp.length; i++) {
+                            var option = document.createElement("option");
+                            provincias.appendChild(option);
+                            option.setAttribute("value", resp[i].id);
+                            option.innerHTML += resp[i].provincia;
+                        }
+                        mostrarMunicipios();
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en mostrar provincias");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+            
+            function mostrarMunicipios() {
+                var entrada = $("#provincias").val();
+
+                var parametros = {
+                    "accion": "consultarMunicipios",
+                    "provincia": entrada
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        var resp = JSON.parse(respuesta);
+                        $("#municipios").empty();
+                        var municipios = document.getElementById("municipios");
+                        for (var i = 0; i < resp.length; i++) {
+                            var option = document.createElement("option");
+                            municipios.appendChild(option);
+                            option.setAttribute("value", resp[i].id);
+                            option.innerHTML += resp[i].municipio;
+                        }
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en mostrar municipios");
                     },
                     type: "POST",
                     dataType: "text"
@@ -346,6 +405,8 @@
                 </span>
             </p>
             <p>Localidad <span>*</span><input type="text" id="localidad" class="dato" required></p>
+            <p>Provincia <span>*</span><select id="provincias" name="provincia" class="dato" required></select></p>
+            <p>Municipio <span>*</span><select id="municipios" name="municipio" class="dato" required></select></p>
             <p><button id="registro">REGISTRAR <img src="../controlador/img/pata.png" id="imgPata" alt="pata"></button></p>
             <a id="login" href="../index.php">Ya estoy registrado</a>
         </div>
