@@ -282,6 +282,25 @@ function pintarEventos(eventos, div) {
         fechaf.setAttribute("class", "eventoFecha");
         fechaf.innerHTML = eventos[i].fechaf;
 
+        var direccioncompleta = document.createElement("p");
+        direccioncompleta.setAttribute("class", "direccioncompleta");
+
+        var direccion = document.createElement("span");
+        direccion.setAttribute("class", "direccion");
+        direccion.innerHTML = eventos[i].direccion;
+
+        var cp = document.createElement("span");
+        cp.setAttribute("class", "cp");
+        cp.innerHTML = eventos[i].cp;
+
+        var ciudad = document.createElement("span");
+        ciudad.setAttribute("class", "ciudad");
+        ciudad.innerHTML = eventos[i].ciudad;
+
+        var provincia = document.createElement("span");
+        provincia.setAttribute("class", "provincia");
+        provincia.innerHTML = eventos[i].provincia;
+
         /* var contenido = document.createElement("p");
          contenido.setAttribute("class", "eventoContenido");
          contenido.innerHTML = eventos[i].contenido;*/
@@ -339,6 +358,21 @@ function pintarEventos(eventos, div) {
         evento.append(textFechaf);
         textFechaf.append("Fecha fin: ");
         textFechaf.append(fechaf);
+        if (eventos[i].direccion.trim() != "") {
+            direccioncompleta.append(direccion);
+            direccioncompleta.append(", ");
+        }
+        if (eventos[i].cp.trim() != "") {
+            direccioncompleta.append(cp);
+            direccioncompleta.append(", ");
+        }
+        //console.log(ciudad.val());
+        if (eventos[i].ciudad.trim() != "") {
+            direccioncompleta.append(ciudad);
+            direccioncompleta.append(", ");
+        }
+        direccioncompleta.append(provincia);
+        evento.append(direccioncompleta);
         //evento.append(contenido);
         if (eventos[i].foto) {
             evento.append(img);
@@ -354,23 +388,7 @@ function pintarEventos(eventos, div) {
             textParticipantes.append(participantes);
         }
 
-        function initMap(map, lat, lng) {
-            var maps = new google.maps.Map(map, {
-                center: {lat: parseFloat(lat), lng: parseFloat(lng)},
-                zoom: 16,
-                streetViewControl: false,
-                mapTypeControl: false,
-                scaleControl: false,
-                zoomControl: false,
-                scrollwheel: false,
-                fullscreenControl: false
-            });
-            new google.maps.Marker({
-                position: {lat: parseFloat(lat), lng: parseFloat(lng)},
-                icon: '../controlador/img/marker.ico',
-                map: maps
-            });
-        }
+        
 
     }
 }
@@ -412,6 +430,25 @@ function pintarUnEvento(eventos) {
     var fechaf = document.createElement("span");
     fechaf.setAttribute("class", "eventoFecha");
     fechaf.innerHTML = eventos.fechaf;
+
+    var direccioncompleta = document.createElement("p");
+    direccioncompleta.setAttribute("class", "direccioncompleta");
+
+    var direccion = document.createElement("span");
+    direccion.setAttribute("class", "direccion");
+    direccion.innerHTML = eventos.direccion;
+
+    var cp = document.createElement("span");
+    cp.setAttribute("class", "cp");
+    cp.innerHTML = eventos.cp;
+
+    var ciudad = document.createElement("span");
+    ciudad.setAttribute("class", "ciudad");
+    ciudad.innerHTML = eventos.ciudad;
+
+    var provincia = document.createElement("span");
+    provincia.setAttribute("class", "provincia");
+    provincia.innerHTML = eventos.provincia;
 
     var cont = document.createElement("div");
     cont.setAttribute("class", "cont");
@@ -489,25 +526,8 @@ function pintarUnEvento(eventos) {
                 window.location.reload();
             }
         }
+        
 
-    }
-
-    function initMap(map, lat, lng) {
-        var maps = new google.maps.Map(map, {
-            center: {lat: parseFloat(lat), lng: parseFloat(lng)},
-            zoom: 16,
-            streetViewControl: false,
-            mapTypeControl: false,
-            scaleControl: false,
-            zoomControl: false,
-            scrollwheel: false,
-            fullscreenControl: false
-        });
-        new google.maps.Marker({
-            position: {lat: parseFloat(lat), lng: parseFloat(lng)},
-            icon: '../controlador/img/marker.ico',
-            map: maps
-        });
     }
 
     autor.onclick = function () {
@@ -526,6 +546,21 @@ function pintarUnEvento(eventos) {
     cont.append(textFechaf);
     textFechaf.append("Fecha fin: ");
     textFechaf.append(fechaf);
+    if (eventos.direccion.trim() != "") {
+        direccioncompleta.append(direccion);
+        direccioncompleta.append(", ");
+    }
+    if (eventos.cp.trim() != "") {
+        direccioncompleta.append(cp);
+        direccioncompleta.append(", ");
+    }
+    //console.log(ciudad.val());
+    if (eventos.ciudad.trim() != "") {
+        direccioncompleta.append(ciudad);
+        direccioncompleta.append(", ");
+    }
+    direccioncompleta.append(provincia);
+    cont.append(direccioncompleta);
     cont.append(contenido);
     cont.append(visual);
     if (eventos.foto) {
@@ -549,6 +584,24 @@ function pintarUnEvento(eventos) {
         textParticipantes.append(participantes);
     }
 }
+
+function initMap(map, lat, lng) {
+                var maps = new google.maps.Map(map, {
+                    center: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                    zoom: 16,
+                    streetViewControl: false,
+                    mapTypeControl: false,
+                    scaleControl: false,
+                    zoomControl: false,
+                    scrollwheel: false,
+                    fullscreenControl: false
+                });
+                new google.maps.Marker({
+                    position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                    icon: '../controlador/img/marker.ico',
+                    map: maps
+                });
+            }
 
 function pintarAmigos(amigos, div) {
 

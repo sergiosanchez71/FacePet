@@ -15,12 +15,13 @@ class Usuario {
     private $raza;
     private $sexo;
     private $foto;
-    private $localidad;
+    private $provincia;
+    private $municipio;
     private $amigos;
     private $baneado;
     private $operador;
 
-    function __construct($nick, $password, $email, $animal, $raza, $sexo, $foto, $localidad) {
+    function __construct($nick, $password, $email, $animal, $raza, $sexo, $foto, $provincia, $municipio) {
         $this->nick = $nick;
         $this->password = $password;
         $this->email = $email;
@@ -28,7 +29,8 @@ class Usuario {
         $this->raza = $raza;
         $this->sexo = $sexo;
         $this->foto = $foto;
-        $this->localidad = $localidad;
+        $this->provincia = $provincia;
+        $this->municipio = $municipio;
         $this->amigos = null;
         $this->nombre = null;
         $this->operador = 0;
@@ -66,8 +68,12 @@ class Usuario {
         return $this->foto;
     }
 
-    function getLocalidad() {
-        return $this->localidad;
+    function getProvincia() {
+        return $this->provincia;
+    }
+
+    function getMunicipio() {
+        return $this->municipio;
     }
 
     function getAmigos() {
@@ -114,8 +120,12 @@ class Usuario {
         $this->foto = $foto;
     }
 
-    function setLocalidad($localidad) {
-        $this->localidad = $localidad;
+    function setProvincia($provincia) {
+        $this->provincia = $provincia;
+    }
+
+    function setMunicipio($municipio) {
+        $this->municipio = $municipio;
     }
 
     function setAmigos($amigos) {
@@ -157,7 +167,7 @@ class Usuario {
     function crearUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO usuarios (nick,password,email,animal,raza,sexo,foto,localidad,amigos,operador) VALUES (lower('$usuario->nick'),'$usuario->password','$usuario->email','$usuario->animal','$usuario->raza','$usuario->sexo','$usuario->foto','$usuario->localidad',' ',0)";
+        $sql = "INSERT INTO usuarios (nick,password,email,animal,raza,sexo,foto,provincia,municipio,amigos,operador) VALUES (lower('$usuario->nick'),'$usuario->password','$usuario->email','$usuario->animal','$usuario->raza','$usuario->sexo','$usuario->foto','$usuario->provincia','$usuario->municipio',' ',0)";
         $conexion->exec($sql);
         unset($conexion);
     }
@@ -270,17 +280,6 @@ class Usuario {
         return $raza;
     }
 
-    function getLocalidadUsuario($usuario) {
-        $conexion = Conexion::conectar();
-        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT raza from usuarios where nick='$usuario'");
-        while ($row = $consulta->fetch()) {
-            $raza = $row['raza'];
-        }
-        unset($conexion);
-        return $raza;
-    }
-
     function eliminarAmigo($idusuario, $amigo) {
         $fecha = date("Y-m-d H:i:s");
         $notificacion = new Notificacion($idusuario, $amigo, "amistad", 0, $fecha);
@@ -344,7 +343,8 @@ class Usuario {
                 'raza' => Raza::buscarConId($row['raza']),
                 'sexo' => $row['sexo'],
                 'foto' => $foto,
-                'localidad' => $row['localidad'],
+                'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                'municipio' => Municipio::getNombreMunicipio($row['municipio']),
                 'amigos' => $row['amigos'],
                 'baneado' => $row['baneado'],
                 'operador' => $row['operador']
@@ -374,7 +374,8 @@ class Usuario {
                     'raza' => Raza::buscarConId($row['raza']),
                     'sexo' => $row['sexo'],
                     'foto' => $foto,
-                    'localidad' => $row['localidad'],
+                    'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                    'municipio' => Municipio::getNombreMunicipio($row['municipio']),
                     'amigos' => $row['amigos'],
                     'baneado' => $row['baneado'],
                     'operador' => $row['operador'],
@@ -420,7 +421,8 @@ class Usuario {
                     'raza' => Raza::buscarConId($row['raza']),
                     'sexo' => $row['sexo'],
                     'foto' => $foto,
-                    'localidad' => $row['localidad'],
+                    'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                    'municipio' => Municipio::getNombreMunicipio($row['municipio']),
                     'amigos' => $row['amigos'],
                     'baneado' => $row['baneado'],
                     'operador' => $row['operador'],
@@ -433,7 +435,7 @@ class Usuario {
         unset($conexion);
         return $datos;
     }
-    
+
     function mostrarTodosNombresUsuarios($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -457,35 +459,108 @@ class Usuario {
     function getDatosBuscar($cadena, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' order by nick asc");
+        $provincia = Usuario::getProvinciaNumUsuario(Usuario::getIdUsuario($usuario));
+        $municipio = Usuario::getMunicipioNumUsuario(Usuario::getIdUsuario($usuario));
+        $consulta = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio='$municipio' order by nick asc");
+        $limite = 5;
         $i = 0;
         while ($row = $consulta->fetch()) {
-            $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
-            $fecha = date("Y-m-d H:i:s");
-            if ($solicitud != "aceptada") {
-                if ($row['foto'] == null) {
-                    $foto = "0.jpg";
-                } else {
-                    $foto = $row['foto'];
-                }
+            if ($i < $limite) {
+                $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+                $fecha = date("Y-m-d H:i:s");
+                if ($solicitud != "aceptada") {
+                    if ($row['foto'] == null) {
+                        $foto = "0.jpg";
+                    } else {
+                        $foto = $row['foto'];
+                    }
 
-                $datos[$i] = ['id' => $row['id'],
-                    'nick' => $row['nick'],
-                    'password' => $row['password'],
-                    'email' => $row['email'],
-                    'animal' => Animal::buscarConId($row['animal']),
-                    'raza' => Raza::buscarConId($row['raza']),
-                    'sexo' => $row['sexo'],
-                    'foto' => $foto,
-                    'localidad' => $row['localidad'],
-                    'amigos' => $row['amigos'],
-                    'baneado' => $row['baneado'],
-                    'fechaH' => $fecha,
-                    'operador' => $row['operador'],
-                    'solicitud' => $solicitud,
-                    'buscador' => Usuario::getIdUsuario($usuario)
-                ];
-                $i++;
+                    $datos[$i] = ['id' => $row['id'],
+                        'nick' => $row['nick'],
+                        'password' => $row['password'],
+                        'email' => $row['email'],
+                        'animal' => Animal::buscarConId($row['animal']),
+                        'raza' => Raza::buscarConId($row['raza']),
+                        'sexo' => $row['sexo'],
+                        'foto' => $foto,
+                        'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                        'municipio' => Municipio::getNombreMunicipio($row['municipio']),
+                        'amigos' => $row['amigos'],
+                        'baneado' => $row['baneado'],
+                        'fechaH' => $fecha,
+                        'operador' => $row['operador'],
+                        'solicitud' => $solicitud,
+                        'buscador' => Usuario::getIdUsuario($usuario),
+                    ];
+                    $i++;
+                }
+            }
+        }
+        $consulta2 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio!='$municipio' order by nick asc");
+        while ($row = $consulta2->fetch()) {
+            if ($i < $limite) {
+
+                $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+                $fecha = date("Y-m-d H:i:s");
+                if ($solicitud != "aceptada") {
+                    if ($row['foto'] == null) {
+                        $foto = "0.jpg";
+                    } else {
+                        $foto = $row['foto'];
+                    }
+
+                    $datos[$i] = ['id' => $row['id'],
+                        'nick' => $row['nick'],
+                        'password' => $row['password'],
+                        'email' => $row['email'],
+                        'animal' => Animal::buscarConId($row['animal']),
+                        'raza' => Raza::buscarConId($row['raza']),
+                        'sexo' => $row['sexo'],
+                        'foto' => $foto,
+                        'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                        'municipio' => Municipio::getNombreMunicipio($row['municipio']),
+                        'amigos' => $row['amigos'],
+                        'baneado' => $row['baneado'],
+                        'fechaH' => $fecha,
+                        'operador' => $row['operador'],
+                        'solicitud' => $solicitud,
+                        'buscador' => Usuario::getIdUsuario($usuario),
+                    ];
+                    $i++;
+                }
+            }
+        }
+        $consulta3 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia!='$provincia' and municipio!='$municipio' order by nick asc");
+        while ($row = $consulta3->fetch()) {
+            if ($i < $limite) {
+                $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+                $fecha = date("Y-m-d H:i:s");
+                if ($solicitud != "aceptada") {
+                    if ($row['foto'] == null) {
+                        $foto = "0.jpg";
+                    } else {
+                        $foto = $row['foto'];
+                    }
+
+                    $datos[$i] = ['id' => $row['id'],
+                        'nick' => $row['nick'],
+                        'password' => $row['password'],
+                        'email' => $row['email'],
+                        'animal' => Animal::buscarConId($row['animal']),
+                        'raza' => Raza::buscarConId($row['raza']),
+                        'sexo' => $row['sexo'],
+                        'foto' => $foto,
+                        'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                        'municipio' => Municipio::getNombreMunicipio($row['municipio']),
+                        'amigos' => $row['amigos'],
+                        'baneado' => $row['baneado'],
+                        'fechaH' => $fecha,
+                        'operador' => $row['operador'],
+                        'solicitud' => $solicitud,
+                        'buscador' => Usuario::getIdUsuario($usuario),
+                    ];
+                    $i++;
+                }
             }
         }
         unset($conexion);
@@ -612,6 +687,68 @@ class Usuario {
         Usuario::eliminarFotoDePerfil($id);
         $sql = "DELETE FROM usuarios where id='$id'";
         $conexion->exec($sql);
+    }
+
+    function getLocalidadUsuario($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT provincia,municipio from usuarios where id='$id'");
+        $data = null;
+        while ($row = $consulta->fetch()) {
+            $data = ['provincia' => Provincia::getNombreProvincia($row['provincia']),
+                'municipio' => Municipio::getNombreMunicipio($row['municipio'])
+            ];
+        }
+        unset($conexion);
+        return $data;
+    }
+    
+    function getProvinciaUsuario($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT provincia from usuarios where id='$id'");
+        $provincia = null;
+        while ($row = $consulta->fetch()) {
+            $provincia = Provincia::getNombreProvincia($row['provincia']);
+        }
+        unset($conexion);
+        return $provincia;
+    }
+    
+    function getMunicipioUsuario($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT municipio from usuarios where id='$id'");
+        $municipio = null;
+        while ($row = $consulta->fetch()) {
+            $municipio = Municipio::getNombreMunicipio($row['municipio']);
+        }
+        unset($conexion);
+        return $municipio;
+    }
+
+    function getProvinciaNumUsuario($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT provincia from usuarios where id='$id'");
+        $provincia = null;
+        while ($row = $consulta->fetch()) {
+            $provincia = $row['provincia'];
+        }
+        unset($conexion);
+        return $provincia;
+    }
+
+    function getMunicipioNumUsuario($id) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT municipio from usuarios where id='$id'");
+        $municipio = null;
+        while ($row = $consulta->fetch()) {
+            $municipio = $row['municipio'];
+        }
+        unset($conexion);
+        return $municipio;
     }
 
 }

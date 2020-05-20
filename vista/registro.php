@@ -139,7 +139,10 @@
                 var animal = $("#animales").val();
                 var raza = $("#razas").val();
                 var sexo = $('input[name=sexo]:checked').val();
-                var localidad = $("#localidad").val();
+                //var localidad = $("#localidad").val();
+                var provincia = $("#provincias").val();
+                var municipio = $("#municipios").val();
+                console.log(provincia);
 
                 var colorError = "#E95139";
                 var campoVacio = false;
@@ -172,12 +175,12 @@
                     $(".imgSexo").css("background", "white");
                 }
 
-                if (localidad.trim() == "") {
+                /*if (localidad.trim() == "") {
                     $("#localidad").css("background", colorError);
                     campoVacio = true;
                 } else {
                     $("#localidad").css("background", "white");
-                }
+                }*/
 
                 if (!campoVacio) {
 
@@ -189,7 +192,8 @@
                         "animal": animal,
                         "raza": raza,
                         "sexo": sexo,
-                        "localidad": localidad
+                        "provincia": provincia,
+                        "municipio": municipio
                     };
 
                     $.ajax({
@@ -404,7 +408,7 @@
                     <input type="radio" id="sexo" name="sexo" value="femenino" required>
                 </span>
             </p>
-            <p>Localidad <span>*</span><input type="text" id="localidad" class="dato" required></p>
+            <!--<p>Localidad <span>*</span><input type="text" id="localidad" class="dato" required></p>-->
             <p>Provincia <span>*</span><select id="provincias" name="provincia" class="dato" required></select></p>
             <p>Municipio <span>*</span><select id="municipios" name="municipio" class="dato" required></select></p>
             <p><button id="registro">REGISTRAR <img src="../controlador/img/pata.png" id="imgPata" alt="pata"></button></p>

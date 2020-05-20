@@ -24,7 +24,7 @@ and open the template in the editor.
         <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
         <script src="../controlador/js/header.js" type="text/javascript"></script>
         <script src="../controlador/js/pintarObjetos.js" type="text/javascript"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE" async defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE&callback=initMap" async defer></script>
         <style>
 
             #cuerpo{
@@ -97,6 +97,7 @@ and open the template in the editor.
         </style>
         <script>
 
+
             var cargando = 0;
             var cantidad = 5;
 
@@ -116,7 +117,29 @@ and open the template in the editor.
             $(document).ready(function () {
                 cargarPostsAmigos("5");
                 mostrarEventos();
+                //google.maps.event.addDomListener(window, 'load', initMap);
+
             });
+
+            function initMap(map, lat, lng) {
+                var maps = new google.maps.Map(map, {
+                    center: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                    zoom: 16,
+                    streetViewControl: false,
+                    mapTypeControl: false,
+                    scaleControl: false,
+                    zoomControl: false,
+                    scrollwheel: false,
+                    fullscreenControl: false
+                });
+                new google.maps.Marker({
+                    position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                    icon: '../controlador/img/marker.ico',
+                    map: maps
+                });
+                
+                google.maps.event.addDomListener(window, 'load', initMap);
+            }
 
             function cargarPostsAmigos(cantidad) {
                 var parametros = {
@@ -190,7 +213,9 @@ and open the template in the editor.
                     success: function (respuesta) {
                         console.log(respuesta);
                         if (respuesta) {
+                            console.log(respuesta);
                             var eventos = JSON.parse(respuesta);
+                            console.log(eventos[0].miProvincia);
                             pintarEventos(eventos, "eventos");
 
 

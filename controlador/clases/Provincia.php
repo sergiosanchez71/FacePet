@@ -54,5 +54,17 @@ class Provincia {
         unset($conexion);
         return $datos;
     }
+    
+    function getNombreProvincia($id){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT * from provincias where id='$id'");
+        $provincia = null;
+        while ($row = $consulta->fetch()) {
+            $provincia = utf8_encode($row['provincia']);
+        }
+        unset($conexion);
+        return $provincia;
+    }
 
 }

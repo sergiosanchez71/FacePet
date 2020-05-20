@@ -86,22 +86,22 @@ switch ($accion) {
 
     //Provincias
     case "consultarProvincias":
-        if (Provincia::consultarProvincias()){
-            echo json_encode(Provincia::consultarProvincias(),JSON_UNESCAPED_UNICODE);
+        if (Provincia::consultarProvincias()) {
+            echo json_encode(Provincia::consultarProvincias(), JSON_UNESCAPED_UNICODE);
         } else {
             echo false;
         }
         break;
-        
+
     //Municipios
     case "consultarMunicipios":
-        if (Municipio::consultarMunicipios($_REQUEST['provincia'])){
-            echo json_encode(Municipio::consultarMunicipios($_REQUEST['provincia']),JSON_UNESCAPED_UNICODE);
+        if (Municipio::consultarMunicipios($_REQUEST['provincia'])) {
+            echo json_encode(Municipio::consultarMunicipios($_REQUEST['provincia']), JSON_UNESCAPED_UNICODE);
         } else {
             echo false;
         }
         break;
-    
+
     //Admin Usuarios
 
     case "sancionarUsuario":
@@ -132,15 +132,15 @@ switch ($accion) {
     case "crearUsuario":
         include 'clases/Password.php';
         $password = Password::md5($_REQUEST['password']);
-        $usuario = new Usuario($_REQUEST['nick'], $password, $_REQUEST['email'], $_REQUEST['animal'], $_REQUEST['raza'], $_REQUEST['sexo'], null, $_REQUEST['localidad']);
+        $usuario = new Usuario($_REQUEST['nick'], $password, $_REQUEST['email'], $_REQUEST['animal'], $_REQUEST['raza'], $_REQUEST['sexo'], null, $_REQUEST['provincia'], $_REQUEST['municipio']);
 
         if (!Usuario::existeUsuario($_REQUEST['nick'])) {
             //if (!Usuario::existeEmail($usuario)) {
-                Usuario::crearUsuario($usuario);
-                echo "Usuario registrado correctamente";
-            /*} else {
-                echo "El correo electrónico ya está en uso";
-            }*/
+            Usuario::crearUsuario($usuario);
+            echo "Usuario registrado correctamente";
+            /* } else {
+              echo "El correo electrónico ya está en uso";
+              } */
         } else {
             echo "El nombre de usuario ya está en uso";
         }
@@ -403,7 +403,7 @@ switch ($accion) {
 
     case "crearEvento":
         $fecha = date("Y-m-d H:i:s");
-        $evento = new Evento($_REQUEST['titulo'], $_REQUEST['contenido'], $_REQUEST['tipo'], $fecha, $_REQUEST['fechai'], $_REQUEST['fechaf'], null,$_REQUEST['direccion'],$_REQUEST['cp'],$_REQUEST['ciudad'],$_REQUEST['provincia'], $_REQUEST['lat'], $_REQUEST['lng'], $_REQUEST['participable'], $idusuario);
+        $evento = new Evento($_REQUEST['titulo'], $_REQUEST['contenido'], $_REQUEST['tipo'], $fecha, $_REQUEST['fechai'], $_REQUEST['fechaf'], null, $_REQUEST['direccion'], $_REQUEST['cp'], $_REQUEST['ciudad'], $_REQUEST['provincia'], $_REQUEST['lat'], $_REQUEST['lng'], $_REQUEST['participable'], $idusuario);
         Evento::crearEvento($evento);
         echo Evento::consultarId($evento);
         break;
@@ -452,7 +452,7 @@ switch ($accion) {
             echo false;
         }
         break;
-        
+
     case "eliminarEvento":
         Evento::eliminarEvento($_REQUEST['evento']);
         break;
@@ -545,7 +545,11 @@ switch ($accion) {
 
     //Más
     case "getDatosMiUsuario":
-        echo json_encode(Usuario::getDatos($idusuario));
+        if (Usuario::getDatos($idusuario)) {
+            echo json_encode(Usuario::getDatos($idusuario));
+        } else {
+            echo false;
+        }
         break;
 
     case "getDatosUsuario":

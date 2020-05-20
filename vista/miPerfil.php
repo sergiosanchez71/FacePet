@@ -173,12 +173,13 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+                        console.log(respuesta);
                         var usuario = JSON.parse(respuesta);
                         $("#imgPerfil").attr("src", "../controlador/uploads/usuarios/" + usuario.foto);
                         $("#nombrePerfilUsuario").text(usuario.nick);
                         $("#animalPerfilUsuario").text(usuario.animal);
                         $("#razaPerfilUsuario").text(usuario.raza);
-                        $("#localidadPerfilUsuario").text(usuario.localidad);
+                        $("#localidadPerfilUsuario").text(usuario.provincia+", "+usuario.municipio);
 
 
                     },

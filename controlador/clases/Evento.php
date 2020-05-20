@@ -30,7 +30,7 @@ class Evento {
     private $participantes;
     private $usuario;
 
-    function __construct($titulo, $contenido, $tipo, $fecha_publicacion, $fechai, $fechaf, $foto,$direccion,$cp,$ciudad,$provincia, $lat, $lng, $participantes, $usuario) {
+    function __construct($titulo, $contenido, $tipo, $fecha_publicacion, $fechai, $fechaf, $foto, $direccion, $cp, $ciudad, $provincia, $lat, $lng, $participantes, $usuario) {
         $this->titulo = $titulo;
         $this->contenido = $contenido;
         $this->tipo = $tipo;
@@ -79,7 +79,7 @@ class Evento {
     function getFoto() {
         return $this->foto;
     }
-    
+
     function getDireccion() {
         return $this->direccion;
     }
@@ -143,7 +143,7 @@ class Evento {
     function setFoto($foto) {
         $this->foto = $foto;
     }
-    
+
     function setDireccion($direccion) {
         $this->direccion = $direccion;
     }
@@ -179,6 +179,8 @@ class Evento {
     function crearEvento($evento) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //$municipio = Municipio::buscarMunicipioId($evento->ciudad);
+        //$sql = "INSERT INTO eventos (titulo,contenido,tipo,fecha_publicacion,fechai,fechaf,foto,direccion,cp,ciudad,provincia,lat,lng,participantes,usuario) VALUES ('$evento->titulo','$evento->contenido','$evento->tipo','$evento->fecha_publicacion','$evento->fechai','$evento->fechaf','$evento->foto','$evento->direccion','$evento->cp','$municipio','$evento->provincia','$evento->lat','$evento->lng','$evento->participantes','$evento->usuario')";
         $sql = "INSERT INTO eventos (titulo,contenido,tipo,fecha_publicacion,fechai,fechaf,foto,direccion,cp,ciudad,provincia,lat,lng,participantes,usuario) VALUES ('$evento->titulo','$evento->contenido','$evento->tipo','$evento->fecha_publicacion','$evento->fechai','$evento->fechaf','$evento->foto','$evento->direccion','$evento->cp','$evento->ciudad','$evento->provincia','$evento->lat','$evento->lng','$evento->participantes','$evento->usuario')";
         $conexion->exec($sql);
     }
@@ -206,48 +208,140 @@ class Evento {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $fecha = date("Y-m-d H:i:s");
-        $consulta = $conexion->query("SELECT * from eventos where fechaf>'$fecha' and usuario!='$usuario' order by fechaf asc");
+        $provincia = Usuario::getProvinciaUsuario($usuario);
+        $municipio = Usuario::getMunicipioUsuario($usuario);
+        $consulta = $conexion->query("SELECT * from eventos where fechaf>'$fecha' and usuario!='$usuario' and provincia LIKE '%$provincia%' and ciudad LIKE '%$municipio%' order by fechaf asc");
+        $limite = 3;
         $datos = null;
         $i = 0;
         while ($row = $consulta->fetch()) {
-            if ($row['foto'] == null) {
-                $foto = false;
-            } else {
-                $foto = $row['foto'];
+            if ($i < $limite) {
+                if ($row['foto'] == null) {
+                    $foto = false;
+                } else {
+                    $foto = $row['foto'];
+                }
+
+                if ($row['lat'] == 0 && $row['lng'] == 0) {
+                    $lat = false;
+                    $lng = false;
+                } else {
+                    $lat = $row['lat'];
+                    $lng = $row['lng'];
+                }
+
+                $participantes = explode(",", $row['participantes']);
+
+                $datos[$i] = array(
+                    'id' => $row['id'],
+                    'titulo' => $row['titulo'],
+                    'contenido' => $row['contenido'],
+                    'tipo' => $row['tipo'],
+                    'fecha_publicacion' => $row['fecha_publicacion'],
+                    'fechai' => $row['fechai'],
+                    'fechaf' => $row['fechaf'],
+                    'empezado' => Evento::empezado($row['fechai'], $fecha),
+                    'foto' => $foto,
+                    'direccion' => $row['direccion'],
+                    'cp' => $row['cp'],
+                    'ciudad' => $row['ciudad'],
+                    'provincia' => $row['provincia'],
+                    'lat' => $lat,
+                    'lng' => $lng,
+                    'participable' => $row['participantes'],
+                    'participantes' => $participantes,
+                    'usuario' => $row['usuario'],
+                    'autor' => Usuario::getNickName($row['usuario'])
+                );
+                $i++;
             }
+        }
+        $consulta2 = $conexion->query("SELECT * from eventos where fechaf>'$fecha' and usuario!='$usuario' and provincia LIKE '%$provincia%' and ciudad NOT LIKE '%$municipio%' order by fechaf asc");
+        while ($row = $consulta2->fetch()) {
+            if ($i < $limite) {
+                if ($row['foto'] == null) {
+                    $foto = false;
+                } else {
+                    $foto = $row['foto'];
+                }
 
-            if ($row['lat'] == 0 && $row['lng'] == 0) {
-                $lat = false;
-                $lng = false;
-            } else {
-                $lat = $row['lat'];
-                $lng = $row['lng'];
+                if ($row['lat'] == 0 && $row['lng'] == 0) {
+                    $lat = false;
+                    $lng = false;
+                } else {
+                    $lat = $row['lat'];
+                    $lng = $row['lng'];
+                }
+
+                $participantes = explode(",", $row['participantes']);
+
+                $datos[$i] = array(
+                    'id' => $row['id'],
+                    'titulo' => $row['titulo'],
+                    'contenido' => $row['contenido'],
+                    'tipo' => $row['tipo'],
+                    'fecha_publicacion' => $row['fecha_publicacion'],
+                    'fechai' => $row['fechai'],
+                    'fechaf' => $row['fechaf'],
+                    'empezado' => Evento::empezado($row['fechai'], $fecha),
+                    'foto' => $foto,
+                    'direccion' => $row['direccion'],
+                    'cp' => $row['cp'],
+                    'ciudad' => $row['ciudad'],
+                    'provincia' => $row['provincia'],
+                    'lat' => $lat,
+                    'lng' => $lng,
+                    'participable' => $row['participantes'],
+                    'participantes' => $participantes,
+                    'usuario' => $row['usuario'],
+                    'autor' => Usuario::getNickName($row['usuario'])
+                );
+                $i++;
             }
+        }
+        $consulta3 = $conexion->query("SELECT * from eventos where fechaf>'$fecha' and usuario!='$usuario' and provincia NOT LIKE '%$provincia%' and ciudad NOT LIKE '%$municipio%' order by fechaf asc");
+        while ($row = $consulta3->fetch()) {
+            if ($i < $limite) {
+                if ($row['foto'] == null) {
+                    $foto = false;
+                } else {
+                    $foto = $row['foto'];
+                }
 
-            $participantes = explode(",", $row['participantes']);
+                if ($row['lat'] == 0 && $row['lng'] == 0) {
+                    $lat = false;
+                    $lng = false;
+                } else {
+                    $lat = $row['lat'];
+                    $lng = $row['lng'];
+                }
 
-            $datos[$i] = array(
-                'id' => $row['id'],
-                'titulo' => $row['titulo'],
-                'contenido' => $row['contenido'],
-                'tipo' => $row['tipo'],
-                'fecha_publicacion' => $row['fecha_publicacion'],
-                'fechai' => $row['fechai'],
-                'fechaf' => $row['fechaf'],
-                'empezado' => Evento::empezado($row['fechai'], $fecha),
-                'foto' => $foto,
-                'direccion' => $row['direccion'],
-                'cp' => $row['cp'],
-                'ciudad' => $row['ciudad'],
-                'provincia' => $row['provincia'],
-                'lat' => $lat,
-                'lng' => $lng,
-                'participable' => $row['participantes'],
-                'participantes' => $participantes,
-                'usuario' => $row['usuario'],
-                'autor' => Usuario::getNickName($row['usuario'])
-            );
-            $i++;
+                $participantes = explode(",", $row['participantes']);
+
+                $datos[$i] = array(
+                    'id' => $row['id'],
+                    'titulo' => $row['titulo'],
+                    'contenido' => $row['contenido'],
+                    'tipo' => $row['tipo'],
+                    'fecha_publicacion' => $row['fecha_publicacion'],
+                    'fechai' => $row['fechai'],
+                    'fechaf' => $row['fechaf'],
+                    'empezado' => Evento::empezado($row['fechai'], $fecha),
+                    'foto' => $foto,
+                    'direccion' => $row['direccion'],
+                    'cp' => $row['cp'],
+                    'ciudad' => $row['ciudad'],
+                    'provincia' => $row['provincia'],
+                    'lat' => $lat,
+                    'lng' => $lng,
+                    'participable' => $row['participantes'],
+                    'participantes' => $participantes,
+                    'usuario' => $row['usuario'],
+                    'autor' => Usuario::getNickName($row['usuario']),
+                    'miProvincia' => $provincia
+                );
+                $i++;
+            }
         }
         unset($conexion);
         return $datos;
@@ -471,7 +565,7 @@ class Evento {
         $conexion->exec($sql);
         unset($conexion);
     }
-    
+
     function eliminarEvento($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -479,7 +573,7 @@ class Evento {
         $sql = "DELETE FROM eventos where id='$id'";
         $conexion->exec($sql);
     }
-    
+
     function eliminarMultimedia($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

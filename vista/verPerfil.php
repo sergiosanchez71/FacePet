@@ -143,7 +143,7 @@ and open the template in the editor.
                         $("#nombrePerfilUsuario").text(usuario.nick);
                         $("#animalPerfilUsuario").text(usuario.animal);
                         $("#razaPerfilUsuario").text(usuario.raza);
-                        $("#localidadPerfilUsuario").text(usuario.localidad);
+                        $("#localidadPerfilUsuario").text(usuario.provincia+", "+usuario.municipio);
 
 
                     },

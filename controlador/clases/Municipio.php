@@ -64,5 +64,30 @@ class Municipio {
         unset($conexion);
         return $datos;
     }
+    
+    function getNombreMunicipio($id){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT municipio from municipios where id='$id'");
+        $municipio = null;
+        while ($row = $consulta->fetch()) {
+            $municipio = utf8_encode($row['municipio']);
+        }
+        unset($conexion);
+        return $municipio;
+    }
+    
+    function buscarMunicipioId($municipio){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $municipioutf8 = utf8_encode($municipio);
+        $consulta = $conexion->query("SELECT id from municipios where municipio='$municipioutf8'");
+        $id = null;
+        while ($row = $consulta->fetch()) {
+            $id = $row['id'];
+        }
+        unset($conexion);
+        return $id;
+    }
 
 }

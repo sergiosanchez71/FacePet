@@ -404,7 +404,7 @@ and open the template in the editor.
 
                                 var localidad = document.createElement("p");
                                 localidad.setAttribute("class", "localidad");
-                                localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].localidad;
+                                localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].provincia+", "+usuarios[i].municipio;
                                 console.log(usuarios[i].fechaH);
 
                                 var sancionar = document.createElement("button");

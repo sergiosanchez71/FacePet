@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Crear Evento - FacePet</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <?php
         session_start();
         include '../controlador/gestion.php';

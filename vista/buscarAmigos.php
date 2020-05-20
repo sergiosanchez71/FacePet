@@ -313,7 +313,7 @@
                         $("#buscarAmigos").empty();
 
                         if (respuesta) {
-                            //console.log(respuesta);
+                            console.log(respuesta);
                             var usuarios = JSON.parse(respuesta);
 
                             for (var i = 0; i < usuarios.length; i++) {
@@ -378,7 +378,7 @@
 
                                     var localidad = document.createElement("p");
                                     localidad.setAttribute("class", "localidad");
-                                    localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].localidad;
+                                    localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].provincia+", "+usuarios[i].municipio;
 
                                     var solicitud = document.createElement("button");
                                     solicitud.setAttribute("value", usuarios[i].id);

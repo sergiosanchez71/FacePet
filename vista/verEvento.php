@@ -117,22 +117,22 @@ and open the template in the editor.
             }
 
             /*function initMap(map, lat, lng) {
-                var maps = new google.maps.Map(map, {
-                    center: {lat: parseFloat(lat), lng: parseFloat(lng)},
-                    zoom: 16,
-                    streetViewControl: false,
-                    mapTypeControl: false,
-                    scaleControl: false,
-                    zoomControl: false,
-                    scrollwheel: false,
-                    fullscreenControl: false
-                });
-                new google.maps.Marker({
-                    position: {lat: parseFloat(lat), lng: parseFloat(lng)},
-                    icon:'../controlador/img/marker.ico',
-                    map: maps
-                });
-            }*/
+             var maps = new google.maps.Map(map, {
+             center: {lat: parseFloat(lat), lng: parseFloat(lng)},
+             zoom: 16,
+             streetViewControl: false,
+             mapTypeControl: false,
+             scaleControl: false,
+             zoomControl: false,
+             scrollwheel: false,
+             fullscreenControl: false
+             });
+             new google.maps.Marker({
+             position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+             icon:'../controlador/img/marker.ico',
+             map: maps
+             });
+             }*/
 
             function participarEvento(evento) {
                 var parametros = {
@@ -154,8 +154,8 @@ and open the template in the editor.
                     dataType: "text"
                 });
             }
-            
-            function salirDeEvento(evento){
+
+            function salirDeEvento(evento) {
                 var parametros = {
                     "accion": "salirDeEvento",
                     "evento": evento
@@ -174,6 +174,25 @@ and open the template in the editor.
                     type: "POST",
                     dataType: "text"
                 });
+            }
+
+            function initMap(map, lat, lng) {
+                var maps = new google.maps.Map(map, {
+                    center: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                    zoom: 16,
+                    streetViewControl: false,
+                    mapTypeControl: false,
+                    scaleControl: false,
+                    zoomControl: false,
+                    scrollwheel: false,
+                    fullscreenControl: false
+                });
+                new google.maps.Marker({
+                    position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+                    icon: '../controlador/img/marker.ico',
+                    map: maps
+                });
+                //google.maps.event.addDomListener(window, 'load', initialize);
             }
 
         </script>
