@@ -8,6 +8,8 @@
         <script src="../controlador/js/jquery-1.12.4.js" type="text/javascript"></script>
         <script src="../controlador/js/jquery-ui.js" type="text/javascript"></script>
         <link href="../controlador/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <link href="../controlador/css/jquery.modal.min.css" rel="stylesheet" type="text/css"/>
+        <script src="../controlador/js/jquery.modal.min.js" type="text/javascript"></script>
         <?php
         session_start();
         include '../controlador/gestion.php';
@@ -131,12 +133,28 @@
             .solicitud:hover, .pendiente:hover{
                 background-color:#FFF578;
             }
+            
+            #ventanaSolicitud *{
+                display: block;
+                margin: auto;
+            }
+            
+            #ventanaSolicitud h1{
+                text-align: center;
+            }
+            
+            #mensajeSolicitud{
+                width: 35rem;
+                height: 5rem;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
 
-            .imgPata{
+           /* .imgPata{
                 width: 1.5rem;
                 position: relative;
                 top: 2.5px;
-            }
+            }*/
 
             @media (max-width: 1000px){
 
@@ -221,6 +239,11 @@
                 $("#buscador").on('input', function () {
                     buscarUsuarios();
                 });
+                $("#enviarSolicitudB").click(function () {
+                    mandarSolicitud();
+                    window.location.reload();
+                    //$("#ventanaSolicitud").modal().hide();
+                });
 
             });
 
@@ -232,16 +255,29 @@
             }
 
 
-            function mandarSolicitud(usuario) {
+            function mandarSolicitud() {
+
+                var pos = $("#posicionID").val();
+                var mensaje = $("#mensajeSolicitud").val();
+                console.log(pos);
+
+                $(".solicitud:eq(" + pos + ")").attr("class", "pendiente");
+                $(".pendiente:eq(" + pos + ")").text("Pendiente");
+                $("#mensajeSolicitud").val("");
 
                 var parametros = {
                     "accion": "mandarSolicitud",
-                    "usuario": usuario
+                    "usuario": $("#usuarioID").val(),
+                    "mensaje": mensaje
                 };
 
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
+                    succes: function (respuesta) {
+                        console.log(respuesta);
+                        //console.log("a");
+                    },
                     error: function (xhr, status) {
                         alert("Error en la creación de post");
                     },
@@ -378,27 +414,33 @@
 
                                     var localidad = document.createElement("p");
                                     localidad.setAttribute("class", "localidad");
-                                    localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].provincia+", "+usuarios[i].municipio;
+                                    localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].provincia + ", " + usuarios[i].municipio;
 
                                     var solicitud = document.createElement("button");
                                     solicitud.setAttribute("value", usuarios[i].id);
 
                                     if (usuarios[i].solicitud == "pendiente") {
                                         solicitud.setAttribute("class", "pendiente");
+                                        solicitud.setAttribute("data-pos", i);
                                         solicitud.innerHTML += "Pendiente";
                                     } else {
                                         solicitud.setAttribute("class", "solicitud");
+                                        solicitud.setAttribute("data-pos", i);
                                         solicitud.innerHTML += "Enviar Solicitud ";
                                     }
 
+
                                     solicitud.onclick = function () {
                                         if (this.innerHTML != "Pendiente") {
-                                            this.setAttribute("class", "pendiente");
-                                            this.innerHTML = "";
-                                            this.innerHTML += "Pendiente";
-                                            mandarSolicitud(this.value);
+                                            //mandarSolicitud(this.value);
+
+                                            $("#usuarioID").val(this.value);
+                                            $("#posicionID").val(this.dataset.pos);
+                                            $("#ventanaSolicitud").modal();
                                         } else {
                                             this.setAttribute("class", "solicitud");
+                                            $("#usuarioID").val(this.value);
+                                            $("#posicionID").val(this.dataset.pos);
                                             this.innerHTML = "";
                                             this.innerHTML += "Enviar Solicitud";
                                             cancelarSolicitud(this.value);
@@ -432,7 +474,6 @@
 
 
             }
-
         </script>
     </head>
     <body>
@@ -507,6 +548,13 @@
                     </li>
                 </ul>
             </footer>
+            <div id="ventanaSolicitud" style="display:none">
+                <h1>Enviar solicitud de amistad</h1>
+                <input type="text" id="posicionID" style="display:none">
+                <input type="text" id="usuarioID" style="display:none">
+                <textarea id="mensajeSolicitud" maxlength="100" placeholder="Escriba aquí un mensaje de solicitud si lo desea..."></textarea>
+                <button class="solicitud" id="enviarSolicitudB" >Enviar Solicitud</button>
+            </div>
         </div>
     </body>
 </html>

@@ -61,12 +61,24 @@
                 border-radius: 4rem;
                 float:left;
                 margin-right: 5rem;
+                transition: 1s opacity ease;
+            }
+            
+            .imagenNotificacion:hover{
+                opacity: 0.7;
+                cursor: pointer;
             }
 
             .usuarioNoti{
                 float: left;
                 margin-right: 0.3rem;
                 font-weight: bold;
+                transition: 1s color ease;
+            }
+            
+            .usuarioNoti:hover{
+                color: #f43333;
+                cursor:pointer;
             }
 
             .usuarioNoti:first-letter{
@@ -257,18 +269,34 @@
                                 img.setAttribute("src", "../controlador/uploads/usuarios/" + notificaciones[i].fotoAmigo);
                                 img.setAttribute("class", "imagenNotificacion");
                                 img.setAttribute("alt", "imagenPerfil");
+                                img.setAttribute("data-value",notificaciones[i].user1);
 
-                                var usuario = document.createElement("p");
+                                img.onclick = function(){
+                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+                                }
+
+                                var contMensaje = document.createElement("p");
+
+                                var usuario = document.createElement("span");
                                 usuario.setAttribute("class", "usuarioNoti");
+                                usuario.setAttribute("data-value",notificaciones[i].user1);
                                 usuario.innerHTML = notificaciones[i].nickAmigo;
+                                
+                                usuario.onclick = function(){
+                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+                                }
 
                                 var mensaje = document.createElement("p");
                                 mensaje.setAttribute("class", "mensajeNoti");
                                 if (notificaciones[i].tipo == "amistad") {
                                     mensaje.innerHTML = "te ha enviado una solicitud de amistad";
+                                    if(notificaciones[i].elemento){
+                                        mensaje.innerHTML += " con el mensaje: '"+notificaciones[i].elemento+"'";
+                                    }
                                 } else if (notificaciones[i].tipo == "comentarioP") {
                                     notificacion.setAttribute("data-value", notificaciones[i].elemento[0].id);
                                     notificacion.setAttribute("style", "cursor:pointer");
+                                    notificacion.setAttribute("title", "pulsa para ver comentario");
                                     var comentario = notificaciones[i].elemento[1].contenido;
                                     if(comentario.length < 50){
                                         mensaje.innerHTML = "ha comentado ' "+comentario+" ' en tu post con titulo " + notificaciones[i].elemento[0].titulo;
@@ -292,8 +320,9 @@
                                 $("#cuerpo").append(notificacion);
                                 notificacion.append(datos);
                                 datos.append(img);
-                                datos.append(usuario);
-                                datos.append(mensaje);
+                                datos.append(contMensaje);
+                                contMensaje.append(usuario);
+                                contMensaje.append(mensaje);
 
                                 if (notificaciones[i].tipo == "amistad") {
                                     var cadenaAmigos = notificaciones[i].amigosAmigo;

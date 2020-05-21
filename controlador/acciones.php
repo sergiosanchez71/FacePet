@@ -218,6 +218,8 @@ switch ($accion) {
 
             array_multisort($orden1, SORT_ASC, $amigos);
             echo json_encode($amigos);
+        } else {
+            echo false;
         }
         break;
 
@@ -236,7 +238,7 @@ switch ($accion) {
         $fecha = date("Y-m-d H:i:s");
         $notificacion = new Notificacion($idusuario, $_REQUEST['usuario'], "amistad", 0, $fecha);
         Notificacion::crearNotificacion($notificacion);
-        if (Amistades::mandarSolicitud($idusuario, $_REQUEST['usuario'])) {
+        if (Amistades::mandarSolicitud($idusuario, $_REQUEST['usuario'], $_REQUEST['mensaje'])) {
             echo true;
         } else {
             echo false;

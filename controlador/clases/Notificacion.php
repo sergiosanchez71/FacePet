@@ -108,6 +108,8 @@ class Notificacion {
                 $idcomentario = Comentario::buscarIdComentario($row['idelemento'],$row['user1'],$row['fecha']);
                 $identificacionElemento[0] = Post::mostrarPost($row['idelemento'],$idusuario);
                 $identificacionElemento[1] = Comentario::mostrarComentariosConId($idcomentario);
+            } else if($row['tipo'] == "amistad"){
+                $identificacionElemento = Amistades::getMensajeSolicitud($row['user1'],$row['user2']);
             }
             
             $datos[$i] = ['id' => $row['id'],

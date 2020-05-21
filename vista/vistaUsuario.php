@@ -65,8 +65,23 @@ and open the template in the editor.
 
                 #cuerpo{
                     grid-template-areas: 
-                        "botones botones"
-                        "posts eventos";
+                        "botones"
+                        "contenido";
+                    grid-template-columns: 100%;
+                }
+                
+                #posts{
+                    grid-area:contenido;
+                }
+                
+                #eventos{
+                    grid-area:contenido;
+                    width: 100%;
+                    display: none;
+                }
+                
+                .evento{
+                    width: 100%;
                 }
 
                 #botones{
@@ -112,11 +127,20 @@ and open the template in the editor.
                 } else {
                     cargando = 0;
                 }
+                
             });
 
             $(document).ready(function () {
                 cargarPostsAmigos("5");
                 mostrarEventos();
+                $("#botonEventos").click(function(){
+                    $("#eventos").show();
+                    $("#posts").hide();
+                });
+                $("#botonPosts").click(function(){
+                    $("#eventos").hide();
+                    $("#posts").show();
+                });
                 //google.maps.event.addDomListener(window, 'load', initMap);
 
             });
@@ -258,10 +282,6 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <?php
-        // put your code here
-        ?>
-
         <div id="principal">
 
             <header>

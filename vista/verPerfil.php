@@ -165,6 +165,7 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+                        console.log(respuesta);
                         if (respuesta) {
                             var amigos = JSON.parse(respuesta);
                             var titular = document.createElement("p");

@@ -17,11 +17,13 @@ class Amistades {
     private $user1;
     private $user2;
     private $estado;
+    private $mensaje;
 
-    function __construct($user1, $user2, $estado) {
+    function __construct($user1, $user2, $estado,$mensaje) {
         $this->user1 = $user1;
         $this->user2 = $user2;
         $this->estado = $estado;
+        $this->mensaje = $mensaje;
     }
 
     function getId() {
@@ -43,6 +45,10 @@ class Amistades {
     function getEstado() {
         return $this->estado;
     }
+    
+    function getMensaje() {
+        return $this->mensaje;
+    }
 
     function setUser1($user1) {
         $this->user1 = $user1;
@@ -54,6 +60,10 @@ class Amistades {
 
     function setEstado($estado) {
         $this->estado = $estado;
+    }
+
+    function setMensaje($mensaje) {
+        $this->mensaje = $mensaje;
     }
 
     function comprobarSolicitud($user1, $user2) {
@@ -78,11 +88,11 @@ class Amistades {
         unset($conexion);
     }
 
-    function mandarSolicitud($user1, $user2) {
+    function mandarSolicitud($user1, $user2, $mensaje) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if (!Amistades::comprobarSolicitud($user1, $user2)) {
-            $sql = "INSERT INTO amistades (user1,user2,estado) VALUES ('$user1','$user2','pendiente')";
+            $sql = "INSERT INTO amistades (user1,user2,estado,mensaje) VALUES ('$user1','$user2','pendiente','$mensaje')";
             $conexion->exec($sql);
         }
         unset($conexion);
@@ -102,6 +112,18 @@ class Amistades {
         $sql = "DELETE FROM amistades WHERE user1=$usuario or user2=$usuario";
         $conexion->exec($sql);
         unset($conexion);
+    }
+    
+    function getMensajeSolicitud($user1, $user2){
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT mensaje from amistades where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1)");
+        $estado = false;
+        while ($row = $consulta->fetch()) {
+            $estado = $row['mensaje'];
+        }
+        unset($conexion);
+        return $estado;
     }
 
 }
