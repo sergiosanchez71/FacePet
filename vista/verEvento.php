@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Ver Evento</title>
         <link rel="icon" href="../controlador/img/favicon.ico">
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE" async defer></script>
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">

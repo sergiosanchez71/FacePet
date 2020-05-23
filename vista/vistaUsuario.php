@@ -69,25 +69,16 @@ and open the template in the editor.
                         "contenido";
                     grid-template-columns: 100%;
                 }
-                
+
                 #posts{
                     grid-area:contenido;
-                }
-                
-                #eventos{
-                    grid-area:contenido;
-                    width: 100%;
-                    display: none;
-                }
-                
-                .evento{
-                    width: 100%;
                 }
 
                 #botones{
                     display: block;
                     grid-area: botones;
                     margin: 3rem;
+                    padding-bottom: 3rem;
                 }
 
                 .boton{
@@ -107,6 +98,42 @@ and open the template in the editor.
                     font-size: 3rem;
                 }
 
+                .post{
+                    padding-bottom: 2rem;
+                    border-radius: 0;
+                    border: 0px solid black;
+                    margin-top: -3rem;
+                    border-bottom: 1px solid grey;
+                }
+
+                .tituloseccion{
+                    display: none;
+                }
+
+                .post:last-child{
+                    margin-bottom: 10rem;
+                }
+
+                #eventos{
+                    max-width: 100%;
+                    grid-area:contenido;
+                    margin: 0;
+                    padding: 0;
+                    display: none;
+                }
+
+                .evento{
+                    border-radius: 0;
+                    border: 0px solid black;
+                    margin-top: -3rem;
+                    border-bottom: 1px solid grey;
+                }
+
+                .evento:last-child{                   
+                    margin-bottom: 15rem;
+
+                }
+
             }
 
         </style>
@@ -117,29 +144,43 @@ and open the template in the editor.
             var cantidad = 5;
 
             $(window).scroll(function () {
-                if ($(window).scrollTop() > $("#cuerpo").height() - 800) {
+                console.log($(window).width());
+                if ($(window).scrollTop() > $("#cuerpo").height() - 800 && $(window).width() > 1000) {
                     cargando += 1;
                     if (cargando == 1) {
                         cantidad += 5;
                         cargarPostsAmigos(cantidad);
                     }
 
+                } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) {
+                    cargando += 1;
+                    console.log($(window).scrollTop());
+                    if (cargando == 1) {
+                        cantidad += 5;
+                        cargarPostsAmigos(cantidad);
+                    }
                 } else {
                     cargando = 0;
                 }
-                
-            });
+
+            }
+            );
 
             $(document).ready(function () {
                 cargarPostsAmigos("5");
                 mostrarEventos();
-                $("#botonEventos").click(function(){
+                $("#botonPosts").css("background", "#ffe45e");
+                $("#botonEventos").click(function () {
                     $("#eventos").show();
                     $("#posts").hide();
+                    $("#botonEventos").css("background", "#ffe45e");
+                    $("#botonPosts").css("background", "#FFED91");
                 });
-                $("#botonPosts").click(function(){
+                $("#botonPosts").click(function () {
                     $("#eventos").hide();
                     $("#posts").show();
+                    $("#botonPosts").css("background", "#ffe45e");
+                    $("#botonEventos").css("background", "#FFED91");
                 });
                 //google.maps.event.addDomListener(window, 'load', initMap);
 
@@ -161,7 +202,7 @@ and open the template in the editor.
                     icon: '../controlador/img/marker.ico',
                     map: maps
                 });
-                
+
                 google.maps.event.addDomListener(window, 'load', initMap);
             }
 
@@ -340,11 +381,11 @@ and open the template in the editor.
                 </div>
                 <div id="posts">
                     <input type="text" id="cadPosts">
-                    <p id="name">Posts</p>
+                    <p class="tituloseccion">Posts</p>
 
                 </div>
                 <div id="eventos">
-                    <p id="name">Eventos</p>
+                    <p  class="tituloseccion">Eventos</p>
 
                 </div>
             </div>

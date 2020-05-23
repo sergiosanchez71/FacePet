@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Ver Post</title>
         <link rel="icon" href="../controlador/img/favicon.ico">
         <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
         <link href="../controlador/css/posts.css" rel="stylesheet" type="text/css"/>
@@ -91,6 +91,14 @@ and open the template in the editor.
                 text-transform: uppercase;
             }
 
+            .postContenido{
+                margin: 2.5%;
+            }
+
+            .postBottom{
+                margin-left: 1.2%;
+            }
+
             .cFecha{
                 font-size: 0.8rem;
                 margin-left: 4rem;
@@ -102,16 +110,19 @@ and open the template in the editor.
                 font-size: 1rem;
             }
 
-            .botonEliminarA{
+            /*.botonEliminarA{
                 grid-area: eliminarAmigo;
                 width: 4rem;
                 display: block;
                 float: right;
                 cursor: pointer;
             }
-
             .amigoEliminar{
                 width: 3rem;
+            }*/
+            
+            #menuPost{
+                margin-top: 3rem;
             }
 
         </style>
@@ -312,7 +323,7 @@ and open the template in the editor.
                                     postImg.setAttribute("src", "../controlador/uploads/posts/" + posts.multimedia);
 
                                 } else {
-                                    post.setAttribute("style","min-height:-20rem");
+                                    post.setAttribute("style", "min-height:-20rem");
                                 }
 
                                 var postContenido = document.createElement("p");
@@ -501,7 +512,6 @@ and open the template in the editor.
             <div id="cuerpo">
                 <input type="text" id="idPost" value="<?php echo $_REQUEST['post'] ?>">
                 <div id="menuPost">
-                    <p id="name">Post</p>
                 </div>
                 <div id="comentariosPost">
                     <input type="text" id="comentario" onkeypress="pulsar(event)" maxlength="255" placeholder="Añadir comentario">

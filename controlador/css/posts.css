@@ -7,7 +7,7 @@
     padding: 2.5% 5% 5% 8%;
 }
 
-#name{
+.tituloseccion{
     font-weight: bold;
     text-align: center;
     font-size: 1.5rem;
@@ -137,12 +137,9 @@
 
 @media (max-width: 1000px){
 
-    .post{
-        min-height: 50rem;
-    }
-    
-    .post:last-child{
-        margin-bottom: 10rem;
+    #posts{
+        margin: 0;
+        padding: 0;
     }
 
     .postEliminar{
@@ -150,22 +147,39 @@
     }
 
     .imagenUsuario{
-        width:7rem;
-        height: 7rem;
+        width:8rem;
+        height: 8rem;
     }
 
     .nombreUsuario, .postFecha{
         /*position: relative;
         bottom: 3.5rem;*/
         margin-right: 0rem;
-    }/*
+        font-size: 2rem;
+    }
 
     .postFecha{
-        left: 8rem;
-    }*/
+        position: relative;
+        bottom: 1rem;
+    }
+
+    .postTitulo{
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+        font-size: 3rem;
+    }
 
     .postImg{
-        width: 50rem;
+        width: 96%;
+        margin: 1rem;
+    }
+
+    .postContenido{
+        font-size: 2rem;
+    }
+
+    .postLikes{
+        font-size: 2rem;
     }
 
     .postBottom{
@@ -175,6 +189,10 @@
     .postCorazonImg, .postComentarioImg{
         width: 5rem;
         padding-right: 2rem;
+    }
+
+    .comentariosPost{
+        font-size: 2.5rem;
     }
 
 }

@@ -294,5 +294,10 @@ li .alerta{
         width: 6rem;
         margin-right: 5rem;
     }
+    
+    .cerrarsesion{
+        position: relative;
+        bottom: 0.5rem;
+    }
 
 }

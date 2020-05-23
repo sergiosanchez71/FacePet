@@ -286,7 +286,9 @@
             "botonesM"
             "amigosPerfil"
             "posts";
-        grid-template-columns: 96%;
+        grid-template-columns: 100%;
+        margin: 0;
+        padding: 0;
     }
 
     #contenidoPerfil, #datos{
