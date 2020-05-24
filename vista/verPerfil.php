@@ -419,7 +419,7 @@ and open the template in the editor.
 
             <div id="cuerpo">
                 <input type="text" id="cadPosts">
-                <input type="text" id="idUsuario" value="<?php echo $_REQUEST['usuario'] ?>">
+                <input type="text" id="idUsuario" style="display:none" value="<?php echo $_REQUEST['usuario'] ?>">
                 <div id="cabeceraPerfil">
                     <p id="contenidoPerfil">
                         <img id="imgPerfil" alt="imgPerfil">

@@ -398,7 +398,8 @@ switch ($accion) {
             'month' => date('m'),
             'year' => date("yy"),
             'hour' => date("H"),
-            'minutes' => date("i")
+            'minutes' => date("i"),
+            'seconds' => date("s")
         );
         echo json_encode($fecha);
         break;

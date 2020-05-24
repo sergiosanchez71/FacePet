@@ -116,7 +116,6 @@
             }
 
             .solicitud, .pendiente{
-                font-size: 1.2rem;
                 border-radius: 1rem;
                 cursor: pointer;
                 transition: 1s background ease;
@@ -165,6 +164,7 @@
                 #buscador{
                     height: 4rem;
                     font-size: 3rem;
+                    border: 1px solid grey;
                 }
 
                 #lupa{
@@ -185,8 +185,8 @@
                 }
 
                 .imagenAmigo{
-                    width: 14rem;
-                    height: 14rem;
+                    width: 17rem;
+                    height: 17rem;
                     margin-top: 2rem;
                 }
 
@@ -202,17 +202,26 @@
                 }
 
                 .animal, .raza, .localidad{
-                    font-size: 1.5rem;
+                    font-size: 2rem;
                 }
 
                 .solicitud, .pendiente{
-                    font-size: 2.5rem;
                     font-weight: bold;
+                    width: 10rem;
+                    height: 3rem;
+                    font-size: 2rem;
+                    width: 20rem;
+                }
+                
+                #mensajeSolicitud{
+                    height: 15rem;
+                    font-size: 2rem;
+                    border: 1px solid grey;
                 }
 
-                .imgPata{
+               /* .imgPata{
                     width: 2.5rem;
-                }
+                }*/
 
             }
 
@@ -233,7 +242,7 @@
                         $("#buscador").val($(this).val());
                         console.log($("#buscador").val());
                         buscarUsuarios();
-                        $('#d1').html(" <b>Triggered Change event:  </b> " + $(this).val());
+                        //$('#d1').html(" <b>Triggered Change event:  </b> " + $(this).val());
                     }
                 });
                 $("#buscador").on('input', function () {
@@ -307,7 +316,6 @@
             }
 
             function mostrarTodosNombresUsuarios() {
-                console.log("a");
                 var parametros = {
                     "accion": "mostrarTodosNombresUsuarios"
                 };

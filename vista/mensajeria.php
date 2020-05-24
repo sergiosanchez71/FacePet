@@ -196,6 +196,18 @@
                 transition: 1s background ease;
             }
 
+            .notimensaje{
+                background: red;
+                width: 1rem;
+                height: 1rem;
+                font-size: 2rem;
+                padding: 1rem;
+                padding-left: 1rem;
+                padding-bottom: 2rem;
+                color: white;
+                border-radius: 5rem;
+            }
+
             @media (max-width:1200px){
 
                 #cuerpo{
@@ -232,6 +244,117 @@
 
             }
 
+            @media (max-width:1000px){
+
+                #cuerpo{
+                    grid-template-areas: 
+                        "contenido";
+                    grid-template-columns: 100%;
+                    grid-template-rows: 100%;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                #chatear{
+                    font-size: 3rem;
+                }
+
+                #buscador{
+                    height: 6rem;
+                    font-size: 3rem;
+                }
+
+                #listaAmigos{
+                    grid-area: contenido;
+                    border: 1px solid black;
+                    height: 100%;
+                }
+
+                .amigo{
+                    width: 95%;
+                    padding-bottom: 5rem;
+                }
+
+                .imgAmigo{
+                    width: 15rem;
+                    height: 15rem;
+                }
+
+                .nombreAmigo{
+                    font-size: 4rem;
+                }
+
+                .animalAmigo, .razaAmigo{
+                    font-size: 2.5rem;
+                    line-height: 0.6;
+                }
+
+                .notimensaje{
+                    width: 4rem;
+                    height: 4rem;
+                    font-size: 5rem;
+                    padding: 1rem;
+                    padding-left: 2rem;
+                    padding-bottom: 3rem;
+                    border-radius: 5rem;
+                }
+
+                #cabeceraPerfil{
+
+                }
+
+                #Cmensajes{
+                    grid-area: contenido;
+                    display: none;
+                    grid-template-rows: 17.5% 67.5% 15%;
+                }
+
+                #cuerpoCM{
+                    height: 62.5%;
+                }
+
+                #pieCM{
+                    margin-bottom: 10rem;
+                }
+
+                #imgAmigoCM{
+                    width: 10rem;
+                    height: 10rem;
+                }
+
+                #nombreAmigoCM{
+                    font-size: 4rem;
+                }
+
+                .mUser1, .mUser2{
+                    max-width: 100%;
+                    margin-bottom: 1rem;
+                    padding: 2rem 5rem 0.1px 4rem;
+                    border-radius: 8rem;
+                    word-break: break-all; 
+                    font-size: 3rem;
+                }
+
+                .mUser1 .fecha, .mUser2 .fecha{
+                    font-size: 1.025rem;
+                }
+
+                #mensajeEscrito{
+                    width: 79%;
+                    float: left;
+                    height: 5rem;
+                    font-size: 3rem;
+                }
+
+                #enviarMensaje{
+                    margin-top: 1rem;
+                    font-size: 3rem;
+                    height: 5rem;
+                }
+
+
+            }
+
 
         </style>
 
@@ -262,6 +385,11 @@
                  mostrarChat(amigos[i].id);
                  mensajesLeidos(amigos[i].id);*/
             });
+
+            function mostrarChatMovil() {
+                $("#listaAmigos").hide();
+                $("#Cmensajes").show();
+            }
 
 
             function pulsar(e) {
@@ -299,6 +427,9 @@
                                  }*/
 
                                 amigoPerfil.onclick = function () {
+                                    if ($(window).width() < 1000) {
+                                        mostrarChatMovil();
+                                    }
                                     mostrarCabeceraChat(this.dataset.value);
                                     mostrarChat(this.dataset.value);
                                     mensajesLeidos(this.dataset.value);
@@ -338,7 +469,8 @@
 
                                 if (amigos[i].mensajes > 0) {
                                     amigoPerfil.setAttribute("style", "background:#ffb5b5");
-                                    mensajes.setAttribute("style", "background:red");
+                                    // mensajes.setAttribute("style", "background:red");
+                                    mensajes.setAttribute("class", "notimensaje");
                                     mensajes.innerHTML = amigos[i].mensajes;
                                 }
 
@@ -423,9 +555,9 @@
                     data: parametros,
                     success: function (respuesta) {
                         $("#cuerpoCM").empty();
-                       /* var cuerpoCM = document.createElement("div");
-                        cuerpoCM.setAttribute("id","cuerpoCM");
-                        $("#CMensajes").append(cuerpoCM);*/
+                        /* var cuerpoCM = document.createElement("div");
+                         cuerpoCM.setAttribute("id","cuerpoCM");
+                         $("#CMensajes").append(cuerpoCM);*/
                         if (respuesta) {
                             var mensajes = JSON.parse(respuesta);
                             for (var i = 0; i < mensajes.length; i++) {
@@ -540,6 +672,9 @@
                             fecha.setAttribute("class", "fecha");
                             var f = new Date();
                             //var fecha = dateFormat(f, "yyyy, mm, dd h:MM:ss");
+                            //console.log(getDateString());
+                            //var f = getDateString();
+                            console.log(f)
                             fecha.innerHTML = f;
 
                             $("#cuerpoCM").append(div);
@@ -559,6 +694,28 @@
                     alert("Mensaje vacío");
                 }
 
+            }
+
+            function getDateString() {
+                var parametros = {
+                    "accion": "getDateTime"
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        var fecha = JSON.parse(respuesta);
+                        var fechas = fecha.year + "-" + fecha.month + "-" + fecha.day + " " + fecha.hour + ":" + fecha.minutes + ":" + fecha.seconds;
+                        return fechas;
+
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la creación de Evento");
+                    },
+                    type: "post",
+                    dataType: "text"
+                });
             }
 
             function mensajesLeidos(usuario) {
