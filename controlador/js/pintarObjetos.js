@@ -316,8 +316,6 @@ function pintarEventos(eventos, div) {
         } else if (eventos[i].lat && eventos[i].lng) {
 
             var map = document.createElement("div");
-            map.setAttribute("class", "map");
-            initMap(map, eventos[i].lat, eventos[i].lng);
 
         }
         var textAutor = document.createElement("p");
@@ -334,6 +332,7 @@ function pintarEventos(eventos, div) {
 
         if (eventos[i].participable) {
             var textParticipantes = document.createElement("p");
+            textParticipantes.setAttribute("class", "participantes");
             var participantes = document.createElement("span");
             var part;
             if (eventos[i].participable == "t") {
@@ -377,6 +376,8 @@ function pintarEventos(eventos, div) {
         if (eventos[i].foto) {
             evento.append(img);
         } else if (eventos[i].lat && eventos[i].lng) {
+            map.setAttribute("class", "map");
+            initMap(map, eventos[i].lat, eventos[i].lng);
             evento.append(map);
         }
         evento.append(textAutor);
@@ -388,7 +389,7 @@ function pintarEventos(eventos, div) {
             textParticipantes.append(participantes);
         }
 
-        
+
 
     }
 }
@@ -477,7 +478,7 @@ function pintarUnEvento(eventos) {
         visual.setAttribute("class", "visual");
     } else if (eventos.foto) {
         visual.setAttribute("class", "visualImg");
-    } else {
+    } else if (eventos.lat){
         visual.setAttribute("class", "visualMap");
         map.setAttribute("style", "height:20rem");
     }
@@ -526,7 +527,7 @@ function pintarUnEvento(eventos) {
                 window.location.reload();
             }
         }
-        
+
 
     }
 
@@ -586,22 +587,22 @@ function pintarUnEvento(eventos) {
 }
 
 function initMap(map, lat, lng) {
-                var maps = new google.maps.Map(map, {
-                    center: {lat: parseFloat(lat), lng: parseFloat(lng)},
-                    zoom: 16,
-                    streetViewControl: false,
-                    mapTypeControl: false,
-                    scaleControl: false,
-                    zoomControl: false,
-                    scrollwheel: false,
-                    fullscreenControl: false
-                });
-                new google.maps.Marker({
-                    position: {lat: parseFloat(lat), lng: parseFloat(lng)},
-                    icon: '../controlador/img/marker.ico',
-                    map: maps
-                });
-            }
+    var maps = new google.maps.Map(map, {
+        center: {lat: parseFloat(lat), lng: parseFloat(lng)},
+        zoom: 16,
+        streetViewControl: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        zoomControl: false,
+        scrollwheel: false,
+        fullscreenControl: false
+    });
+    new google.maps.Marker({
+        position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+        icon: '../controlador/img/marker.ico',
+        map: maps
+    });
+}
 
 function pintarAmigos(amigos, div) {
 

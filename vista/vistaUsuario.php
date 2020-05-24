@@ -128,10 +128,18 @@ and open the template in the editor.
                     margin-top: -3rem;
                     border-bottom: 1px solid grey;
                 }
+                .eventoTitulo, .textTipo, .textFechai, .textFechaf, .direccioncompleta, .eventoAutor, .participantes{
+                    margin-left: 0;
+                }
+
+                .map{
+                    height: 20rem;
+                    margin-left: 0;
+
+                }
 
                 .evento:last-child{                   
                     margin-bottom: 15rem;
-
                 }
 
             }

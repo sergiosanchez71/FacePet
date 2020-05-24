@@ -25,31 +25,17 @@ and open the template in the editor.
         comprobarLogin();
         ?>
         <style>
-            .evento{
-                margin-left: 4rem;
-            }
 
         </style>
         <script>
 
             var cargando = 0;
             var cantidad = 5;
+            var pest = 0;
 
             $(window).scroll(function () {
-                if ($(window).scrollTop() > $("#contenido").height() - 400 && ($("#contenido").height() > 1000)) {
-                    console.log($("#contenido").height());
-                    cargando += 1;
-                    if (cargando == 1) {
-                        cantidad += 5;
-                        mostrarPosts($("#idUsuario").val(),cantidad);
-                        console.log($("#cadPosts").val());
-                    }
-                    //}
-                } else {
-                    cargando = 0;
-                }
 
-                if ($("#contenido").height() > 600)
+                if ($("#contenido").height() > 600 && $(window).width() > 1000) {
                     if ($(window).scrollTop() > 500 && $(window).width() > 1000) {
                         $("#amigosPerfil").css("position", "fixed");
                         $("#amigosPerfil").css("top", "0.5rem");
@@ -58,15 +44,27 @@ and open the template in the editor.
                         $("#amigosPerfil").css("position", "relative");
                         $("#amigosPerfil").css("width", "75%");
                     }
+                } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) {
+                    if (pest == 0) {
+                        cargando += 1;
+                        if (cargando == 1) {
+                            cantidad += 5;
+                            mostrarPosts($("#idUsuario").val(),cantidad);
+                        }
+                    }
+                } else {
+                    cargando = 0;
+                }
+
             });
 
             $(document).ready(function () {
+                $("#cambiarImagen").hide();
                 getDatosPerfil($("#idUsuario").val());
-                mostrarPosts($("#idUsuario").val(), "5");
+                mostrarPosts($("#idUsuario").val(),"5");
                 mostrarAmigos($("#idUsuario").val());
                 $("#botonPosts").hide();
                 $("#textoEventos").hide();
-                $("#idUsuario").hide();
                 $("#textoPosts").hide();
 
                 $("#botonEventos").click(function () {
@@ -79,12 +77,52 @@ and open the template in the editor.
 
                 $("#botonPosts").click(function () {
                     $("#botonPosts").hide();
-                    $("#botonEventos").show();
                     $("#textoEventos").hide();
+                    $("#botonEventos").show();
+                    $("#textoPosts").show();
                     $("#contenido").empty();
                     $("#cadPosts").val("");
-                    mostrarPosts($("#idUsuario").val(), "5");
+                    mostrarPosts($("#idUsuario").val(),"5");
                 });
+
+                if ($(window).width() < 1000) {
+
+                    $("#botonEventosM").click(function () {
+                        pest = 1;
+                        $("#botonPostsM").show();
+                        $("#botonAmigosM").show();
+                        $("#botonEventosM").hide();
+                        $("#textoPosts").hide();
+                        $("#amigosPerfiles").hide();
+                        $("#posts").hide();
+                        $("#contenido").empty();
+                        $("#cadPosts").val("");
+                        mostrarEventos($("#idUsuario").val());
+                    });
+
+                    $("#botonPostsM").click(function () {
+                        pest = 0;
+                        $("#botonPostsM").hide();
+                        $("#botonEventosM").show();
+                        $("#botonAmigosM").show();
+                        $("#textoEventos").hide();
+                        $("#amigosPerfiles").hide();
+                        $("#contenido").empty();
+                        $("#cadPosts").val("");
+                        mostrarPosts($("#idUsuario").val(),"5");
+                    });
+
+                    $("#botonAmigosM").click(function () {
+                        pest = 2;
+                        $("#botonAmigosM").hide();
+                        $("#botonEventosM").show();
+                        $("#botonPostsM").show();
+                        $("#contenido").empty();
+                        $("#amigosPerfiles").show();
+
+                    });
+
+                }
             });
 
             function eliminarPost(post) {

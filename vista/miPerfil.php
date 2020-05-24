@@ -25,33 +25,16 @@ and open the template in the editor.
         comprobarLogin();
         ?>
         <style>
-            .evento{
-                margin-left: 4rem;
-            }
         </style>
         <script>
 
             var cargando = 0;
             var cantidad = 5;
+            var pest = 0;
 
             $(window).scroll(function () {
-                if ($(window).scrollTop() > $("#contenido").height() - 400 && ($("#contenido").height() > 1000)) {
-                    /*if ($("#cadPosts").empty) {
-                     mostrarMisPostsInicio("5");
-                     } else {*/
-                    console.log($("#contenido").height());
-                    cargando += 1;
-                    if (cargando == 1) {
-                        cantidad += 5;
-                        mostrarMisPosts(cantidad);
-                        console.log($("#cadPosts").val());
-                    }
-                    //}
-                } else {
-                    cargando = 0;
-                }
 
-                if ($("#contenido").height() > 600)
+                if ($("#contenido").height() > 600 && $(window).width() > 1000) {
                     if ($(window).scrollTop() > 500 && $(window).width() > 1000) {
                         $("#amigosPerfil").css("position", "fixed");
                         $("#amigosPerfil").css("top", "0.5rem");
@@ -60,6 +43,18 @@ and open the template in the editor.
                         $("#amigosPerfil").css("position", "relative");
                         $("#amigosPerfil").css("width", "75%");
                     }
+                } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) {
+                    if (pest == 0) {
+                        cargando += 1;
+                        if (cargando == 1) {
+                            cantidad += 5;
+                            mostrarMisPosts(cantidad);
+                        }
+                    }
+                } else {
+                    cargando = 0;
+                }
+
             });
 
             $(document).ready(function () {
@@ -81,17 +76,58 @@ and open the template in the editor.
 
                 $("#botonPosts").click(function () {
                     $("#botonPosts").hide();
-                    $("#botonEventos").show();
                     $("#textoEventos").hide();
+                    $("#botonEventos").show();
+                    $("#textoPosts").show();
                     $("#contenido").empty();
                     $("#cadPosts").val("");
                     mostrarMisPosts("5");
                 });
+
+                if ($(window).width() < 1000) {
+
+                    $("#botonEventosM").click(function () {
+                        pest = 1;
+                        $("#botonPostsM").show();
+                        $("#botonAmigosM").show();
+                        $("#botonEventosM").hide();
+                        $("#textoPosts").hide();
+                        $("#amigosPerfiles").hide();
+                        $("#posts").hide();
+                        $("#contenido").empty();
+                        $("#cadPosts").val("");
+                        mostrarMisEventos();
+                    });
+
+                    $("#botonPostsM").click(function () {
+                        pest = 0;
+                        $("#botonPostsM").hide();
+                        $("#botonEventosM").show();
+                        $("#botonAmigosM").show();
+                        $("#textoEventos").hide();
+                        $("#amigosPerfiles").hide();
+                        $("#contenido").empty();
+                        $("#cadPosts").val("");
+                        mostrarMisPosts("5");
+                    });
+
+                    $("#botonAmigosM").click(function () {
+                        pest = 2;
+                        $("#botonAmigosM").hide();
+                        $("#botonEventosM").show();
+                        $("#botonPostsM").show();
+                        $("#contenido").empty();
+                        $("#amigosPerfiles").show();
+
+                    });
+
+                }
+
                 $("#textCambiarAvatar").click(function () {
                     getId();
                     $("#cambiarImagen").modal();
                 });
-                
+
                 $("#imgPerfil").click(function () {
                     getId();
                     $("#cambiarImagen").modal();
@@ -179,7 +215,7 @@ and open the template in the editor.
                         $("#nombrePerfilUsuario").text(usuario.nick);
                         $("#animalPerfilUsuario").text(usuario.animal);
                         $("#razaPerfilUsuario").text(usuario.raza);
-                        $("#localidadPerfilUsuario").text(usuario.provincia+", "+usuario.municipio);
+                        $("#localidadPerfilUsuario").text(usuario.provincia + ", " + usuario.municipio);
 
 
                     },
@@ -253,7 +289,7 @@ and open the template in the editor.
                     dataType: "text"
                 });
             }
-            
+
             function mostrarMisEventos() {
                 var parametros = {
                     "accion": "mostrarEventosId"
@@ -285,8 +321,8 @@ and open the template in the editor.
                     dataType: "text"
                 });
             }
-            
-            function eliminarEvento(evento){
+
+            function eliminarEvento(evento) {
                 var parametros = {
                     "accion": "eliminarEvento",
                     "evento": evento

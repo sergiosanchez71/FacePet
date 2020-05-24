@@ -83,6 +83,27 @@ and open the template in the editor.
                 background-color:#FFF578;
             }
 
+            @media (max-width:1000px){
+                #cuerpo{
+                    padding-bottom: 10rem;
+                }
+
+                .visual{
+                    grid-template-columns: 30% 70%;
+                }
+
+                #botonParticipar, #botonYaParticipa{
+                    font-size: 3rem;
+                    height: 5rem;
+                }
+                
+                .evento *{
+                    margin-left: 0;
+                }
+                
+
+            }
+
         </style>
         <script>
 

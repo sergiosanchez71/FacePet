@@ -77,3 +77,42 @@
 .eventoNombreAutor:hover, .eventoTitulo:hover{
     color: #f43333;
 }
+
+@media (max-width: 1000px){
+
+
+    #eventos{
+        max-width: 100%;
+        grid-area:contenido;
+        margin: 0;
+        padding: 0;
+        display: none;
+    }
+
+    .evento{
+        border-radius: 0;
+        border: 0px solid black;
+        margin-top: -3rem;
+        border-bottom: 1px solid grey;
+    }
+    
+    .eventoTitulo{
+        font-size: 3rem;
+    }
+    
+    .textTipo, .textFechai, .eventoFecha, .textFechaf, .direccioncompleta, .eventoAutor, .participantes{
+        font-size: 2rem;
+    }
+    
+    .eventoTitulo, .textTipo, .textFechai, .textFechaf, .direccioncompleta, .eventoAutor, .participantes{
+        margin-left: 3rem;
+    }
+    
+    .map{
+        height: 20rem;
+        margin-left: 1.5rem;
+        
+    }
+    
+    
+}

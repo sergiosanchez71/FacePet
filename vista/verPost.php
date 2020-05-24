@@ -44,11 +44,16 @@ and open the template in the editor.
             }
 
             #enviarComentario{
-                font-size: 1.5rem;
+                font-size: 1.3rem;
                 width: 15%;
                 height: 3.3rem;
                 float: right;
                 margin-bottom: 10rem;
+                font-weight: bold;
+                background-color: #FFED91;
+                transition: 1s background ease;
+                cursor: pointer;
+                transition: 1s ease background;
             }
 
             .comentario{
@@ -110,8 +115,7 @@ and open the template in the editor.
                 font-size: 1rem;
             }
 
-            /*.botonEliminarA{
-                grid-area: eliminarAmigo;
+            .botonEliminarA{
                 width: 4rem;
                 display: block;
                 float: right;
@@ -119,10 +123,58 @@ and open the template in the editor.
             }
             .amigoEliminar{
                 width: 3rem;
-            }*/
-            
+            }
+
             #menuPost{
                 margin-top: 3rem;
+            }
+
+            @media (max-width: 1000px){
+
+                #comentario{
+                    font-size: 3rem;
+                    height: 5rem;
+                    border: 1px solid grey;
+                    width: 60%;
+                }
+
+                #enviarComentario{
+                    height: 5rem;
+                    font-size: 2rem;
+                    width: 27.5%;
+                }
+
+
+                .cImagenUsuario{
+                    width: 8rem;
+                    height: 8rem;
+                }
+
+                .cFecha{
+                    position: relative;
+                    bottom:1rem;
+                }
+
+                .cNombreUsuario, .cFecha{
+                    font-size: 2rem;
+                    position: relative;
+                    left: 1rem;
+                }
+
+                .nombreUsuario{
+                    position: relative;
+                    top: 1rem;
+                }
+
+                .cCont{
+                    font-size: 2rem;
+                }
+
+                .botonEliminarA{
+                    width: 5rem;
+                    height: 5rem;
+                }
+
             }
 
         </style>

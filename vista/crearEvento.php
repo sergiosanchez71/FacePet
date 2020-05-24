@@ -111,6 +111,8 @@
                 display: none;
             }
 
+
+
             @media (max-width:1000px){
 
                 #crearEvento{
@@ -136,6 +138,19 @@
                     font-size: 2rem;
                 }
 
+                .fecha{
+                    height: 5rem;
+                }
+
+                #fechaf, #fechai{
+                    font-size: 3rem;
+                }
+
+                #participable{
+                    width: 3rem;
+                    height: 3rem;
+                }
+
                 #info{
                     font-size: 1.5rem;
                 }
@@ -149,7 +164,7 @@
                     font-size: 3rem;
                 }
 
-                #botonCrearEvento{
+                .botonCrearEvento{
                     margin-top: 2rem;
                     height: 5rem;
                     font-size: 4rem;
@@ -493,7 +508,7 @@
                 <div id="crearEvento">
                     <h1>Crea un nuevo evento</h1>
                     <form id="paso1">
-                        <h2 class="paso">Paso 1</h2>
+                        <!-- <h2 class="paso">Paso 1</h2>-->
                         <p class="title">Título</p> 
                         <input type="text" id="titulo" name="titulo" maxlength="30">
                         <p class="title">Contenido</p> 
@@ -504,9 +519,9 @@
                             <!--<p><input type="radio" id="multimedia" value="imagen"><input type="radio" id="multimedia" value="video"></p>-->
                                 <!--<button id="botonCrearEvento">Crear Evento<img src="../controlador/img/pata.png" id="pata" class="pata"></button>-->
                         <p class="title">Fecha y hora del inicio del evento</p>
-                        <input type="datetime-local" id="fechai">
+                        <input type="datetime-local" id="fechai" class="fecha">
                         <p class="title">Fecha y hora del fin del evento</p>
-                        <input type="datetime-local" id="fechaf">
+                        <input type="datetime-local" id="fechaf" class="fecha">
                         <div id="ubicacion">
                             <p class="title">¿Donde se realizará el evento?</p>
                             <input type="text" id="searchTextField">
@@ -525,7 +540,7 @@
                             <input type="button" class="botonCrearEvento" id="botonCrearEvento2" value="Publicar Evento"></p>
                     </form>
                     <form method="post" id="paso2" enctype="multipart/form-data">
-                        <h2 class="paso">Paso 2</h2>
+                        <!--<h2 class="paso">Paso 2</h2-->
                         <p class="title">Añade una foto o vídeo (Opcional)</p>
                         <input type="file" name="userfile" id="multimedia">
                         <p><input type="submit" class="botonCrearEvento" id="subirImagen" name="subirImagenE" value="Publicar Evento"></p>

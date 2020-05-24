@@ -279,6 +279,10 @@
     margin-top: 1rem;
 }
 
+.evento{
+    margin-left: 4rem;
+}
+
 @media (max-width:1000px){
     #cuerpo{
         grid-template-areas: 
@@ -289,6 +293,7 @@
         grid-template-columns: 100%;
         margin: 0;
         padding: 0;
+        padding-bottom: 10rem;
     }
 
     #contenidoPerfil, #datos{
@@ -303,17 +308,48 @@
         display: block;
         grid-area: botonesM;
         margin: 3rem;
+        margin-bottom: 6rem;
     }
 
     .boton{
         font-size: 3rem;
     }
-    .amigoPerfil{
-        margin: auto;
-        width: 90%;
+    
+    #botonPostsM{
+        display: none;
+    }
+    
+    #contenido{
+        margin: 0;
+        padding: 0;
+    }
+    
+    .post{
+        border-radius: 0;
+        border: 0px solid black;
+        border-bottom: 1px solid grey;
+        margin-top: -3rem;
+    }
+    
+    .postUsuario{
+        margin-left: 2rem;
+    }
+    
+    .postCont{
+        margin-left: 2rem;
+    }
+    
+    #amigosPerfiles{
+        display: none;
     }
 
-    .amigoPerfil .imagenAmigo{
+    #amigosPerfil, #amigosPerfiles, .amigoPerfil{
+        margin: 0;
+        width: 94%;
+        margin: auto;
+    }
+
+    .imagenAmigo{
         width: 10rem;
         height: 10rem;
         margin-left: 20%;
@@ -324,7 +360,7 @@
     }
 
     .amigoPerfil{
-        margin-top: 2rem;
+        margin-top: 0.5rem;
     }
 
     #datos{
