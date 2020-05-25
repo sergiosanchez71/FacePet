@@ -22,7 +22,7 @@ and open the template in the editor.
         <script src="../controlador/js/pintarObjetos.js" type="text/javascript"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE&callback=initMap" async defer></script>
         <style>
-            
+
         </style>
         <script>
 
@@ -33,14 +33,26 @@ and open the template in the editor.
                 mostrarEventos();
                 //google.maps.event.addDomListener(window, 'load', initMap);
 
+                $("#checkLugar").click(function () {
+                    mostrarEventos();
+                });
+
+                $("#rdFechaI").click(function () {
+                    mostrarEventos();
+                });
+
+                $("#rdFechaF").click(function () {
+                    mostrarEventos();
+                });
+
             });
 
             $(window).scroll(function () {
-                
-                console.log($("#cuerpo").height()-800);
+
+                console.log($("#cuerpo").height() - 800);
                 console.log($(window).scrollTop());
                 if ($(window).scrollTop() > $("#cuerpo").height() - 800 && $(window).width() > 1000) {
-                    
+
                     cargando += 1;
                     if (cargando == 1) {
                         cantidad += 5;
@@ -81,9 +93,29 @@ and open the template in the editor.
             }
 
             function mostrarEventos() {
+
+                var checkLugar = false;
+                //var checkParticipantes = false;
+
+                if ($('#checkLugar').is(':checked')) {
+                    checkLugar = true;
+                }
+
+                var rdFecha = $('input[name=rdfecha]:checked').val();
+
+                /* if ($("#checkParticipantes").is(':checked')){
+                 checkParticipantes = true;
+                 }*/
+                console.log(rdFecha);
+                console.log(checkLugar);
+
+
                 var parametros = {
                     "accion": "mostrarEventosCantidad",
-                    "cantidad": cantidad
+                    "cantidad": cantidad,
+                    "checkLugar": checkLugar,
+                    "rdFecha": rdFecha/*,
+                     "checkParticipantes": checkParticipantes*/
                 };
 
                 $.ajax({
@@ -92,6 +124,8 @@ and open the template in the editor.
                     success: function (respuesta) {
                         console.log(respuesta);
                         if (respuesta) {
+                            $("#cadEventos").val("");
+                            $("#eventos").empty();
                             console.log(respuesta);
                             var eventos = JSON.parse(respuesta);
                             console.log(eventos[0].miProvincia);
@@ -168,10 +202,11 @@ and open the template in the editor.
             </header>
 
             <div id="cuerpo">
-                <input type="checkbox" value="lugar"><span>Ordenar por lugar</span>
-                <input type="checkbox" value="fechai"><span>Ordenar por fecha inicio</span>
-                <input type="checkbox" value="fechai"><span>Ordenar por fecha fin</span>
-                <input type="checkbox" value="participantes"><span>Ordenar por participantes</span>
+                <!--<input type="checkbox" id="checkTitle" value="title"><span>Escribir título</span>-->
+                <input type="checkbox" id="checkLugar" value="lugar" checked><span>Ordenar por lugar</span>
+                <input type="radio" id="rdFechaI" name="rdfecha" value="fechai" checked><span>Ordenar por fecha inicio</span>
+                <input type="radio" id="rdFechaF" name="rdfecha" value="fechaf"><span>Ordenar por fecha fin</span>
+                <!--<input type="checkbox" id="checkParticipantes" value="participantes"><span>Ordenar por participantes</span>-->
                 <input type="text" id="cadEventos" style="display:none">
                 <div id="eventos">
 

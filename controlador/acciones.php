@@ -436,8 +436,8 @@ switch ($accion) {
         break;
 
     case "mostrarEventosCantidad":
-        if(Evento::mostrarEventosCantidad($idusuario,$_REQUEST['cantidad'])){
-            echo json_encode(Evento::mostrarEventosCantidad($idusuario,$_REQUEST['cantidad']));
+        if(Evento::mostrarEventosCantidad($idusuario,$_REQUEST['cantidad'],$_REQUEST['checkLugar'],$_REQUEST['rdFecha']/*,$_REQUEST['checkParticipantes']*/)){
+            echo json_encode(Evento::mostrarEventosCantidad($idusuario,$_REQUEST['cantidad'],$_REQUEST['checkLugar'],$_REQUEST['rdFecha']/*,$_REQUEST['checkParticipantes']*/));
         } else{
             echo false;
         }
