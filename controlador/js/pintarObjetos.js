@@ -224,171 +224,192 @@ function darLike(post) {
 
 function pintarEventos(eventos, div) {
     for (var i = 0; i < eventos.length; i++) {
-        var evento = document.createElement("div");
-        evento.setAttribute("class", "evento");
 
-        if (eventos[i].loginOperador == 1 || eventos[i].login == eventos[i].usuario) {
+        var cadEventos = $("#cadEventos").val();
 
-            var a = document.createElement("button");
-            a.setAttribute("value", eventos[i].id);
-            a.setAttribute("class", "botonEliminar");
+        var arrayEventos = cadEventos.split(",");
 
-            a.onclick = function () {
-                if (confirm("Esta seguro de eliminar este evento")) {
-                    eliminarEvento(this.value);
-                }
+        var existe = false;
+
+        for (var j = 0; j < arrayEventos.length; j++) {
+            if (arrayEventos[j] == eventos[i].id) {
+                existe = true;
             }
-
-            var eventoEliminar = document.createElement("img");
-            eventoEliminar.setAttribute("class", "postEliminar");
-            eventoEliminar.setAttribute("src", "../controlador/img/eliminar.png");
-
-            a.append(eventoEliminar);
-
         }
 
-        var titulo = document.createElement("p");
-        titulo.setAttribute("class", "eventoTitulo");
-        titulo.innerHTML = eventos[i].titulo;
-        titulo.setAttribute("data-value", eventos[i].id);
+        if (!existe) {
 
-        titulo.onclick = function () {
-            window.location.href = "verEvento.php?evento=" + this.dataset.value;
-        }
-
-
-        var textTipo = document.createElement("p");
-        textTipo.setAttribute("class", "textTipo");
-
-        var tipo = document.createElement("span");
-        tipo.setAttribute("class", "eventoTipo");
-        tipo.innerHTML = eventos[i].tipo;
-
-        var textFechai = document.createElement("p");
-        textFechai.setAttribute("class", "textFechai");
-
-        var textFechaf = document.createElement("p");
-        textFechaf.setAttribute("class", "textFechaf");
-
-        var fechai = document.createElement("span");
-        fechai.setAttribute("class", "eventoFecha");
-        fechai.innerHTML = eventos[i].fechai;
-        if (eventos[i].empezado) {
-            fechai.setAttribute("style", "color:#126310");
-            fechai.setAttribute("title", "Evento actualmente activo");
-        }
-
-        var fechaf = document.createElement("span");
-        fechaf.setAttribute("class", "eventoFecha");
-        fechaf.innerHTML = eventos[i].fechaf;
-
-        var direccioncompleta = document.createElement("p");
-        direccioncompleta.setAttribute("class", "direccioncompleta");
-
-        var direccion = document.createElement("span");
-        direccion.setAttribute("class", "direccion");
-        direccion.innerHTML = eventos[i].direccion;
-
-        var cp = document.createElement("span");
-        cp.setAttribute("class", "cp");
-        cp.innerHTML = eventos[i].cp;
-
-        var ciudad = document.createElement("span");
-        ciudad.setAttribute("class", "ciudad");
-        ciudad.innerHTML = eventos[i].ciudad;
-
-        var provincia = document.createElement("span");
-        provincia.setAttribute("class", "provincia");
-        provincia.innerHTML = eventos[i].provincia;
-
-        /* var contenido = document.createElement("p");
-         contenido.setAttribute("class", "eventoContenido");
-         contenido.innerHTML = eventos[i].contenido;*/
-
-        if (eventos[i].foto) {
-
-            var img = document.createElement("img");
-            img.setAttribute("class", "eventoImg");
-            console.log(eventos[i].foto);
-            img.setAttribute("src", "../controlador/uploads/eventos/" + eventos[i].foto);
-            img.setAttribute("alt", "imgagenEvento");
-
-        } else if (eventos[i].lat && eventos[i].lng) {
-
-            var map = document.createElement("div");
-
-        }
-        var textAutor = document.createElement("p");
-        textAutor.setAttribute("class", "eventoAutor");
-
-        var autor = document.createElement("span");
-        autor.setAttribute("class", "eventoNombreAutor");
-        autor.innerHTML = eventos[i].autor;
-        autor.setAttribute("data-value", eventos[i].usuario);
-
-        autor.onclick = function () {
-            window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
-        }
-
-        if (eventos[i].participable) {
-            var textParticipantes = document.createElement("p");
-            textParticipantes.setAttribute("class", "participantes");
-            var participantes = document.createElement("span");
-            var part;
-            if (eventos[i].participable == "t") {
-                part = "0";
+            if ($("#cadEventos").val() === "") {
+                $("#cadEventos").val(eventos[i].id);
             } else {
-                part = eventos[i].participantes.length;
+                $("#cadEventos").val(cadEventos + "," + eventos[i].id);
             }
-            participantes.innerHTML = part;
-        }
 
-        $("#" + div).append(evento);
-        if (eventos[i].loginOperador == 1 || eventos[i].login == eventos[i].usuario) {
-            evento.append(a);
-        }
-        evento.append(titulo);
-        evento.append(textTipo);
-        textTipo.append("Tipo de evento: ");
-        textTipo.append(tipo);
-        evento.append(textFechai);
-        textFechai.append("Fecha inicio: ");
-        textFechai.append(fechai);
-        evento.append(textFechaf);
-        textFechaf.append("Fecha fin: ");
-        textFechaf.append(fechaf);
-        if (eventos[i].direccion.trim() != "") {
-            direccioncompleta.append(direccion);
-            direccioncompleta.append(", ");
-        }
-        if (eventos[i].cp.trim() != "") {
-            direccioncompleta.append(cp);
-            direccioncompleta.append(", ");
-        }
-        //console.log(ciudad.val());
-        if (eventos[i].ciudad.trim() != "") {
-            direccioncompleta.append(ciudad);
-            direccioncompleta.append(", ");
-        }
-        direccioncompleta.append(provincia);
-        evento.append(direccioncompleta);
-        //evento.append(contenido);
-        if (eventos[i].foto) {
-            evento.append(img);
-        } else if (eventos[i].lat && eventos[i].lng) {
-            map.setAttribute("class", "map");
-            initMap(map, eventos[i].lat, eventos[i].lng);
-            evento.append(map);
-        }
-        evento.append(textAutor);
-        textAutor.append("Autor del evento: ");
-        textAutor.append(autor);
-        if (eventos[i].participable) {
-            evento.append(textParticipantes);
-            textParticipantes.append("Participantes ");
-            textParticipantes.append(participantes);
-        }
+            var evento = document.createElement("div");
+            evento.setAttribute("class", "evento");
 
+            if (eventos[i].loginOperador == 1 || eventos[i].login == eventos[i].usuario) {
+
+                var a = document.createElement("button");
+                a.setAttribute("value", eventos[i].id);
+                a.setAttribute("class", "botonEliminar");
+
+                a.onclick = function () {
+                    if (confirm("Esta seguro de eliminar este evento")) {
+                        eliminarEvento(this.value);
+                    }
+                }
+
+                var eventoEliminar = document.createElement("img");
+                eventoEliminar.setAttribute("class", "postEliminar");
+                eventoEliminar.setAttribute("src", "../controlador/img/eliminar.png");
+
+                a.append(eventoEliminar);
+
+            }
+
+            var titulo = document.createElement("p");
+            titulo.setAttribute("class", "eventoTitulo");
+            titulo.innerHTML = eventos[i].titulo;
+            titulo.setAttribute("data-value", eventos[i].id);
+
+            titulo.onclick = function () {
+                window.location.href = "verEvento.php?evento=" + this.dataset.value;
+            }
+
+
+            var textTipo = document.createElement("p");
+            textTipo.setAttribute("class", "textTipo");
+
+            var tipo = document.createElement("span");
+            tipo.setAttribute("class", "eventoTipo");
+            tipo.innerHTML = eventos[i].tipo;
+
+            var textFechai = document.createElement("p");
+            textFechai.setAttribute("class", "textFechai");
+
+            var textFechaf = document.createElement("p");
+            textFechaf.setAttribute("class", "textFechaf");
+
+            var fechai = document.createElement("span");
+            fechai.setAttribute("class", "eventoFecha");
+            fechai.innerHTML = eventos[i].fechai;
+            if (eventos[i].empezado) {
+                fechai.setAttribute("style", "color:#126310");
+                fechai.setAttribute("title", "Evento actualmente activo");
+            }
+
+            var fechaf = document.createElement("span");
+            fechaf.setAttribute("class", "eventoFecha");
+            fechaf.innerHTML = eventos[i].fechaf;
+
+            var direccioncompleta = document.createElement("p");
+            direccioncompleta.setAttribute("class", "direccioncompleta");
+
+            var direccion = document.createElement("span");
+            direccion.setAttribute("class", "direccion");
+            direccion.innerHTML = eventos[i].direccion;
+
+            var cp = document.createElement("span");
+            cp.setAttribute("class", "cp");
+            cp.innerHTML = eventos[i].cp;
+
+            var ciudad = document.createElement("span");
+            ciudad.setAttribute("class", "ciudad");
+            ciudad.innerHTML = eventos[i].ciudad;
+
+            var provincia = document.createElement("span");
+            provincia.setAttribute("class", "provincia");
+            provincia.innerHTML = eventos[i].provincia;
+
+            /* var contenido = document.createElement("p");
+             contenido.setAttribute("class", "eventoContenido");
+             contenido.innerHTML = eventos[i].contenido;*/
+
+            if (eventos[i].foto) {
+
+                var img = document.createElement("img");
+                img.setAttribute("class", "eventoImg");
+                console.log(eventos[i].foto);
+                img.setAttribute("src", "../controlador/uploads/eventos/" + eventos[i].foto);
+                img.setAttribute("alt", "imgagenEvento");
+
+            } else if (eventos[i].lat && eventos[i].lng) {
+
+                var map = document.createElement("div");
+
+            }
+            var textAutor = document.createElement("p");
+            textAutor.setAttribute("class", "eventoAutor");
+
+            var autor = document.createElement("span");
+            autor.setAttribute("class", "eventoNombreAutor");
+            autor.innerHTML = eventos[i].autor;
+            autor.setAttribute("data-value", eventos[i].usuario);
+
+            autor.onclick = function () {
+                window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
+            }
+
+            if (eventos[i].participable) {
+                var textParticipantes = document.createElement("p");
+                textParticipantes.setAttribute("class", "participantes");
+                var participantes = document.createElement("span");
+                var part;
+                if (eventos[i].participable == "t") {
+                    part = "0";
+                } else {
+                    part = eventos[i].participantes.length;
+                }
+                participantes.innerHTML = part;
+            }
+
+            $("#" + div).append(evento);
+            if (eventos[i].loginOperador == 1 || eventos[i].login == eventos[i].usuario) {
+                evento.append(a);
+            }
+            evento.append(titulo);
+            evento.append(textTipo);
+            textTipo.append("Tipo de evento: ");
+            textTipo.append(tipo);
+            evento.append(textFechai);
+            textFechai.append("Fecha inicio: ");
+            textFechai.append(fechai);
+            evento.append(textFechaf);
+            textFechaf.append("Fecha fin: ");
+            textFechaf.append(fechaf);
+            if (eventos[i].direccion.trim() != "") {
+                direccioncompleta.append(direccion);
+                direccioncompleta.append(", ");
+            }
+            if (eventos[i].cp.trim() != "") {
+                direccioncompleta.append(cp);
+                direccioncompleta.append(", ");
+            }
+            //console.log(ciudad.val());
+            if (eventos[i].ciudad.trim() != "") {
+                direccioncompleta.append(ciudad);
+                direccioncompleta.append(", ");
+            }
+            direccioncompleta.append(provincia);
+            evento.append(direccioncompleta);
+            //evento.append(contenido);
+            if (eventos[i].foto) {
+                evento.append(img);
+            } else if (eventos[i].lat && eventos[i].lng) {
+                map.setAttribute("class", "map");
+                initMap(map, eventos[i].lat, eventos[i].lng);
+                evento.append(map);
+            }
+            evento.append(textAutor);
+            textAutor.append("Autor del evento: ");
+            textAutor.append(autor);
+            if (eventos[i].participable) {
+                evento.append(textParticipantes);
+                textParticipantes.append("Participantes ");
+                textParticipantes.append(participantes);
+            }
+        }
 
 
     }
@@ -478,7 +499,7 @@ function pintarUnEvento(eventos) {
         visual.setAttribute("class", "visual");
     } else if (eventos.foto) {
         visual.setAttribute("class", "visualImg");
-    } else if (eventos.lat){
+    } else if (eventos.lat) {
         visual.setAttribute("class", "visualMap");
         map.setAttribute("style", "height:20rem");
     }

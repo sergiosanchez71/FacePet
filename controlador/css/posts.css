@@ -125,6 +125,11 @@
     width: 2rem;
     padding-right: 1rem;
     cursor: pointer;
+    transition: 1s width ease;
+}
+
+.postCorazonImg:hover, .postComentarioImg:hover{
+    width: 2.5rem;
 }
 
 .comentariosPost{
@@ -190,6 +195,10 @@
         width: 5rem;
         padding-right: 2rem;
     }
+    .postCorazonImg:hover, .postComentarioImg:hover{
+        width: 6rem;
+    }
+
 
     .comentariosPost{
         font-size: 2.5rem;

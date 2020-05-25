@@ -122,6 +122,7 @@
             #selecciona{
                 text-align: center;
                 padding: 1rem;
+                width: 100%;
             }
 
             #imgAmigoCM{

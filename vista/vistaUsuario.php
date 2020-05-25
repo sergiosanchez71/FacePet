@@ -308,25 +308,6 @@ and open the template in the editor.
             }
 
 
-            function initMap(map, lat, lng) {
-                var maps = new google.maps.Map(map, {
-                    center: {lat: parseFloat(lat), lng: parseFloat(lng)},
-                    zoom: 16,
-                    streetViewControl: false,
-                    mapTypeControl: false,
-                    scaleControl: false,
-                    zoomControl: false,
-                    scrollwheel: false,
-                    fullscreenControl: false
-                });
-                new google.maps.Marker({
-                    position: {lat: parseFloat(lat), lng: parseFloat(lng)},
-                    icon: '../controlador/img/marker.ico',
-                    map: maps
-                });
-            }
-
-
 
         </script>
     </head>
@@ -393,7 +374,8 @@ and open the template in the editor.
 
                 </div>
                 <div id="eventos">
-                    <p  class="tituloseccion">Eventos</p>
+                    <input type="text" id="cadEventos" style="display:none">
+                    <p  class="tituloseccion"><a href="verEventos.php">Eventos</a></p>
 
                 </div>
             </div>

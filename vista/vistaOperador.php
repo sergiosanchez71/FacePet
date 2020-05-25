@@ -295,6 +295,7 @@ and open the template in the editor.
 
             $(document).ready(function () {
                 $(".atrasPrin").click(volver);
+                mostrarRazas();
                 $("#botonCAnimal").click(function () {
                     $("#crearAnimal").show();
                     $("#botones").hide();
@@ -345,7 +346,7 @@ and open the template in the editor.
                 var nombre = $("#sancionarUsuarioText").val();
 
                 var parametros = {
-                    "accion": "buscarUsuarios",
+                    "accion": "buscarUsuariosSancion",
                     "cadena": nombre
                 };
 
@@ -353,6 +354,7 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
+                        console.log(respuesta);
                         $("#usuariosSancionar").empty();
                         if (respuesta) {
                             var usuarios = JSON.parse(respuesta);
@@ -404,7 +406,7 @@ and open the template in the editor.
 
                                 var localidad = document.createElement("p");
                                 localidad.setAttribute("class", "localidad");
-                                localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].provincia+", "+usuarios[i].municipio;
+                                localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].provincia + ", " + usuarios[i].municipio;
                                 console.log(usuarios[i].fechaH);
 
                                 var sancionar = document.createElement("button");

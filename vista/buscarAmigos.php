@@ -42,6 +42,11 @@
                 cursor: pointer;
             }
 
+            #checks{
+                margin-top: 2rem;
+                margin-bottom: -1rem;
+            }
+
             .amigo:first-child{
                 margin-top: 3rem;
             }
@@ -132,16 +137,16 @@
             .solicitud:hover, .pendiente:hover{
                 background-color:#FFF578;
             }
-            
+
             #ventanaSolicitud *{
                 display: block;
                 margin: auto;
             }
-            
+
             #ventanaSolicitud h1{
                 text-align: center;
             }
-            
+
             #mensajeSolicitud{
                 width: 35rem;
                 height: 5rem;
@@ -149,11 +154,11 @@
                 margin-bottom: 1rem;
             }
 
-           /* .imgPata{
-                width: 1.5rem;
-                position: relative;
-                top: 2.5px;
-            }*/
+            /* .imgPata{
+                 width: 1.5rem;
+                 position: relative;
+                 top: 2.5px;
+             }*/
 
             @media (max-width: 1000px){
 
@@ -178,6 +183,21 @@
                 #buscarAmigos{
                     width: 100%;
                     padding: 0;
+                }
+                
+                .check{
+                    width: 3rem;
+                    height: 3rem;
+                }
+                
+                .textcheck{
+                    font-size: 2.5rem;
+                    position: relative;
+                    bottom: 0.75rem;
+                }
+                
+                .textcheck:last-child{
+                    padding-right: 3rem;
                 }
 
                 .amigo:last-child{
@@ -212,16 +232,16 @@
                     font-size: 2rem;
                     width: 20rem;
                 }
-                
+
                 #mensajeSolicitud{
                     height: 15rem;
                     font-size: 2rem;
                     border: 1px solid grey;
                 }
 
-               /* .imgPata{
-                    width: 2.5rem;
-                }*/
+                /* .imgPata{
+                     width: 2.5rem;
+                 }*/
 
             }
 
@@ -231,13 +251,15 @@
         <script>
 
             var nombres = [];
+            var ciudad = true;
+            var animal = true;
 
             $(document).ready(function () {
                 mostrarTodosNombresUsuarios();
                 buscarUsuarios();
                 $("#buscador").autocomplete({
                     source: nombres,
-                    minLength: 0,
+                    minLength: 2,
                     change: function (event, ui) {
                         $("#buscador").val($(this).val());
                         console.log($("#buscador").val());
@@ -252,6 +274,32 @@
                     mandarSolicitud();
                     window.location.reload();
                     //$("#ventanaSolicitud").modal().hide();
+                });
+
+                $("#checkAnimal").click(function () {
+                    if ($('#checkAnimal').is(':checked')) {
+                        $("#checkAnimal:checked").each(function () {
+                            if ($(this).val() === "animal") {
+                                animal = true;
+                            }
+                        });
+                    } else {
+                        animal = false;
+                    }
+                    buscarUsuarios();
+                });
+
+                $("#checkCiudad").click(function () {
+                    if ($('#checkCiudad').is(':checked')) {
+                        $("#checkCiudad:checked").each(function () {
+                            if ($(this).val() === "ciudad") {
+                                ciudad = true;
+                            }
+                        });
+                    } else {
+                        ciudad = false;
+                    }
+                    buscarUsuarios();
                 });
 
             });
@@ -343,10 +391,12 @@
             function buscarUsuarios() {
 
                 var buscador = $("#buscador").val();
-
+                console.log(animal+" "+ciudad);
                 var parametros = {
                     "accion": "buscarUsuarios",
-                    "cadena": buscador
+                    "cadena": buscador,
+                    "animal": animal,
+                    "ciudad": ciudad
                 };
 
                 $.ajax({
@@ -539,6 +589,10 @@
                     <h1>Buscar Amigos</h1>
                     <input type="text" id="buscador" placeholder="Busca a un amigo...">
                     <img src="../controlador/img/lupa.png" id="lupa" alt="lupa">
+                    <div id="checks">
+                        <input type="checkbox" id="checkAnimal" class="check" value="animal" checked><span class="textcheck">Ordenar por Animal</span>
+                        <input type="checkbox" id="checkCiudad" class="check" value="ciudad" checked><span class="textcheck">Ordenar por Ciudad</span>
+                    </div>
                     <div id="buscarAmigos">
 
                     </div>

@@ -55,9 +55,14 @@ function getMensajes() {
                 }
                 if (mensaje > 0) {
                     $("#mensaje").css("display", "block");
-                    $("#mensajeM").css("display","block");
-                    $("#mensaje").text(mensaje);
-                    $("#mensajeM").text(mensaje);
+                    $("#mensajeM").css("display", "block");
+                    if (mensaje > 9) {
+                        $("#mensaje").text(9 + "+");
+                        $("#mensajeM").text(9 + "+");
+                    } else {
+                        $("#mensaje").text(mensaje);
+                        $("#mensajeM").text(mensaje);
+                    }
                 } else {
                     $("#mensaje").css("display", "none");
                     $("#mensajeM").css("display", "none");
@@ -99,8 +104,12 @@ function getNotificaciones() {
 
                 if (notificacion > 0) {
                     $("#notificacion").css("display", "block");
-                    $("#notificacion").text(notificacion);
                     $("#notificacionM").css("display", "block");
+                    if(notificacion > 9){
+                        $("#notificacion").text(9+"+");
+                    $("#notificacionM").text(9+"+");
+                    }
+                    $("#notificacion").text(notificacion);
                     $("#notificacionM").text(notificacion);
                 } else {
                     $("#notificacion").css("display", "none");

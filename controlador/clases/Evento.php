@@ -203,6 +203,148 @@ class Evento {
         $sql = "UPDATE eventos SET foto='$multimedia' where id='$id'";
         $conexion->exec($sql);
     }
+    
+    function mostrarEventosCantidad($usuario,$limite) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $fecha = date("Y-m-d H:i:s");
+        $provincia = Usuario::getProvinciaUsuario($usuario);
+        $municipio = Usuario::getMunicipioUsuario($usuario);
+        $consulta = $conexion->query("SELECT * from eventos where fechaf>'$fecha' and usuario!='$usuario' and provincia LIKE '%$provincia%' and ciudad LIKE '%$municipio%' order by fechaf asc");
+        $datos = null;
+        $i = 0;
+        while ($row = $consulta->fetch()) {
+            if ($i < $limite) {
+                if ($row['foto'] == null) {
+                    $foto = false;
+                } else {
+                    $foto = $row['foto'];
+                }
+
+                if ($row['lat'] == 0 && $row['lng'] == 0) {
+                    $lat = false;
+                    $lng = false;
+                } else {
+                    $lat = $row['lat'];
+                    $lng = $row['lng'];
+                }
+
+                $participantes = explode(",", $row['participantes']);
+
+                $datos[$i] = array(
+                    'id' => $row['id'],
+                    'titulo' => $row['titulo'],
+                    'contenido' => $row['contenido'],
+                    'tipo' => $row['tipo'],
+                    'fecha_publicacion' => $row['fecha_publicacion'],
+                    'fechai' => $row['fechai'],
+                    'fechaf' => $row['fechaf'],
+                    'empezado' => Evento::empezado($row['fechai'], $fecha),
+                    'foto' => $foto,
+                    'direccion' => $row['direccion'],
+                    'cp' => $row['cp'],
+                    'ciudad' => $row['ciudad'],
+                    'provincia' => $row['provincia'],
+                    'lat' => $lat,
+                    'lng' => $lng,
+                    'participable' => $row['participantes'],
+                    'participantes' => $participantes,
+                    'usuario' => $row['usuario'],
+                    'autor' => Usuario::getNickName($row['usuario'])
+                );
+                $i++;
+            }
+        }
+        $consulta2 = $conexion->query("SELECT * from eventos where fechaf>'$fecha' and usuario!='$usuario' and provincia LIKE '%$provincia%' and ciudad NOT LIKE '%$municipio%' order by fechaf asc");
+        while ($row = $consulta2->fetch()) {
+            if ($i < $limite) {
+                if ($row['foto'] == null) {
+                    $foto = false;
+                } else {
+                    $foto = $row['foto'];
+                }
+
+                if ($row['lat'] == 0 && $row['lng'] == 0) {
+                    $lat = false;
+                    $lng = false;
+                } else {
+                    $lat = $row['lat'];
+                    $lng = $row['lng'];
+                }
+
+                $participantes = explode(",", $row['participantes']);
+
+                $datos[$i] = array(
+                    'id' => $row['id'],
+                    'titulo' => $row['titulo'],
+                    'contenido' => $row['contenido'],
+                    'tipo' => $row['tipo'],
+                    'fecha_publicacion' => $row['fecha_publicacion'],
+                    'fechai' => $row['fechai'],
+                    'fechaf' => $row['fechaf'],
+                    'empezado' => Evento::empezado($row['fechai'], $fecha),
+                    'foto' => $foto,
+                    'direccion' => $row['direccion'],
+                    'cp' => $row['cp'],
+                    'ciudad' => $row['ciudad'],
+                    'provincia' => $row['provincia'],
+                    'lat' => $lat,
+                    'lng' => $lng,
+                    'participable' => $row['participantes'],
+                    'participantes' => $participantes,
+                    'usuario' => $row['usuario'],
+                    'autor' => Usuario::getNickName($row['usuario'])
+                );
+                $i++;
+            }
+        }
+        $consulta3 = $conexion->query("SELECT * from eventos where fechaf>'$fecha' and usuario!='$usuario' and provincia NOT LIKE '%$provincia%' and ciudad NOT LIKE '%$municipio%' order by fechaf asc");
+        while ($row = $consulta3->fetch()) {
+            if ($i < $limite) {
+                if ($row['foto'] == null) {
+                    $foto = false;
+                } else {
+                    $foto = $row['foto'];
+                }
+
+                if ($row['lat'] == 0 && $row['lng'] == 0) {
+                    $lat = false;
+                    $lng = false;
+                } else {
+                    $lat = $row['lat'];
+                    $lng = $row['lng'];
+                }
+
+                $participantes = explode(",", $row['participantes']);
+
+                $datos[$i] = array(
+                    'id' => $row['id'],
+                    'titulo' => $row['titulo'],
+                    'contenido' => $row['contenido'],
+                    'tipo' => $row['tipo'],
+                    'fecha_publicacion' => $row['fecha_publicacion'],
+                    'fechai' => $row['fechai'],
+                    'fechaf' => $row['fechaf'],
+                    'empezado' => Evento::empezado($row['fechai'], $fecha),
+                    'foto' => $foto,
+                    'direccion' => $row['direccion'],
+                    'cp' => $row['cp'],
+                    'ciudad' => $row['ciudad'],
+                    'provincia' => $row['provincia'],
+                    'lat' => $lat,
+                    'lng' => $lng,
+                    'participable' => $row['participantes'],
+                    'participantes' => $participantes,
+                    'usuario' => $row['usuario'],
+                    'autor' => Usuario::getNickName($row['usuario']),
+                    'miProvincia' => $provincia
+                );
+                $i++;
+            }
+        }
+        unset($conexion);
+        return $datos;
+    }
 
     function mostrarEventos($usuario) {
         $conexion = Conexion::conectar();

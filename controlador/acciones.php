@@ -29,7 +29,7 @@ switch ($accion) {
     //Animales
     case "crearAnimal":
         if (!Animal::comprobarNombre($_REQUEST['nombre'])) {
-            Animal::crearAnimal($_REQUEST['nombre']);
+            Animal::crearAnimal(ucfirst($_REQUEST['nombre']));
             echo "Animal creado correctamente";
         } else {
             echo "Ese animal ya existe";
@@ -58,7 +58,7 @@ switch ($accion) {
     //Razas
     case "crearRaza":
         if (!Raza::comprobarNombre($_REQUEST['nombre'], $_REQUEST['animal'])) {
-            Raza::crearRaza($_REQUEST['nombre'], $_REQUEST['animal']);
+            Raza::crearRaza(ucfirst($_REQUEST['nombre']), $_REQUEST['animal']);
             echo "Raza creada correctamente";
         } else {
             echo "Esa raza ya existe";
@@ -175,9 +175,17 @@ switch ($accion) {
         }
         break;
 
-    case "buscarUsuarios":
+        case "buscarUsuariosSancion":
         if (Usuario::getDatosBuscar($_REQUEST['cadena'], $_SESSION['username'])) {
             echo json_encode(Usuario::getDatosBuscar($_REQUEST['cadena'], $_SESSION['username']));
+        } else {
+            echo false;
+        }
+        break;
+        
+    case "buscarUsuarios":
+        if (Usuario::getDatosBuscar2($_REQUEST['cadena'], $_SESSION['username'], $_REQUEST['ciudad'], $_REQUEST['animal'])) {
+            echo json_encode(Usuario::getDatosBuscar2($_REQUEST['cadena'], $_SESSION['username'],$_REQUEST['ciudad'], $_REQUEST['animal']));
         } else {
             echo false;
         }
@@ -427,6 +435,14 @@ switch ($accion) {
         }
         break;
 
+    case "mostrarEventosCantidad":
+        if(Evento::mostrarEventosCantidad($idusuario,$_REQUEST['cantidad'])){
+            echo json_encode(Evento::mostrarEventosCantidad($idusuario,$_REQUEST['cantidad']));
+        } else{
+            echo false;
+        }
+        break;
+        
     case "mostrarEventosId":
         if (isset($_REQUEST['usuario'])) {
             $usu = $_REQUEST['usuario'];

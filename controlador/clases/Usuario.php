@@ -258,6 +258,17 @@ class Usuario {
         return $foto;
     }
 
+    function getAnimalUsuarioId($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT animal from usuarios where id='$usuario'");
+        while ($row = $consulta->fetch()) {
+            $animal = $row['animal'];
+        }
+        unset($conexion);
+        return $animal;
+    }
+
     function getAnimalUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -267,6 +278,17 @@ class Usuario {
         }
         unset($conexion);
         return $animal;
+    }
+
+    function getRazaUsuarioId($usuario) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $consulta = $conexion->query("SELECT raza from usuarios where id='$usuario'");
+        while ($row = $consulta->fetch()) {
+            $raza = $row['raza'];
+        }
+        unset($conexion);
+        return $raza;
     }
 
     function getRazaUsuario($usuario) {
@@ -408,10 +430,14 @@ class Usuario {
                 } else {
                     $foto = $row['foto'];
                 }
+                $mensajes = 0;
                 if (Mensaje::mensajesUsuarioNoVistos($row['id'], Usuario::getIdUsuario($_SESSION['username']))) {
-                    $mensajes = count(Mensaje::mensajesUsuarioNoVistos($row['id'], Usuario::getIdUsuario($_SESSION['username'])));
-                } else {
-                    $mensajes = 0;
+                     $mensajes = count(Mensaje::mensajesUsuarioNoVistos($row['id'], Usuario::getIdUsuario($_SESSION['username'])));
+                    if ($mensajes < 9) {
+                        $mensajes = count(Mensaje::mensajesUsuarioNoVistos($row['id'], Usuario::getIdUsuario($_SESSION['username'])));
+                    } else {
+                        $mensajes = 9;
+                    }
                 }
                 $datos[$i] = ['id' => $row['id'],
                     'nick' => $row['nick'],
@@ -446,6 +472,283 @@ class Usuario {
             if ($solicitud != "aceptada") {
                 $datos[$i] = $row['nick'];
                 $i++;
+            }
+        }
+        unset($conexion);
+
+        if ($i == 0) {
+            return false;
+        }
+        return $datos;
+    }
+
+    function getDatosBuscar2($cadena, $usuario, $checkCiudad, $checkAnimal) {
+        $conexion = Conexion::conectar();
+        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $provincia = Usuario::getProvinciaNumUsuario(Usuario::getIdUsuario($usuario));
+        $municipio = Usuario::getMunicipioNumUsuario(Usuario::getIdUsuario($usuario));
+        $animal = Usuario::getAnimalUsuarioId(Usuario::getIdUsuario($usuario));
+        $raza = Usuario::getRazaUsuarioId(Usuario::getIdUsuario($usuario));
+        if ($checkCiudad == "true" && $checkAnimal == "true") {
+            $consulta = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio='$municipio' and animal='$animal' and raza='$raza' order by nick asc");
+        } else if ($checkAnimal == "true") {
+            $consulta = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and animal='$animal' and raza='$raza' order by nick asc");
+        } else if ($checkCiudad == "true") {
+            $consulta = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio='$municipio' order by nick asc");
+        } else {
+            $consulta = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' order by nick asc");
+        }
+        //$consulta = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio='$municipio' order by nick asc");
+        $limite = 5;
+        $i = 0;
+        while ($row = $consulta->fetch()) {
+            if ($i < $limite) {
+                $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+                $fecha = date("Y-m-d H:i:s");
+                if ($solicitud != "aceptada") {
+                    if ($row['foto'] == null) {
+                        $foto = "0.jpg";
+                    } else {
+                        $foto = $row['foto'];
+                    }
+
+                    $datos[$i] = ['id' => $row['id'],
+                        'nick' => $row['nick'],
+                        'password' => $row['password'],
+                        'email' => $row['email'],
+                        'animal' => Animal::buscarConId($row['animal']),
+                        'raza' => Raza::buscarConId($row['raza']),
+                        'sexo' => $row['sexo'],
+                        'foto' => $foto,
+                        'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                        'municipio' => Municipio::getNombreMunicipio($row['municipio']),
+                        'amigos' => $row['amigos'],
+                        'baneado' => $row['baneado'],
+                        'fechaH' => $fecha,
+                        'operador' => $row['operador'],
+                        'solicitud' => $solicitud,
+                        'buscador' => Usuario::getIdUsuario($usuario),
+                        'a' => $animal
+                    ];
+                    $i++;
+                }
+            }
+        }
+        if ($checkAnimal == "true" || $checkCiudad == "true") {
+            if ($checkCiudad == "true" && $checkAnimal == "true") {
+                $consulta2 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio='$municipio' and animal='$animal' and raza!='$raza' order by nick asc");
+            } else if ($checkAnimal == "true") {
+                $consulta2 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and animal='$animal' and raza!='$raza' order by nick asc");
+            } else if ($checkCiudad == "true") {
+                $consulta2 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio!='$municipio' order by nick asc");
+            } /* else {
+              $consulta2 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' order by nick asc");
+              } */
+            //$consulta2 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio!='$municipio' order by nick asc");
+            while ($row = $consulta2->fetch()) {
+                if ($i < $limite) {
+
+                    $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+                    $fecha = date("Y-m-d H:i:s");
+                    if ($solicitud != "aceptada") {
+                        if ($row['foto'] == null) {
+                            $foto = "0.jpg";
+                        } else {
+                            $foto = $row['foto'];
+                        }
+
+                        $datos[$i] = ['id' => $row['id'],
+                            'nick' => $row['nick'],
+                            'password' => $row['password'],
+                            'email' => $row['email'],
+                            'animal' => Animal::buscarConId($row['animal']),
+                            'raza' => Raza::buscarConId($row['raza']),
+                            'sexo' => $row['sexo'],
+                            'foto' => $foto,
+                            'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                            'municipio' => Municipio::getNombreMunicipio($row['municipio']),
+                            'amigos' => $row['amigos'],
+                            'baneado' => $row['baneado'],
+                            'fechaH' => $fecha,
+                            'operador' => $row['operador'],
+                            'solicitud' => $solicitud,
+                            'buscador' => Usuario::getIdUsuario($usuario),
+                        ];
+                        $i++;
+                    }
+                }
+            }
+            if ($checkCiudad == "true" && $checkAnimal == "true") {
+                $consulta3 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio!='$municipio' and animal='$animal' and raza='$raza' order by nick asc");
+            } else if ($checkAnimal == "true") {
+                $consulta3 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and animal!='$animal' and raza!='$raza' order by nick asc");
+            } else if ($checkCiudad == "true") {
+                $consulta3 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia!='$provincia' and municipio!='$municipio' order by nick asc");
+            } while ($row = $consulta3->fetch()) {
+                if ($i < $limite) {
+                    $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+                    $fecha = date("Y-m-d H:i:s");
+                    if ($solicitud != "aceptada") {
+                        if ($row['foto'] == null) {
+                            $foto = "0.jpg";
+                        } else {
+                            $foto = $row['foto'];
+                        }
+
+                        $datos[$i] = ['id' => $row['id'],
+                            'nick' => $row['nick'],
+                            'password' => $row['password'],
+                            'email' => $row['email'],
+                            'animal' => Animal::buscarConId($row['animal']),
+                            'raza' => Raza::buscarConId($row['raza']),
+                            'sexo' => $row['sexo'],
+                            'foto' => $foto,
+                            'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                            'municipio' => Municipio::getNombreMunicipio($row['municipio']),
+                            'amigos' => $row['amigos'],
+                            'baneado' => $row['baneado'],
+                            'fechaH' => $fecha,
+                            'operador' => $row['operador'],
+                            'solicitud' => $solicitud,
+                            'buscador' => Usuario::getIdUsuario($usuario),
+                        ];
+                        $i++;
+                    }
+                }
+            }
+            if ($checkCiudad == "true" && $checkAnimal == "true") {
+                $consulta4 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio!='$municipio' and animal='$animal' and raza!='$raza' order by nick asc");
+                while ($row = $consulta4->fetch()) {
+                    if ($i < $limite) {
+                        $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+                        $fecha = date("Y-m-d H:i:s");
+                        if ($solicitud != "aceptada") {
+                            if ($row['foto'] == null) {
+                                $foto = "0.jpg";
+                            } else {
+                                $foto = $row['foto'];
+                            }
+
+                            $datos[$i] = ['id' => $row['id'],
+                                'nick' => $row['nick'],
+                                'password' => $row['password'],
+                                'email' => $row['email'],
+                                'animal' => Animal::buscarConId($row['animal']),
+                                'raza' => Raza::buscarConId($row['raza']),
+                                'sexo' => $row['sexo'],
+                                'foto' => $foto,
+                                'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                                'municipio' => Municipio::getNombreMunicipio($row['municipio']),
+                                'amigos' => $row['amigos'],
+                                'baneado' => $row['baneado'],
+                                'fechaH' => $fecha,
+                                'operador' => $row['operador'],
+                                'solicitud' => $solicitud,
+                                'buscador' => Usuario::getIdUsuario($usuario),
+                            ];
+                            $i++;
+                        }
+                    }
+                }
+                $consulta5 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia!='$provincia' and municipio!='$municipio' and animal='$animal' and raza!='$raza' order by nick asc");
+                while ($row = $consulta5->fetch()) {
+                    if ($i < $limite) {
+                        $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+                        $fecha = date("Y-m-d H:i:s");
+                        if ($solicitud != "aceptada") {
+                            if ($row['foto'] == null) {
+                                $foto = "0.jpg";
+                            } else {
+                                $foto = $row['foto'];
+                            }
+
+                            $datos[$i] = ['id' => $row['id'],
+                                'nick' => $row['nick'],
+                                'password' => $row['password'],
+                                'email' => $row['email'],
+                                'animal' => Animal::buscarConId($row['animal']),
+                                'raza' => Raza::buscarConId($row['raza']),
+                                'sexo' => $row['sexo'],
+                                'foto' => $foto,
+                                'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                                'municipio' => Municipio::getNombreMunicipio($row['municipio']),
+                                'amigos' => $row['amigos'],
+                                'baneado' => $row['baneado'],
+                                'fechaH' => $fecha,
+                                'operador' => $row['operador'],
+                                'solicitud' => $solicitud,
+                                'buscador' => Usuario::getIdUsuario($usuario),
+                            ];
+                            $i++;
+                        }
+                    }
+                }
+                $consulta6 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio!='$municipio' and animal!='$animal' and raza!='$raza' order by nick asc");
+                while ($row = $consulta6->fetch()) {
+                    if ($i < $limite) {
+                        $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+                        $fecha = date("Y-m-d H:i:s");
+                        if ($solicitud != "aceptada") {
+                            if ($row['foto'] == null) {
+                                $foto = "0.jpg";
+                            } else {
+                                $foto = $row['foto'];
+                            }
+
+                            $datos[$i] = ['id' => $row['id'],
+                                'nick' => $row['nick'],
+                                'password' => $row['password'],
+                                'email' => $row['email'],
+                                'animal' => Animal::buscarConId($row['animal']),
+                                'raza' => Raza::buscarConId($row['raza']),
+                                'sexo' => $row['sexo'],
+                                'foto' => $foto,
+                                'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                                'municipio' => Municipio::getNombreMunicipio($row['municipio']),
+                                'amigos' => $row['amigos'],
+                                'baneado' => $row['baneado'],
+                                'fechaH' => $fecha,
+                                'operador' => $row['operador'],
+                                'solicitud' => $solicitud,
+                                'buscador' => Usuario::getIdUsuario($usuario),
+                            ];
+                            $i++;
+                        }
+                    }
+                }
+                $consulta7 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia!='$provincia' and municipio!='$municipio' and animal!='$animal' and raza!='$raza' order by nick asc");
+                while ($row = $consulta7->fetch()) {
+                    if ($i < $limite) {
+                        $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']);
+                        $fecha = date("Y-m-d H:i:s");
+                        if ($solicitud != "aceptada") {
+                            if ($row['foto'] == null) {
+                                $foto = "0.jpg";
+                            } else {
+                                $foto = $row['foto'];
+                            }
+
+                            $datos[$i] = ['id' => $row['id'],
+                                'nick' => $row['nick'],
+                                'password' => $row['password'],
+                                'email' => $row['email'],
+                                'animal' => Animal::buscarConId($row['animal']),
+                                'raza' => Raza::buscarConId($row['raza']),
+                                'sexo' => $row['sexo'],
+                                'foto' => $foto,
+                                'provincia' => Provincia::getNombreProvincia($row['provincia']),
+                                'municipio' => Municipio::getNombreMunicipio($row['municipio']),
+                                'amigos' => $row['amigos'],
+                                'baneado' => $row['baneado'],
+                                'fechaH' => $fecha,
+                                'operador' => $row['operador'],
+                                'solicitud' => $solicitud,
+                                'buscador' => Usuario::getIdUsuario($usuario),
+                            ];
+                            $i++;
+                        }
+                    }
+                }
             }
         }
         unset($conexion);
@@ -702,7 +1005,7 @@ class Usuario {
         unset($conexion);
         return $data;
     }
-    
+
     function getProvinciaUsuario($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -714,7 +1017,7 @@ class Usuario {
         unset($conexion);
         return $provincia;
     }
-    
+
     function getMunicipioUsuario($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
