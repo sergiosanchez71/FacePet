@@ -30,12 +30,24 @@ and open the template in the editor.
 
             var cargando = 0;
             var cantidad = 5;
+            var cantidadEventos = 5;
             var pest = 0;
 
             $(window).scroll(function () {
-
                 if ($("#contenido").height() > 600 && $(window).width() > 1000) {
-                    if ($(window).scrollTop() > 500 && $(window).width() > 1000) {
+                    /*cargando += 1;
+                     if (cargando == 1) {
+                     if (pest == 0) {
+                     cantidad += 5;
+                     mostrarMisPosts(cantidad);
+                     }
+                     if (pest == 1) {
+                     console.log("a");
+                     cantidadEventos += 5;
+                     mostrarMisEventos();
+                     }
+                     }*/
+                    if ($(window).scrollTop() > 600 && $(window).width() > 1000) {
                         $("#amigosPerfil").css("position", "fixed");
                         $("#amigosPerfil").css("top", "0.5rem");
                         $("#amigosPerfil").css("width", "23%");
@@ -43,12 +55,34 @@ and open the template in the editor.
                         $("#amigosPerfil").css("position", "relative");
                         $("#amigosPerfil").css("width", "75%");
                     }
-                } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) {
-                    if (pest == 0) {
+
+                    if ($(window).scrollTop() > $("#cuerpo").height() - 800) {
                         cargando += 1;
                         if (cargando == 1) {
+                            if (pest == 0) {
+                                cantidad += 5;
+                                mostrarMisPosts(cantidad);
+                            }
+                            if (pest == 1) {
+                                cantidadEventos += 5;
+                                mostrarMisEventos();
+                            }
+                        }
+                    } else {
+                        cargando = 0;
+                    }
+
+                } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) {
+                    cargando += 1;
+                    if (cargando == 1) {
+                        if (pest == 0) {
                             cantidad += 5;
                             mostrarMisPosts(cantidad);
+                        }
+                        if (pest == 1) {
+                            console.log("a");
+                            cantidadEventos += 5;
+                            mostrarMisEventos();
                         }
                     }
                 } else {
@@ -67,14 +101,21 @@ and open the template in the editor.
                 $("#textoPosts").hide();
 
                 $("#botonEventos").click(function () {
+                    pest = 1;
+                    cantidad = 5;
+                    cantidadEventos = 5;
                     $("#botonPosts").show();
                     $("#botonEventos").hide();
                     $("#textoPosts").hide();
                     $("#contenido").empty();
+                    $("#cadEventos").val("");
                     mostrarMisEventos();
                 });
 
                 $("#botonPosts").click(function () {
+                    pest = 0;
+                    cantidad = 5;
+                    cantidadEventos = 5;
                     $("#botonPosts").hide();
                     $("#textoEventos").hide();
                     $("#botonEventos").show();
@@ -88,6 +129,8 @@ and open the template in the editor.
 
                     $("#botonEventosM").click(function () {
                         pest = 1;
+                        cantidad = 5;
+                        cantidadEventos = 5;
                         $("#botonPostsM").show();
                         $("#botonAmigosM").show();
                         $("#botonEventosM").hide();
@@ -101,6 +144,8 @@ and open the template in the editor.
 
                     $("#botonPostsM").click(function () {
                         pest = 0;
+                        cantidad = 5;
+                        cantidadEventos = 5;
                         $("#botonPostsM").hide();
                         $("#botonEventosM").show();
                         $("#botonAmigosM").show();
@@ -113,6 +158,8 @@ and open the template in the editor.
 
                     $("#botonAmigosM").click(function () {
                         pest = 2;
+                        cantidad = 5;
+                        cantidadEventos = 5;
                         $("#botonAmigosM").hide();
                         $("#botonEventosM").show();
                         $("#botonPostsM").show();
@@ -291,8 +338,10 @@ and open the template in the editor.
             }
 
             function mostrarMisEventos() {
+                console.log(cantidadEventos);
                 var parametros = {
-                    "accion": "mostrarEventosId"
+                    "accion": "mostrarEventosId",
+                    "cantidad": cantidadEventos
                 };
 
                 $.ajax({
@@ -403,6 +452,7 @@ and open the template in the editor.
 
             <div id="cuerpo">
                 <input type="text" id="cadPosts">
+                <input type="text" id="cadEventos" style="display:none">
                 <div id="cabeceraPerfil">
                     <p id="contenidoPerfil">
                         <!--<form method="post" enctype="multipart/form-data">-->

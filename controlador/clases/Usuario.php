@@ -236,6 +236,7 @@ class Usuario {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT nick from usuarios where id='$id'");
+        $nick = null;
         while ($row = $consulta->fetch()) {
             $nick = $row['nick'];
         }

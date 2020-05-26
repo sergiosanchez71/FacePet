@@ -364,14 +364,14 @@ class Evento {
         return $datos;
     }
 
-    function mostrarEventos($usuario) {
+    function mostrarEventos($usuario, $limite) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $fecha = date("Y-m-d H:i:s");
         $provincia = Usuario::getProvinciaUsuario($usuario);
         $municipio = Usuario::getMunicipioUsuario($usuario);
         $consulta = $conexion->query("SELECT * from eventos where fechaf>'$fecha' and usuario!='$usuario' and provincia LIKE '%$provincia%' and ciudad LIKE '%$municipio%' order by fechaf asc");
-        $limite = 3;
+        //$limite = 3;
         $datos = null;
         $i = 0;
         while ($row = $consulta->fetch()) {
@@ -507,7 +507,7 @@ class Evento {
         return $datos;
     }
 
-    function mostrarMisEventos($usuario) {
+    function mostrarMisEventos($usuario,$limite) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $fecha = date("Y-m-d H:i:s");
@@ -515,6 +515,7 @@ class Evento {
         $datos = null;
         $i = 0;
         while ($row = $consulta->fetch()) {
+            if($i < $limite){
             if ($row['foto'] == null) {
                 $foto = false;
             } else {
@@ -555,6 +556,7 @@ class Evento {
                 'loginOperador' => $_SESSION['operador']
             );
             $i++;
+            }
         }
         unset($conexion);
         return $datos;

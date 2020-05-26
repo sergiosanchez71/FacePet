@@ -31,6 +31,7 @@ and open the template in the editor.
 
             var cargando = 0;
             var cantidad = 5;
+            var cantidadEventos = 5;
             var pest = 0;
 
             $(window).scroll(function () {
@@ -44,12 +45,33 @@ and open the template in the editor.
                         $("#amigosPerfil").css("position", "relative");
                         $("#amigosPerfil").css("width", "75%");
                     }
+                    if ($(window).scrollTop() > $("#cuerpo").height() - 800) {
+                        cargando += 1;
+                        if (cargando == 1) {
+                            if (pest == 0) {
+                                cantidad += 5;
+                                mostrarPosts($("#idUsuario").val(),cantidad);
+                            }
+                            if (pest == 1) {
+                                cantidadEventos += 5;
+                                mostrarEventos($("#idUsuario").val());
+                            }
+                        }
+                    } else {
+                        cargando = 0;
+                    }
                 } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) {
                     if (pest == 0) {
                         cargando += 1;
                         if (cargando == 1) {
-                            cantidad += 5;
-                            mostrarPosts($("#idUsuario").val(),cantidad);
+                            if ($("#cadPosts").val().length > 1) {
+                                cantidad += 5;
+                                mostrarEventos($("#idUsuario").val());
+                            }
+                            if ($("#cadEventos").val().length > 1) {
+                                cantidadEventos += 5;
+                                mostrarPosts($("#idUsuario").val(), cantidad);
+                            }
                         }
                     }
                 } else {
@@ -61,28 +83,32 @@ and open the template in the editor.
             $(document).ready(function () {
                 $("#cambiarImagen").hide();
                 getDatosPerfil($("#idUsuario").val());
-                mostrarPosts($("#idUsuario").val(),"5");
+                mostrarPosts($("#idUsuario").val(), "5");
                 mostrarAmigos($("#idUsuario").val());
                 $("#botonPosts").hide();
                 $("#textoEventos").hide();
                 $("#textoPosts").hide();
 
                 $("#botonEventos").click(function () {
+                    pest = 1;
                     $("#botonPosts").show();
                     $("#botonEventos").hide();
                     $("#textoPosts").hide();
                     $("#contenido").empty();
+                    $("#cadEventos").val("");
+                    $("#cadEventos").val("");
                     mostrarEventos($("#idUsuario").val());
                 });
 
                 $("#botonPosts").click(function () {
+                    pest = 0;
                     $("#botonPosts").hide();
                     $("#textoEventos").hide();
                     $("#botonEventos").show();
                     $("#textoPosts").show();
                     $("#contenido").empty();
                     $("#cadPosts").val("");
-                    mostrarPosts($("#idUsuario").val(),"5");
+                    mostrarPosts($("#idUsuario").val(), "5");
                 });
 
                 if ($(window).width() < 1000) {
@@ -97,6 +123,7 @@ and open the template in the editor.
                         $("#posts").hide();
                         $("#contenido").empty();
                         $("#cadPosts").val("");
+                        $("#cadEventos").val("");
                         mostrarEventos($("#idUsuario").val());
                     });
 
@@ -109,7 +136,7 @@ and open the template in the editor.
                         $("#amigosPerfiles").hide();
                         $("#contenido").empty();
                         $("#cadPosts").val("");
-                        mostrarPosts($("#idUsuario").val(),"5");
+                        mostrarPosts($("#idUsuario").val(), "5");
                     });
 
                     $("#botonAmigosM").click(function () {
@@ -181,7 +208,7 @@ and open the template in the editor.
                         $("#nombrePerfilUsuario").text(usuario.nick);
                         $("#animalPerfilUsuario").text(usuario.animal);
                         $("#razaPerfilUsuario").text(usuario.raza);
-                        $("#localidadPerfilUsuario").text(usuario.provincia+", "+usuario.municipio);
+                        $("#localidadPerfilUsuario").text(usuario.provincia + ", " + usuario.municipio);
 
 
                     },
@@ -330,7 +357,8 @@ and open the template in the editor.
             function mostrarEventos(usuario) {
                 var parametros = {
                     "accion": "mostrarEventosId",
-                    "usuario": usuario
+                    "usuario": usuario,
+                    "cantidad": cantidadEventos
                 };
 
                 $.ajax({
@@ -418,7 +446,8 @@ and open the template in the editor.
             </header>
 
             <div id="cuerpo">
-                <input type="text" id="cadPosts">
+                <input type="text" id="cadPosts" style="display:none">
+                <input type="text" id="cadEventos" style="display:none">
                 <input type="text" id="idUsuario" style="display:none" value="<?php echo $_REQUEST['usuario'] ?>">
                 <div id="cabeceraPerfil">
                     <p id="contenidoPerfil">

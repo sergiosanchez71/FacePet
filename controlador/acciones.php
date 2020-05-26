@@ -428,8 +428,8 @@ switch ($accion) {
         break;
 
     case "mostrarEventos":
-        if (Evento::mostrarEventos($idusuario)) {
-            echo json_encode(Evento::mostrarEventos($idusuario));
+        if (Evento::mostrarEventos($idusuario,$_REQUEST['cantidad'])) {
+            echo json_encode(Evento::mostrarEventos($idusuario,$_REQUEST['cantidad']));
         } else {
             echo false;
         }
@@ -449,8 +449,8 @@ switch ($accion) {
         } else {
             $usu = $idusuario;
         }
-        if (Evento::mostrarMisEventos($usu)) {
-            echo json_encode(Evento::mostrarMisEventos($usu));
+        if (Evento::mostrarMisEventos($usu,$_REQUEST['cantidad'])) {
+            echo json_encode(Evento::mostrarMisEventos($usu,$_REQUEST['cantidad']));
         } else {
             echo false;
         }
