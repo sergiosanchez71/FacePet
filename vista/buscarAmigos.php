@@ -336,7 +336,7 @@
                         //console.log("a");
                     },
                     error: function (xhr, status) {
-                        alert("Error en la creación de post");
+                        alert("Error en mandar soliciutd");
                     },
                     type: "POST",
                     dataType: "text"
@@ -356,7 +356,7 @@
                         console.log(respuesta);
                     },
                     error: function (xhr, status) {
-                        alert("Error en la creación de post");
+                        alert("Error en cancelar solicitud");
                     },
                     type: "POST",
                     dataType: "text"
@@ -379,7 +379,7 @@
                         }
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en mostrar todos los nombres de usuarios");
                     },
                     type: "POST",
                     dataType: "text"

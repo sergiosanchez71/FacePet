@@ -238,7 +238,7 @@ and open the template in the editor.
                         }
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en la carga de posts");
                     },
                     type: "POST",
                     dataType: "text"
@@ -271,7 +271,7 @@ and open the template in the editor.
 
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en la muestra de eventos");
                     },
                     type: "POST",
                     dataType: "text"

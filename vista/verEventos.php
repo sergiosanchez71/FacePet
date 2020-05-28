@@ -140,7 +140,7 @@ and open the template in the editor.
 
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en mostrar eventos");
                     },
                     type: "POST",
                     dataType: "text"

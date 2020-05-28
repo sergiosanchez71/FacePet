@@ -186,7 +186,7 @@
 
                     },
                     error: function (xhr, status) {
-                        alert("Error al aceptar la petición de amistad");
+                        alert("Error al ver notificaciones");
                     },
                     type: "POST",
                     dataType: "text"
@@ -229,7 +229,7 @@
 
                     },
                     error: function (xhr, status) {
-                        alert("Error al aceptar la petición de amistad");
+                        alert("Error al rechazar la petición de amistad");
                     },
                     type: "POST",
                     dataType: "text"
@@ -391,7 +391,7 @@
                         }
                     },
                     error: function (xhr, status) {
-                        alert("Error en la creación de post");
+                        alert("Error en mostrar notificaciones");
                     },
                     type: "POST",
                     dataType: "text"

@@ -6,7 +6,7 @@ $(document).ready(function () {
     setInterval(function () {
         getNotificaciones();
         getMensajes();
-    }, 2000);
+    }, 10000);
 });
 
 function getFotoPerfil() {

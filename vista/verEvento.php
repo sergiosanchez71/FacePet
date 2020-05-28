@@ -130,7 +130,7 @@ and open the template in the editor.
                         }
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en mostrar evento");
                     },
                     type: "POST",
                     dataType: "text"
@@ -169,7 +169,7 @@ and open the template in the editor.
 
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en participar en evento");
                     },
                     type: "POST",
                     dataType: "text"
@@ -190,7 +190,7 @@ and open the template in the editor.
 
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en salir del evento");
                     },
                     type: "POST",
                     dataType: "text"

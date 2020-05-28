@@ -165,7 +165,7 @@ and open the template in the editor.
                         mostrarMisAmigos();
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en eliminar post");
                     },
                     type: "POST",
                     dataType: "text"
@@ -186,7 +186,7 @@ and open the template in the editor.
                         mostrarMisPosts();
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en eliminar amigo");
                     },
                     type: "POST",
                     dataType: "text"
@@ -213,7 +213,7 @@ and open the template in the editor.
 
                     },
                     error: function (xhr, status) {
-                        alert("Error en la creación de post");
+                        alert("Error en coger datos de perfil");
                     },
                     type: "POST",
                     dataType: "text"
@@ -313,7 +313,7 @@ and open the template in the editor.
 
                     },
                     error: function (xhr, status) {
-                        alert("Error en la creación de post");
+                        alert("Error en mostrar amigos");
                     },
                     type: "POST",
                     dataType: "text"
@@ -347,7 +347,7 @@ and open the template in the editor.
                         }
                     },
                     error: function (xhr, status) {
-                        alert("Error en la creación de post");
+                        alert("Error en mostrar posts");
                     },
                     type: "POST",
                     dataType: "text"
@@ -381,7 +381,7 @@ and open the template in the editor.
 
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en mostrar eventos");
                     },
                     type: "POST",
                     dataType: "text"

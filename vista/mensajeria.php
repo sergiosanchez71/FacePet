@@ -510,7 +510,7 @@
 
                     },
                     error: function (xhr, status) {
-                        alert("Error en la creación de post");
+                        alert("Error en mostrar mis amigos");
                     },
                     type: "POST",
                     dataType: "text"
@@ -538,7 +538,7 @@
                         $("#idUsuario").attr("value", amigo.id);
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en mostrar la cabecera de chat");
                     },
                     type: "POST",
                     dataType: "text"
@@ -595,7 +595,7 @@
 
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en mostrar chat");
                     },
                     type: "POST",
                     dataType: "text"
@@ -641,7 +641,7 @@
 
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en comprobar mensajes nuevos");
                     },
                     type: "POST",
                     dataType: "text"
@@ -685,7 +685,7 @@
                             $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
                         },
                         error: function (xhr, status) {
-                            alert("Error en la eliminacion de post");
+                            alert("Error en enviar mensaje");
                         },
                         type: "POST",
                         dataType: "text"
@@ -712,7 +712,7 @@
 
                     },
                     error: function (xhr, status) {
-                        alert("Error en la creación de Evento");
+                        alert("Error en acceder a fecha actual");
                     },
                     type: "post",
                     dataType: "text"
@@ -730,7 +730,7 @@
                     data: parametros,
                     success: $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight}),
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en leer mensajes");
                     },
                     type: "POST",
                     dataType: "text"

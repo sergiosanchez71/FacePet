@@ -559,7 +559,7 @@ and open the template in the editor.
 
                                         },
                                         error: function (xhr, status) {
-                                            alert("Error en la creación de Evento");
+                                            alert("Error en la sanción de usuario");
                                         },
                                         type: "post",
                                         dataType: "text"
@@ -600,7 +600,7 @@ and open the template in the editor.
                                             console.log(respuesta);
                                         },
                                         error: function (xhr, status) {
-                                            alert("Error en la creación de Evento");
+                                            alert("Error en la eliminación del usuario");
                                         },
                                         type: "post",
                                         dataType: "text"
@@ -629,7 +629,7 @@ and open the template in the editor.
                         //}
                     },
                     error: function (xhr, status) {
-                        alert("Error en la creación de animal");
+                        alert("Error al mostrar usuarios");
                     },
                     type: "POST",
                     dataType: "text"
@@ -751,7 +751,7 @@ and open the template in the editor.
                                 mostrarAnimales();
                             },
                             error: function (xhr, status) {
-                                alert("Error en la creación de animal");
+                                alert("Error en eliminar animal");
                             },
                             type: "POST",
                             dataType: "text"
@@ -845,7 +845,7 @@ and open the template in the editor.
 
                     },
                     error: function (xhr, status) {
-                        alert("Error en mostrar razas");
+                        alert("Error en eliminar razas");
                     },
                     type: "POST",
                     dataType: "text"
@@ -871,7 +871,7 @@ and open the template in the editor.
                         mostrarRazas(animal);
                     },
                     error: function (xhr, status) {
-                        alert("Error en la creación de animal");
+                        alert("Error en la creación de raza");
                     },
                     type: "POST",
                     dataType: "text"
@@ -909,7 +909,7 @@ and open the template in the editor.
                                 mostrarRazasBorrar();
                             },
                             error: function (xhr, status) {
-                                alert("Error en la creación de animal");
+                                alert("Error en eliminar raza");
                             },
                             type: "POST",
                             dataType: "text"

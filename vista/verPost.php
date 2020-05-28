@@ -213,7 +213,7 @@ and open the template in the editor.
                         mostrarComentarios(post);
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en publicar comentario");
                     },
                     type: "POST",
                     dataType: "text"
@@ -320,7 +320,7 @@ and open the template in the editor.
                         }
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en mostrar comentarios");
                     },
                     type: "POST",
                     dataType: "text"
@@ -482,7 +482,7 @@ and open the template in the editor.
                                             console.log(respuesta);
                                         },
                                         error: function (xhr, status) {
-                                            alert("Error en la eliminacion de post");
+                                            alert("Error en dar like);
                                         },
                                         type: "POST",
                                         dataType: "text"
@@ -497,7 +497,7 @@ and open the template in the editor.
                         }
                     },
                     error: function (xhr, status) {
-                        alert("Error en la eliminacion de post");
+                        alert("Error en mostrar post");
                     },
                     type: "POST",
                     dataType: "text"
