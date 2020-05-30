@@ -75,7 +75,7 @@ function getMensajes() {
 
         },
         error: function (xhr, status) {
-            alert("Error al mostrar notificaciones");
+            alert("Error al mostrar mensajes");
         },
         type: "POST",
         dataType: "text"

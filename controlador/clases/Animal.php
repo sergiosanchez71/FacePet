@@ -34,8 +34,13 @@ class Animal {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT nombre from animales where id=$id");
+        $i=0;
         while ($row = $consulta->fetch()) {
             $animal = $row['nombre'];
+            $i++;
+        }
+        if($i==0){
+            $animal = "No especificado";
         }
         unset($conexion);
         return $animal;

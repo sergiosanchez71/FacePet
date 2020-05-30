@@ -8,24 +8,26 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title>FacePet</title>
-        <link rel="icon" href="../controlador/img/favicon.ico">
+        <link rel="icon" href="../controlador/img/favicon.ico"><!--Favicon-->
         <?php
         session_start();
         include '../controlador/gestion.php';
-        comprobarLogin();
+        comprobarLogin(); //Comrpobamos si está logueado
         ?>
         <script>
 
         </script>
-        <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
-        <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css">
-        <link  rel="stylesheet" type="text/css" href="../controlador/css/eventos.css">
-        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
-        <script src="../controlador/js/header.js" type="text/javascript"></script>
-        <script src="../controlador/js/pintarObjetos.js" type="text/javascript"></script>
+        <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css"> <!--Css de header-->
+        <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css"> <!--Css de posts -->
+        <link  rel="stylesheet" type="text/css" href="../controlador/css/eventos.css"> <!--Css de eventos-->
+        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script> <!--JQuery-->
+        <script src="../controlador/js/header.js" type="text/javascript"></script> <!--Header js-->
+        <script src="../controlador/js/pintarObjetos.js" type="text/javascript"></script> <!--Pintar objetos js-->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE&callback=initMap" async defer></script>
+        <!--Libreria maps-->
         <style>
 
+            /*El cuerpo dividido entre posts y eventos, los posts ocuparán mayor parte*/
             #cuerpo{
                 grid-area: cuerpo;
                 display: grid;
@@ -37,31 +39,38 @@ and open the template in the editor.
                 background: white;
             }
 
+            /*Botones ocultos*/
             #botones{
                 display: none;
             }
 
+            /*Posts*/
             #posts{
                 grid-area:posts;
             }
 
+            /*Eventos*/
             #menuL{
                 grid-area: eventos;
                 display: none;
             }
 
+            /*Conjunto de eventos*/
             #eventos{
                 max-width: 40rem;
             }
 
+            /*Imágenes de los eventos centradas*/
             .eventoImg{
                 width: 10rem;
                 display: block;
                 margin: auto;
             }
 
+            /*Vista móvil*/
             @media (max-width:1000px){
 
+                /*Los botones van arriba y abajo el contenido, que podrá ser posts o eventos*/
                 #cuerpo{
                     grid-template-areas: 
                         "botones"
@@ -69,10 +78,12 @@ and open the template in the editor.
                     grid-template-columns: 100%;
                 }
 
+                /*Posts*/
                 #posts{
                     grid-area:contenido;
                 }
 
+                /*Botones*/
                 #botones{
                     display: block;
                     grid-area: botones;
@@ -80,6 +91,7 @@ and open the template in the editor.
                     padding-bottom: 3rem;
                 }
 
+                /*Tamaño de cada botón fondo y transación*/
                 .boton{
                     width: 49%;
                     margin: auto;
@@ -93,10 +105,12 @@ and open the template in the editor.
                     cursor: pointer;
                 }
 
+                /*Texto de nuestro botón*/
                 .boton span{
                     font-size: 3rem;
                 }
 
+                /*Cada uno de nuestros posts, les quitamos borde y los juntamos*/
                 .post{
                     padding-bottom: 2rem;
                     border-radius: 0;
@@ -105,14 +119,17 @@ and open the template in the editor.
                     border-bottom: 1px solid grey;
                 }
 
+                /*Ocultamos el h1 de "posts"*/
                 .tituloseccion{
                     display: none;
                 }
 
+                /*En el último dejamos un margen*/
                 .post:last-child{
                     margin-bottom: 10rem;
                 }
 
+                /*Los eventos ocupan toda la página*/
                 #eventos{
                     max-width: 100%;
                     grid-area:contenido;
@@ -121,22 +138,26 @@ and open the template in the editor.
                     display: none;
                 }
 
+                /*Quitamos su espacio*/
                 .evento{
                     border-radius: 0;
                     border: 0px solid black;
                     margin-top: -3rem;
                     border-bottom: 1px solid grey;
                 }
+                /*Todos en el mismo margen*/
                 .eventoTitulo, .textTipo, .textFechai, .textFechaf, .direccioncompleta, .eventoAutor, .participantes{
                     margin-left: 0;
                 }
 
+                /*Tamaño mapa*/
                 .map{
                     height: 20rem;
                     margin-left: 0;
 
                 }
 
+                /*Margen en el último evento*/
                 .evento:last-child{                   
                     margin-bottom: 15rem;
                 }
@@ -147,52 +168,57 @@ and open the template in the editor.
         <script>
 
 
-            var cargando = 0;
-            var cantidad = 5;
+            var cargando = 0; //La variable cargando permitirá que no ejecutemos más de una vez una acción
+            var cantidad = 5; //Cantidad de posts que se mostrarán
 
+            //Cogemos la acción de mover nuestro scroll
             $(window).scroll(function () {
-                console.log($(window).width());
+                //Si nuestro scroll verticual es mayor al height del cuerpo - 800 y estamos en ordenador
                 if ($(window).scrollTop() > $("#cuerpo").height() - 800 && $(window).width() > 1000) {
+                    //Sumamos uno a nuestra carga
                     cargando += 1;
-                    if (cargando == 1) {
-                        cantidad += 5;
-                        cargarPostsAmigos(cantidad);
+                    if (cargando == 1) { //Ejecutamos
+                        cantidad += 5; //Sumamos la cantidad que queremos mostrar de nuevos posts
+                        cargarPostsAmigos(cantidad); //Mostramos los posts de nuestros amigos dada la cantidad
                     }
 
-                } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) {
+                } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) { //Si estamos en teléfono aumentamos el margen de height
                     cargando += 1;
-                    console.log($(window).scrollTop());
                     if (cargando == 1) {
                         cantidad += 5;
                         cargarPostsAmigos(cantidad);
                     }
                 } else {
-                    cargando = 0;
+                    if (cargando != 0) {
+                        cargando = 0; //Volvemos a poner cargando a 0 si no se ejecuta nada
+                    }
                 }
 
-            }
-            );
+            });
 
             $(document).ready(function () {
-                cargarPostsAmigos("5");
-                mostrarEventos();
-                $("#botonPosts").css("background", "#ffe45e");
+                cargarPostsAmigos(cantidad); //Mostramos "cantidad" de posts
+                mostrarEventos(); //Mostramos eventos (3)
+                //En teléfono
+                $("#botonPosts").css("background", "#ffe45e");//Background button
                 $("#botonEventos").click(function () {
+                    //Si cambiamos a eventos ocultamos los posts y mostramos eventos 
                     $("#eventos").show();
                     $("#posts").hide();
+                    //Y el background cambia
                     $("#botonEventos").css("background", "#ffe45e");
                     $("#botonPosts").css("background", "#FFED91");
                 });
                 $("#botonPosts").click(function () {
+                    //Igual que el anterior pero invertido
                     $("#eventos").hide();
                     $("#posts").show();
                     $("#botonPosts").css("background", "#ffe45e");
                     $("#botonEventos").css("background", "#FFED91");
                 });
-                //google.maps.event.addDomListener(window, 'load', initMap);
-
             });
 
+            /*Mostrar mapas dado el div, lat y lng*/
             function initMap(map, lat, lng) {
                 var maps = new google.maps.Map(map, {
                     center: {lat: parseFloat(lat), lng: parseFloat(lng)},
@@ -205,35 +231,35 @@ and open the template in the editor.
                     fullscreenControl: false
                 });
                 new google.maps.Marker({
-                    position: {lat: parseFloat(lat), lng: parseFloat(lng)},
-                    icon: '../controlador/img/marker.ico',
+                    position: {lat: parseFloat(lat), lng: parseFloat(lng)}, //Posición mapa
+                    icon: '../controlador/img/marker.ico', //Nuestro marker personalizado
                     map: maps
                 });
 
                 google.maps.event.addDomListener(window, 'load', initMap);
             }
 
+            /*Cargamos los posts de nuestros amigos dada una cantidad*/
             function cargarPostsAmigos(cantidad) {
                 var parametros = {
                     "accion": "mostrarPostsAmigos",
-                    "cantidad": cantidad,
-                    "array": $("#cadPosts").val()
+                    "cantidad": cantidad, //Recogemos cantidad
+                    "array": $("#cadPosts").val() //Posts que ya se han mostrado
                 };
 
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        if (respuesta) {
-                            console.log(respuesta);
-                            var posts = JSON.parse(respuesta);
-                            pintarPosts(posts, "posts");
+                        if (respuesta) { //Si hemos recibido respuesta
+                            var posts = JSON.parse(respuesta); 
+                            pintarPosts(posts, "posts"); //Pintamos nuestros posts
 
                         } else {
-                            if (cantidad == "5") {
+                            if (cantidad == "5") { //Si la cantidad es 5 y no recibimos respuesta
                                 var h1 = document.createElement("h1");
-                                h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya";
-                                $("#posts").append(h1);
+                                h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya"; 
+                                $("#posts").append(h1); //Mostramos este mensaje en un h1
                             }
                         }
                     },
@@ -245,28 +271,24 @@ and open the template in the editor.
                 });
             }
 
+            //Mostrar eventos
             function mostrarEventos() {
                 var parametros = {
                     "accion": "mostrarEventos",
-                    "cantidad": 3
+                    "cantidad": 3 //cantidad de eventos que mostraremos
                 };
 
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
-                        if (respuesta) {
-                            console.log(respuesta);
+                        if (respuesta) { //Si obtenemos resputa
                             var eventos = JSON.parse(respuesta);
-                            console.log(eventos[0].miProvincia);
-                            pintarEventos(eventos, "eventos");
-
-
-                        } else {
+                            pintarEventos(eventos, "eventos"); //Pintamos eventos
+                        } else { //Si no recibimos respuesta
                             var h1 = document.createElement("h1");
                             h1.innerHTML += "Aquí se mostraran los eventos, pero ahora mismo no hay ninguno";
-                            $("#eventos").append(h1);
+                            $("#eventos").append(h1); //Mostramos el mensaje anterior en un h1
                         }
 
                     },
@@ -283,8 +305,10 @@ and open the template in the editor.
         </script>
     </head>
     <body>
+        <!--Div principal-->
         <div id="principal">
 
+            <!--Cabecera-->
             <header>
                 <nav id="navpc">
                     <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
@@ -311,6 +335,8 @@ and open the template in the editor.
                     </li>
                 </nav>
 
+                <!--Header móvil-->
+                
                 <div id="cabeceramv">
                     <a href="vistaUsuario.php" id="facepetAMV"><img src="../controlador/img/facepet.png" id="facepetMV" alt="logo"></a>
                     <nav class="menuHTML">
@@ -334,6 +360,8 @@ and open the template in the editor.
                 </div>
             </header>
 
+            <!--Cuerpo-->
+            
             <div id="cuerpo">
                 <div id="botones">
                     <button id="botonPosts" class="boton"><span>Posts</span></button>
@@ -352,6 +380,7 @@ and open the template in the editor.
             </div>
 
             <footer>
+                <!--Menú móvil-->
                 <ul id="segundoMenu">
                     <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" class="cerrarsesion" alt="cerrarSesion"></a></li>
                     <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p class="alerta" id="mensajeM">1</p></a></li>

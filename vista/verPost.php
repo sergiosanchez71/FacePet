@@ -482,7 +482,7 @@ and open the template in the editor.
                                             console.log(respuesta);
                                         },
                                         error: function (xhr, status) {
-                                            alert("Error en dar like);
+                                            alert("Error en dar like");
                                         },
                                         type: "POST",
                                         dataType: "text"

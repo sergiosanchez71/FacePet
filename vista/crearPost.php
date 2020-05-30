@@ -4,14 +4,15 @@
         <?php
         session_start();
         include '../controlador/gestion.php';
-        comprobarLogin();
+        comprobarLogin(); //Comprobamos login
         ?>
-        <link rel="icon" href="../controlador/img/favicon.ico">
-        <link rel="stylesheet" type="text/css" href="../controlador/css/header.css">
-        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
-        <script src="../controlador/js/header.js" type="text/javascript"></script>
+        <link rel="icon" href="../controlador/img/favicon.ico"><!--Icono-->
+        <link rel="stylesheet" type="text/css" href="../controlador/css/header.css"><!--Header CSS-->
+        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script><!--JQuery-->
+        <script src="../controlador/js/header.js" type="text/javascript"></script><!--Header JS-->
         <style>
 
+            /*El cuerpo ocupa toda la página y su mínima altura es de 40rem background white*/
             #cuerpo{
                 margin: auto;
                 width: 100%;
@@ -19,6 +20,7 @@
                 min-height: 40rem;
             }
 
+            /*Div crear post, centrado background amarillento*/
             #crearPost{
                 margin: auto;
                 width: 40rem;
@@ -27,10 +29,12 @@
                 margin-top: 3.5rem;
             }
 
+            /*Centramos h1*/
             h1{
                 text-align: center;
             }
 
+            /*Aumentamos tamaños*/
             .title{
                 font-size: 1.3rem;
                 font-weight: bold;
@@ -42,6 +46,7 @@
                 transition: 1s background ease;
             }
 
+            /*Contenido del post con transición*/
             textarea{
                 resize: none;
                 width: 100%;
@@ -50,10 +55,12 @@
                 transition: 1s background ease;
             }
 
+            /*Imagen del post*/
             #multimedia{
                 font-size: 1.2rem;
             }
 
+            /*Botón crear post con transición color amarillento*/
             .botonCrearPost{
                 font-weight: bold;
                 width: 100%;
@@ -65,33 +72,32 @@
                 cursor: pointer;
             }
 
+            /*Color con cursor encima*/
             .botonCrearPost:hover, textarea:hover, #titulo:hover{
                 background-color:#FFF578;
             }
 
-            #pata{
-                padding-left: 0.5rem;
-                width: 2rem;
-                position: relative;
-                top: 3px;
-            }
-
+            /*Primer paso*/
             #paso1{
                 display: block;
             }
 
+            /*Segundo paso, multimedia*/
             #paso2{
                 display: none;
             }
 
 
+            /*Vista móvil*/
             @media (max-width:1000px){
 
+                /*Toda la pantalla del móvil*/
                 #crearPost{
                     width: 90%;
                     margin-bottom: 10rem;
                 }
 
+                /*Aumentamos tamaños*/
                 h1{
                     font-size: 4rem;
                 }
@@ -124,11 +130,6 @@
                     font-size: 4rem;
                 }
 
-                #pata{
-                    width: 3.5rem;
-                    padding-left: 2rem;
-                }
-
             }
 
 
@@ -136,14 +137,15 @@
         </style>
         <script>
 
+            //Al cargar
             $(document).ready(function () {
-                $("#botonCrearPost").click(crearPost);
-                $("#botonCrearPost2").click(function () {
-                    crearPost();
+                $("#botonCrearPost").click(crearPost); //Si hacemos click en boton de crear post creamos el post y añadimos imagen
+                $("#botonCrearPost2").click(function () { //Si pulsamos el segundo creamos el post sin imagen
+                    crearPost(); //Creamos post
                     var titulo = $("#titulo").val();
                     var contenido = $("#contenido").val();
-                    if (titulo.trim() != "" && contenido.trim() != "") {
-                        window.location.href = "miPerfil.php";
+                    if (titulo.trim() != "" && contenido.trim() != "") { //Si no están vaciíos
+                        window.location.href = "miPerfil.php"; //Nos lleva a nuestro perfil
                     }
                 });
                 $("#subirImagen").click(function () {
@@ -151,21 +153,21 @@
                 });
             });
 
+            //Crear post
             function crearPost() {
-                var titulo = $("#titulo").val();
-                var contenido = $("#contenido").val();
-                // var fecha = $("#fecha").val();
-                var colorError = "#E95139";
+                var titulo = $("#titulo").val(); //Cogemos el valor del título
+                var contenido = $("#contenido").val(); //Cogemos el contenido
+                var colorError = "#E95139"; //Color por defecto de error
                 var campoVacio = false;
 
-                if (titulo.trim() == "") {
-                    $("#titulo").css("background", colorError);
+                if (titulo.trim() == "") { //Si titulo esta vacío
+                    $("#titulo").css("background", colorError); //Lo pintamos
                     campoVacio = true;
                 } else {
-                    $("#titulo").css("background", "white");
+                    $("#titulo").css("background", "white"); //Lo pintamos en blanco
                 }
 
-                if (contenido.trim() == "") {
+                if (contenido.trim() == "") { //Si el contenido está vacío
                     $("#contenido").css("background", colorError);
                     campoVacio = true;
                 } else {
@@ -173,20 +175,19 @@
                 }
 
 
-                if (!campoVacio) {
+                if (!campoVacio) { //Si NO hay ningún campo vacío
 
                     var parametros = {
                         "accion": "crearPost",
                         "titulo": titulo,
-                        "contenido": contenido//,
-                                //"fecha": fecha
+                        "contenido": contenido
                     };
 
                     $.ajax({
                         url: "../controlador/acciones.php",
                         data: parametros,
                         success: function (respuesta) {
-                            var paso2 = document.getElementById("paso2");
+                            var paso2 = document.getElementById("paso2"); 
                             var p = document.createElement("input");
                             paso2.appendChild(p);
                             p.setAttribute("type", "text");
@@ -197,6 +198,7 @@
 
                             $("#paso1").css("display", "none");
                             $("#paso2").css("display", "block");
+                            //Mostramos paso2 y ocultamos paso1
 
                         },
                         error: function (xhr, status) {
@@ -267,20 +269,18 @@
                 </div>
             </header>
             <div id="cuerpo">
-                <div id="crearPost">
+                <div id="crearPost"> <!--Div crear post-->
                     <h1>Crea un nuevo post</h1>
-                    <form id="paso1">
+                    <form id="paso1"> <!-- Paso 1 -->
                         <h2 class="paso">Paso 1</h2>
                         <p class="title">Título</p> 
                         <input type="text" id="titulo" name="titulo" maxlength="30">
                         <p class="title">Contenido</p> 
                         <textarea type="text" id="contenido" name="contenido" maxlength="1000"></textarea>
-                        <!--<p><input type="radio" id="multimedia" value="imagen"><input type="radio" id="multimedia" value="video"></p>-->
-                            <!--<button id="botonCrearPost">Crear Post<img src="../controlador/img/pata.png" id="pata" class="pata"></button>-->
                         <p><input type="button" class="botonCrearPost" id="botonCrearPost" value="Añadir Multimedia">
                             <input type="button" class="botonCrearPost" id="botonCrearPost2" value="Subir Post"></p>
                     </form>
-                    <form method="post" id="paso2" enctype="multipart/form-data">
+                    <form method="post" id="paso2" enctype="multipart/form-data"> <!-- Paso 2 -->
                         <h2 class="paso">Paso 2</h2>
                         <p class="title">Añade una foto o vídeo (Opcional)</p>
                         <input type="file" name="userfile" id="multimedia">

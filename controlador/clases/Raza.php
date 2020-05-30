@@ -44,9 +44,16 @@ class Raza {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT nombre from razas where id=$id");
+        $i=0;
         while ($row = $consulta->fetch()) {
             $raza = $row['nombre'];
+            $i++;
         }
+        
+        if($i == 0){
+            $raza = "No especificada";
+        }
+        
         unset($conexion);
         return $raza;
     }
