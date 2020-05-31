@@ -1,10 +1,11 @@
 <html>
     <head>
         <title>Buscar Amigos</title>
-        <link rel="icon" href="../controlador/img/favicon.ico">
-        <link rel="stylesheet" type="text/css" href="../controlador/css/header.css">
-        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
-        <script src="../controlador/js/header.js" type="text/javascript"></script>
+        <link rel="icon" href="../controlador/img/favicon.ico"><!--Icono-->
+        <link rel="stylesheet" type="text/css" href="../controlador/css/header.css"><!--Header CSS-->
+        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script><!--JQuery-->
+        <script src="../controlador/js/header.js" type="text/javascript"></script><!--Header JS-->
+        <!--Librerias de estilo y de js de Modales y de autocompletar y sugerencias de usuario-->
         <script src="../controlador/js/jquery-1.12.4.js" type="text/javascript"></script>
         <script src="../controlador/js/jquery-ui.js" type="text/javascript"></script>
         <link href="../controlador/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
@@ -13,10 +14,11 @@
         <?php
         session_start();
         include '../controlador/gestion.php';
-        comprobarLogin();
+        comprobarLogin(); //Comprobamos el login de usuario
         ?>
         <style>
 
+            /*Cuerpo con el fondo blanco y máxima altura de 50rem*/
             #cuerpo{
                 width: 100%;
                 margin: auto;
@@ -25,16 +27,19 @@
                 min-height: 50rem;
             }
 
+            /*Div de buscar amigos (buscador)*/
             #buscadorAmigos{
                 padding: 2.5% 13% 5% 13%;
             }
 
+            /*Input para buscar*/
             #buscador{
                 width: 90%;
                 height: 2rem;
                 font-size: 1.3rem;
             }
 
+            /*Elemento estético imagen lupa*/
             #lupa{
                 width: 3rem;
                 position: relative;
@@ -42,15 +47,18 @@
                 cursor: pointer;
             }
 
+            /*Div de los checkboxs*/
             #checks{
                 margin-top: 2rem;
                 margin-bottom: -1rem;
             }
 
+            /*Primer amigo margen del buscador*/
             .amigo:first-child{
                 margin-top: 3rem;
             }
 
+            /*Cada uno de los amigos con fondo y anchura 100%*/
             .amigo{
                 background: #fcf0c9;
                 width: 100%;
@@ -62,15 +70,18 @@
                 transition: 1s background ease;
             }
 
+            /*Color de fondo amigo*/
             .amigo:hover{
                 background: #fff7dd;
             }
 
+            /*Borde primer amigo*/
             .amigo:first-child{
                 border-radius: 3rem 3rem 0 0;
                 border-top:1px solid black;
             }
 
+            /*Borde último amigo*/
             .amigo:last-child{
                 margin-bottom: 5rem;
                 border-radius: 0 0 3rem 3rem;
@@ -78,10 +89,12 @@
                 border-bottom:1px solid black;
             }
 
+            /*Datos de usuario margen*/
             .datos{
                 padding-left: 2rem;
             }
 
+            /*Nombre de amigo tamaño y transación*/
             .nombreAmigo{
                 font-weight: bold;
                 font-size: 1.5rem;
@@ -90,14 +103,17 @@
                 transition: 1s color ease;
             }
 
+            /*Primera letra mayúscula*/
             .nombreAmigo:first-letter{
                 text-transform: uppercase;
             }
 
+            /*Color de letra amigo*/
             .nombreAmigo:hover{
                 color: #f43333;
             }
 
+            /*Cada uno de los elementos de tipo sexo*/
             .sexo{
                 width: 2.5rem;
                 margin-left: 1rem;
@@ -105,6 +121,7 @@
                 padding-bottom: 0.25rem;
             }
 
+            /*Imagen de cada amigo*/
             .imagenAmigo{
                 width: 10rem;
                 height: 10rem;
@@ -116,37 +133,43 @@
                 transition: 1s opacity ease;
             }
 
+            /*Animación imagen opacidad*/
             .imagenAmigo:hover{
                 opacity: 0.7;
             }
 
+            /*Botones de solicitud y pendiente para solicitudes*/
             .solicitud, .pendiente{
                 border-radius: 1rem;
                 cursor: pointer;
                 transition: 1s background ease;
             }
 
+            /*Colores para los botones*/
             .solicitud{
                 background-color: #FFED91;
             }
 
             .pendiente{
-                background-color: #EEEEEEE;
+                background-color: #EEEEEE;
             }
 
             .solicitud:hover, .pendiente:hover{
                 background-color:#FFF578;
             }
 
+            /*Todo el contenido de la ventana modal*/
             #ventanaSolicitud *{
                 display: block;
                 margin: auto;
             }
 
+            /*Texto centrado de la ventana modal*/
             #ventanaSolicitud h1{
                 text-align: center;
             }
 
+            /*Textarea en el que introduciremos nuestro mensaje*/
             #mensajeSolicitud{
                 width: 35rem;
                 height: 5rem;
@@ -154,18 +177,15 @@
                 margin-bottom: 1rem;
             }
 
-            /* .imgPata{
-                 width: 1.5rem;
-                 position: relative;
-                 top: 2.5px;
-             }*/
-
+            /*Vista de móvil*/
             @media (max-width: 1000px){
 
+                /*Aumentamos los tamaños*/
                 h1{
                     font-size: 4rem;
                 }
 
+                /*Buscador*/
                 #buscador{
                     height: 4rem;
                     font-size: 3rem;
@@ -176,15 +196,19 @@
                     width: 4rem;
                 }
 
+                /*Pequeño padding*/
                 #buscadorAmigos{
                     padding: 5%;
                 }
 
+                /*Toda la pantalla*/
                 #buscarAmigos{
                     width: 100%;
                     padding: 0;
                 }
                 
+                
+                /*Aumentamos tamños*/
                 .check{
                     width: 3rem;
                     height: 3rem;
@@ -239,10 +263,6 @@
                     border: 1px solid grey;
                 }
 
-                /* .imgPata{
-                     width: 2.5rem;
-                 }*/
-
             }
 
 
@@ -250,77 +270,75 @@
         </style>
         <script>
 
-            var nombres = [];
-            var ciudad = true;
-            var animal = true;
+            var nombres = []; //Array de nombres
+            var ciudad = true; //Check ciudad
+            var animal = true; //Check animal
 
             $(document).ready(function () {
-                mostrarTodosNombresUsuarios();
-                buscarUsuarios();
-                $("#buscador").autocomplete({
+                mostrarTodosNombresUsuarios(); //Mostramos todos los nombres de los usuarios disponibles
+                buscarUsuarios(); //Buscamos los usuarios
+                $("#buscador").autocomplete({ //Si clickamos lo autocompletamos
                     source: nombres,
                     minLength: 2,
                     change: function (event, ui) {
-                        $("#buscador").val($(this).val());
-                        console.log($("#buscador").val());
-                        buscarUsuarios();
-                        //$('#d1').html(" <b>Triggered Change event:  </b> " + $(this).val());
+                        $("#buscador").val($(this).val()); //Cogemos el valor introducido
+                        buscarUsuarios(); //Volvemos a buscar usuarios
                     }
                 });
-                $("#buscador").on('input', function () {
-                    buscarUsuarios();
+                $("#buscador").on('input', function () { //Cuando buscador cambie
+                    buscarUsuarios(); //Buscamos usuarios
                 });
-                $("#enviarSolicitudB").click(function () {
-                    mandarSolicitud();
-                    window.location.reload();
-                    //$("#ventanaSolicitud").modal().hide();
+                $("#enviarSolicitudB").click(function () { //Si pulsamos el botón de enviar Solicitud
+                    mandarSolicitud(); //Enviamos la solicitud
+                    window.location.reload(); //Actualizamos la página
                 });
 
-                $("#checkAnimal").click(function () {
-                    if ($('#checkAnimal').is(':checked')) {
-                        $("#checkAnimal:checked").each(function () {
-                            if ($(this).val() === "animal") {
-                                animal = true;
+                $("#checkAnimal").click(function () { //Si pulsamos el check de animal
+                    if ($('#checkAnimal').is(':checked')) { //Comprobamos si está checkeado
+                        $("#checkAnimal:checked").each(function () { //Si lo está
+                            if ($(this).val() === "animal") { //Yel valor de animal
+                                animal = true; //El check es true
                             }
                         });
-                    } else {
+                    } else { //Si no es falso
                         animal = false;
                     }
-                    buscarUsuarios();
+                    buscarUsuarios(); //Volvemos a buscar usuarios
                 });
 
-                $("#checkCiudad").click(function () {
-                    if ($('#checkCiudad').is(':checked')) {
-                        $("#checkCiudad:checked").each(function () {
-                            if ($(this).val() === "ciudad") {
-                                ciudad = true;
+                $("#checkCiudad").click(function () { //Si clickamos en el check de ciudad
+                    if ($('#checkCiudad').is(':checked')) { //Comprobamos si es este el que ha sido clickado
+                        $("#checkCiudad:checked").each(function () { //Si lo está
+                            if ($(this).val() === "ciudad") { //Y el valor es de ciudad
+                                ciudad = true; //Ciudad es true
                             }
                         });
-                    } else {
-                        ciudad = false;
+                    } else { //Si este no está seleccionado el valor es falso
+                        ciudad = false; 
                     }
-                    buscarUsuarios();
+                    buscarUsuarios(); //Volvemos a buscar usuarios
                 });
 
             });
 
+            //Al pulsar la tecla enter
             function pulsar(e) {
                 var tecla = (document.all) ? e.keyCode : e.which;
                 if (tecla === 13) {
-                    buscarUsuarios();
+                    buscarUsuarios(); //Buscamos usuarios
                 }
             }
 
 
+            //Mandar Solicitud
             function mandarSolicitud() {
 
-                var pos = $("#posicionID").val();
-                var mensaje = $("#mensajeSolicitud").val();
-                console.log(pos);
+                var pos = $("#posicionID").val(); //Vemos la posición del usuario
+                var mensaje = $("#mensajeSolicitud").val(); //Mensaje que se ha escrito
 
-                $(".solicitud:eq(" + pos + ")").attr("class", "pendiente");
-                $(".pendiente:eq(" + pos + ")").text("Pendiente");
-                $("#mensajeSolicitud").val("");
+                $(".solicitud:eq(" + pos + ")").attr("class", "pendiente"); //Cambiamos de clase
+                $(".pendiente:eq(" + pos + ")").text("Pendiente"); //Lo volvemos pendiente
+                $("#mensajeSolicitud").val(""); //Borramos el mensaje
 
                 var parametros = {
                     "accion": "mandarSolicitud",
@@ -332,8 +350,7 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     succes: function (respuesta) {
-                        console.log(respuesta);
-                        //console.log("a");
+                        //Mandamos solicitud
                     },
                     error: function (xhr, status) {
                         alert("Error en mandar soliciutd");
@@ -343,6 +360,7 @@
                 });
             }
 
+            //Cancelar solicitud dado un uusario
             function cancelarSolicitud(usuario) {
                 var parametros = {
                     "accion": "cancelarSolicitud",
@@ -353,7 +371,7 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     succes: function (respuesta) {
-                        console.log(respuesta);
+                        //Cancelamos la solicitud con dicho usuario
                     },
                     error: function (xhr, status) {
                         alert("Error en cancelar solicitud");
@@ -363,6 +381,7 @@
                 });
             }
 
+            //Mostramos los nombres de usuarios disponibles
             function mostrarTodosNombresUsuarios() {
                 var parametros = {
                     "accion": "mostrarTodosNombresUsuarios"
@@ -372,10 +391,9 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
                         var usuarios = JSON.parse(respuesta);
                         for (var i = 0; i < usuarios.length; i++) {
-                            nombres[i] = usuarios[i];
+                            nombres[i] = usuarios[i]; //Almacenamos en el array de nombres cada nombre de la BD
                         }
                     },
                     error: function (xhr, status) {
@@ -387,11 +405,10 @@
             }
 
 
-
+            //Buscar usuarios
             function buscarUsuarios() {
 
-                var buscador = $("#buscador").val();
-                console.log(animal+" "+ciudad);
+                var buscador = $("#buscador").val(); //Cogemos el valor del buscador
                 var parametros = {
                     "accion": "buscarUsuarios",
                     "cadena": buscador,
@@ -404,108 +421,111 @@
                     data: parametros,
                     success: function (respuesta) {
 
-                        $("#buscarAmigos").empty();
+                        $("#buscarAmigos").empty(); //Vaciamos los amigos
 
                         if (respuesta) {
-                            console.log(respuesta);
                             var usuarios = JSON.parse(respuesta);
 
-                            for (var i = 0; i < usuarios.length; i++) {
-                                if (usuarios[i].amigos != null) {
-                                    var cadenaAmigos = usuarios[i].amigos;
-                                    var amigosArray = cadenaAmigos.split(",");
-                                    var amigos = false;
+                            for (var i = 0; i < usuarios.length; i++) { //Recorremos
+                                if (usuarios[i].amigos != null) { //El usuario tiene amigos
+                                    var cadenaAmigos = usuarios[i].amigos; //Lo almacenamos en una cadena
+                                    var amigosArray = cadenaAmigos.split(","); //Creamos un array separado por comas
+                                    var amigos = false; //Por defecto no son amigos
 
                                     for (var j = 0; j < amigosArray.length; j++) {
-                                        if (amigosArray[j] == usuarios[i].buscador) {
-                                            amigos = true;
+                                        if (amigosArray[j] == usuarios[i].buscador) { //Si el nombre coincide con el tuyo
+                                            amigos = true; //Son amigos
                                         }
                                     }
                                 } else {
-                                    var amigos = false;
+                                    var amigos = false; //Si el usuario no tiene amigos, él y tú no sois amigos
                                 }
 
-                                if (!amigos) {
+                                if (!amigos) { //Si no sois amigos
                                     var usuario = document.createElement("div");
-                                    usuario.setAttribute("class", "amigo");
+                                    usuario.setAttribute("class", "amigo"); //Le añadimos la clase amigo al div
 
-                                    if (usuarios.length == 1) {
+                                    if (usuarios.length == 1) { //Si solo se muestra un usuario
                                         usuario.setAttribute("style", " border-radius:3rem");
                                     }
 
                                     var datos = document.createElement("div");
-                                    datos.setAttribute("class", "datos");
+                                    datos.setAttribute("class", "datos"); //Clase datos
 
-                                    var imagenPerfil = document.createElement("img");
-                                    imagenPerfil.setAttribute("src", "../controlador/uploads/usuarios/" + usuarios[i].foto);
+                                    var imagenPerfil = document.createElement("img"); //Imagen de perfil del usuario
+                                    imagenPerfil.setAttribute("src", "../controlador/uploads/usuarios/" + usuarios[i].foto); //Ruta
                                     imagenPerfil.setAttribute("class", "imagenAmigo");
                                     imagenPerfil.setAttribute("alt", "imagenPerfil");
-                                    imagenPerfil.setAttribute("data-value", usuarios[i].id);
+                                    imagenPerfil.setAttribute("data-value", usuarios[i].id); //Id usuario
 
-                                    imagenPerfil.onclick = function () {
+                                    imagenPerfil.onclick = function () { //Al clickear redirecciona al perfil de usuario
                                         window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                     }
 
-                                    var p = document.createElement("p");
+                                    var p = document.createElement("p"); //Creamos un p
 
-                                    var nombreAmigo = document.createElement("p");
-                                    nombreAmigo.setAttribute("class", "nombreAmigo");
+                                    var nombreAmigo = document.createElement("p"); //Nombre de amigo
+                                    nombreAmigo.setAttribute("class", "nombreAmigo"); 
                                     nombreAmigo.innerHTML += usuarios[i].nick;
                                     nombreAmigo.setAttribute("data-value", usuarios[i].id);
 
-                                    nombreAmigo.onclick = function () {
+                                    nombreAmigo.onclick = function () { //Al clickearlo nos lleva a su perfil
                                         window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                     }
 
-                                    var sexo = document.createElement("img");
+                                    var sexo = document.createElement("img"); //Mostramos su sexo
                                     sexo.setAttribute("src", "../controlador/img/" + usuarios[i].sexo + ".png");
                                     sexo.setAttribute("class", "sexo");
                                     sexo.setAttribute("alt", "sexo");
 
-                                    var animal = document.createElement("p");
+                                    var animal = document.createElement("p"); //Mostamos su animal
                                     animal.setAttribute("class", "animal");
                                     animal.innerHTML += "<strong>Animal</strong> " + usuarios[i].animal;
 
-                                    var raza = document.createElement("p");
+                                    var raza = document.createElement("p"); //Su raza
                                     raza.setAttribute("class", "raza");
                                     raza.innerHTML += "<strong>Raza</strong> " + usuarios[i].raza;
 
-                                    var localidad = document.createElement("p");
+                                    var localidad = document.createElement("p");//Su provincia y municipio
                                     localidad.setAttribute("class", "localidad");
                                     localidad.innerHTML += "<strong>Localidad</strong> " + usuarios[i].provincia + ", " + usuarios[i].municipio;
 
-                                    var solicitud = document.createElement("button");
+                                    var solicitud = document.createElement("button"); //Y el botón de solicitud
                                     solicitud.setAttribute("value", usuarios[i].id);
 
-                                    if (usuarios[i].solicitud == "pendiente") {
+                                    if (usuarios[i].solicitud == "pendiente") { //Si es pediente se le aplica la clase pendiente
                                         solicitud.setAttribute("class", "pendiente");
                                         solicitud.setAttribute("data-pos", i);
                                         solicitud.innerHTML += "Pendiente";
-                                    } else {
+                                    } else { //Si no la clase solicitud
                                         solicitud.setAttribute("class", "solicitud");
                                         solicitud.setAttribute("data-pos", i);
                                         solicitud.innerHTML += "Enviar Solicitud ";
                                     }
 
 
-                                    solicitud.onclick = function () {
-                                        if (this.innerHTML != "Pendiente") {
-                                            //mandarSolicitud(this.value);
-
+                                    solicitud.onclick = function () { //Si haces click en el botón de solicitud
+                                        if (this.innerHTML != "Pendiente") { //Si no es pendiente
+                                            //Se cogen el valor de la id de usuario y su posición
                                             $("#usuarioID").val(this.value);
                                             $("#posicionID").val(this.dataset.pos);
+                                            //Mostramos una ventana modal
                                             $("#ventanaSolicitud").modal();
-                                        } else {
+                                        } else { //Si es pendiente
+                                            //Lo volvemos a convertir en botón "Mandar Solicitud"
                                             this.setAttribute("class", "solicitud");
                                             $("#usuarioID").val(this.value);
                                             $("#posicionID").val(this.dataset.pos);
                                             this.innerHTML = "";
                                             this.innerHTML += "Enviar Solicitud";
+                                            //Cancelamos la solicitud pues ya estaba enviada
                                             cancelarSolicitud(this.value);
                                         }
 
                                     };
+                                    //Div general todos los usuarios
                                     $("#buscarAmigos").append(usuario);
+                                    //En cada usuario los datos
                                     usuario.append(datos);
 
                                     datos.append(imagenPerfil);

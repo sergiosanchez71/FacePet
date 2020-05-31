@@ -8,23 +8,26 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title>Ver Evento</title>
-        <link rel="icon" href="../controlador/img/favicon.ico">
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE" async defer></script>
-        <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
-        <link href="../controlador/css/eventos.css" rel="stylesheet" type="text/css"/>
-        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
-        <script src="../controlador/js/header.js" type="text/javascript"></script>
-        <script src="../controlador/js/pintarObjetos.js" type="text/javascript"></script>
+        <link rel="icon" href="../controlador/img/favicon.ico"><!--Icono-->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE" async defer></script><!--Map-->
+        <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css"><!--Header CSS-->
+        <link href="../controlador/css/eventos.css" rel="stylesheet" type="text/css"/><!--Eventos CSS-->
+        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script><!--JQuery-->
+        <script src="../controlador/js/header.js" type="text/javascript"></script><!--Header JS-->
+        <script src="../controlador/js/pintarObjetos.js" type="text/javascript"></script><!--Pintar Objetos JS-->
         <?php
         session_start();
         include '../controlador/gestion.php';
-        comprobarLogin();
+        comprobarLogin(); //Comprobamos el login
         ?>
         <style>
 
+            /*El id de evento está oculto*/
             #idEvento{
                 display: none;
             }
+            
+            /*Expandimos el menú de evento*/
             #menuEvento{
                 padding: 2rem;
             }
@@ -32,12 +35,8 @@ and open the template in the editor.
             .evento{
                 margin-top: 1rem;
             }
-
-            /* #map{
-                 height: 20rem;
-                 width: 20rem;
-             }*/
-
+            
+            /*La imagen ocupa el 30% y el mapa 70% si existen ambos*/
             .visual{
                 display:grid;
                 grid-template-areas:
@@ -45,6 +44,7 @@ and open the template in the editor.
                 grid-template-columns: 30% 70%;
             }
 
+            /*Si solo existe el mapa se muestra en el 100%*/
             .visualMap{
                 height: 20rem;
                 grid-template-areas:
@@ -52,6 +52,7 @@ and open the template in the editor.
                 grid-template-columns: 100%;
             }
 
+            /*Si solo existe la imagen se muestra en el 100%*/
             .visualImg{
                 display:grid;
                 grid-template-areas:
@@ -67,6 +68,7 @@ and open the template in the editor.
                 grid-area:map;
             }
 
+            /*Botón de participar*/
             #botonParticipar, #botonYaParticipa{
                 font-size: 1.5rem;
                 font-weight: bold;
@@ -83,11 +85,14 @@ and open the template in the editor.
                 background-color:#FFF578;
             }
 
+            /*Vista de móvil*/
             @media (max-width:1000px){
+                /*Expandimos el cuerpo 10rem*/
                 #cuerpo{
                     padding-bottom: 10rem;
                 }
 
+                /*Mostramos un 30% y 70%*/
                 .visual{
                     grid-template-columns: 30% 70%;
                 }
@@ -108,10 +113,11 @@ and open the template in the editor.
         <script>
 
             $(document).ready(function () {
-                cargarEvento($("#idEvento").val());
+                cargarEvento($("#idEvento").val()); //Vemos el evento dada la ID
             });
 
-            function cargarEvento(evento) {
+            //Cargamos el evento dada su id
+            function cargarEvento(evento) { 
                 var parametros = {
                     "accion": "mostrarEvento",
                     "evento": evento
@@ -121,12 +127,12 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        if (respuesta) {
+                        if (respuesta) { //Si hay respuesta
                             var evento = JSON.parse(respuesta);
-                            pintarUnEvento(evento);
+                            pintarUnEvento(evento); //Pintamos el evento
 
-                        } else {
-                            window.location.href = "vistaUsuario.php";
+                        } else {//Si no hay respuesta volvemos a la vista de usuario
+                            window.location.href = "vistaUsuario.php"; 
                         }
                     },
                     error: function (xhr, status) {
@@ -155,6 +161,7 @@ and open the template in the editor.
              });
              }*/
 
+             //Participar en evento dada su id
             function participarEvento(evento) {
                 var parametros = {
                     "accion": "participarEvento",
@@ -165,8 +172,7 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
-
+                        //Participo en el evento
                     },
                     error: function (xhr, status) {
                         alert("Error en participar en evento");
@@ -176,6 +182,7 @@ and open the template in the editor.
                 });
             }
 
+            //Salir del evento
             function salirDeEvento(evento) {
                 var parametros = {
                     "accion": "salirDeEvento",
@@ -186,8 +193,7 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
-
+                        //Salgo del evento
                     },
                     error: function (xhr, status) {
                         alert("Error en salir del evento");
@@ -197,6 +203,7 @@ and open the template in the editor.
                 });
             }
 
+            //Creamos un mapa dado su div , latitud y longitud
             function initMap(map, lat, lng) {
                 var maps = new google.maps.Map(map, {
                     center: {lat: parseFloat(lat), lng: parseFloat(lng)},
@@ -208,20 +215,16 @@ and open the template in the editor.
                     scrollwheel: false,
                     fullscreenControl: false
                 });
-                new google.maps.Marker({
+                new google.maps.Marker({ //Creamos un nuevo marcador
                     position: {lat: parseFloat(lat), lng: parseFloat(lng)},
                     icon: '../controlador/img/marker.ico',
                     map: maps
                 });
-                //google.maps.event.addDomListener(window, 'load', initialize);
             }
 
         </script>
     </head>
     <body>
-        <?php
-        // put your code here
-        ?>
         <div id="principal">
             <header>
                 <nav id="navpc">
@@ -276,13 +279,6 @@ and open the template in the editor.
                 <input type="text" id="idEvento" value="<?php echo $_REQUEST['evento'] ?>">
                 <div id="menuEvento">
                 </div>
-                <!--<div id="comentariosPost">
-                    <input type="text" id="comentario" maxlength="255" placeholder="Añadir comentario">
-                    <button id="enviarComentario">Enviar Comentario </button>
-                    <div id="comentariosCont">
-
-                    </div>
-                </div>-->
 
             </div>
 
