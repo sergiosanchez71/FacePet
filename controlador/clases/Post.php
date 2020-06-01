@@ -228,46 +228,6 @@ class Post {
         return $datos;
     }
 
-    function getDatosPostsUsuarioInicio($usuario, $cantidad) {
-        $conexion = Conexion::conectar();
-        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where usuario='$usuario' and p.usuario=u.id order by fecha_publicacion desc");
-        $i = 0;
-        $datos = null;
-        while ($row = $consulta->fetch()) {
-
-            if ($i < $cantidad) {
-
-                $idusuario = Usuario::getIdUsuario($_SESSION['username']);
-                if ($row['foto'] == null) {
-                    $foto = "0.jpg";
-                } else {
-                    $foto = $row['foto'];
-                }
-
-                $datos[$i] = array(
-                    'id' => $row['id'],
-                    'titulo' => $row['titulo'],
-                    'contenido' => $row['contenido'],
-                    'multimedia' => $row['multimedia'],
-                    'fecha_publicacion' => $row['fecha_publicacion'],
-                    'likes' => $row['likes'],
-                    'like' => Post::comprobarLike($row['id'], $idusuario),
-                    'usuario' => $row['usuario'],
-                    'nick' => $row['nick'],
-                    'foto' => $foto,
-                    'loginOperador' => $_SESSION['operador'],
-                    'login' => $idusuario,
-                    'comentarios' => Comentario::contarComentarios($row['id'])
-                );
-            }
-
-            $i++;
-        }
-        unset($conexion);
-        return $datos;
-    }
-
     function getDatosPostsUsuario($usuario, $cantidad, $array) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -392,43 +352,6 @@ class Post {
             }
         }
         return $mostrado;
-    }
-
-    function mostrarPostsAmigosInicio($amigos, $usuario, $cantidad) {
-        $conexion = Conexion::conectar();
-        $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $i = 0;
-        $datos = null;
-        for ($j = 0; $j < count($amigos); $j++) {
-            $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where usuario='$amigos[$j]' and p.usuario=u.id order by fecha_publicacion desc");
-            while ($row = $consulta->fetch()) {
-                if ($i < $cantidad) {
-                    if ($row['foto'] == null) {
-                        $foto = "0.jpg";
-                    } else {
-                        $foto = $row['foto'];
-                    }
-
-                    $datos[$i] = array(
-                        'id' => $row['id'],
-                        'titulo' => $row['titulo'],
-                        'contenido' => $row['contenido'],
-                        'multimedia' => $row['multimedia'],
-                        'fecha_publicacion' => $row['fecha_publicacion'],
-                        'likes' => $row['likes'],
-                        'like' => Post::comprobarLike($row['id'], $usuario),
-                        'usuario' => $row['usuario'],
-                        'nick' => $row['nick'],
-                        'foto' => $foto,
-                        'comentarios' => Comentario::contarComentarios($row['id'])
-                    );
-                }
-
-                $i++;
-            }
-        }
-        unset($conexion);
-        return $datos;
     }
 
     function comprobarLike($post, $usuario) {
