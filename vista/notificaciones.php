@@ -1,16 +1,17 @@
 <html>
     <head>
         <title>Notificaciones</title>
-        <link rel="icon" href="../controlador/img/favicon.ico">
-        <link rel="stylesheet" type="text/css" href="../controlador/css/header.css">
-        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
-        <script src="../controlador/js/header.js" type="text/javascript"></script>
+        <link rel="icon" href="../controlador/img/favicon.ico"><!-- Icono -->
+        <link rel="stylesheet" type="text/css" href="../controlador/css/header.css"> <!-- Header CSS -->
+        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script> <!-- JQuery -->
+        <script src="../controlador/js/header.js" type="text/javascript"></script> <!-- Header JS -->
         <?php
         session_start();
         include '../controlador/gestion.php';
-        comprobarLogin();
+        comprobarLogin(); //Comprobamos el login
         ?>
         <style>
+            /*Cuerpo con fondo blanco*/
             #cuerpo{
                 background: white;
                 margin: auto;
@@ -18,15 +19,18 @@
                 width: 100%;
             }
 
+            /*La primera notificación margen de arriba*/
             .notificacion:first-child{
                 margin-top: 1rem;
             }
 
+            /*Cada notificación*/
             .notificacion{
                 margin: 0rem 5rem 0 5rem;
                 height: 100%;
             }
             
+            /*Div de la notificación*/
             .datos{
                 display: block;
                 margin: auto;
@@ -41,20 +45,24 @@
                 transition: 1s background ease;
             }
             
+            /*Primera notificación*/
             .notificacion:first-child .datos{
                 border-top: 2px solid black;
                 margin-top: 5rem;
             }
             
+            /*Última notificación*/
             .notificacion:last-child .datos{
                 border-bottom: 2px solid black;
                 margin-bottom: 10rem;
             }
             
+            /*Color de fondo*/
             .datos:hover{
                 background: #fff7dd;
             }
 
+            /*Imagen de perfil*/
             .imagenNotificacion{
                 width: 8rem;
                 height: 8rem;
@@ -64,11 +72,13 @@
                 transition: 1s opacity ease;
             }
             
+            /*Animación*/
             .imagenNotificacion:hover{
                 opacity: 0.7;
                 cursor: pointer;
             }
 
+            /*Usuario de la notificación */
             .usuarioNoti{
                 float: left;
                 margin-right: 0.3rem;
@@ -98,10 +108,12 @@
                 margin-left: 13rem;
             }
 
+            /*Texto de amigo*/
             .pA{
                 color : #555555;
             }
 
+            /*Botones de petición de amistad*/
             .aceptar,.rechazar{
                 font-size: 1.4rem;
                 padding: 5px;
@@ -121,21 +133,26 @@
                 background-color:#FFF578;
             }
 
+            /*Vista de móvil*/
             @media(max-width: 1000px){
 
+                /*Ocupa toda la pantalla*/
                 .datos{
                     width: 100%;
                 }
 
+                /*Margen de abajo*/
                 .notificacion:last-child{
                     margin-bottom: 10rem;
                 }
 
+                /*Imagen de usuario*/
                 .imagenNotificacion{
                     width: 10rem;
                     height: 10rem;
                 }
 
+                /*Aumentamos los tamaños*/
                 .usuarioNoti{
                     font-size: 2rem;
                     margin-right: 0.9rem;
@@ -169,8 +186,8 @@
         <script>
 
             $(document).ready(function () {
-                mostrarNotificaciones();
-                notificacionesVistas();
+                mostrarNotificaciones();//Mostramos las notificaciones
+                notificacionesVistas();//Marcamos las notificaciones como vistas
             });
 
             function notificacionesVistas() {
@@ -182,8 +199,7 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
-
+                        //Marcamos las notificaciones como vistas
                     },
                     error: function (xhr, status) {
                         alert("Error al ver notificaciones");
@@ -193,6 +209,7 @@
                 });
             }
 
+            //Aceptamos la solicitud dado el usuario
             function aceptarSolicitud(usuario) {
                 var parametros = {
                     "accion": "aceptarAmistad",
@@ -203,8 +220,7 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
-                        alert("Este usuario y tu ya sois amigos");
+                        alert("Este usuario y tu ya sois amigos"); //Si se acepta correctamente se muestra mensaje
 
                     },
                     error: function (xhr, status) {
@@ -215,6 +231,7 @@
                 });
             }
 
+            //Función de rechazar la solicitud dado el usuario
             function rechazarSolicitud(usuario) {
                 var parametros = {
                     "accion": "cancelarSolicitud",
@@ -225,7 +242,7 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
+                        //Se elimina la solicitud de amistad
 
                     },
                     error: function (xhr, status) {
@@ -236,7 +253,7 @@
                 });
             }
 
-
+            //Mostramos las notificaciones
             function mostrarNotificaciones() {
                 var parametros = {
                     "accion": "mostrarNotificaciones"
@@ -246,72 +263,67 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
-                        if (respuesta) {
-                         /*   var h1 = document.createElement("h1");
-                            h1.setAttribute("style","text-align:center;margin-top:7rem");
-                            h1.innerHTML += "Notificaciones";
-                            $("#cuerpo").append(h1);*/
+                        if (respuesta) { //Si hay respuesta
                             var notificaciones = JSON.parse(respuesta);
                             for (var i = 0; i < notificaciones.length; i++) {
                                 var notificacion = document.createElement("div");
-                                notificacion.setAttribute("class", "notificacion");
-                                
+                                notificacion.setAttribute("class", "notificacion"); //Div de notificación
 
                                 var datos = document.createElement("div");
-                                datos.setAttribute("class", "datos");
+                                datos.setAttribute("class", "datos"); //Div de datos
 
-                                if(!notificaciones[i].visto){
+                                if(!notificaciones[i].visto){ //Si no se ha visto otro color
                                     datos.setAttribute("style","background:#ffeeba");
                                 }
 
-                                var img = document.createElement("img");
+                                var img = document.createElement("img"); //Imagen de usuario
                                 img.setAttribute("src", "../controlador/uploads/usuarios/" + notificaciones[i].fotoAmigo);
                                 img.setAttribute("class", "imagenNotificacion");
                                 img.setAttribute("alt", "imagenPerfil");
                                 img.setAttribute("data-value",notificaciones[i].user1);
 
-                                img.onclick = function(){
+                                img.onclick = function(){//Redireccionamos a su perfil
                                     window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
 
-                                var contMensaje = document.createElement("p");
+                                var contMensaje = document.createElement("p"); //Contenido del mensaje
 
-                                var usuario = document.createElement("span");
+                                var usuario = document.createElement("span"); //Nombre de usuario
                                 usuario.setAttribute("class", "usuarioNoti");
                                 usuario.setAttribute("data-value",notificaciones[i].user1);
                                 usuario.innerHTML = notificaciones[i].nickAmigo;
                                 
-                                usuario.onclick = function(){
+                                usuario.onclick = function(){ //Al clickar al nombre de usuario nos vamos a su perfil
                                     window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
 
-                                var mensaje = document.createElement("p");
+                                var mensaje = document.createElement("p"); //Mensaje de la  notificación
                                 mensaje.setAttribute("class", "mensajeNoti");
-                                if (notificaciones[i].tipo == "amistad") {
+                                if (notificaciones[i].tipo == "amistad") { //Si el tipo es de amistad
                                     mensaje.innerHTML = "te ha enviado una solicitud de amistad";
-                                    if(notificaciones[i].elemento){
+                                    if(notificaciones[i].elemento){ //Y si tiene mensaje lo mostramos
                                         mensaje.innerHTML += " con el mensaje: '"+notificaciones[i].elemento+"'";
                                     }
-                                } else if (notificaciones[i].tipo == "comentarioP") {
+                                } else if (notificaciones[i].tipo == "comentarioP") { //Si es un comentario del post
                                     notificacion.setAttribute("data-value", notificaciones[i].elemento[0].id);
                                     notificacion.setAttribute("style", "cursor:pointer");
                                     notificacion.setAttribute("title", "pulsa para ver comentario");
                                     var comentario = notificaciones[i].elemento[1].contenido;
-                                    if(comentario.length < 50){
+                                    if(comentario.length < 50){ //Si el comentario tiene menos de 50 caracteres
                                         mensaje.innerHTML = "ha comentado ' "+comentario+" ' en tu post con titulo " + notificaciones[i].elemento[0].titulo;
-                                    } else{
+                                    } else{ //Si tiene más no se muestra completo
                                         mensaje.innerHTML = "ha comentado ' "+comentario.substring(0,50)+"... ' en tu post con titulo " + notificaciones[i].elemento[0].titulo;
                                     }
 
-                                    notificacion.onclick = function () {
+                                    notificacion.onclick = function () { //Al pulsar la notificación te manda al post
                                         window.location.href = "verPost.php?post=" + this.dataset.value;
                                     }
 
                                 } else {
                                     mensaje.innerHTML = notificaciones[i].tipo;
                                 }
-
+                                
+                                //Fecha de la notificación 
                                 var fecha = document.createElement("p");
                                 fecha.setAttribute("class", "fechaNoti");
                                 fecha.innerHTML = notificaciones[i].fecha;
@@ -324,46 +336,46 @@
                                 contMensaje.append(usuario);
                                 contMensaje.append(mensaje);
 
-                                if (notificaciones[i].tipo == "amistad") {
-                                    var cadenaAmigos = notificaciones[i].amigosAmigo;
+                                if (notificaciones[i].tipo == "amistad") { //Si la notificación es de amistad
+                                    var cadenaAmigos = notificaciones[i].amigosAmigo; 
+                                    //Comprueba si es nuestro amigo
                                     if (cadenaAmigos != null) {
-                                        var amigos = cadenaAmigos.split(",");
+                                        var amigos = cadenaAmigos.split(","); //array separado por comas
                                         var amigo = false;
                                         for (var j = 0; j < amigos.length; j++) {
                                             if (amigos[j] == notificaciones[i].user2) {
-                                                amigo = true;
+                                                amigo = true; 
                                             }
                                         }
                                     } else {
                                         var amigo = false;
                                     }
 
-                                    if (!amigo) {
+                                    if (!amigo) { //Si no es amigo se muestran las opciones
 
-                                        var divOpciones = document.createElement("div");
+                                        var divOpciones = document.createElement("div"); //Div con botones
                                         divOpciones.setAttribute("class", "divOpciones");
 
-                                        divOpciones.onclick = function () {
-                                            //this.setAttribute("style","display:none");
+                                        divOpciones.onclick = function () { //Si lo pulsamos desaparece
                                             var texto = document.createElement("p");
                                             this.remove();
                                         }
 
-                                        var aceptar = document.createElement("button");
+                                        var aceptar = document.createElement("button"); //El botón de aceptar
                                         aceptar.setAttribute("class", "aceptar");
                                         aceptar.setAttribute("value", notificaciones[i].user1);
                                         aceptar.innerHTML = "Aceptar";
 
-                                        aceptar.onclick = function (rechazar) {
+                                        aceptar.onclick = function () { //Al pulsar el botón aceptar
                                             aceptarSolicitud(this.value);
                                         };
 
-                                        var rechazar = document.createElement("button");
+                                        var rechazar = document.createElement("button"); //Botón de rechazar solicitud
                                         rechazar.setAttribute("class", "rechazar");
                                         rechazar.setAttribute("value", notificaciones[i].user1);
                                         rechazar.innerHTML = "Rechazar";
 
-                                        rechazar.onclick = function () {
+                                        rechazar.onclick = function () { //Al clickarlo se rechaza
                                             rechazarSolicitud(this.value);
                                         };
 
@@ -371,10 +383,10 @@
                                         divOpciones.append(aceptar);
                                         divOpciones.append(rechazar);
 
-                                    } else {
+                                    } else { //Si ya son amigos se muestra este texto
                                         var pA = document.createElement("p");
                                         pA.setAttribute("class", "pA");
-                                        pA.innerHTML = "Este usuario y tú ya sois amigos";
+                                        pA.innerHTML = "Este usuario y tú ya sois amigos"; 
 
                                         datos.append(pA);
                                     }
@@ -383,7 +395,7 @@
                                 datos.append(fecha);
 
                             }
-                        } else {
+                        } else { //Si no tiene notificaciones
                             var h1 = document.createElement("h1");
                             h1.setAttribute("style","text-align:center");
                             h1.innerHTML += "No tienes notificaciones disponibles";

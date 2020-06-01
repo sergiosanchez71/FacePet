@@ -625,7 +625,7 @@ function initMap(map, lat, lng) {
     });
 }
 
-function pintarAmigos(amigos, div) {
+function pintarAmigos(amigos, div, usuario) {
 
     var titular = document.createElement("p");
     titular.setAttribute("class", "titularAmigosPerfil");
@@ -636,13 +636,16 @@ function pintarAmigos(amigos, div) {
         var amigoPerfil = document.createElement("div");
         amigoPerfil.setAttribute("class", "amigoPerfil");
 
-        var a = document.createElement("button");
-        a.setAttribute("value", amigos[i].id);
-        a.setAttribute("class", "botonEliminarA");
+        if (amigos[i].loginOperador == "1" || amigos[i].login == usuario || usuario == "miPerfil") {
 
-        a.onclick = function () {
-            if (confirm("Esta seguro de eliminar este amigo")) {
-                eliminarAmigo(this.value);
+            var a = document.createElement("button");
+            a.setAttribute("value", amigos[i].id);
+            a.setAttribute("class", "botonEliminarA");
+
+            a.onclick = function () {
+                if (confirm("Esta seguro de eliminar este amigo")) {
+                    eliminarAmigo(this.value);
+                }
             }
         }
 
@@ -683,8 +686,10 @@ function pintarAmigos(amigos, div) {
         razaAmigo.innerHTML = " " + amigos[i].raza;
 
         $("#" + div).append(amigoPerfil);
-        amigoPerfil.append(a);
-        a.append(amigoEliminar);
+        if (amigos[i].loginOperador == "1" || amigos[i].login == usuario || usuario == "miPerfil") {
+            amigoPerfil.append(a);
+            a.append(amigoEliminar);
+        }
         amigoPerfil.append(img);
         amigoPerfil.append(divA);
         divA.append(nombreAmigo);

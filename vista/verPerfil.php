@@ -8,36 +8,37 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title>Ver Perfil</title>
-        <link rel="icon" href="../controlador/img/favicon.ico">
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE" async defer></script>
-        <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css">
-        <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css">
-        <link href="../controlador/css/perfil.css" rel="stylesheet" type="text/css"/>
-        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script>
-        <script src="../controlador/js/header.js" type="text/javascript"></script>
-        <script src="../controlador/js/pintarObjetos.js" type="text/javascript"></script>
+        <link rel="icon" href="../controlador/img/favicon.ico"><!--Icon-->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE" async defer></script><!--Map-->
+        <link  rel="stylesheet" type="text/css" href="../controlador/css/header.css"><!--Header CSS-->
+        <link  rel="stylesheet" type="text/css" href="../controlador/css/posts.css"><!--Posts CSS-->
+        <link href="../controlador/css/perfil.css" rel="stylesheet" type="text/css"/><!--Perfil CSS-->
+        <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script><!--JQUery-->
+        <script src="../controlador/js/header.js" type="text/javascript"></script><!--Header JS-->
+        <script src="../controlador/js/pintarObjetos.js" type="text/javascript"></script><!--Pintar Objetos JS-->
 
-        <link href="../controlador/css/eventos.css" rel="stylesheet" type="text/css"/>
+        <link href="../controlador/css/eventos.css" rel="stylesheet" type="text/css"/><!--Eventos CSS-->
 
         <?php
         session_start();
         include '../controlador/gestion.php';
-        comprobarLogin();
+        comprobarLogin(); //Comprobamos login
         ?>
         <style>
 
         </style>
         <script>
 
-            var cargando = 0;
-            var cantidad = 5;
-            var cantidadEventos = 5;
-            var pest = 0;
+            var cargando = 0; //Variable cargando 
+            var cantidad = 5; //Cantidad de post mostramos
+            var cantidadEventos = 5; //Cantidad de eventos mostrados
+            var pest = 0; //Número de pestaña en la que nos encontramos
+            //0 Posts, 1 Eventos y 2 Amigos
 
             $(window).scroll(function () {
 
-                if ($("#contenido").height() > 600 && $(window).width() > 1000) {
-                    if ($(window).scrollTop() > 500 && $(window).width() > 1000) {
+                if ($("#contenido").height() > 600 && $(window).width() > 1000) { //Scroll de pc para actualizar
+                    if ($(window).scrollTop() > 500 && $(window).width() > 1000) {//Scroll de pc para amigos
                         $("#amigosPerfil").css("position", "fixed");
                         $("#amigosPerfil").css("top", "0.5rem");
                         $("#amigosPerfil").css("width", "23%");
@@ -45,76 +46,84 @@ and open the template in the editor.
                         $("#amigosPerfil").css("position", "relative");
                         $("#amigosPerfil").css("width", "75%");
                     }
-                    if ($(window).scrollTop() > $("#cuerpo").height() - 800) {
+                    if ($(window).scrollTop() > $("#cuerpo").height() - 800) { //Scroll para actualizar en pc
                         cargando += 1;
-                        if (cargando == 1) {
-                            if (pest == 0) {
-                                cantidad += 5;
-                                mostrarPosts($("#idUsuario").val(),cantidad);
+                        if (cargando == 1) { //Si ha cargado
+                            if (pest == 0) { //Si la pestaña es 0 mostramos los posts
+                                cantidad += 5; //Sumamos la cantidad que queremos mostrar
+                                mostrarPosts($("#idUsuario").val(), cantidad);
                             }
-                            if (pest == 1) {
-                                cantidadEventos += 5;
-                                mostrarEventos($("#idUsuario").val());
+                            if (pest == 1) { //Si la pestaña es 1 mostramos los eventos
+                                cantidadEventos += 5; //Subammos la cantidad
+                                mostrarEventos($("#idUsuario").val()); //La mostramos
                             }
                         }
                     } else {
-                        cargando = 0;
+                        cargando = 0; //Reseteamos cantidad
                     }
-                } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) {
+                } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) { //Scroll para actualizar en móvil
                     if (pest == 0) {
                         cargando += 1;
-                        if (cargando == 1) {
+                        if (cargando == 1) { //Si ha cargado
                             if ($("#cadPosts").val().length > 1) {
                                 cantidad += 5;
-                                mostrarEventos($("#idUsuario").val());
+                                mostrarEventos($("#idUsuario").val());//Mostramos posts
                             }
                             if ($("#cadEventos").val().length > 1) {
                                 cantidadEventos += 5;
-                                mostrarPosts($("#idUsuario").val(), cantidad);
+                                mostrarPosts($("#idUsuario").val(), cantidad);//Mostramos eventos
                             }
                         }
                     }
                 } else {
-                    cargando = 0;
+                    cargando = 0;//Reseteamos la cantidad
                 }
 
             });
 
             $(document).ready(function () {
-                $("#cambiarImagen").hide();
-                getDatosPerfil($("#idUsuario").val());
-                mostrarPosts($("#idUsuario").val(), "5");
-                mostrarAmigos($("#idUsuario").val());
+                $("#cambiarImagen").hide();//Ocultamos el div de cambiar la imagen
+                getDatosPerfil($("#idUsuario").val()); //Accedemos a los datos del perfil
+                mostrarPosts($("#idUsuario").val(), "5"); //Mostramos mis posts
+                mostrarAmigos($("#idUsuario").val()); //Mostramos mis amigos
                 $("#botonPosts").hide();
                 $("#textoEventos").hide();
                 $("#textoPosts").hide();
 
-                $("#botonEventos").click(function () {
-                    pest = 1;
+                $("#botonEventos").click(function () {//Si hacemos click en el botón de eventos
+                    pest = 1; //Pest ahora vale uno
+                    cantidad = 5; //Reseteamos la cantidad de posts
+                    cantidadEventos = 5; //Y la cantidad de eventos
+                    //Ocultamos el botón de eventos y mostramos los demás
                     $("#botonPosts").show();
                     $("#botonEventos").hide();
                     $("#textoPosts").hide();
-                    $("#contenido").empty();
-                    $("#cadEventos").val("");
-                    $("#cadEventos").val("");
-                    mostrarEventos($("#idUsuario").val());
+                    $("#contenido").empty(); //Vaciamos el contenido
+                    $("#cadEventos").val(""); //Cadena de eventos ahora se vacía
+                    mostrarEventos($("#idUsuario").val()); //Mostramos los eventos
                 });
 
-                $("#botonPosts").click(function () {
-                    pest = 0;
+                $("#botonPosts").click(function () { //Si hacemos click en el botón de eventos
+                    pest = 0; //Pest ahora vale cero
+                    cantidad = 5; //Reseteamos cantidad de posts y eventos
+                    cantidadEventos = 5;
+                    //Ocultamos el botón de los posts y mostramos los demás
                     $("#botonPosts").hide();
                     $("#textoEventos").hide();
                     $("#botonEventos").show();
                     $("#textoPosts").show();
-                    $("#contenido").empty();
-                    $("#cadPosts").val("");
-                    mostrarPosts($("#idUsuario").val(), "5");
+                    $("#contenido").empty(); //Vaciamos contenido
+                    $("#cadPosts").val(""); //Cadena de posts se vacia
+                    mostrarPosts($("#idUsuario").val(), cantidad); //Mostramos los posts
                 });
 
-                if ($(window).width() < 1000) {
+                if ($(window).width() < 1000) { //Si estamos en la vista de móvil
 
-                    $("#botonEventosM").click(function () {
+                    $("#botonEventosM").click(function () { //Al hacer click en el botón de eventos
+                        //Igual que el anterior 
                         pest = 1;
+                        cantidad = 5;
+                        cantidadEventos = 5;
                         $("#botonPostsM").show();
                         $("#botonAmigosM").show();
                         $("#botonEventosM").hide();
@@ -127,8 +136,11 @@ and open the template in the editor.
                         mostrarEventos($("#idUsuario").val());
                     });
 
-                    $("#botonPostsM").click(function () {
+                    $("#botonPostsM").click(function () { //Al hacer click en el botón de posts
+                        //Igual que el anterior
                         pest = 0;
+                        cantidad = 5;
+                        cantidadEventos = 5;
                         $("#botonPostsM").hide();
                         $("#botonEventosM").show();
                         $("#botonAmigosM").show();
@@ -136,11 +148,15 @@ and open the template in the editor.
                         $("#amigosPerfiles").hide();
                         $("#contenido").empty();
                         $("#cadPosts").val("");
-                        mostrarPosts($("#idUsuario").val(), "5");
+                        mostrarPosts($("#idUsuario").val(), cantidad);
                     });
 
-                    $("#botonAmigosM").click(function () {
-                        pest = 2;
+                    $("#botonAmigosM").click(function () { //Aquí dispondremos del botón de amigos, que en la vista de pc no está
+                        //AL hacer click en él
+                        pest = 2; //Pest ahora vale 2
+                        cantidad = 5; //Reseteamos la cantidad de post y eventos
+                        cantidadEventos = 5;
+                        //Ocultamos el botón de amigos y los demás los mostramos
                         $("#botonAmigosM").hide();
                         $("#botonEventosM").show();
                         $("#botonPostsM").show();
@@ -152,6 +168,7 @@ and open the template in the editor.
                 }
             });
 
+            //Función para eliminar post dado su id
             function eliminarPost(post) {
                 var parametros = {
                     "accion": "eliminarPost",
@@ -162,16 +179,19 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        mostrarMisAmigos();
+                        $("#cadPosts").val(""); //Vaciamos la cadena de posts
+                        $("#contenido").empty(); //Vaciamos el div de contenido
+                        mostrarPosts($("#idUsuario").val(), cantidad); //Mostramos los posts
                     },
                     error: function (xhr, status) {
-                        alert("Error en eliminar post");
+                        alert("Error en la eliminacion de post");
                     },
                     type: "POST",
                     dataType: "text"
                 });
             }
 
+            //Función para eliminar amigo dado su id
             function eliminarAmigo(amigo) {
                 var parametros = {
                     "accion": "eliminarAmigo",
@@ -182,17 +202,18 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        $(".post").remove();
-                        mostrarMisPosts();
+                        $("#amigosPerfiles").empty() //Vaciamos el div de amigos
+                        mostrarAmigos($("#idUsuario").val()); //Mostramos nuestros amigos
                     },
                     error: function (xhr, status) {
-                        alert("Error en eliminar amigo");
+                        alert("Error en la eliminacion de amigo");
                     },
                     type: "POST",
                     dataType: "text"
                 });
             }
 
+            //Accedemos a sus datos dada su id
             function getDatosPerfil(usuario) {
                 var parametros = {
                     "accion": "getDatosUsuario",
@@ -220,6 +241,7 @@ and open the template in the editor.
                 });
             }
 
+            //Mostramos sus amigos dada su id
             function mostrarAmigos(usuario) {
                 var parametros = {
                     "accion": "mostrarAmigos",
@@ -230,81 +252,13 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
                         if (respuesta) {
                             var amigos = JSON.parse(respuesta);
                             var titular = document.createElement("p");
                             titular.setAttribute("class", "titularAmigosPerfil");
                             $("#amigosPerfiles").append(titular);
-
-                            for (var i = 0; i < amigos.length; i++) {
-
-                                var amigoPerfil = document.createElement("div");
-                                amigoPerfil.setAttribute("class", "amigoPerfil");
-
-                                if (amigos[i].loginOperador == "1" || amigos[i].login == usuario) {
-
-                                    var a = document.createElement("button");
-                                    a.setAttribute("value", amigos[i].id);
-                                    a.setAttribute("class", "botonEliminarA");
-
-                                    a.onclick = function () {
-                                        if (confirm("Esta seguro de eliminar este amigo")) {
-                                            eliminarAmigo(this.value);
-                                        }
-                                    }
-
-                                    var amigoEliminar = document.createElement("img");
-                                    amigoEliminar.setAttribute("class", "amigoEliminar");
-                                    amigoEliminar.setAttribute("src", "../controlador/img/eliminar.png");
-
-                                }
-
-                                var img = document.createElement("img");
-                                img.setAttribute("src", "../controlador/uploads/usuarios/" + amigos[i].foto);
-                                img.setAttribute("class", "imagenAmigo");
-                                img.setAttribute("alt", "imagenAmigo");
-                                img.setAttribute("data-value", amigos[i].id);
-
-                                img.onclick = function () {
-                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
-                                }
-
-                                var divA = document.createElement("div");
-                                divA.setAttribute("class", "informacionAmigo");
-                                divA.setAttribute("data-value", amigos[i].id);
-
-                                divA.onclick = function () {
-                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
-                                }
-                                var nombreAmigo = document.createElement("p");
-                                nombreAmigo.setAttribute("class", "nombreAmigo");
-                                nombreAmigo.innerHTML = amigos[i].nick;
-
-                                var p = document.createElement("p");
-
-                                var animalAmigo = document.createElement("span");
-                                animalAmigo.setAttribute("class", "animalAmigo");
-                                animalAmigo.innerHTML = amigos[i].animal;
-
-                                var razaAmigo = document.createElement("span");
-                                razaAmigo.setAttribute("class", "razaAmigo");
-                                razaAmigo.innerHTML = " " + amigos[i].raza;
-
-                                $("#amigosPerfiles").append(amigoPerfil);
-                                if (amigos[i].loginOperador == 1 || amigos[i].login == usuario) {
-                                    amigoPerfil.append(a);
-                                    a.append(amigoEliminar);
-                                }
-                                amigoPerfil.append(img);
-                                amigoPerfil.append(divA);
-                                divA.append(nombreAmigo);
-                                divA.append(p);
-                                p.append(animalAmigo);
-                                p.append(razaAmigo);
-
-                            }
-                        } else {
+                            pintarAmigos(amigos, "amigosPerfiles", usuario); //Los pintamos desde esta función
+                        } else { //Si no se encuentra se muestra el siguiente texto
                             var h1 = document.createElement("h1");
                             h1.innerHTML += "Este usuario aún no tiene amigos";
                             $("#amigosPerfiles").append(h1);
@@ -320,12 +274,13 @@ and open the template in the editor.
                 });
             }
 
+            //Mostramos sus posts dada una cantidad
             function mostrarPosts(usuario, cantidad) {
                 var parametros = {
                     "accion": "mostrarPosts",
                     "usuario": usuario,
                     "cantidad": cantidad,
-                    "array": $("#cadPosts").val()
+                    "array": $("#cadPosts").val() //cogemos el valor de nuestra cadena de posts
                 };
 
                 $.ajax({
@@ -336,14 +291,15 @@ and open the template in the editor.
                             console.log(respuesta);
                             $("#textoPosts").show();
                             var posts = JSON.parse(respuesta);
-                            pintarPosts(posts, "contenido");
-                            console.log(respuesta);
-                            console.log($("#cadPosts").val());
+                            pintarPosts(posts, "contenido"); //Pintamos nuestros posts
                         } else {
-                            var h1 = document.createElement("h1");
-                            h1.innerHTML += "Este usuario aún no tiene posts creados";
-                            h1.setAttribute("class", "noHay");
-                            $("#contenido").append(h1);
+                            if (cantidad == "5") { //y si la cantidad es 5 (por defecto)
+                                var h1 = document.createElement("h1"); //Mostramos el siguiente texto
+                                h1.innerHTML += "Aquí se mostraran los posts, pero ahora mismo no tiene ninguno";
+                                $("#textoEventos").hide();
+                                h1.setAttribute("class", "noHay");
+                                $("#contenido").append(h1);
+                            }
                         }
                     },
                     error: function (xhr, status) {
@@ -354,24 +310,24 @@ and open the template in the editor.
                 });
             }
 
+            //Función para mostrar los eventos
             function mostrarEventos(usuario) {
                 var parametros = {
                     "accion": "mostrarEventosId",
                     "usuario": usuario,
-                    "cantidad": cantidadEventos
+                    "cantidad": cantidadEventos //Dada una cantidad
                 };
 
                 $.ajax({
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        console.log(respuesta);
-                        if (respuesta) {
-                            $("#textoEventos").show();
+                        if (respuesta) { //Si hay respuesta
+                            $("#textoEventos").show(); //Mostramos su texto
                             var eventos = JSON.parse(respuesta);
-                            pintarEventos(eventos, "contenido");
+                            pintarEventos(eventos, "contenido"); //Los pintamos
 
-                        } else {
+                        } else { //si no mostramos el siguiente texto
                             var h1 = document.createElement("h1");
                             h1.innerHTML += "Aquí se mostraran los eventos, pero ahora mismo no hay ninguno";
                             $("#textoEventos").hide();
@@ -388,9 +344,29 @@ and open the template in the editor.
                 });
             }
 
+            //Función de eliminar evento dado su id
+            function eliminarEvento(evento) {
+                var parametros = {
+                    "accion": "eliminarEvento",
+                    "evento": evento
+                };
+
+                $.ajax({
+                    url: "../controlador/acciones.php",
+                    data: parametros,
+                    success: function (respuesta) {
+                        $("#contenido").empty(); //Vaciamos el contenido 
+                        mostrarMisEventos(); //Mostramos nuestros eventos
+                    },
+                    error: function (xhr, status) {
+                        alert("Error en la eliminacion de evento");
+                    },
+                    type: "POST",
+                    dataType: "text"
+                });
+            }
+
         </script>
-        <?php
-        ?>
     </head>
     <body>
 
