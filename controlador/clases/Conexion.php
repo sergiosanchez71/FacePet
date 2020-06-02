@@ -13,6 +13,7 @@
  */
 class Conexion {
 
+    //Clase para acceder a la base de datos
     //Nuestro fichero con el que nos conectaremos a la base de datos
     function conectar() {
         try {

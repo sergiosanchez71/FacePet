@@ -11,6 +11,7 @@ class Raza {
     private $animal;
     private $raza;
 
+    //Constructor de raza
     function __construct($animal, $raza) {
         $this->animal = $animal;
         $this->raza = $raza;
@@ -40,6 +41,7 @@ class Raza {
         $this->raza = $raza;
     }
     
+    //Buscamos una raza dada su id
     function buscarConId($id){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -50,7 +52,7 @@ class Raza {
             $i++;
         }
         
-        if($i == 0){
+        if($i == 0){ //Si no se encuentra
             $raza = "No especificada";
         }
         
@@ -58,6 +60,7 @@ class Raza {
         return $raza;
     }
     
+    //Comprobamos si existe la razas dado un animal
     function comprobarRazas($animal){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -70,6 +73,7 @@ class Raza {
         return $existen;
     }
 
+    //Mostramos el id de las razas dado un animal
     function mostrarIdRazas($animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -80,16 +84,18 @@ class Raza {
             $razas[$i] = $raza;
             $i++;
         }
-        if($i==0){
-            $razas[$i]=0;
+        if($i==0){ //Si no encuentra ninguna id
+            $razas[$i]=0; //0 por defecto
         }
         unset($conexion);
         return $razas;
     }
 
+    //Mostramos todos los nombres de las razas dado un animal
     function mostrarRazas($animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //Ordenado por nombre
         $consulta = $conexion->query("SELECT nombre from razas where animal='$animal' order by nombre");
         $i = 0;
         while ($row = $consulta->fetch()) {
@@ -97,13 +103,14 @@ class Raza {
             $razas[$i] = $raza;
             $i++;
         }
-        if($i==0){
+        if($i==0){ //Si no encuentra razas
             $razas[$i]="Otro";
         }
         unset($conexion);
         return $razas;
     }
     
+    //Comprobamos el nombre dada una raza y un animal
     function comprobarNombre($raza, $animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -116,6 +123,7 @@ class Raza {
         return $existe;
     }
     
+    //Creamos una raza dada la raza introducida y un animal
     function crearRaza($raza,$animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -123,6 +131,7 @@ class Raza {
         $conexion->exec($sql);
     }
     
+    //Borramos raza dada su id
     function borrarRaza($raza){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

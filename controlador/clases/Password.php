@@ -12,6 +12,8 @@
  * @author Sergio Sánchez
  */
 class Password {
+    
+    //Clase para encriptar la contraseña de nuestro usuario
 
     const SALT = 'EstoEsUnSalt';
 

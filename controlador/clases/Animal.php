@@ -10,6 +10,7 @@ class Animal {
     private $id;
     private $nombre;
 
+    //Contructor con nombre
     function __construct($nombre) {
         $this->nombre = $nombre;
     }
@@ -30,6 +31,7 @@ class Animal {
         $this->nombre = $nombre;
     }
     
+    //Buscamos dado un id de un animal
     function buscarConId($id){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -46,10 +48,11 @@ class Animal {
         return $animal;
     }
 
+    //Buscamos el id de los animales
     function mostrarIdAnimales() {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT id from animales order by nombre");
+        $consulta = $conexion->query("SELECT id from animales order by nombre"); //Ordenados por nombre
         $i = 0;
         while ($row = $consulta->fetch()) {
             $animal = $row['id'];
@@ -60,6 +63,7 @@ class Animal {
         return $animales;
     }
 
+    //Mostramos el nombre de todos los animales
     function mostrarAnimales() {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -74,6 +78,7 @@ class Animal {
         return $animales;
     }
 
+    //Comprobar nombre de animal para saber si existe
     function comprobarNombre($animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -86,6 +91,7 @@ class Animal {
         return $existe;
     }
 
+    //Creamos un animal dado su nombre
     function crearAnimal($animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -93,6 +99,7 @@ class Animal {
         $conexion->exec($sql);
     }
     
+    //Borramos un animal dada su id
     function borrarAnimal($animal){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

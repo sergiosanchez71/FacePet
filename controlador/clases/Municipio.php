@@ -17,6 +17,7 @@ class Municipio {
     private $provincia;
     private $municipio;
 
+    //Contructor de municipio
     function __construct($id, $provincia, $municipio) {
         $this->id = $id;
         $this->provincia = $provincia;
@@ -47,9 +48,11 @@ class Municipio {
         $this->municipio = $municipio;
     }
     
+    //Consultamos los municipios dada su provincia
     function consultarMunicipios($provincia) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //Ordenados por nombre
         $consulta = $conexion->query("SELECT * from municipios where provincia='$provincia' order by municipio asc");
         $i = 0;
         $datos = null;
@@ -65,6 +68,7 @@ class Municipio {
         return $datos;
     }
     
+    //Accedemos al nombre de un municipio dado su id
     function getNombreMunicipio($id){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -77,6 +81,7 @@ class Municipio {
         return $municipio;
     }
     
+    //Buscamos el id de un municipio dado su nombre
     function buscarMunicipioId($municipio){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

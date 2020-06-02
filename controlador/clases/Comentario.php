@@ -19,6 +19,7 @@ class Comentario {
     private $post;
     private $usuario;
 
+    //Contructor dado el contenido, una fecha, el id de post y el id de usuario
     function __construct($contenido, $fecha, $post, $usuario) {
         $this->contenido = $contenido;
         $this->fecha = $fecha;
@@ -66,6 +67,7 @@ class Comentario {
         $this->fecha = $fecha;
     }
 
+    //Publicar comentario dado un objeto comentario
     function publicarComentario($comentario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -73,35 +75,41 @@ class Comentario {
         $conexion->exec($sql);
     }
 
+    //Eliminamos el comentario dado un objeto comentario
     function eliminarComentario($comentario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from comentarios where id='$comentario'");
         while ($row = $consulta->fetch()) {
+            //Creamos un objeto notificación
             $notificacion = new Notificacion($row['usuario'], Post::buscarCreador($row['post']), "comentarioP", $row['post'], $row['fecha']);
-            Notificacion::borrarNotificacion($notificacion);
+            Notificacion::borrarNotificacion($notificacion); //Borramos la notificación
         }
         $sql = "DELETE FROM comentarios WHERE id='$comentario'";
         $conexion->exec($sql);
     }
 
+    //Eliminamos los comentarios dado el id de un post
     function eliminarComentarioConIdPost($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from comentarios where post='$post'");
         while ($row = $consulta->fetch()) {
+            //Creamos un objeto notificación
             $notificacion = new Notificacion($row['usuario'], Post::buscarCreador($row['post']), "comentarioP", $row['post'], $row['fecha']);
-            Notificacion::borrarNotificacion($notificacion);
+            Notificacion::borrarNotificacion($notificacion); //Borramos la notificación
         }
         $sql = "DELETE FROM comentarios WHERE post='$post'";
         $conexion->exec($sql);
     }
 
+    //Eliminamos los comentarios dado el id de usuario
     function eliminarComentariosUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from comentarios where usuario='$usuario'");
         while ($row = $consulta->fetch()) {
+            //Creamos un objeto notificación
             $notificacion = new Notificacion($row['usuario'], Post::buscarCreador($row['post']), "comentarioP", $row['post'], $row['fecha']);
             Notificacion::borrarNotificacion($notificacion);
         }
@@ -109,15 +117,18 @@ class Comentario {
         $conexion->exec($sql);
     }
 
+    //Mostramos los comentarios dado el id de un post
     function mostrarComentarios($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT c.id,c.contenido,c.fecha,c.post,c.usuario, u.nick, u.foto from comentarios c,usuarios u where c.post='$post' and c.usuario=u.id order by c.fecha desc");
+        //I es 0 
         $i = 0;
+        //Los datos son null
         $datos = null;
         while ($row = $consulta->fetch()) {
-            if ($row['foto'] == null) {
-                $foto = "0.jpg";
+            if ($row['foto'] == null) { //Si no hay imagen
+                $foto = "0.jpg"; //Imagen por defecto
             } else {
                 $foto = $row['foto'];
             }
@@ -128,10 +139,10 @@ class Comentario {
                 'fecha' => $row['fecha'],
                 'post' => $row['post'],
                 'usuario' => $row['usuario'],
-                'nick' => $row['nick'],
+                'nick' => $row['nick'], //Nick usuario
                 'foto' => $foto,
-                'login' => Usuario::getIdUsuario($_SESSION['username']),
-                'loginOperador' => $_SESSION['operador']
+                'login' => Usuario::getIdUsuario($_SESSION['username']), //Usuario logueado
+                'loginOperador' => $_SESSION['operador'] //Operador de usuario logueado
             );
 
             $i++;
@@ -140,10 +151,12 @@ class Comentario {
         return $datos;
     }
 
+    //Mostramos los comentarios dada una id de comentario
     function mostrarComentariosConId($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from comentarios where id='$id'");
+        //El array de datos es nulo
         $datos = null;
         while ($row = $consulta->fetch()) {
 
@@ -159,6 +172,7 @@ class Comentario {
         return $datos;
     }
 
+    //Buscamos un comentario dado el post, el usuario y la fecha en la que se ha hecho
     function buscarIdComentario($post, $usuario, $fecha) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -171,12 +185,12 @@ class Comentario {
         return $id;
     }
 
+    //Contamos los comentarios dados un post
     function contarComentarios($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from comentarios c where post='$post'");
         $i = 0;
-        $datos = null;
         while ($row = $consulta->fetch()) {
             $i++;
         }
@@ -184,16 +198,18 @@ class Comentario {
         return $i;
     }
 
+    //Eliminamos comentarios de un usuario
     function eliminarComentariosDeMisPosts($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from comentarios");
         while ($row = $consulta->fetch()) {
-            if (Post::buscarCreador($row['post']) == $usuario) {
+            if (Post::buscarCreador($row['post']) == $usuario) { //Buscammoz los posts del usuario
+                //Creamos un objeto notificacion
                 $notificacion = new Notificacion($row['usuario'], Post::buscarCreador($row['post']), "comentarioP", $row['post'], $row['fecha']);
-                Notificacion::borrarNotificacion($notificacion);
+                Notificacion::borrarNotificacion($notificacion); //Borramos notificaciones
                 $comentario = $row['id'];
-                $sql = "DELETE FROM comentarios WHERE id='$comentario'";
+                $sql = "DELETE FROM comentarios WHERE id='$comentario'"; //Borramos comentarios
                 $conexion->exec($sql);
             }
         }

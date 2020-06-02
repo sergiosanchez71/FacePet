@@ -1,5 +1,5 @@
 
-
+/*Cuerpo con fondo white y reseteado*/
 body{
     font-family: "Arial", sans-serif;
     background: white;
@@ -7,6 +7,7 @@ body{
     padding: 0;
 }
 
+/*Div principal distribuido por header,cuerpo y footer*/
 #principal{
     display: grid;
     grid-template-areas: 
@@ -15,10 +16,12 @@ body{
         "footer";
 }
 
+/*Cabecera de móvil y segundo menú oculto*/
 #cabeceramv, #segundoMenu{
     display: none;
 }
 
+/*Header con su background*/
 header{
     grid-area:"header";
     background: #FFF4C8;
@@ -27,12 +30,14 @@ header{
     margin: auto;
 }
 
+/*Navegador de pc*/
 #navpc{
     width: 70rem;
     padding: 1rem;
     margin: auto;
 }
 
+/*Logo*/
 #facepet{
     width: 17rem;
 }
@@ -41,6 +46,7 @@ header{
     float:left;
 }
 
+/*Mi perfil*/
 .perfil{
     width: 3rem;
     height: 3rem;
@@ -49,12 +55,14 @@ header{
     border-radius: 2rem;
 }
 
+/*Iconos*/
 .mensajes, .notificaciones{
     width: 2rem;
     position: relative;
     bottom: 0.5rem;
 }
 
+/*Cada uno de los li's de pc'*/
 #navpc li{
     list-style: none;
     float: left;
@@ -72,14 +80,16 @@ header{
     text-decoration: none;
 }
 
+/*Transación de color*/
 #navpc li a, #navpc li{
     transition: color 0.5s ease-out;
 }
-
+/*color*/
 #navpc li a:hover, #navpc li:hover{
     color:#FEBF00;
 }
 
+/*Posición menú desplegable*/
 header #crear ul{
     opacity: 0;
     display: none;
@@ -91,6 +101,7 @@ header #crear ul{
     transition: opacity 1s ease;
 }
 
+/*Li de submenú de #crear*/
 header #navpc #crear ul li{
     width: 10rem;
     background: #FFF4C8;
@@ -110,6 +121,7 @@ header:hover > #navpc #crear ul, header:hover #navpc #liUsuario ul{
     opacity: 1;
 }
 
+/*Notificaciones*/
 li .alerta{
     background: red;
     padding: 1px 3px 1px 3px;
@@ -119,13 +131,14 @@ li .alerta{
     color: white;
 }
 
-
+/*Mi nombre*/
 #navpc li #nombreUsuario{
     position: relative;
     bottom: 2rem;
     left: 1rem;
 }
 
+/*Flecha abajo*/
 #abajo{
     width: 1rem;
     position: relative;
@@ -153,6 +166,7 @@ li .alerta{
     border-bottom: 1px solid black;
 }
 
+/*Vista tablet*/
 @media(max-width: 1250px){
 
     #navpc li{
@@ -165,36 +179,44 @@ li .alerta{
 
 }
 
+/*Vista móvil*/
 @media(max-width: 1000px){
 
+    /*100% de espacio*/
     header{
         width: 100%;
         height: 100%;
         transition: height 1s ease;
     }
 
+    /*Logo movil*/
     #facepetAMV{
         padding: 3rem;
     }
 
+    /*Nav pc oculto*/
     #navpc, #navmv{
         display: none;
     }
 
+    /*Mostramos la cabecera de movil*/
     #cabeceramv{
         display: block;
     }
 
+    /*Tamaños mas grandes centrado de logo*/
     #facepetMV, #facepetAMV{
         display: block;
         margin: auto;
         width: 40rem;
     }
 
+    /*Menú de hamburguesa*/
     #hamburguesa{
         padding: 2rem;
     }
 
+    /*Menú botón*/
     .botonMenu{
         width: 70px;
         height: 60px;
@@ -206,6 +228,7 @@ li .alerta{
         position: relative;
     }
 
+    /*Tamaño*/
     .botonMenu span{
         display: block;
         width: 70px;
@@ -222,6 +245,7 @@ li .alerta{
         display: none;
     }
 
+    /*Menú oculto*/
     #trickMenu{
         display: none;
         background: white;
@@ -247,6 +271,7 @@ li .alerta{
         display: block;
     }
 
+    /*Segundo menú móvil*/
     footer{
         background: white;
         border-top: 1px solid black;
@@ -257,12 +282,14 @@ li .alerta{
         display: flex;
     }
     
+    /*Div de segundo menu*/
     #segundoMenu{
         display: block;
         margin: auto;
         margin-top: 1rem;
     }
     
+    /*Notificaciones*/
     .icono .alerta{
         display: none;
         left: 6rem;
@@ -270,6 +297,8 @@ li .alerta{
         margin-bottom: 3rem;
     }
 
+    /*Aumentamos tamaños*/
+    
     #segundoMenu li{
         list-style: none;
         float: left;

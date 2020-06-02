@@ -316,8 +316,7 @@ and open the template in the editor.
             function mostrarMisPosts(cantidad) {
                 var parametros = {
                     "accion": "mostrarMisPosts",
-                    "cantidad": cantidad,
-                    "array": $("#cadPosts").val() //cogemos el valor de nuestra cadena de posts
+                    "cantidad": cantidad
                 };
 
                 $.ajax({

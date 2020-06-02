@@ -371,6 +371,7 @@ and open the template in the editor.
                     success: function (respuesta) {
                         $("#usuariosSancionar").empty(); //Vaciamos nuestra lista de usuarios
                         if (respuesta) { //Si hay respuesta
+                            console.log(respuesta)
                             var usuarios = JSON.parse(respuesta);
                             for (var i = 0; i < usuarios.length; i++) {
                                 var usuario = document.createElement("div");
@@ -594,6 +595,7 @@ and open the template in the editor.
                                 eliminar.onclick = function () { //Al pulsarlo
                                     if (confirm("¿Esta seguro de eliminar a este usuario?" + this.value)) {
                                         eliminarUsuario(this.value, this.dataset.pos); //Eliminados el usuario dado el id y pos
+                                        mostrarUsuarios();
                                     }
                                 }
 

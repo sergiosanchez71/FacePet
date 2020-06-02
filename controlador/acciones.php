@@ -175,8 +175,8 @@ switch ($accion) { //Acce3demos al valor de $accion
         break;
 
         case "buscarUsuariosSancion":
-        if (Usuario::getDatosBuscar($_REQUEST['cadena'], $_SESSION['username'])) { //Si la consulta se hace con éxito
-            echo json_encode(Usuario::getDatosBuscar($_REQUEST['cadena'], $_SESSION['username'])); //Mandamos los datos de los usuarios que hemos buscado
+        if (Usuario::getDatosBuscarSancion($_REQUEST['cadena'], $_SESSION['username'])) { //Si la consulta se hace con éxito
+            echo json_encode(Usuario::getDatosBuscarSancion($_REQUEST['cadena'], $_SESSION['username'])); //Mandamos los datos de los usuarios que hemos buscado
         } else {
             echo false;
         }
@@ -295,8 +295,8 @@ switch ($accion) { //Acce3demos al valor de $accion
         break;
 
     case "mostrarMisPosts":
-        if (Post::getDatosPostsUsuario($idusuario, $_REQUEST['cantidad'], $_REQUEST['array'])) { //Si la consulta se hace con éxito
-            echo json_encode(Post::getDatosPostsUsuario($idusuario, $_REQUEST['cantidad'], $_REQUEST['array'])); //Devolvemos los datos de los posts dados un suuario
+        if (Post::getDatosPostsUsuario($idusuario, $_REQUEST['cantidad'])) { //Si la consulta se hace con éxito
+            echo json_encode(Post::getDatosPostsUsuario($idusuario, $_REQUEST['cantidad'])); //Devolvemos los datos de los posts dados un suuario
         } else {
             echo false;
         }

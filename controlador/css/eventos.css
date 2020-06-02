@@ -1,9 +1,9 @@
 
-
+/*Div de eventos*/
 #eventos{
     padding: 3.7% 10% 5% 5%;
 }
-
+/*Cada uno de los eventos con transación*/
 .evento{
     background: white;
     padding: 2rem;
@@ -17,10 +17,11 @@
     transition: 1s background ease;
 }
 
+/*Transación de evento*/
 .evento:hover{
     background-color: #fff7dd;
 }
-
+/*Título de evento*/
 .eventoTitulo{
     font-weight: bold;
     text-align: center;
@@ -29,58 +30,65 @@
     transition: 1s color ease;
 }
 
+/*Primera letra mayúscula*/
 .eventoTitulo:first-letter{
     text-transform: uppercase;
 }
 
+/*Fecha de evento*/
 .eventoFecha{
     font-size: 1rem;
     font-weight: bold;
 }
 
+/*Contenido de evento*/
 .cont{
     width: 100%;
     max-width: 65rem;
     display: block;
     margin: auto;
 }
-
+/*Imagen de evento*/
 .eventoImg{
     width: 15rem;;
     display: block;
     margin: auto;
 }
 
-
+/*Mapa de evento*/
 .map{
     width: 100%;
     height: 10rem;
 }
 
+/*Contenido del evento (Texto)*/
 .eventoContenido{
     font-size: 1rem;
     text-align: justify;
 }
 
-
+/*Autor evento*/
 .eventoAutor{
     font-size: 1rem;
     margin-top: 2rem;
 }
 
+/*Nombre del autor en negrita*/
 .eventoNombreAutor{
     font-weight: bold;
     cursor: pointer;
     transition: 1s color ease;
 }
 
+/*Color autor y título transación*/
 .eventoNombreAutor:hover, .eventoTitulo:hover{
     color: #f43333;
 }
 
+/*Vista móvil*/
 @media (max-width: 1000px){
 
-
+    /*Div de eventos*/
     #eventos{
         max-width: 100%;
         grid-area:contenido;
@@ -89,6 +97,7 @@
         display: none;
     }
 
+    /*Cada uno de los eventos*/
     .evento{
         border-radius: 0;
         border: 0px solid black;
@@ -96,10 +105,11 @@
         border-bottom: 1px solid grey;
     }
     
+    /*Título de los eventos*/
     .eventoTitulo{
         font-size: 3rem;
     }
-    
+    /*Aumento de tamaños*/
     .textTipo, .textFechai, .eventoFecha, .textFechaf, .direccioncompleta, .eventoAutor, .participantes{
         font-size: 2rem;
     }

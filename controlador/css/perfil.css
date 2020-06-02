@@ -1,11 +1,12 @@
-
+/*Cuerpo dividido compuesto primero por la cabecera del perfil, después por los amigos en la izquierda, 
+y en la derecha encima los botones y abajo el contenido*/
 #cuerpo{
     display: grid;
     margin: auto;
     grid-template-areas: 
         "cabeceraPerfil cabeceraPerfil"
         "amigosPerfil botones"
-        "amigosPerfil posts";
+        "amigosPerfil contenido";
     grid-template-columns: 30% 70%;
     grid-template-rows: 28rem;
     width: 100%;
@@ -13,6 +14,7 @@
     background: white;
 }
 
+/*La cabecera de nuestro perfil*/
 #cabeceraPerfil{
     grid-area: cabeceraPerfil;
     margin-top: 1.5rem;
@@ -28,12 +30,14 @@
     background: #fff7dd;
 }
 
+/*Botones para interactuar*/
 #botones{
     grid-area:botones;
     margin-left: 10rem;
     margin-right: 4rem;
 }
 
+/*Texto de no disponible*/
 .noHay{
     padding-left: 4rem;
     display: block;
@@ -42,10 +46,12 @@
     text-align: center;
 }
 
+/*Botones de móvil ocultos*/
 #botonesM{
     display: none;
 }
 
+/*Cada uno de los botones*/
 .boton{
     width: 100%;
     display: block;
@@ -65,6 +71,7 @@
     text-align: center;
 }
 
+/*Imagen de mi perfil*/
 #imgPerfil{
     width: 15rem;
     height: 15rem;
@@ -86,6 +93,7 @@
     opacity: 0.9;
 }
 
+/*Cambiar avatar*/
 #textCambiarAvatar{
     position: relative;
     font-weight: bold;
@@ -97,118 +105,8 @@
     transition: opacity 1.5s ease;
 }
 
-#contenidoPerfil{
-    width: 15rem;
-    margin-left: 15rem;
-    cursor: pointer;
-}
 
-#datos{
-    position: relative;
-    top: 6.5rem;
-    left: 3rem;
-}
-
-#animalRaza{
-    position: relative;
-    bottom: 1rem;
-}
-
-#localidadPerfilUsuario{
-    position: relative;
-    bottom: 1rem;
-}
-
-/*#localidadPerfilUsuario{
-    position: relative;
-    bottom: 3.2rem;
-    left: 20rem;
-}*/
-
-#descripcion{
-    padding: 2rem;
-}
-
-#nombrePerfilUsuario{
-    font-weight: bold;
-    font-size: 2rem;
-}
-
-#nombrePerfilUsuario:first-letter{
-    text-transform: uppercase;
-}
-
-#amigosPerfil{
-    grid-area: amigosPerfil;
-    margin-left: 3rem;
-    overflow: auto;
-    padding-right: 4rem;
-    height: 100%;
-}
-
-#amigosPerfil::-webkit-scrollbar {
-    width: 1rem;     /* Tamaño del scroll en vertical */
-    height: 1rem;    /* Tamaño del scroll en horizontal */
-    display: none;  /* Ocultar scroll */
-}
-
-.amigoPerfil{
-    display: grid;
-    grid-template-areas: 
-        "imagenAmigo informacionAmigo eliminarAmigo";
-    grid-template-columns: 40% 60%;
-    border: 1px solid #999999;
-    background: #fffbed;
-    cursor: pointer;
-    transition: 1s background ease;
-}
-
-.amigoPerfil:hover{
-    background: #fff7dd;
-}
-
-.amigoPerfil:hover > .botonEliminarA{
-    background: #fff7dd;
-}
-
-.amigoPerfil:last-child{
-    margin-bottom: 5rem;
-}
-
-.imagenAmigo{
-    width: 6rem;
-    height: 6rem;
-    border-radius: 4rem;
-    margin: 1rem;
-}
-
-.nombreAmigo:first-letter{
-    text-transform: uppercase;
-}
-
-.nombreAmigo{
-    font-weight: bold;
-}
-
-.informacionAmigo{
-    margin-top: 1.5rem;
-    margin-right: 1rem;
-}
-
-#contenido{
-    grid-area:posts;
-}
-
-#titularAmigosPerfil,#titularPosts{
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.5rem;
-}
-
-.post{
-    margin-left: 5rem;
-}
-
+/*Cambiar foto de perfil*/
 #cambiarImagen{
     display: block;
     margin: auto;
@@ -252,6 +150,109 @@
     margin: 5rem;
 }
 
+/*Contenido del perfil*/
+#contenidoPerfil{
+    width: 15rem;
+    margin-left: 15rem;
+    cursor: pointer;
+}
+
+/*Datos*/
+
+#datos{
+    position: relative;
+    top: 6.5rem;
+    left: 3rem;
+}
+
+#animalRaza{
+    position: relative;
+    bottom: 1rem;
+}
+
+#localidadPerfilUsuario{
+    position: relative;
+    bottom: 1rem;
+}
+
+#descripcion{
+    padding: 2rem;
+}
+
+#nombrePerfilUsuario{
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+#nombrePerfilUsuario:first-letter{
+    text-transform: uppercase;
+}
+
+/*Div de los perfiles de nuestros amigos*/
+
+#amigosPerfil{
+    grid-area: amigosPerfil;
+    margin-left: 3rem;
+    overflow: auto;
+    padding-right: 4rem;
+    height: 100%;
+}
+
+/*Scroll del div de amigos*/
+
+#amigosPerfil::-webkit-scrollbar {
+    width: 1rem;     /* Tamaño del scroll en vertical */
+    height: 1rem;    /* Tamaño del scroll en horizontal */
+    display: none;  /* Ocultar scroll */
+}
+
+/*Cada uno de los perfiles de nuestros amigos*/
+.amigoPerfil{
+    display: grid;
+    grid-template-areas: 
+        "imagenAmigo informacionAmigo eliminarAmigo";
+    grid-template-columns: 40% 60%;
+    border: 1px solid #999999;
+    background: #fffbed;
+    cursor: pointer;
+    transition: 1s background ease;
+}
+
+.amigoPerfil:hover{
+    background: #fff7dd;
+}
+
+.amigoPerfil:hover > .botonEliminarA{
+    background: #fff7dd;
+}
+
+.amigoPerfil:last-child{
+    margin-bottom: 5rem;
+}
+
+/*Imagen de nuestros amigos*/
+.imagenAmigo{
+    width: 6rem;
+    height: 6rem;
+    border-radius: 4rem;
+    margin: 1rem;
+}
+
+/*Datos amigos*/
+.nombreAmigo:first-letter{
+    text-transform: uppercase;
+}
+
+.nombreAmigo{
+    font-weight: bold;
+}
+
+.informacionAmigo{
+    margin-top: 1.5rem;
+    margin-right: 1rem;
+}
+
+/*Botón para eliminar amigo*/
 .botonEliminarA{
     grid-area: eliminarAmigo;
     width: 4rem;
@@ -279,11 +280,32 @@
     margin-top: 1rem;
 }
 
+/*Contenido de nuestro perfil*/
+#contenido{
+    grid-area:contenido;
+}
+
+/*Titulos*/
+#titularAmigosPerfil,#titularPosts{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/*Cada uno de nuestros posts*/
+.post{
+    margin-left: 5rem;
+}
+
+/*Cada evento*/
+
 .evento{
     margin-left: 4rem;
 }
 
+/*Vista móvil*/
 @media (max-width:1000px){
+    /*Cuerpo con distribución móvil*/
     #cuerpo{
         grid-template-areas: 
             "cabeceraPerfil"
@@ -304,6 +326,7 @@
         display: none;
     }
 
+    /*Botones de móvil*/
     #botonesM{
         display: block;
         grid-area: botonesM;
@@ -315,6 +338,7 @@
         font-size: 3rem;
     }
     
+    /*Ocultamos botón post*/
     #botonPostsM{
         display: none;
     }
@@ -324,6 +348,7 @@
         padding: 0;
     }
     
+    /*Todos los posts*/
     .post{
         border-radius: 0;
         border: 0px solid black;
@@ -343,6 +368,7 @@
         display: none;
     }
 
+    /*Aumentamos tamaños*/
     #amigosPerfil, #amigosPerfiles, .amigoPerfil{
         margin: 0;
         width: 94%;

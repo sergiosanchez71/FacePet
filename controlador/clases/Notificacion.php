@@ -21,6 +21,7 @@ class Notificacion {
     private $visto;
     private $fecha;
 
+    //Constructor de notificación
     function __construct($user1, $user2, $tipo, $idelemento, $fecha) {
         $this->user1 = $user1;
         $this->user2 = $user2;
@@ -70,6 +71,7 @@ class Notificacion {
         $this->fecha = $fecha;
     }
 
+    //Creamos una notificación dada un objeto
     function crearNotificacion($notificacion) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -78,6 +80,7 @@ class Notificacion {
         unset($conexion);
     }
 
+    //Borramos una notificación dada un objeto notificación
     function borrarNotificacion($notificacion) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -86,6 +89,7 @@ class Notificacion {
         unset($conexion);
     }
     
+    //Borramos una notificación dado un idelemento
     function borrarNotificacionIdElemento($idelemento){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -94,34 +98,36 @@ class Notificacion {
         unset($conexion);
     }
 
+    //Vemos todas las notificaciones de un usuario
     function verNotificaciones($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //Ordenado por fecha de notificación
         $consulta = $conexion->query("SELECT * from notificaciones where user2='$usuario' order by fecha desc");
         $i = 0;
         $datos = null;
         while ($row = $consulta->fetch()) {
             
             $identificacionElemento = null;
-            if($row['tipo']=="comentarioP"){
+            if($row['tipo']=="comentarioP"){ //Si es de tiempo Comentario Post
                 $idusuario=Usuario::getIdUsuario($_SESSION['username']);
                 $idcomentario = Comentario::buscarIdComentario($row['idelemento'],$row['user1'],$row['fecha']);
-                $identificacionElemento[0] = Post::mostrarPost($row['idelemento'],$idusuario);
-                $identificacionElemento[1] = Comentario::mostrarComentariosConId($idcomentario);
-            } else if($row['tipo'] == "amistad"){
-                $identificacionElemento = Amistades::getMensajeSolicitud($row['user1'],$row['user2']);
+                $identificacionElemento[0] = Post::mostrarPost($row['idelemento'],$idusuario); //Le pasamos como parámentos el id usuario
+                $identificacionElemento[1] = Comentario::mostrarComentariosConId($idcomentario); //Y el comentario
+            } else if($row['tipo'] == "amistad"){ //Si es de tipo amistad
+                $identificacionElemento = Amistades::getMensajeSolicitud($row['user1'],$row['user2']); //Le pasamos como parámetro el mensaje de solicitud
             }
             
             $datos[$i] = ['id' => $row['id'],
                 'user1' => $row['user1'],
                 'user2' => $row['user2'],
                 'tipo' => $row['tipo'],
-                'elemento'=> $identificacionElemento,
+                'elemento'=> $identificacionElemento, //Si es un comentario de post 
                 'visto' => $row['visto'],
                 'fecha' => $row['fecha'],
-                'fotoAmigo' => Usuario::getFotoPerfilconId($row['user1']),
-                'nickAmigo' => Usuario::getNickName($row['user1']),
-                'amigosAmigo' => Usuario::getAmigosId($row['user1'])
+                'fotoAmigo' => Usuario::getFotoPerfilconId($row['user1']), //Foto de nuestro amigo
+                'nickAmigo' => Usuario::getNickName($row['user1']), //Nombre de amigo
+                'amigosAmigo' => Usuario::getAmigosId($row['user1']) //Amigos del usuario 
             ];
             $i++;
         }
@@ -134,6 +140,7 @@ class Notificacion {
         return $datos;
     }
     
+    //Si las hemos visto convertimos visto a 1
     function notificacionesVistas($id){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -142,6 +149,7 @@ class Notificacion {
         unset($conexion);
     }
     
+    //Borramos las notificaciones de un usuario
     function borrarNotificacionesUsuario($usuario){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

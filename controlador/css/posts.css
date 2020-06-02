@@ -1,18 +1,22 @@
+/*Cadena de posts vaciada*/
 #cadPosts{
     display: none;
 }
 
+/*Tamaño de posts*/
 #posts, #contenido{
     grid-area: posts;
     padding: 2.5% 5% 5% 8%;
 }
 
+/*Texto de "Posts"*/
 .tituloseccion{
     font-weight: bold;
     text-align: center;
     font-size: 1.5rem;
 }
 
+/*Cada uno de los posts*/
 .post{
     background-color: #fffbed;
     margin-bottom: 3rem;
@@ -26,10 +30,12 @@
     background-color: #fff7dd;
 }
 
+/*Usuario post*/
 .postUsuario{
     cursor: pointer;
 }
 
+/*Botón eliminar*/
 .postEliminar{
     width: 3rem;
     display: block;
@@ -37,6 +43,7 @@
     cursor: pointer;
 }
 
+/*Imagen de usuario post*/
 .imagenUsuario{
     width: 4rem;
     height: 4rem;
@@ -50,6 +57,7 @@
     opacity: 0.7;
 }
 
+/*Nombre de usuario post*/
 .nombreUsuario{
     font-weight: bold;
     position: relative;
@@ -64,10 +72,12 @@
     color: #f43333;
 }
 
+/*Mayúsculas*/
 .nombreUsuario:first-letter, .postTitulo:first-letter, .postContenido:first-letter{
     text-transform: uppercase;
 }
 
+/*Fecha de post*/
 .postFecha{
     font-size: 0.8rem;
     position: relative;
@@ -77,10 +87,12 @@
     margin-right: 20rem;
 }
 
+/*Contenido post*/
 .postCont{
     padding-bottom: 3rem;
 }
 
+/*Título de post*/
 .postTitulo{
     grid-area: titulo;
     font-size: 2rem;
@@ -88,6 +100,7 @@
     text-align: center;
 }
 
+/*Texto de post*/
 .postContenido{
     text-align: justify;
     margin: 1rem;
@@ -100,27 +113,30 @@
     float:left;
     margin: 0 1rem 1rem 1rem;
 }*/
-
+/*Imagen del post*/
 .postImg{
     width: 95%;
     max-height: 40rem;
     display: block;
     margin: auto;
 }
-
+/*Parte abajo*/
 .postBottom{
     clear: both;
 }
 
+/*Likes del post*/
 .postLikes{
     font-weight: bold;
     margin: 1rem;
 }
 
+/*Iconos del post*/
 .iconos{
     margin: 1rem;
 }
 
+/*Imagenes de los iconos*/
 .postCorazonImg, .postComentarioImg{
     width: 2rem;
     padding-right: 1rem;
@@ -132,6 +148,7 @@
     width: 2.5rem;
 }
 
+/*Comentarios del post*/
 .comentariosPost{
     position: absolute;
     cursor: pointer;
@@ -140,13 +157,16 @@
     font-size: 1.1rem;
 }
 
+/*Vista móvil*/
 @media (max-width: 1000px){
 
+    /*Reseteo*/
     #posts{
         margin: 0;
         padding: 0;
     }
 
+    /*Aumentamos tamaños*/
     .postEliminar{
         width: 6rem;
     }
@@ -157,8 +177,6 @@
     }
 
     .nombreUsuario, .postFecha{
-        /*position: relative;
-        bottom: 3.5rem;*/
         margin-right: 0rem;
         font-size: 2rem;
     }
@@ -198,7 +216,6 @@
     .postCorazonImg:hover, .postComentarioImg:hover{
         width: 6rem;
     }
-
 
     .comentariosPost{
         font-size: 2.5rem;
