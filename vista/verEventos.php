@@ -22,6 +22,20 @@ and open the template in the editor.
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE&callback=initMap" async defer></script><!--Mapa-->
         <style>
 
+            #checks{
+                display: block;
+                margin: auto;
+                width: 50rem;
+                margin-top: 3rem;
+                font-size: 1.5rem;
+            }
+            
+            #checks input{
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+            
+            
         </style>
         <script>
 
@@ -185,9 +199,11 @@ and open the template in the editor.
 
             <div id="cuerpo">
                 <!--<input type="checkbox" id="checkTitle" value="title"><span>Escribir título</span>-->
+                <div id="checks">
                 <input type="checkbox" id="checkLugar" value="lugar" checked><span>Ordenar por lugar</span>
                 <input type="radio" id="rdFechaI" name="rdfecha" value="fechai" checked><span>Ordenar por fecha inicio</span>
                 <input type="radio" id="rdFechaF" name="rdfecha" value="fechaf"><span>Ordenar por fecha fin</span>
+                </div>
                 <!--<input type="checkbox" id="checkParticipantes" value="participantes"><span>Ordenar por participantes</span>-->
                 <input type="text" id="cadEventos" style="display:none">
                 <div id="eventos">

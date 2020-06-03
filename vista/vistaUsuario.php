@@ -49,6 +49,17 @@ and open the template in the editor.
             #posts{
                 grid-area:posts;
             }
+            
+            /*Enlace hacía todos los posts*/
+            #textEventos a{
+                text-decoration: none;
+                color: black;
+                transition: 1s color ease;
+            }
+            
+            #textEventos a:hover{
+                color: #f43333;
+            }
 
             /*Eventos*/
             #menuL{
@@ -66,6 +77,29 @@ and open the template in the editor.
                 width: 10rem;
                 display: block;
                 margin: auto;
+            }
+            
+            /*Footer*/
+            footer{
+                position: fixed;
+                flex-direction: row;
+                border-radius: 1rem;
+                left: 60%;
+                top: 90%;
+                display: flex;
+                padding: 1rem;
+                visibility: hidden;
+            }
+            
+            /*Texto del footer*/
+            footer p{
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            /*Negrita en el footer*/
+            footer .negrita{
+                font-weight: bold;
             }
 
             /*Vista móvil*/
@@ -200,8 +234,10 @@ and open the template in the editor.
                     console.log($("#textEventos").height());
                     if ($(window).scrollTop() > $("#textEventos").height() + 100) {
                         $("#eventos").attr("class", "eventosfixed");
+                        $("footer").css("visibility","visible");
                     } else {
                         $("#eventos").removeAttr("class");
+                        $("footer").css("visibility","hidden");
                     }
                 }
 
@@ -386,7 +422,7 @@ and open the template in the editor.
                 </div>
                 <div id="eventos">
                     <input type="text" id="cadEventos" style="display:none">
-                    <p id="textEventos" class="tituloseccion"><a href="verEventos.php">Eventos</a></p>
+                    <p id="textEventos" class="tituloseccion"><a href="verEventos.php">Ver todos los eventos disponibles</a></p>
 
                 </div>
             </div>
@@ -404,7 +440,14 @@ and open the template in the editor.
                     </li>
                 </ul>
             </div>
-
+            <footer>
+                <p>Privacidad</p>
+                <p>Condiciones</p>
+                <p>Publicidad</p>
+                <p>Cookies</p>
+                <p class="negrita">FacePet &copy;</p>
+            </footer>
+            
         </div>
 
 

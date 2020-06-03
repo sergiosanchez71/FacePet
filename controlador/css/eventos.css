@@ -8,9 +8,9 @@
 .eventosfixed{
     position: fixed;
     left: 57%;
-    top: -8%;
+    top: -7.5%;
     width: 34%;
-    height: 100%;
+    height: 80%;
     overflow: scroll;
 }
 

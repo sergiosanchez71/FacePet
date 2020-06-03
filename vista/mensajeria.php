@@ -33,17 +33,29 @@
                 padding: 1rem;
                 overflow-y: auto;
             }
+            
+            #listaAmigos::-webkit-scrollbar{
+                width: 1rem;
+                height: 1rem;
+                display: none;
+            }
 
             /*Texto cabecera*/
             #chatear{
                 font-weight: bold;
-                font-size: 1.25rem;
+                font-size: 2rem;
+                display: block;
+                margin: auto;
+                width: 22.5rem;
+                margin-bottom: 1rem;
             }
 
             /*Input de buscador*/
             #buscador{
                 width: 100%;
                 border-radius: 0.5rem;
+                height: 3rem;
+                font-size: 2rem;
             }
 
             /*Cada uno de los amigos*/
@@ -121,6 +133,10 @@
                     "cuerpoCM"
                     "pieCM";
                 grid-template-rows: 17.5% 67.5% 15%;
+            }
+            
+            #volver{
+                display: none;
             }
 
             /*Cabecera de nuestro chat*/
@@ -208,16 +224,22 @@
             #mensajeEscrito{
                 border-radius: 1rem;
                 margin: 1rem 1rem 0.5rem 1rem;
-                width: 95%;
+                width: 80%;
+                height: 3rem;
+                font-size: 2rem;
             }
 
             /*Botón de enviar mensaje*/
             #enviarMensaje{
                 float: right;
                 background-color: #FFED91;
-                font-size: 1.2rem;
+                font-size: 2rem;
                 border-radius: 1rem;
                 margin-right: 1rem;
+                position: relative;
+                bottom: 3.5rem;
+                width: 15%;
+                height: 3rem;
                 cursor: pointer;
                 transition: 1s background ease;
             }
@@ -245,7 +267,6 @@
                 }
                 
                 /*Aumentamos los tamaños*/
-
                 #buscador, #mensajeEscrito{
                     height: 4rem;
                     font-size: 2rem;
@@ -268,9 +289,10 @@
                     grid-template-columns: 20% 80%;
                     grid-template-rows: 20% 50% 30%;
                 }
-
+                
                 #enviarMensaje{
-                    font-size: 3rem;
+                    height: 4rem;
+                    bottom: 4.5rem;
                 }
 
             }
@@ -286,15 +308,27 @@
                     margin: 0;
                     padding: 0;
                 }
+                
+                #volver{
+                    display: block;
+                    position: absolute;
+                    width: 8rem;
+                    padding-left: 1rem;
+                    padding-bottom: 1rem;
+                }
 
                 /*Aumentamos tamaños*/
                 #chatear{
-                    font-size: 3rem;
+                    font-size: 4.5rem;
+                    width: 90%;
+                    margin-top: 1rem;
+                    margin-bottom: 2rem;
                 }
 
                 #buscador{
                     height: 6rem;
                     font-size: 3rem;
+                    margin-bottom: 1rem;
                 }
 
                 /*La lista es lo primero que se mostrará*/
@@ -309,10 +343,14 @@
                     width: 95%;
                     padding-bottom: 5rem;
                 }
+                
+                .amigo:last-child{
+                    margin-bottom: 10rem;
+                }
 
                 .imgAmigo{
-                    width: 15rem;
-                    height: 15rem;
+                    width: 18rem;
+                    height: 18rem;
                 }
 
                 .nombreAmigo{
@@ -342,6 +380,7 @@
                     grid-area: contenido;
                     display: none;
                     grid-template-rows: 17.5% 67.5% 15%;
+                    margin-bottom: 6rem;
                 }
 
                 #cuerpoCM{
@@ -349,15 +388,17 @@
                 }
 
                 #pieCM{
-                    margin-bottom: 10rem;
+                    padding-bottom: 10rem;
                 }
 
                 #imgAmigoCM{
                     width: 10rem;
                     height: 10rem;
+                    margin-left: 10rem;
                 }
 
                 #nombreAmigoCM{
+                    margin-left: 10rem;
                     font-size: 4rem;
                 }
 
@@ -382,6 +423,9 @@
                 }
 
                 #enviarMensaje{
+                    
+                    position: relative;
+                    top: 0;
                     margin-top: 1rem;
                     font-size: 3rem;
                     height: 5rem;
@@ -815,6 +859,7 @@
                 <div id="Cmensajes">
                     <div id="cabeceraCM">
                         <h1 id="selecciona">Selecciona un chat</h1>
+                        <a href="mensajeria.php"><img id="volver" alt="volver" src="../controlador/img/atras.png"></a>
                         <img id="imgAmigoCM" alt="imgAmigo">
                         <p id="nombreAmigoCM"></p>
                         <input type="text" id="idUsuario">
