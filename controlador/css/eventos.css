@@ -3,6 +3,24 @@
 #eventos{
     padding: 3.7% 10% 5% 5%;
 }
+
+/*Eventos fijos*/
+.eventosfixed{
+    position: fixed;
+    left: 57%;
+    top: -8%;
+    width: 34%;
+    height: 100%;
+    overflow: scroll;
+}
+
+/*Eventos fijos scroll*/
+.eventosfixed::-webkit-scrollbar {
+    width: 1rem;     /* Tamaño del scroll en vertical */
+    height: 1rem;    /* Tamaño del scroll en horizontal */
+    display: none;  /* Ocultar scroll */
+}
+
 /*Cada uno de los eventos con transación*/
 .evento{
     background: white;

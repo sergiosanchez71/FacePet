@@ -311,7 +311,7 @@ y en la derecha encima los botones y abajo el contenido*/
             "cabeceraPerfil"
             "botonesM"
             "amigosPerfil"
-            "posts";
+            "contenido";
         grid-template-columns: 100%;
         margin: 0;
         padding: 0;

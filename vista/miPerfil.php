@@ -492,7 +492,8 @@ and open the template in the editor.
 
                 </div>
             </div>
-            <footer>
+            <div id="sMenu">
+                <!--Menú móvil-->
                 <ul id="segundoMenu">
                     <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" class="cerrarsesion" alt="cerrarSesion"></a></li>
                     <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p class="alerta" id="mensajeM">1</p></a></li>
@@ -503,7 +504,8 @@ and open the template in the editor.
                         </a>
                     </li>
                 </ul>
-            </footer>
+            </div>
+
             <div id="cambiarImagen">
                <!-- <img src="../controlador/img/eliminar.png" id="cerrarCambiarAvatar" alt="cerrar">-->
                 <form method="post" id="cambiarAvatar" enctype="multipart/form-data">

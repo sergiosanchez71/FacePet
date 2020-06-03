@@ -33,7 +33,8 @@ and open the template in the editor.
                 display: grid;
                 width: 100%;
                 grid-template-areas: 
-                    "posts eventos";
+                    "posts eventos"
+                    "posts footer";
                 grid-template-columns: 60% 40%;
                 margin: auto;
                 background: white;
@@ -194,6 +195,17 @@ and open the template in the editor.
                     }
                 }
 
+                if ($(window).width() > 1000) {
+                    console.log($(window).scrollTop());
+                    console.log($("#textEventos").height());
+                    if ($(window).scrollTop() > $("#textEventos").height() + 100) {
+                        $("#eventos").attr("class", "eventosfixed");
+                    } else {
+                        $("#eventos").removeAttr("class");
+                    }
+                }
+
+
             });
 
             $(document).ready(function () {
@@ -252,13 +264,13 @@ and open the template in the editor.
                     data: parametros,
                     success: function (respuesta) {
                         if (respuesta) { //Si hemos recibido respuesta
-                            var posts = JSON.parse(respuesta); 
+                            var posts = JSON.parse(respuesta);
                             pintarPosts(posts, "posts"); //Pintamos nuestros posts
 
                         } else {
                             if (cantidad == "5") { //Si la cantidad es 5 y no recibimos respuesta
                                 var h1 = document.createElement("h1");
-                                h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya"; 
+                                h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya";
                                 $("#posts").append(h1); //Mostramos este mensaje en un h1
                             }
                         }
@@ -336,7 +348,7 @@ and open the template in the editor.
                 </nav>
 
                 <!--Header móvil-->
-                
+
                 <div id="cabeceramv">
                     <a href="vistaUsuario.php" id="facepetAMV"><img src="../controlador/img/facepet.png" id="facepetMV" alt="logo"></a>
                     <nav class="menuHTML">
@@ -361,7 +373,7 @@ and open the template in the editor.
             </header>
 
             <!--Cuerpo-->
-            
+
             <div id="cuerpo">
                 <div id="botones">
                     <button id="botonPosts" class="boton"><span>Posts</span></button>
@@ -374,12 +386,12 @@ and open the template in the editor.
                 </div>
                 <div id="eventos">
                     <input type="text" id="cadEventos" style="display:none">
-                    <p  class="tituloseccion"><a href="verEventos.php">Eventos</a></p>
+                    <p id="textEventos" class="tituloseccion"><a href="verEventos.php">Eventos</a></p>
 
                 </div>
             </div>
 
-            <footer>
+            <div id="sMenu">
                 <!--Menú móvil-->
                 <ul id="segundoMenu">
                     <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" class="cerrarsesion" alt="cerrarSesion"></a></li>
@@ -391,7 +403,7 @@ and open the template in the editor.
                         </a>
                     </li>
                 </ul>
-            </footer>
+            </div>
 
         </div>
 

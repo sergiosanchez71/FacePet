@@ -272,7 +272,7 @@ li .alerta{
     }
 
     /*Segundo menú móvil*/
-    footer{
+    #sMenu{
         background: white;
         border-top: 1px solid black;
         box-shadow: 5px 10px;
