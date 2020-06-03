@@ -38,7 +38,8 @@ y en la derecha encima los botones y abajo el contenido*/
 }
 
 /*Texto de no disponible*/
-.noHay{
+.hContenido{
+    font-family: "Comica","Arial",sans-serif;
     padding-left: 4rem;
     display: block;
     margin: auto;
@@ -53,6 +54,7 @@ y en la derecha encima los botones y abajo el contenido*/
 
 /*Cada uno de los botones*/
 .boton{
+    font-family: "Comica","Arial",sans-serif;
     width: 100%;
     display: block;
     margin: auto;
@@ -66,6 +68,7 @@ y en la derecha encima los botones y abajo el contenido*/
 }
 
 .texto{
+    font-family: "Comica","Arial",sans-serif;
     margin-top: 2rem;
     margin-bottom: -0.5rem;
     text-align: center;
@@ -95,6 +98,7 @@ y en la derecha encima los botones y abajo el contenido*/
 
 /*Cambiar avatar*/
 #textCambiarAvatar{
+    font-family: "Comica","Arial",sans-serif;
     position: relative;
     font-weight: bold;
     font-size: 1.4rem;
@@ -160,9 +164,12 @@ y en la derecha encima los botones y abajo el contenido*/
 /*Datos*/
 
 #datos{
+    font-family: "Comica","Arial",sans-serif;
     position: relative;
     top: 6.5rem;
     left: 3rem;
+    font-size: 1.1rem;
+    
 }
 
 #animalRaza{
@@ -244,6 +251,7 @@ y en la derecha encima los botones y abajo el contenido*/
 }
 
 .nombreAmigo{
+    font-family: "Comica","Arial",sans-serif;
     font-weight: bold;
 }
 

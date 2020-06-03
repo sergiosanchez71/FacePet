@@ -11,9 +11,10 @@
 
 /*Texto de "Posts"*/
 .tituloseccion{
+    font-family: "Comica","Arial",sans-serif;
     font-weight: bold;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 /*Cada uno de los posts*/
@@ -94,6 +95,7 @@
 
 /*Título de post*/
 .postTitulo{
+    font-family: "Comica","Arial",sans-serif;
     grid-area: titulo;
     font-size: 2rem;
     font-weight: bold;

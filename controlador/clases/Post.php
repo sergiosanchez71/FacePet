@@ -308,39 +308,43 @@ class Post {
         $i = 0;
         $datos = null;
         //Recorremos el array de amigos
-        for ($j = 0; $j < count($amigos); $j++) {
-            //Busca los posts de nuestros amigos
-            $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where usuario='$amigos[$j]' and p.usuario=u.id order by fecha_publicacion desc");
+        //Busca los posts de nuestros amigos
+        $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where p.usuario=u.id order by fecha_publicacion desc");
 
-            while ($row = $consulta->fetch()) {
+        while ($row = $consulta->fetch()) {
 
-                if ($i < $cantidad && !Post::esMostrado($array, $row['id'])) { //Si no ha sido mostrado
+            for ($j = 0; $j < count($amigos); $j++) {
 
-                    if ($row['foto'] == null) {
-                        $foto = "0.jpg";
-                    } else {
-                        $foto = $row['foto'];
+                if ($amigos[$j] == $row['usuario']) {
+
+                    if ($i < $cantidad && !Post::esMostrado($array, $row['id'])) { //Si no ha sido mostrado
+                        if ($row['foto'] == null) {
+                            $foto = "0.jpg";
+                        } else {
+                            $foto = $row['foto'];
+                        }
+
+
+                        $datos[$i] = array(
+                            'id' => $row['id'],
+                            'titulo' => $row['titulo'],
+                            'contenido' => $row['contenido'],
+                            'multimedia' => $row['multimedia'],
+                            'fecha_publicacion' => $row['fecha_publicacion'],
+                            'likes' => $row['likes'],
+                            'like' => Post::comprobarLike($row['id'], $usuario),
+                            'usuario' => $row['usuario'],
+                            'nick' => $row['nick'],
+                            'foto' => $foto,
+                            'posts' => $array,
+                            'comentarios' => Comentario::contarComentarios($row['id'])
+                        );
                     }
 
-
-                    $datos[$i] = array(
-                        'id' => $row['id'],
-                        'titulo' => $row['titulo'],
-                        'contenido' => $row['contenido'],
-                        'multimedia' => $row['multimedia'],
-                        'fecha_publicacion' => $row['fecha_publicacion'],
-                        'likes' => $row['likes'],
-                        'like' => Post::comprobarLike($row['id'], $usuario),
-                        'usuario' => $row['usuario'],
-                        'nick' => $row['nick'],
-                        'foto' => $foto,
-                        'posts' => $array,
-                        'comentarios' => Comentario::contarComentarios($row['id'])
-                    );
+                    $i++;
                 }
-
-                $i++;
             }
+        
         }
         unset($conexion);
         return $datos;
@@ -374,7 +378,7 @@ class Post {
                 $likes = explode(",", $cadLikes); //Creamos un array de likes
                 for ($i = 0; $i < count($likes); $i++) {
                     if ($likes[$i] == $usuario) { //Si nuestro like se encuentra ahí
-                        $existe = true; 
+                        $existe = true;
                     }
                 }
             } else {
@@ -420,7 +424,7 @@ class Post {
             $post = $row['id'];
             $cadLikes = $row['likes'];
             if (isset($cadLikes)) {
-                if (strpos($cadLikes, ",")) { 
+                if (strpos($cadLikes, ",")) {
                     $likes = explode(",", $cadLikes); //Array de likes
                     for ($i = 0; $i < count($likes); $i++) {
                         if ($likes[$i] == $usuario) { //Si le hemos dado like

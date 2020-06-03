@@ -21,6 +21,11 @@
     display: none;  /* Ocultar scroll */
 }
 
+.hContenido{
+    font-family: "Comica","Arial",sans-serif;
+    text-align: center;
+}
+
 /*Cada uno de los eventos con transación*/
 .evento{
     background: white;
@@ -41,6 +46,7 @@
 }
 /*Título de evento*/
 .eventoTitulo{
+    font-family: "Comica","Arial",sans-serif;
     font-weight: bold;
     text-align: center;
     font-size: 2rem;

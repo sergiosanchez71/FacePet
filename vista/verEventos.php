@@ -129,7 +129,9 @@ and open the template in the editor.
                             var eventos = JSON.parse(respuesta);
                             pintarEventos(eventos, "eventos"); //Pintamos todos los eventos
                         } else {
+                            $("#checks").hide();
                             var h1 = document.createElement("h1"); //Si no hay eventos disponibles se muestra el mensaje
+                            h1.setAttribute("class","hContenido");
                             h1.innerHTML += "Aquí se mostraran los eventos, pero ahora mismo no hay ninguno";
                             $("#eventos").append(h1);
                         }

@@ -25,6 +25,7 @@ function pintarPosts(posts, div) { //Pintamos los posts dados un array de posts 
 
             var postUsuario = document.createElement("p"); //Nombre del autor del post
             postUsuario.setAttribute("class", "postUsuario");
+            postUsuario.setAttribute("title","Ver perfil");
             postUsuario.setAttribute("data-value", posts[i].usuario);
 
             postUsuario.onclick = function () { //Si le hacemos click nos lleva a su perfil
@@ -35,6 +36,7 @@ function pintarPosts(posts, div) { //Pintamos los posts dados un array de posts 
 
                 var a = document.createElement("button"); //Creamos el botón de eliminar post
                 a.setAttribute("value", posts[i].id);
+                a.setAttribute("title","Eliminar post");
                 a.setAttribute("class", "botonEliminar");
 
                 a.onclick = function () { //Al hacer click eliminamos el post
@@ -108,6 +110,7 @@ function pintarPosts(posts, div) { //Pintamos los posts dados un array de posts 
 
             if (!posts[i].like) { //Si no tiene like
                 postCorazonImg.setAttribute("src", "../controlador/img/nolike.png"); //img no like
+                postCorazonImg.setAttribute("title","Dar me gusta");
 
                 postCorazonImg.onclick = function () { //Al pulsarlo
                     this.removeAttribute("src");
@@ -125,6 +128,7 @@ function pintarPosts(posts, div) { //Pintamos los posts dados un array de posts 
             var postComentarioImg = document.createElement("img"); //Post comentario img
             postComentarioImg.setAttribute("class", "postComentarioImg");
             postComentarioImg.setAttribute("src", "../controlador/img/comentario.png");
+            postComentarioImg.setAttribute("title","Ver comentarios");
             postComentarioImg.setAttribute("alt", "Comentario");
             postComentarioImg.setAttribute("data-value", posts[i].id);
 
@@ -135,6 +139,7 @@ function pintarPosts(posts, div) { //Pintamos los posts dados un array de posts 
             var comentarios = document.createElement("span"); //texto de comentarios
             comentarios.setAttribute("class", "comentariosPost");
             comentarios.setAttribute("data-value", posts[i].id);
+            comentarios.setAttribute("title","Ver comentarios");
             if (posts[i].comentarios > 0) { //Depende de cuantos haya muestra un mensaje u otro
                 if (posts[i].comentarios == 1) {
                     comentarios.innerHTML = "Ver " + posts[i].comentarios + " comentario";
@@ -248,6 +253,7 @@ function pintarEventos(eventos, div) {
 
                 var a = document.createElement("button"); //creamos el botón de borrar
                 a.setAttribute("value", eventos[i].id);
+                a.setAttribute("title","Eliminar evento");
                 a.setAttribute("class", "botonEliminar");
 
                 a.onclick = function () { //Si le pulsamos se elimina el evento
@@ -266,6 +272,7 @@ function pintarEventos(eventos, div) {
 
             var titulo = document.createElement("p"); //Título del evento
             titulo.setAttribute("class", "eventoTitulo");
+            titulo.setAttribute("title","Ver Evento");
             titulo.innerHTML = eventos[i].titulo; 
             titulo.setAttribute("data-value", eventos[i].id);
 
@@ -336,6 +343,7 @@ function pintarEventos(eventos, div) {
 
             var autor = document.createElement("span"); //Nombre de autor
             autor.setAttribute("class", "eventoNombreAutor");
+            autor.setAttribute("title","Ver Perfil");
             autor.innerHTML = eventos[i].autor;
             autor.setAttribute("data-value", eventos[i].usuario);
 
@@ -412,6 +420,7 @@ function pintarUnEvento(eventos) { //Pintamos un evento
 
     var titulo = document.createElement("p"); //Título del post
     titulo.setAttribute("class", "eventoTitulo");
+    titulo.setAttribute("title","Ver Evento");
     titulo.innerHTML = eventos.titulo;
     titulo.setAttribute("data-value", eventos.id);
 
@@ -518,11 +527,13 @@ function pintarUnEvento(eventos) { //Pintamos un evento
 
         var botonParticipar = document.createElement("button"); //Botón para participar del evento
         botonParticipar.setAttribute("id", "botonParticipar");
+        botonParticipar.setAttribute("title","Dejar de participar en el evento");
         botonParticipar.setAttribute("value", eventos.id);
         botonParticipar.innerHTML = "Participar en este Evento";
 
         var botonYaParticipa = document.createElement("button"); //Botón para dejar de participar en el evento
         botonYaParticipa.setAttribute("id", "botonYaParticipa");
+        botonYaParticipa.setAttribute("title","Dejar de participar en el evento");
         botonYaParticipa.setAttribute("value", eventos.id);
         botonYaParticipa.innerHTML = "Ya participas en este evento";
 
@@ -630,6 +641,7 @@ function pintarAmigos(amigos, div, usuario) {
 
             var a = document.createElement("button"); //Tenemos el botón eliminar amigos
             a.setAttribute("value", amigos[i].id);
+            a.setAttribute("title","Eliminar amigo");
             a.setAttribute("class", "botonEliminarA");
 
             a.onclick = function () { //Click para eliminar
@@ -647,6 +659,7 @@ function pintarAmigos(amigos, div, usuario) {
         img.setAttribute("src", "../controlador/uploads/usuarios/" + amigos[i].foto);
         img.setAttribute("class", "imagenAmigo");
         img.setAttribute("alt", "imagenAmigo");
+        img.setAttribute("title","Ver perfil");
         img.setAttribute("data-value", amigos[i].id);
 
         img.onclick = function () { //Al hacer click en la imagen de cada amigo nos lleva a su perfil
@@ -655,6 +668,7 @@ function pintarAmigos(amigos, div, usuario) {
 
         var divA = document.createElement("div"); //Información del amigo
         divA.setAttribute("class", "informacionAmigo");
+        divA.setAttribute("title","Ver perfil");
         divA.setAttribute("data-value", amigos[i].id);
 
         divA.onclick = function () { //Al hacer click nos lleva a su perfil

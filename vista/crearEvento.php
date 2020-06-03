@@ -35,6 +35,7 @@
 
             /*Título de h1*/
             h1{
+                font-family: "Comica","Arial",sans-serif;
                 text-align: center;
             }
 
@@ -44,18 +45,20 @@
                 font-weight: bold;
             }
 
-            /*Los inputs*/
-            #titulo, #tipo, #fechai, #fechaf{
-                width: 100%;
-                font-size: 1.5rem;
+            #titulo,#tipo{
                 transition: 1s background ease;
             }
 
-            /*Texto de la fecha centrado*/
-            #fechai, #fechaf{
-                text-align: center;
+            /*Los inputs*/
+            #titulo, #tipo, .fecha{
+                width: 100%;
+                font-size: 1.5rem;
             }
 
+            /*Texto de la fecha centrado*/
+            .fecha{
+                text-align: center;
+            }
             /*La descripción del evento*/
             textarea{
                 resize: none;
@@ -185,7 +188,7 @@
                 getDate(); //Accedemos a la fecha actual
                 $("#botonCrearEvento").click(crearEvento); //Procedemos a añadir imagen
                 $("#botonCrearEvento2").click(function () { //Creamos el evento sin imagen
-                    crearEvento(); 
+                    crearEvento();
                     //Almacenamos el valor de cada campo
                     var titulo = $("#titulo").val();
                     var contenido = $("#contenido").val();
@@ -194,7 +197,7 @@
                     var fechaf = $("#fechaf").val();
                     //Si ninguno está vacío nos redirige a nuestro perfil
                     if (titulo.trim() != "" && contenido.trim() != "" && tipo.trim() != "" && fechai.trim() != "" && fechaf.trim() != "") {
-                          window.location.href = "miPerfil.php";
+                        window.location.href = "miPerfil.php";
                     }
                 });
             });
@@ -208,15 +211,15 @@
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        var fecha = JSON.parse(respuesta); 
+                        var fecha = JSON.parse(respuesta);
 
-                        var hora = parseInt(fecha.hour) + 1 ; //A la hora le sumamos 1
+                        var hora = parseInt(fecha.hour) + 1; //A la hora le sumamos 1
 
                         /*if (fecha.hour < 10) { //Si tiene menos de un caracter de longitud le introducimos un 0
                          hora = 0+""+hora;
                          }*/
 
-                         //Escribimos el valor de fecha inicio para que no coincida con la actual ni sea menor
+                        //Escribimos el valor de fecha inicio para que no coincida con la actual ni sea menor
                         $("#fechai").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                         $("#fechai").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                         $("#fechai").attr("max", "2099-12-31T23:59");
@@ -227,7 +230,7 @@
                          hora = 0+""+hora;
                          }*/
 
-                         //Escribimos el valor de fecha final
+                        //Escribimos el valor de fecha final
                         $("#fechaf").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                         $("#fechaf").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                         $("#fechaf").attr("max", "2099-12-31T23:59");
@@ -244,7 +247,7 @@
             //Mostramos mapa
             function initMap() {
 
-                var map = new google.maps.Map(document.getElementById('map'), { //Creamos un nuevo mapa
+                var map = new google.maps.Map(document.getElementById('map'), {//Creamos un nuevo mapa
                     center: {lat: 40.4378698, lng: -3.8196215},
                     zoom: 15,
                     streetViewControl: false,
@@ -297,7 +300,7 @@
                     if (marker) { //Si existe
                         marker.setPosition(location); //Cambiamos la ubicación
                     } else {
-                        marker = new google.maps.Marker({ //Si aún no existe creamos uno nuevo
+                        marker = new google.maps.Marker({//Si aún no existe creamos uno nuevo
                             position: location,
                             map: map,
                             icon: '../controlador/img/marker.ico',
@@ -305,7 +308,7 @@
                         });
                     }
                     //Accedemos a los valores de lat y lng del marcador en el lugar que hemos clickado
-                    $("#lat").val(marker.getPosition().lat().toString()); 
+                    $("#lat").val(marker.getPosition().lat().toString());
                     $("#lng").val(marker.getPosition().lng().toString());
                 }
 
@@ -338,7 +341,7 @@
                                     removeItemFromArr(estado, estado[1]); //Borro los elementos no necesarios de nuestra ciudad
                                     var ciudad = estado.toString(); //La guardamos
                                     ciudad = ciudad.replace(',', ' ').trim(); //Y cambiamos las , por espacios en blanco
-                                    var re = /,/g; 
+                                    var re = /,/g;
                                     $("#estado").val(ciudad.replace(re, ' ')); //Reemplazamos las , por espacios en blanco
                                 }
                             } else {
@@ -550,7 +553,7 @@
                         <p class="title">¿Participable?
                             <input type="checkbox" id="participable" value="yes">
                         </p>
-                        <p><input type="button" class="botonCrearEvento" id="botonCrearEvento" value="Añadir Multimedia">
+                        <p><input type="button" class="botonCrearEvento" id="botonCrearEvento" value="Añadir Imagen">
                             <input type="button" class="botonCrearEvento" id="botonCrearEvento2" value="Publicar Evento"></p>
                     </form>
                     <form method="post" id="paso2" enctype="multipart/form-data">
@@ -563,18 +566,18 @@
             </div>
         </div>
         <div id="sMenu">
-                <!--Menú móvil-->
-                <ul id="segundoMenu">
-                    <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" class="cerrarsesion" alt="cerrarSesion"></a></li>
-                    <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p class="alerta" id="mensajeM">1</p></a></li>
-                    <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p class="alerta" id="notificacionM">1</p></a></li>
-                    <li id="liUsuario">
-                        <a href="miPerfil.php">
-                            <img class="perfil" alt="imgPerfil">
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <!--Menú móvil-->
+            <ul id="segundoMenu">
+                <li class="icono"><a href="../index.php"><img src="../controlador/img/cerrar-sesion.png" class="cerrarsesion" alt="cerrarSesion"></a></li>
+                <li class="icono"><a href="mensajeria.php"><img src="../controlador/img/mensaje.png" class="mensajes" alt="mensajes"><p class="alerta" id="mensajeM">1</p></a></li>
+                <li class="icono"><a href="notificaciones.php"><img src="../controlador/img/notificacion.png" class="notificaciones" alt="notificaciones"><p class="alerta" id="notificacionM">1</p></a></li>
+                <li id="liUsuario">
+                    <a href="miPerfil.php">
+                        <img class="perfil" alt="imgPerfil">
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 
 </body>

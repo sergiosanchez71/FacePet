@@ -95,9 +95,10 @@
             }
 
             /*Nombre de amigo tamaño y transación*/
-            .nombreAmigo{
+            .nombreAmigo{               
+                font-family: "Comica","Arial",sans-serif;
                 font-weight: bold;
-                font-size: 1.5rem;
+                font-size: 1.3rem;
                 cursor: pointer;
                 float: left;
                 transition: 1s color ease;
@@ -179,7 +180,7 @@
 
             /*Vista de móvil*/
             @media (max-width: 1000px){
-
+                
                 /*Aumentamos los tamaños*/
                 h1{
                     font-size: 4rem;
@@ -206,20 +207,20 @@
                     width: 100%;
                     padding: 0;
                 }
-                
-                
+
+
                 /*Aumentamos tamños*/
                 .check{
                     width: 3rem;
                     height: 3rem;
                 }
-                
+
                 .textcheck{
                     font-size: 2.5rem;
                     position: relative;
                     bottom: 0.75rem;
                 }
-                
+
                 .textcheck:last-child{
                     padding-right: 3rem;
                 }
@@ -277,7 +278,7 @@
             $(document).ready(function () {
                 mostrarTodosNombresUsuarios(); //Mostramos todos los nombres de los usuarios disponibles
                 buscarUsuarios(); //Buscamos los usuarios
-                $("#buscador").autocomplete({ //Si clickamos lo autocompletamos
+                $("#buscador").autocomplete({//Si clickamos lo autocompletamos
                     source: nombres,
                     minLength: 2,
                     change: function (event, ui) {
@@ -314,7 +315,7 @@
                             }
                         });
                     } else { //Si este no está seleccionado el valor es falso
-                        ciudad = false; 
+                        ciudad = false;
                     }
                     buscarUsuarios(); //Volvemos a buscar usuarios
                 });
@@ -456,6 +457,7 @@
                                     imagenPerfil.setAttribute("src", "../controlador/uploads/usuarios/" + usuarios[i].foto); //Ruta
                                     imagenPerfil.setAttribute("class", "imagenAmigo");
                                     imagenPerfil.setAttribute("alt", "imagenPerfil");
+                                    imagenPerfil.setAttribute("title","Ver perfil");
                                     imagenPerfil.setAttribute("data-value", usuarios[i].id); //Id usuario
 
                                     imagenPerfil.onclick = function () { //Al clickear redirecciona al perfil de usuario
@@ -465,7 +467,8 @@
                                     var p = document.createElement("p"); //Creamos un p
 
                                     var nombreAmigo = document.createElement("p"); //Nombre de amigo
-                                    nombreAmigo.setAttribute("class", "nombreAmigo"); 
+                                    nombreAmigo.setAttribute("class", "nombreAmigo");
+                                    nombreAmigo.setAttribute("title","Ver perfil");
                                     nombreAmigo.innerHTML += usuarios[i].nick;
                                     nombreAmigo.setAttribute("data-value", usuarios[i].id);
 
@@ -495,10 +498,12 @@
 
                                     if (usuarios[i].solicitud == "pendiente") { //Si es pediente se le aplica la clase pendiente
                                         solicitud.setAttribute("class", "pendiente");
+                                        solicitud.setAttribute("title","Cancelar Solicitud");
                                         solicitud.setAttribute("data-pos", i);
                                         solicitud.innerHTML += "Pendiente";
                                     } else { //Si no la clase solicitud
                                         solicitud.setAttribute("class", "solicitud");
+                                        solicitud.setAttribute("title","Enviar Solicitud");
                                         solicitud.setAttribute("data-pos", i);
                                         solicitud.innerHTML += "Enviar Solicitud ";
                                     }
@@ -606,7 +611,7 @@
             </header>
             <div id="cuerpo">
                 <div id="buscadorAmigos" class="ui-widget" onkeypress="pulsar(event)">
-                    <h1>Buscar Amigos</h1>
+                    <h1 class="titleSeccion">Buscar Amigos</h1>
                     <input type="text" id="buscador" placeholder="Busca a un amigo...">
                     <img src="../controlador/img/lupa.png" id="lupa" alt="lupa">
                     <div id="checks">

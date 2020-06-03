@@ -271,6 +271,7 @@ and open the template in the editor.
                                 comentario.setAttribute("class", "comentario");
 
                                 var info = document.createElement("div"); //Nombre usuario
+                                info.setAttribute("title","Ver perfil");
                                 info.setAttribute("data-value", comentarios[i].usuario);
 
                                 info.onclick = function () { //Enlace a la página de perfil del usuario
@@ -282,6 +283,7 @@ and open the template in the editor.
 
                                     var a = document.createElement("button");
                                     a.setAttribute("value", comentarios[i].id);
+                                    a.setAttribute("title","Eliminar comentario");
                                     a.setAttribute("class", "botonEliminarA");
 
                                     a.onclick = function () { //Botón eliminar comentario
@@ -379,6 +381,7 @@ and open the template in the editor.
                                 post.setAttribute("class", "post");
                                 var postUsuario = document.createElement("p");
                                 postUsuario.setAttribute("class", "postUsuario");
+                                postUsuario.setAttribute("title","Ver perfil");
                                 postUsuario.setAttribute("data-value", posts.usuario);
 
                                 postUsuario.onclick = function () { //Enlace al perfil
@@ -440,6 +443,7 @@ and open the template in the editor.
 
                                 var postCorazonImg = document.createElement("img");
                                 postCorazonImg.setAttribute("class", "postCorazonImg");
+                                postCorazonImg.setAttribute("title","Dar me gusta");
                                 postCorazonImg.setAttribute("alt", "Corazon");
                                 postCorazonImg.setAttribute("data-value", posts.id); //Id post
 

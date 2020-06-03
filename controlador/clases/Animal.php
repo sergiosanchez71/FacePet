@@ -42,7 +42,7 @@ class Animal {
             $i++;
         }
         if($i==0){
-            $animal = "No especificado";
+            $animal = "N.A.";
         }
         unset($conexion);
         return $animal;

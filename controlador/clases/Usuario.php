@@ -634,7 +634,7 @@ class Usuario {
             }
             if ($checkCiudad == "true" && $checkAnimal == "true") { //Si ambos están marcados
                 //Muestran los usuarios que tienen la misma provincia el mismo animal pero distinto municipio y raza
-                $consulta4 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio!='$municipio' and animal='$animal' and raza!='$raza' order by nick asc");
+                $consulta4 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia!='$provincia' and municipio!='$municipio' and animal='$animal' and raza='$raza' order by nick asc");
                 while ($row = $consulta4->fetch()) {
                     if ($i < $limite) {
                         $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']); //Estado de la solicitud
@@ -668,7 +668,7 @@ class Usuario {
                     }
                 }
                 //Muestran los usuarios que tienen el mismo animal pero distinta provincia,municipio y raza
-                $consulta5 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia!='$provincia' and municipio!='$municipio' and animal='$animal' and raza!='$raza' order by nick asc");
+                $consulta5 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio='$municipio' and animal!='$animal' and raza!='$raza' order by nick asc");
                 while ($row = $consulta5->fetch()) {
                     if ($i < $limite) {
                         $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']); //Estado de la solicitud
@@ -702,7 +702,7 @@ class Usuario {
                     }
                 }
                 //Muestran los usuarios que tienen la misma provincia pero distinto animal,municipio y raza
-                $consulta6 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio!='$municipio' and animal!='$animal' and raza!='$raza' order by nick asc");
+                $consulta6 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio!='$municipio' and animal='$animal' and raza!='$raza' order by nick asc");
                 while ($row = $consulta6->fetch()) {
                     if ($i < $limite) {
                         $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']); //Estado de la solicitud
@@ -736,8 +736,74 @@ class Usuario {
                     }
                 }
                 //Muestran todos los usuarios que no tienen la misma provincia, municipio, animal y raza
-                $consulta7 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia!='$provincia' and municipio!='$municipio' and animal!='$animal' and raza!='$raza' order by nick asc");
+                $consulta7 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia!='$provincia' and municipio!='$municipio' and animal='$animal' and raza!='$raza' order by nick asc");
                 while ($row = $consulta7->fetch()) {
+                    if ($i < $limite) {
+                        $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']); //Estado de la solicitud
+                        $fecha = date("Y-m-d H:i:s"); //Fecha actual
+                        if ($solicitud != "aceptada") { //Si no está aceptada la petición
+                            if ($row['foto'] == null) { //si no tiene foto
+                                $foto = "0.jpg";
+                            } else {
+                                $foto = $row['foto'];
+                            }
+
+                            $datos[$i] = ['id' => $row['id'],
+                                'nick' => $row['nick'],
+                                'password' => $row['password'],
+                                'email' => $row['email'],
+                                'animal' => Animal::buscarConId($row['animal']), //Animal usuario
+                                'raza' => Raza::buscarConId($row['raza']), //Raza usuario
+                                'sexo' => $row['sexo'],
+                                'foto' => $foto,
+                                'provincia' => Provincia::getNombreProvincia($row['provincia']), //Provincia usuario
+                                'municipio' => Municipio::getNombreMunicipio($row['municipio']), //Municipio usuario
+                                'amigos' => $row['amigos'],
+                                'baneado' => $row['baneado'],
+                                'fechaH' => $fecha,
+                                'operador' => $row['operador'],
+                                'solicitud' => $solicitud,
+                                'buscador' => Usuario::getIdUsuario($usuario) //El usuario que está buscando
+                            ];
+                            $i++;
+                        }
+                    }
+                }
+                $consulta8 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia='$provincia' and municipio!='$municipio' and animal!='$animal' and raza!='$raza' order by nick asc");
+                while ($row = $consulta8->fetch()) {
+                    if ($i < $limite) {
+                        $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']); //Estado de la solicitud
+                        $fecha = date("Y-m-d H:i:s"); //Fecha actual
+                        if ($solicitud != "aceptada") { //Si no está aceptada la petición
+                            if ($row['foto'] == null) { //si no tiene foto
+                                $foto = "0.jpg";
+                            } else {
+                                $foto = $row['foto'];
+                            }
+
+                            $datos[$i] = ['id' => $row['id'],
+                                'nick' => $row['nick'],
+                                'password' => $row['password'],
+                                'email' => $row['email'],
+                                'animal' => Animal::buscarConId($row['animal']), //Animal usuario
+                                'raza' => Raza::buscarConId($row['raza']), //Raza usuario
+                                'sexo' => $row['sexo'],
+                                'foto' => $foto,
+                                'provincia' => Provincia::getNombreProvincia($row['provincia']), //Provincia usuario
+                                'municipio' => Municipio::getNombreMunicipio($row['municipio']), //Municipio usuario
+                                'amigos' => $row['amigos'],
+                                'baneado' => $row['baneado'],
+                                'fechaH' => $fecha,
+                                'operador' => $row['operador'],
+                                'solicitud' => $solicitud,
+                                'buscador' => Usuario::getIdUsuario($usuario) //El usuario que está buscando
+                            ];
+                            $i++;
+                        }
+                    }
+                }
+                $consulta9 = $conexion->query("SELECT * from usuarios where nick like '$cadena%' and nick!='$usuario' and provincia!='$provincia' and municipio!='$municipio' and animal!='$animal' and raza!='$raza' order by nick asc");
+                while ($row = $consulta9->fetch()) {
                     if ($i < $limite) {
                         $solicitud = Amistades::comprobarSolicitud(Usuario::getIdUsuario($usuario), $row['id']); //Estado de la solicitud
                         $fecha = date("Y-m-d H:i:s"); //Fecha actual

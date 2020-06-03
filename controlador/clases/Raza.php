@@ -53,7 +53,7 @@ class Raza {
         }
         
         if($i == 0){ //Si no se encuentra
-            $raza = "No especificada";
+            $raza = "N.A.";
         }
         
         unset($conexion);

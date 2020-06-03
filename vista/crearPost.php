@@ -31,6 +31,7 @@
 
             /*Centramos h1*/
             h1{
+                font-family: "Comica","Arial",sans-serif;
                 text-align: center;
             }
 
@@ -277,7 +278,7 @@
                         <input type="text" id="titulo" name="titulo" maxlength="30">
                         <p class="title">Contenido</p> 
                         <textarea type="text" id="contenido" name="contenido" maxlength="1000"></textarea>
-                        <p><input type="button" class="botonCrearPost" id="botonCrearPost" value="Añadir Multimedia">
+                        <p><input type="button" class="botonCrearPost" id="botonCrearPost" value="Añadir Imagen">
                             <input type="button" class="botonCrearPost" id="botonCrearPost2" value="Subir Post"></p>
                     </form>
                     <form method="post" id="paso2" enctype="multipart/form-data"> <!-- Paso 2 -->

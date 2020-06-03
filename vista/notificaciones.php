@@ -80,8 +80,11 @@
 
             /*Usuario de la notificación */
             .usuarioNoti{
+                font-family: "Comica","Arial",sans-serif;
                 float: left;
                 margin-right: 0.3rem;
+                position: relative;
+                bottom: 0.2rem;
                 font-weight: bold;
                 transition: 1s color ease;
             }
@@ -280,6 +283,7 @@
                                 img.setAttribute("src", "../controlador/uploads/usuarios/" + notificaciones[i].fotoAmigo);
                                 img.setAttribute("class", "imagenNotificacion");
                                 img.setAttribute("alt", "imagenPerfil");
+                                img.setAttribute("title","Ver perfil");
                                 img.setAttribute("data-value",notificaciones[i].user1);
 
                                 img.onclick = function(){//Redireccionamos a su perfil
@@ -290,6 +294,7 @@
 
                                 var usuario = document.createElement("span"); //Nombre de usuario
                                 usuario.setAttribute("class", "usuarioNoti");
+                                usuario.setAttribute("title","Ver perfil");
                                 usuario.setAttribute("data-value",notificaciones[i].user1);
                                 usuario.innerHTML = notificaciones[i].nickAmigo;
                                 
@@ -307,7 +312,8 @@
                                 } else if (notificaciones[i].tipo == "comentarioP") { //Si es un comentario del post
                                     notificacion.setAttribute("data-value", notificaciones[i].elemento[0].id);
                                     notificacion.setAttribute("style", "cursor:pointer");
-                                    notificacion.setAttribute("title", "pulsa para ver comentario");
+                                    notificacion.setAttribute("title","Ver post");
+                                    notificacion.setAttribute("title", "Ver post");
                                     var comentario = notificaciones[i].elemento[1].contenido;
                                     if(comentario.length < 50){ //Si el comentario tiene menos de 50 caracteres
                                         mensaje.innerHTML = "ha comentado ' "+comentario+" ' en tu post con titulo " + notificaciones[i].elemento[0].titulo;
@@ -363,6 +369,7 @@
 
                                         var aceptar = document.createElement("button"); //El botón de aceptar
                                         aceptar.setAttribute("class", "aceptar");
+                                        aceptar.setAttribute("title","Aceptar solicitud");
                                         aceptar.setAttribute("value", notificaciones[i].user1);
                                         aceptar.innerHTML = "Aceptar";
 
@@ -372,6 +379,7 @@
 
                                         var rechazar = document.createElement("button"); //Botón de rechazar solicitud
                                         rechazar.setAttribute("class", "rechazar");
+                                        rechazar.setAttribute("title","Rechazar solicitud");
                                         rechazar.setAttribute("value", notificaciones[i].user1);
                                         rechazar.innerHTML = "Rechazar";
 

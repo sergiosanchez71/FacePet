@@ -26,6 +26,10 @@ and open the template in the editor.
         ?>
         <style>
 
+            #imgPerfil{
+                margin-top: 2rem;
+            }
+            
         </style>
         <script>
 
@@ -260,6 +264,7 @@ and open the template in the editor.
                             pintarAmigos(amigos, "amigosPerfiles", usuario); //Los pintamos desde esta función
                         } else { //Si no se encuentra se muestra el siguiente texto
                             var h1 = document.createElement("h1");
+                            h1.setAttribute("style","text-align:center");
                             h1.innerHTML += "Este usuario aún no tiene amigos";
                             $("#amigosPerfiles").append(h1);
                         }
@@ -295,9 +300,9 @@ and open the template in the editor.
                         } else {
                             if (cantidad == "5") { //y si la cantidad es 5 (por defecto)
                                 var h1 = document.createElement("h1"); //Mostramos el siguiente texto
+                                h1.setAttribute("class","hContenido");
                                 h1.innerHTML += "Aquí se mostraran los posts, pero ahora mismo no tiene ninguno";
                                 $("#textoEventos").hide();
-                                h1.setAttribute("class", "noHay");
                                 $("#contenido").append(h1);
                             }
                         }
@@ -329,9 +334,9 @@ and open the template in the editor.
 
                         } else { //si no mostramos el siguiente texto
                             var h1 = document.createElement("h1");
+                            h1.setAttribute("class","hContenido");
                             h1.innerHTML += "Aquí se mostraran los eventos, pero ahora mismo no hay ninguno";
                             $("#textoEventos").hide();
-                            h1.setAttribute("class", "noHay");
                             $("#contenido").append(h1);
                         }
 

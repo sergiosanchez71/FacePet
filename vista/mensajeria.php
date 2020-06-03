@@ -29,11 +29,12 @@
             /*Lista de amigos con borde*/
             #listaAmigos{
                 grid-area: listaAmigos;
-                border: 1px solid black;
+                border-right: 1px solid grey;
+                border-bottom: 1px solid grey;
                 padding: 1rem;
                 overflow-y: auto;
             }
-            
+
             #listaAmigos::-webkit-scrollbar{
                 width: 1rem;
                 height: 1rem;
@@ -42,8 +43,9 @@
 
             /*Texto cabecera*/
             #chatear{
+                font-family: "Comica","Arial",sans-serif;
                 font-weight: bold;
-                font-size: 2rem;
+                font-size: 1.75rem;
                 display: block;
                 margin: auto;
                 width: 22.5rem;
@@ -81,8 +83,8 @@
             /*Imagen de nuestros amigos*/
             .imgAmigo{
                 grid-area: imagen;
-                width: 60%;
-                height: 7rem;
+                width: 70%;
+                height: 8rem;
                 border-radius: 4rem;
             }
 
@@ -92,8 +94,9 @@
 
             /*Nombre de nuestros amigos en negrita*/
             .nombreAmigo{
+                font-family: "Comica","Arial",sans-serif;
                 font-weight: bold;
-                font-size: 1rem;
+                font-size: 1.75rem;
             }
 
             /*Primera letra en mayúscula*/
@@ -103,8 +106,9 @@
 
             /*Tamaño reducido*/
             .animalAmigo, .razaAmigo{
-                font-size: 0.8rem;
+                font-size: 1.3rem;
                 line-height: 0.6;
+                margin-top: -0.75rem;
             }
 
             .divMensajesAmigo{
@@ -126,7 +130,7 @@
             /*El div de chat*/
             #Cmensajes{
                 grid-area: mensajes;
-                border: 1px solid black;
+                border-bottom: 1px solid grey;
                 display: grid;
                 grid-template-areas: 
                     "cabeceraCM"
@@ -134,7 +138,7 @@
                     "pieCM";
                 grid-template-rows: 17.5% 67.5% 15%;
             }
-            
+
             #volver{
                 display: none;
             }
@@ -163,14 +167,28 @@
                 border-radius: 5rem;
                 float:left;
                 padding: 1rem;
+                transition: 1s opacity ease;
+            }
+            
+            #imgAmigoCM:hover{
+                opacity: 0.7;
+                cursor: pointer;
             }
 
             /*El nombre de nuestro amigo que se mostrará en la cabecera*/
             #nombreAmigoCM{
+                font-family: "Comica","Arial",sans-serif;
                 grid-area: nombreAmigoCM;
                 font-weight: bold;
-                margin-top: 3rem;
+                margin-top: 2rem;
                 margin-right: 3rem;
+                transition: 1s color ease;
+                font-size: 2rem;
+            }
+            
+            #nombreAmigoCM:hover{
+                color: #f43333;
+                cursor: pointer;
             }
 
             /*El id de usuario*/
@@ -265,7 +283,7 @@
                     grid-template-columns: 40% 60%;
                     padding-bottom: 15rem;
                 }
-                
+
                 /*Aumentamos los tamaños*/
                 #buscador, #mensajeEscrito{
                     height: 4rem;
@@ -289,7 +307,7 @@
                     grid-template-columns: 20% 80%;
                     grid-template-rows: 20% 50% 30%;
                 }
-                
+
                 #enviarMensaje{
                     height: 4rem;
                     bottom: 4.5rem;
@@ -308,7 +326,7 @@
                     margin: 0;
                     padding: 0;
                 }
-                
+
                 #volver{
                     display: block;
                     position: absolute;
@@ -343,7 +361,7 @@
                     width: 95%;
                     padding-bottom: 5rem;
                 }
-                
+
                 .amigo:last-child{
                     margin-bottom: 10rem;
                 }
@@ -423,7 +441,7 @@
                 }
 
                 #enviarMensaje{
-                    
+
                     position: relative;
                     top: 0;
                     margin-top: 1rem;
@@ -442,28 +460,17 @@
             $(document).ready(function () {
                 mostrarMisAmigos(); //Mostramos todos nuestros amigos
                 $('#buscador').on('input', function () { //Si escribimos
-                    mostrarMisAmigos(); 
+                    mostrarMisAmigos();
                 });
                 $("#enviarMensaje").click(function () { //Al enviar mensaje
                     enviarMensaje($("#mensajeEscrito").val(), $("#idUsuario").val()); //Lo enviamos dado el mensaje y el id del usuario
                 });
-                if ($("#idUsuario").length > 0) {
-                    //mostrarChat($("#idUsuario").val());
-                    /*setInterval(function () {
-                     mostrarChat($("#idUsuario").val());
-                     $("#cuerpoCM").animate({scrollTop: $('#cuerpoCM')[0].scrollHeight})
-                     }, 500);*/
-                }
 
                 /*Ocultamos todo los datos de nuestro amigo hasta que hagamos click en el primero*/
                 $("#imgAmigoCM").css("display", "none"); //Ocultamos
                 $("#enviarMensaje").css("display", "none");
                 $("#mensajeEscrito").css("display", "none");
-                //$("#cabeceraCM").append(h1);
 
-                /* mostrarCabeceraChat(amigos[i].id);
-                 mostrarChat(amigos[i].id);
-                 mensajesLeidos(amigos[i].id);*/
             });
 
             /*Función de cambio entre lista y chat en el móvil*/
@@ -501,6 +508,7 @@
                                 var amigoPerfil = document.createElement("div"); //Div amigo
                                 amigoPerfil.setAttribute("data-value", amigos[i].id);
                                 amigoPerfil.setAttribute("data-pos", i);
+                                amigoPerfil.setAttribute("title","Abrir chat");
                                 amigoPerfil.setAttribute("class", "amigo");
 
                                 amigoPerfil.onclick = function () { //Al hacer click en el usuario
@@ -527,11 +535,11 @@
                                 nombreAmigo.setAttribute("class", "nombreAmigo");
                                 nombreAmigo.innerHTML = amigos[i].nick;
 
-                                var animalAmigo = document.createElement("span"); //Animal
+                                var animalAmigo = document.createElement("p"); //Animal
                                 animalAmigo.setAttribute("class", "animalAmigo");
                                 animalAmigo.innerHTML = amigos[i].animal;
 
-                                var razaAmigo = document.createElement("span"); //Raza
+                                var razaAmigo = document.createElement("p"); //Raza
                                 razaAmigo.setAttribute("class", "razaAmigo");
                                 razaAmigo.innerHTML = " " + amigos[i].raza;
 
@@ -577,7 +585,7 @@
             }
 
             //Mostrar la cabecera de nuestro chat dado el usuario con el que chateamos
-            function mostrarCabeceraChat(usuario) { 
+            function mostrarCabeceraChat(usuario) {
                 var parametros = {
                     "accion": "mostrarCabeceraChat",
                     "usuario": usuario
@@ -597,6 +605,14 @@
                         $("#imgAmigoCM").attr("src", "../controlador/uploads/usuarios/" + amigo.foto); //Ruta de la imagen de amigo
                         $("#nombreAmigoCM").text(amigo.nick); //Amigo nombre
                         $("#idUsuario").attr("value", amigo.id); //Id usuario
+                        
+                        $("#imgAmigoCM").click(function () { //Al hacer click nos lleva a la vista de post
+                            window.location.href = "verPerfil.php?usuario=" + $("#idUsuario").val();
+                        });
+                        
+                        $("#nombreAmigoCM").click(function () { //Al hacer click nos lleva a la vista de post
+                            window.location.href = "verPerfil.php?usuario=" + $("#idUsuario").val();
+                        });
                     },
                     error: function (xhr, status) {
                         alert("Error en mostrar la cabecera de chat");
@@ -632,7 +648,7 @@
                                 contenido.innerHTML = mensajes[i].mensaje;
 
                                 var fecha = document.createElement("p"); //Fecha del mensaje
-                                fecha.setAttribute("class", "fecha"); 
+                                fecha.setAttribute("class", "fecha");
                                 fecha.innerHTML = mensajes[i].fecha; //Escribimos el valor
 
                                 $("#cuerpoCM").append(div);
@@ -677,7 +693,7 @@
                                     div.setAttribute("class", "mUser1"); //Si no es el amigo
                                 }
 
-                                var contenido = document.createElement("span"); 
+                                var contenido = document.createElement("span");
                                 contenido.innerHTML = mensajes[i].mensaje;
 
                                 var fecha = document.createElement("p");
@@ -723,7 +739,7 @@
                             var div = document.createElement("div");
                             div.setAttribute("class", "mUser1");
 
-                            var contenido = document.createElement("span"); 
+                            var contenido = document.createElement("span");
                             contenido.innerHTML = mensaje;
 
                             var fecha = document.createElement("p");

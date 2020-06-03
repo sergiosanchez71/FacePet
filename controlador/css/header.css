@@ -1,4 +1,10 @@
 
+/*Fuente que implementamos en el título*/
+@font-face {
+    font-family: "Comica";
+    src: url("../uploads/font/CantedComic Regular.otf");
+}
+
 /*Cuerpo con fondo white y reseteado*/
 body{
     font-family: "Arial", sans-serif;
@@ -32,6 +38,7 @@ header{
 
 /*Navegador de pc*/
 #navpc{
+    font-family: "Comica", "Arial", sans-serif;
     width: 70rem;
     padding: 1rem;
     margin: auto;
@@ -72,7 +79,7 @@ header{
     top: 0.5rem;
     margin-left: 0.5rem;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 #navpc li a{
@@ -166,6 +173,11 @@ li .alerta{
     border-bottom: 1px solid black;
 }
 
+.titleSeccion{
+    font-family: "Comica","Arial",sans-serif;
+    font-size: 3rem;
+}
+
 /*Vista tablet*/
 @media(max-width: 1250px){
 
@@ -247,6 +259,7 @@ li .alerta{
 
     /*Menú oculto*/
     #trickMenu{
+        font-family: "Comica", "Arial", sans-serif;
         display: none;
         background: white;
     }
@@ -256,7 +269,7 @@ li .alerta{
         font-weight: bold;
         font-size: 3rem;
     }
-    
+
     #trickMenu li:nth-child(even){
         background: red;
     }
@@ -281,14 +294,14 @@ li .alerta{
         width: 100%;
         display: flex;
     }
-    
+
     /*Div de segundo menu*/
     #segundoMenu{
         display: block;
         margin: auto;
         margin-top: 1rem;
     }
-    
+
     /*Notificaciones*/
     .icono .alerta{
         display: none;
@@ -298,7 +311,7 @@ li .alerta{
     }
 
     /*Aumentamos tamaños*/
-    
+
     #segundoMenu li{
         list-style: none;
         float: left;
@@ -309,24 +322,28 @@ li .alerta{
         font-weight: bold;
         font-size: 1.2rem;
     }
-        
+
     #liUsuario a{
         text-decoration: none;
     }
-    
+
     .perfil{
         width: 6rem;
         height: 6rem;
     }
-    
+
     .mensajes, .notificaciones, .cerrarsesion{
         width: 6rem;
         margin-right: 5rem;
     }
-    
+
     .cerrarsesion{
         position: relative;
         bottom: 0.5rem;
+    }
+    
+    .titleSeccion{
+        font-size: 4rem;
     }
 
 }

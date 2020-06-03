@@ -388,6 +388,7 @@ and open the template in the editor.
                                 imagenPerfil.setAttribute("src", "../controlador/uploads/usuarios/" + usuarios[i].foto);
                                 imagenPerfil.setAttribute("class", "imagenUsuario");
                                 imagenPerfil.setAttribute("alt", "imagenPerfil");
+                                imagenPerfil.setAttribute("title","Ver perfil");
                                 imagenPerfil.setAttribute("data-value", usuarios[i].id);
 
                                 imagenPerfil.onclick = function () { //Redirecciona a su perfil
@@ -398,6 +399,7 @@ and open the template in the editor.
 
                                 var nombreUsuario = document.createElement("p"); //Nombre de usuario
                                 nombreUsuario.setAttribute("class", "nombreUsuario");
+                                nombreUsuario.setAttribute("title","Ver perfil");
                                 nombreUsuario.innerHTML += usuarios[i].nick;
                                 nombreUsuario.setAttribute("data-value", usuarios[i].id);
 
@@ -425,6 +427,7 @@ and open the template in the editor.
 
                                 var sancionar = document.createElement("button"); //Botón de sancionar
                                 sancionar.setAttribute("class", "sancionarB");
+                                sancionar.setAttribute("title","Sancionar usuario");
                                 sancionar.setAttribute("value", usuarios[i].id);
                                 sancionar.setAttribute("data-pos", i); //Posición
                                 sancionar.innerHTML = "Sancionar";
@@ -440,10 +443,12 @@ and open the template in the editor.
                                     var sancionarBoton = document.createElement("button"); //Botón de sancionar
                                     sancionarBoton.setAttribute("class", "sancionarBot");
                                     sancionarBoton.setAttribute("data-pos", this.dataset.pos);
+                                    sancionarBoton.setAttribute("title","Sancionar usuario");
                                     sancionarBoton.setAttribute("value", this.value);
                                     sancionarBoton.innerHTML = "Sancionar";
                                     var atras = document.createElement("button"); //Volver atrás
                                     atras.setAttribute("data-pos", this.dataset.pos);
+                                    atras.setAttribute("title","Volver");
                                     atras.setAttribute("class", "atras");
                                     atras.innerHTML = "Atrás";
 
@@ -545,6 +550,7 @@ and open the template in the editor.
                                 //Botón de eliminar sanción
                                 var eliminarSancion = document.createElement("button");
                                 eliminarSancion.setAttribute("class", "eliminarSancion");
+                                eliminarSancion.setAttribute("title","Quitar sanción");
                                 eliminarSancion.setAttribute("data-pos", i);
                                 eliminarSancion.setAttribute("value", usuarios[i].id);
                                 eliminarSancion.innerHTML = "Quitar Sanción";
@@ -588,12 +594,13 @@ and open the template in the editor.
                                 //Botón de eliminar usuario
                                 var eliminar = document.createElement("button");
                                 eliminar.setAttribute("class", "eliminarB");
+                                eliminar.setAttribute("title","Eliminar usuario permanentemente");
                                 eliminar.setAttribute("data-post", i);
                                 eliminar.setAttribute("value", usuarios[i].id);
                                 eliminar.innerHTML = "Eliminar";
 
                                 eliminar.onclick = function () { //Al pulsarlo
-                                    if (confirm("¿Esta seguro de eliminar a este usuario?" + this.value)) {
+                                    if (confirm("¿Esta seguro de eliminar a este usuario permanentemente?" + this.value)) {
                                         eliminarUsuario(this.value, this.dataset.pos); //Eliminados el usuario dado el id y pos
                                         mostrarUsuarios();
                                     }

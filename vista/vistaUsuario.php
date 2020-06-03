@@ -229,15 +229,14 @@ and open the template in the editor.
                     }
                 }
 
+                //Si la pantalla no es de móvil
                 if ($(window).width() > 1000) {
-                    console.log($(window).scrollTop());
-                    console.log($("#textEventos").height());
-                    if ($(window).scrollTop() > $("#textEventos").height() + 100) {
-                        $("#eventos").attr("class", "eventosfixed");
-                        $("footer").css("visibility","visible");
+                    if ($(window).scrollTop() > $("#textEventos").height() + 100) { //Cogemos como referencia el enlace para ver todos los eventos
+                        $("#eventos").attr("class", "eventosfixed"); //Añadimos clase fixed
+                        $("footer").css("visibility","visible"); //Footer visible
                     } else {
-                        $("#eventos").removeAttr("class");
-                        $("footer").css("visibility","hidden");
+                        $("#eventos").removeAttr("class"); //Quitamos clase fixed
+                        $("footer").css("visibility","hidden"); //Footer invisible
                     }
                 }
 
@@ -306,6 +305,7 @@ and open the template in the editor.
                         } else {
                             if (cantidad == "5") { //Si la cantidad es 5 y no recibimos respuesta
                                 var h1 = document.createElement("h1");
+                                h1.setAttribute("class","hContenido");
                                 h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya";
                                 $("#posts").append(h1); //Mostramos este mensaje en un h1
                             }
@@ -335,6 +335,7 @@ and open the template in the editor.
                             pintarEventos(eventos, "eventos"); //Pintamos eventos
                         } else { //Si no recibimos respuesta
                             var h1 = document.createElement("h1");
+                            h1.setAttribute("class","hContenido");
                             h1.innerHTML += "Aquí se mostraran los eventos, pero ahora mismo no hay ninguno";
                             $("#eventos").append(h1); //Mostramos el mensaje anterior en un h1
                         }

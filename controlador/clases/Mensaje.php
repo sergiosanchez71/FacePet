@@ -81,7 +81,7 @@ class Mensaje {
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if ($user1 && $user2) { //Si existen ambos
             //Buscamos los mensajes dados ambos usuarios limitado a 15
-            $consulta = $conexion->query("SELECT * from mensajes where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1) order by fecha desc limit 15");
+            $consulta = $conexion->query("SELECT * from mensajes where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1) order by fecha asc limit 15");
             $i = 0;
             $datos = null;
             while ($row = $consulta->fetch()) {
