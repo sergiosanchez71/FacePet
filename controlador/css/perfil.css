@@ -92,6 +92,10 @@ y en la derecha encima los botones y abajo el contenido*/
     position: absolute;
 }
 
+#cambiarAvatar h1{
+    font-family: "Comica","Arial",sans-serif;
+}
+
 #contenidoPerfil:hover > #textCambiarAvatar{
     opacity: 0.9;
 }

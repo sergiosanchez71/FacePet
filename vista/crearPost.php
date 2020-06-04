@@ -53,7 +53,6 @@
                 width: 100%;
                 height: 14rem;
                 font-size: 1.1rem;
-                transition: 1s background ease;
             }
 
             /*Imagen del post*/

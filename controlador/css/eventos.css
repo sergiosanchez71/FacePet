@@ -89,6 +89,7 @@
 .eventoContenido{
     font-size: 1rem;
     text-align: justify;
+    line-height: 1.5rem;
 }
 
 /*Autor evento*/

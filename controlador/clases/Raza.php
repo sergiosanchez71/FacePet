@@ -77,7 +77,7 @@ class Raza {
     function mostrarIdRazas($animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT id from razas where animal='$animal'");
+        $consulta = $conexion->query("SELECT id from razas where animal='$animal' order by nombre");
         $i = 0;
         while ($row = $consulta->fetch()) {
             $raza = $row['id'];
