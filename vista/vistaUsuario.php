@@ -97,6 +97,16 @@ and open the template in the editor.
                 padding-right: 1rem;
             }
             
+            footer p a{
+                text-decoration: none;
+                color: black;
+                transition: 1s color ease;
+            }
+            
+            footer p a:hover{
+                color:#ffaa00;
+            }
+            
             /*Negrita en el footer*/
             footer .negrita{
                 font-weight: bold;
@@ -196,6 +206,10 @@ and open the template in the editor.
                 .evento:last-child{                   
                     margin-bottom: 15rem;
                 }
+                
+                footer{
+                    display: none;
+                }
 
             }
 
@@ -205,6 +219,7 @@ and open the template in the editor.
 
             var cargando = 0; //La variable cargando permitirá que no ejecutemos más de una vez una acción
             var cantidad = 5; //Cantidad de posts que se mostrarán
+            var post = false;
 
             //Cogemos la acción de mover nuestro scroll
             $(window).scroll(function () {
@@ -230,6 +245,7 @@ and open the template in the editor.
                 }
 
                 //Si la pantalla no es de móvil
+                if(post != false)
                 if ($(window).width() > 1000) {
                     if ($(window).scrollTop() > $("#textEventos").height() + 100) { //Cogemos como referencia el enlace para ver todos los eventos
                         $("#eventos").attr("class", "eventosfixed"); //Añadimos clase fixed
@@ -299,6 +315,7 @@ and open the template in the editor.
                     data: parametros,
                     success: function (respuesta) {
                         if (respuesta) { //Si hemos recibido respuesta
+                            post = true;
                             var posts = JSON.parse(respuesta);
                             pintarPosts(posts, "posts"); //Pintamos nuestros posts
 
@@ -442,11 +459,11 @@ and open the template in the editor.
                 </ul>
             </div>
             <footer>
-                <p>Privacidad</p>
-                <p>Condiciones</p>
-                <p>Publicidad</p>
-                <p>Cookies</p>
-                <p class="negrita">FacePet &copy;</p>
+                <p><a href="privacidad.php">Privacidad</a></p>
+                <p><a href="condiciones.php">Condiciones</a></p>
+                <p><a href="publicidad.php">Publicidad</a></p>
+                <p><a href="cookies.php">Cookies</a></p>
+                <p class="negrita"><a href="vistaUsuario.php">FacePet &copy;</a></p>
             </footer>
             
         </div>

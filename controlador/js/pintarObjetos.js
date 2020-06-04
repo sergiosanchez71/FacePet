@@ -329,7 +329,6 @@ function pintarEventos(eventos, div) {
 
                 var img = document.createElement("img"); //la pinta
                 img.setAttribute("class", "eventoImg");
-                console.log(eventos[i].foto);
                 img.setAttribute("src", "../controlador/uploads/eventos/" + eventos[i].foto);
                 img.setAttribute("alt", "imgagenEvento");
 
@@ -575,7 +574,6 @@ function pintarUnEvento(eventos) { //Pintamos un evento
         direccioncompleta.append(cp);
         direccioncompleta.append(", ");
     }
-    //console.log(ciudad.val());
     if (eventos.ciudad.trim() != "") {
         direccioncompleta.append(ciudad);
         direccioncompleta.append(", ");

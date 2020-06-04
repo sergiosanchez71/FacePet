@@ -38,10 +38,23 @@
 
 /*Botón eliminar*/
 .postEliminar{
-    width: 3rem;
+    width: 2rem;
+    height: 2rem;
     display: block;
     float: right;
+}
+
+.botonEliminar{
+    width: 3rem;
+    height: 3rem;
     cursor: pointer;
+    color: #FFFBED;
+    background-color: #FFFBED;;
+    transition: 1s background ease;
+}
+
+.botonEliminar:hover{
+    background: salmon;
 }
 
 /*Imagen de usuario post*/
@@ -171,7 +184,13 @@
 
     /*Aumentamos tamaños*/
     .postEliminar{
-        width: 6rem;
+        width: 4rem;
+        height: 4rem;
+    }
+    
+    .botonEliminar{
+        width: 5rem;
+        height: 5rem;
     }
 
     .imagenUsuario{

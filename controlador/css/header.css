@@ -182,7 +182,7 @@ li .alerta{
 @media(max-width: 1250px){
 
     #navpc li{
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 
     .mensajes, .notificaciones{

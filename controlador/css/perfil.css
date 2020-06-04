@@ -173,7 +173,7 @@ y en la derecha encima los botones y abajo el contenido*/
     top: 6.5rem;
     left: 3rem;
     font-size: 1.1rem;
-    
+
 }
 
 #animalRaza{
@@ -227,13 +227,10 @@ y en la derecha encima los botones y abajo el contenido*/
     background: #fffbed;
     cursor: pointer;
     transition: 1s background ease;
+    width: 115%;
 }
 
 .amigoPerfil:hover{
-    background: #fff7dd;
-}
-
-.amigoPerfil:hover > .botonEliminarA{
     background: #fff7dd;
 }
 
@@ -267,19 +264,17 @@ y en la derecha encima los botones y abajo el contenido*/
 /*Botón para eliminar amigo*/
 .botonEliminarA{
     grid-area: eliminarAmigo;
-    width: 4rem;
-    display: block;
-    float: right;
+    width: 2.5rem;
+    height: 2.5rem;
+    position: relative;
+    right: 3rem;
+    top: 0.5rem;
     cursor: pointer;
     transition: 1s background ease;
 }
 
-.botonEliminarA{
-    background: red;
-}
-
 .amigoEliminar{
-    width: 3rem;
+    width: 1.5rem;
 }
 
 .botonEliminar, .botonEliminarA{
@@ -290,6 +285,10 @@ y en la derecha encima los botones y abajo el contenido*/
 
 .botonEliminar{
     margin-top: 1rem;
+}
+
+.botonEliminarA:hover{
+    background: salmon;
 }
 
 /*Contenido de nuestro perfil*/
@@ -349,17 +348,17 @@ y en la derecha encima los botones y abajo el contenido*/
     .boton{
         font-size: 3rem;
     }
-    
+
     /*Ocultamos botón post*/
     #botonPostsM{
         display: none;
     }
-    
+
     #contenido{
         margin: 0;
         padding: 0;
     }
-    
+
     /*Todos los posts*/
     .post{
         border-radius: 0;
@@ -367,17 +366,24 @@ y en la derecha encima los botones y abajo el contenido*/
         border-bottom: 1px solid grey;
         margin-top: -3rem;
     }
-    
+
     .postUsuario{
         margin-left: 2rem;
     }
-    
+
     .postCont{
         margin-left: 2rem;
     }
-    
+
     #amigosPerfiles{
         display: none;
+    }
+
+    .botonEliminarA{
+
+        width: 3rem;
+        height: 3rem;
+        right: 3.25rem;
     }
 
     /*Aumentamos tamaños*/

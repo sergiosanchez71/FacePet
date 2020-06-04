@@ -66,17 +66,15 @@ and open the template in the editor.
                         cargando = 0; //Reseteamos cantidad
                     }
                 } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) { //Scroll para actualizar en móvil
-                    if (pest == 0) {
-                        cargando += 1;
-                        if (cargando == 1) { //Si ha cargado
-                            if ($("#cadPosts").val().length > 1) {
-                                cantidad += 5;
-                                mostrarEventos($("#idUsuario").val());//Mostramos posts
-                            }
-                            if ($("#cadEventos").val().length > 1) {
-                                cantidadEventos += 5;
-                                mostrarPosts($("#idUsuario").val(), cantidad);//Mostramos eventos
-                            }
+                    cargando += 1;
+                    if (cargando == 1) { //Si ha cargado
+                        if (pest == 0) { 
+                            cantidad += 5;
+                            mostrarPosts($("#idUsuario").val(), cantidad); //Mostramos posts
+                        }
+                        if (pest == 1) {
+                            cantidadEventos += 5;
+                            mostrarEventos($("#idUsuario").val()); //Mostramos eventos
                         }
                     }
                 } else {

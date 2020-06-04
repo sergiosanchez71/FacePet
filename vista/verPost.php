@@ -136,15 +136,17 @@ and open the template in the editor.
 
             /*Botón de eliminar comentario*/
             .botonEliminarA{
-                width: 4rem;
+                width: 3rem;
                 display: block;
                 float: right;
+                background: white;
+                border: 0px solid black;
                 cursor: pointer;
             }
 
             /*Eliminar contenido*/
             .comentarioEliminar{
-                width: 3rem;
+                width: 1.5rem;
             }
 
             /*Vista Móvil*/

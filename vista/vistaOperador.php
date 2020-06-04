@@ -430,7 +430,7 @@ and open the template in the editor.
                                 sancionar.setAttribute("title","Sancionar usuario");
                                 sancionar.setAttribute("value", usuarios[i].id);
                                 sancionar.setAttribute("data-pos", i); //Posición
-                                sancionar.innerHTML = "Banear";
+                                sancionar.innerHTML = "Sancionar";
 
                                 sancionar.onclick = function () { //Al hacer click a sancionar
                                     this.setAttribute("style", "display:none"); //Ocultamos los botones
@@ -445,7 +445,7 @@ and open the template in the editor.
                                     sancionarBoton.setAttribute("data-pos", this.dataset.pos);
                                     sancionarBoton.setAttribute("title","Sancionar usuario");
                                     sancionarBoton.setAttribute("value", this.value);
-                                    sancionarBoton.innerHTML = "Banear";
+                                    sancionarBoton.innerHTML = "Sancionar";
                                     var atras = document.createElement("button"); //Volver atrás
                                     atras.setAttribute("data-pos", this.dataset.pos);
                                     atras.setAttribute("title","Volver");
@@ -533,7 +533,7 @@ and open the template in the editor.
                                                 var fechaH = document.createElement("input");
                                                 //Escribimos la fecha actual
                                                 fechaH.setAttribute("type", "datetime-local");
-                                                fechaH.setAttribute("value", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
+                                                fechaH.setAttribute("value", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + fecha.hour + ":" + fecha.minutes);
                                                 fechaH.setAttribute("id", "fechaH");
                                                 fechaH.setAttribute("style", "display:none");
                                                 $("#usuariosSancionar").append(fechaH);
@@ -553,7 +553,7 @@ and open the template in the editor.
                                 eliminarSancion.setAttribute("title","Quitar sanción");
                                 eliminarSancion.setAttribute("data-pos", i);
                                 eliminarSancion.setAttribute("value", usuarios[i].id);
-                                eliminarSancion.innerHTML = "Quitar Sanción";
+                                eliminarSancion.innerHTML = "Quitar Ban";
 
                                 eliminarSancion.onclick = function () { //Al pulsarlo
                                     eliminarSancionF(this.value); //Eliminamos la sanción dado la id de usuario
@@ -725,7 +725,6 @@ and open the template in the editor.
                     data: parametros,
                     success: function (respuesta) {
                         alert(respuesta); //Mensaje animal creado correctamente
-                        $("#nombreCAnimal").val("");
                         mostrarAnimales(); //Mostramos los animales
                     },
                     error: function (xhr, status) {
@@ -875,7 +874,6 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        $("#nombreCRaza").val("");
                         alert(respuesta); //Mostramos el mensaje que nos devuelve
                         mostrarRazas(animal); //Mostramos las razas
                     },
