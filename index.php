@@ -27,7 +27,7 @@
             function entrar() { //Acceso a la página
                 var username = $("#username").val();
                 var password = $("#password").val();
-                var colorError = "#E95139"; //Color del background cuando haya un error
+                var colorError = "#ffd6d6"; //Color del background cuando haya un error
                 var campoVacio = false; //Si este es falso no podremos acceder a la página
                 var mensaje; //Mensaje mostrado en la consola
 
@@ -144,8 +144,8 @@
                 transition: 1s background ease;
             }
 
-            /*Enlace de registro con su transación de fondo*/
-            #registro{
+            /*Enlace de registro y de manual con su transación de fondo*/
+            .enlace{
                 text-decoration: none;
                 color: black;
                 font-size: 1.1rem;
@@ -153,9 +153,17 @@
                 padding: 0.4rem;
                 transition: 1s background ease;
             }
+            
+            #manual a{
+                font-size: 1rem;
+            }
+            
+            #manual{
+                margin-bottom: -0.5rem;
+            }
 
             /*Color de fondo de cada campo*/
-            #principal #entrar:hover, #registro:hover, #username:hover, #password:hover{
+            #principal #entrar:hover, .enlace:hover, #username:hover, #password:hover{
                 background-color:#FFF578;
             }
 
@@ -198,8 +206,16 @@
                     width: 4rem;
                 }
 
-                #registro{
+                .enlace{
                     font-size: 2.5rem;
+                }
+                
+                #manual a{
+                    font-size: 2rem;
+                }
+                
+                #manual{
+                    margin-bottom: 1rem;
                 }
 
             }
@@ -211,11 +227,12 @@
         <div id="principal">
             <p><a href="index.php"><img src="controlador/img/facepet.png" id="facepet"></a></p>
             <p>Username</p>
-            <p><input type="text" id="username" maxlength="20" onkeypress="pulsar(event)"></p>
+            <p><input type="text" id="username" maxlength="10" onkeypress="pulsar(event)"></p>
             <p>Password</p>
             <p><input type="password" id="password" onkeypress="pulsar(event)"></p>
             <p><button id="entrar">Entrar <img src="controlador/img/pata.png" id="imgPata" alt="pata"></button> </p>
-            <a id="registro" href="vista/registro.php">¿Todavía no te has registrado?</a>
+            <p><a class="enlace" href="vista/registro.php">¿Todavía no te has registrado?</a></p>
+            <p id="manual"><a class="enlace" href="vista/manualFacepet.pdf">¿Necesitas ayuda? Observa nuestro manual</a></p>
 
         </div>
 
