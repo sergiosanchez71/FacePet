@@ -109,6 +109,10 @@
                 .title{
                     font-size: 3rem;
                 }
+                
+                #titulo, textarea{
+                    border: 1px solid lightgrey;
+                }
 
                 #titulo{
                     height: 4rem;
@@ -157,7 +161,7 @@
             function crearPost() {
                 var titulo = $("#titulo").val(); //Cogemos el valor del título
                 var contenido = $("#contenido").val(); //Cogemos el contenido
-                var colorError = "#E95139"; //Color por defecto de error
+                var colorError = "#ffd6d6"; //Color por defecto de error
                 var campoVacio = false;
 
                 if (titulo.trim() == "") { //Si titulo esta vacío
@@ -222,7 +226,7 @@
         <div id="principal">
             <header>
                 <nav id="navpc">
-                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"  alt="logo"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
@@ -282,7 +286,7 @@
                     </form>
                     <form method="post" id="paso2" enctype="multipart/form-data"> <!-- Paso 2 -->
                         <h2 class="paso">Paso 2</h2>
-                        <p class="title">Añade una foto o vídeo (Opcional)</p>
+                        <p class="title">Añade una foto (Opcional)</p>
                         <input type="file" name="userfile" id="multimedia">
                         <p><input type="submit" class="botonCrearPost" id="subirImagen" name="subirImagenP" value="Subir Post"></p>
                     </form>

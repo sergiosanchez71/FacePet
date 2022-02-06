@@ -106,6 +106,14 @@ and open the template in the editor.
                     margin-left: 0;
                 }
                 
+                .visual{
+                    grid-template-columns: 50% 50%;
+                }
+                
+                .eventoImg{
+                    width: 25rem;
+                    height: 25rem;
+                }
 
             }
 
@@ -228,7 +236,7 @@ and open the template in the editor.
         <div id="principal">
             <header>
                 <nav id="navpc">
-                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet" alt="logo"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear

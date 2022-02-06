@@ -398,7 +398,7 @@
                     grid-area: contenido;
                     display: none;
                     grid-template-rows: 17.5% 67.5% 15%;
-                    margin-bottom: 6rem;
+                    margin-bottom: 10rem;
                 }
 
                 #cuerpoCM{
@@ -819,7 +819,7 @@
         <div id="principal">
             <header>
                 <nav id="navpc">
-                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet" alt="logo"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear

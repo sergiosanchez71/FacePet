@@ -29,7 +29,7 @@ and open the template in the editor.
             #imgPerfil{
                 margin-top: 2rem;
             }
-            
+
         </style>
         <script>
 
@@ -68,7 +68,7 @@ and open the template in the editor.
                 } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) { //Scroll para actualizar en móvil
                     cargando += 1;
                     if (cargando == 1) { //Si ha cargado
-                        if (pest == 0) { 
+                        if (pest == 0) {
                             cantidad += 5;
                             mostrarPosts($("#idUsuario").val(), cantidad); //Mostramos posts
                         }
@@ -84,6 +84,8 @@ and open the template in the editor.
             });
 
             $(document).ready(function () {
+                $("#cadPosts").val("");
+                $("#cadEventos").val("");
                 $("#cambiarImagen").hide();//Ocultamos el div de cambiar la imagen
                 getDatosPerfil($("#idUsuario").val()); //Accedemos a los datos del perfil
                 mostrarPosts($("#idUsuario").val(), "5"); //Mostramos mis posts
@@ -226,12 +228,16 @@ and open the template in the editor.
                     url: "../controlador/acciones.php",
                     data: parametros,
                     success: function (respuesta) {
-                        var usuario = JSON.parse(respuesta);
-                        $("#imgPerfil").attr("src", "../controlador/uploads/usuarios/" + usuario.foto);
-                        $("#nombrePerfilUsuario").text(usuario.nick);
-                        $("#animalPerfilUsuario").text(usuario.animal);
-                        $("#razaPerfilUsuario").text(usuario.raza);
-                        $("#localidadPerfilUsuario").text(usuario.provincia + ", " + usuario.municipio);
+                        if (respuesta != "null") {
+                            var usuario = JSON.parse(respuesta);
+                            $("#imgPerfil").attr("src", "../controlador/uploads/usuarios/" + usuario.foto);
+                            $("#nombrePerfilUsuario").text(usuario.nick);
+                            $("#animalPerfilUsuario").text(usuario.animal);
+                            $("#razaPerfilUsuario").text(usuario.raza);
+                            $("#localidadPerfilUsuario").text(usuario.provincia + ", " + usuario.municipio);
+                        } else {
+                            window.location.href = "miPerfil.php";
+                        }
 
 
                     },
@@ -262,7 +268,7 @@ and open the template in the editor.
                             pintarAmigos(amigos, "amigosPerfiles", usuario); //Los pintamos desde esta función
                         } else { //Si no se encuentra se muestra el siguiente texto
                             var h1 = document.createElement("h1");
-                            h1.setAttribute("style","text-align:center");
+                            h1.setAttribute("style", "text-align:center");
                             h1.innerHTML += "Este usuario aún no tiene amigos";
                             $("#amigosPerfiles").append(h1);
                         }
@@ -298,7 +304,7 @@ and open the template in the editor.
                         } else {
                             if (cantidad == "5") { //y si la cantidad es 5 (por defecto)
                                 var h1 = document.createElement("h1"); //Mostramos el siguiente texto
-                                h1.setAttribute("class","hContenido");
+                                h1.setAttribute("class", "hContenido");
                                 h1.innerHTML += "Aquí se mostraran los posts, pero ahora mismo no tiene ninguno";
                                 $("#textoEventos").hide();
                                 $("#contenido").append(h1);
@@ -332,7 +338,7 @@ and open the template in the editor.
 
                         } else { //si no mostramos el siguiente texto
                             var h1 = document.createElement("h1");
-                            h1.setAttribute("class","hContenido");
+                            h1.setAttribute("class", "hContenido");
                             h1.innerHTML += "Aquí se mostraran los eventos, pero ahora mismo no hay ninguno";
                             $("#textoEventos").hide();
                             $("#contenido").append(h1);
@@ -377,7 +383,7 @@ and open the template in the editor.
         <div id="principal">
             <header>
                 <nav id="navpc">
-                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet" alt="logo"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear

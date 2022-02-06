@@ -149,7 +149,7 @@
                 var provincia = $("#provincias").val();
                 var municipio = $("#municipios").val();
 
-                var colorError = "#E95139"; //Color por que tendrá de background los inputs que no se introduzcan
+                var colorError = "#ffd6d6"; //Color por que tendrá de background los inputs que no se introduzcan
                 var campoVacio = false; //Si campovacio es true no se ejecutará la consulta
 
                 if (nick.trim() == "") { //Si el nick está vacío
@@ -402,10 +402,10 @@
     </head>
     <body>
         <div id="principal">
-            <h1>Registro en <a href="../index.php"><img src="../controlador/img/facepet.png" id="facepet"></a></h1>
+            <h1>Registro en <a href="../index.php"><img src="../controlador/img/facepet.png" id="facepet" alt="logo"></a></h1>
             <small><p>Complete el siguiente formulario con su correo electrónico y los datos de su mascota.</p></small>
             <!--Comienzo del formulario-->
-            <p>Nick <span>*</span> <input type="text" id="nick" class="dato" maxlength="20" required></p>
+            <p>Nick <span>*</span> <input type="text" id="nick" class="dato" maxlength="10" required></p>
             <p>Password <span>*</span> <input type="password" id="password" class="dato" maxlength="20" required></p>
             <p>Email <span>*</span> <input type="email" id="email" class="dato" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" maxlength="50" required></p>
             <p>Animal <span>*</span> 

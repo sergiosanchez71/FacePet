@@ -112,6 +112,10 @@ and open the template in the editor.
                 text-transform: uppercase;
             }
 
+            .postImg{
+                width: 60%;
+            }
+
             .postContenido{
                 margin: 2.5%;
             }
@@ -190,6 +194,10 @@ and open the template in the editor.
                 .nombreUsuario{
                     position: relative;
                     top: 1rem;
+                }
+
+                .postImg{
+                    width: 96%;
                 }
 
                 .cCont{
@@ -273,7 +281,7 @@ and open the template in the editor.
                                 comentario.setAttribute("class", "comentario");
 
                                 var info = document.createElement("div"); //Nombre usuario
-                                info.setAttribute("title","Ver perfil");
+                                info.setAttribute("title", "Ver perfil");
                                 info.setAttribute("data-value", comentarios[i].usuario);
 
                                 info.onclick = function () { //Enlace a la página de perfil del usuario
@@ -281,11 +289,11 @@ and open the template in the editor.
                                 }
 
                                 //Si es el dueño del comentario o es operador
-                                if (comentarios[i].loginOperador == "1" || comentarios[i].login == comentarios[i].usuario) {
+                                if (comentarios[i].loginOperador == "1" || comentarios[i].login == comentarios[i].usuario || comentarios[i].login == comentarios[i].autorPost) {
 
                                     var a = document.createElement("button");
                                     a.setAttribute("value", comentarios[i].id);
-                                    a.setAttribute("title","Eliminar comentario");
+                                    a.setAttribute("title", "Eliminar comentario");
                                     a.setAttribute("class", "botonEliminarA");
 
                                     a.onclick = function () { //Botón eliminar comentario
@@ -299,11 +307,13 @@ and open the template in the editor.
                                     var comentarioEliminar = document.createElement("img");
                                     comentarioEliminar.setAttribute("class", "comentarioEliminar");
                                     comentarioEliminar.setAttribute("src", "../controlador/img/eliminar.png");
+                                    comentarioEliminar.setAttribute("alt","botonEliminar");
                                 }
 
                                 var cImgUsuario = document.createElement("img"); //Imagen de usuario
                                 cImgUsuario.setAttribute("class", "cImagenUsuario");
                                 cImgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + comentarios[i].foto);
+                                cImgUsuario.setAttribute("alt","imgComentario");
 
                                 var cNombreUsuario = document.createElement("p"); //Nombre de usuario
                                 cNombreUsuario.setAttribute("class", "cNombreUsuario");
@@ -320,7 +330,7 @@ and open the template in the editor.
                                 $("#comentariosCont").append(comentario);
                                 comentario.append(info);
                                 //Si es admin o el dueño del comentario
-                                if (comentarios[i].loginOperador == "1" || comentarios[i].login == comentarios[i].usuario) {
+                                if (comentarios[i].loginOperador == "1" || comentarios[i].login == comentarios[i].usuario || comentarios[i].login == comentarios[i].autorPost) {
                                     comentario.append(a);
                                     a.append(comentarioEliminar);
                                 }
@@ -383,7 +393,7 @@ and open the template in the editor.
                                 post.setAttribute("class", "post");
                                 var postUsuario = document.createElement("p");
                                 postUsuario.setAttribute("class", "postUsuario");
-                                postUsuario.setAttribute("title","Ver perfil");
+                                postUsuario.setAttribute("title", "Ver perfil");
                                 postUsuario.setAttribute("data-value", posts.usuario);
 
                                 postUsuario.onclick = function () { //Enlace al perfil
@@ -393,6 +403,7 @@ and open the template in the editor.
                                 var imgUsuario = document.createElement("img"); //Img usuario
                                 imgUsuario.setAttribute("class", "imagenUsuario");
                                 imgUsuario.setAttribute("src", "../controlador/uploads/usuarios/" + posts.foto);
+                                imgUsuario.setAttribute("alt","imgUsuario");
                                 var nombreUsuario = document.createElement("p"); //Nombre de usuario
                                 nombreUsuario.setAttribute("class", "nombreUsuario");
                                 nombreUsuario.innerHTML += posts.nick;
@@ -412,6 +423,7 @@ and open the template in the editor.
 
                                     var postImg = document.createElement("img"); //Creamos imagen
                                     postImg.setAttribute("class", "postImg");
+                                    postImg.setAttribute("alt","postImg");
                                     postImg.setAttribute("src", "../controlador/uploads/posts/" + posts.multimedia);
 
                                 } else {
@@ -445,7 +457,7 @@ and open the template in the editor.
 
                                 var postCorazonImg = document.createElement("img");
                                 postCorazonImg.setAttribute("class", "postCorazonImg");
-                                postCorazonImg.setAttribute("title","Dar me gusta");
+                                postCorazonImg.setAttribute("title", "Dar me gusta");
                                 postCorazonImg.setAttribute("alt", "Corazon");
                                 postCorazonImg.setAttribute("data-value", posts.id); //Id post
 
@@ -486,7 +498,7 @@ and open the template in the editor.
 
                                 if (posts.likes != null) { //Si tiene likes
                                     if (likes.length > 1) { //Si tiene mas de uno
-                                        postLikes.append(slikes); 
+                                        postLikes.append(slikes);
                                         postLikes.append(" Me gustas");  //Mostramos likes
                                     } else { //Si tiene un like
                                         postLikes.append(slikes);
@@ -512,6 +524,12 @@ and open the template in the editor.
                                         url: "../controlador/acciones.php",
                                         data: parametros,
                                         success: function (respuesta) {
+                                            if (respuesta) {
+                                                var res = respuesta.split(",");
+                                                $(".postLikes").text((res.length + 1) + " Me gustas");
+                                            } else {
+                                                $(".postLikes").text("1 Me gusta");
+                                            }
                                             //Damos like
                                         },
                                         error: function (xhr, status) {
@@ -544,7 +562,7 @@ and open the template in the editor.
 
             <header>
                 <nav id="navpc">
-                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet" alt="logo"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear

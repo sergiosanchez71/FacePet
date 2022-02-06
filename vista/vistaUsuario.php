@@ -23,7 +23,7 @@ and open the template in the editor.
         <script src="../controlador/js/libreriaJQuery.js" type="text/javascript"></script> <!--JQuery-->
         <script src="../controlador/js/header.js" type="text/javascript"></script> <!--Header js-->
         <script src="../controlador/js/pintarObjetos.js" type="text/javascript"></script> <!--Pintar objetos js-->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE&callback=initMap" async defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOB1uBkwgJm9TNwVwCS8vu46eGhRCErYE" async defer></script>
         <!--Libreria maps-->
         <style>
 
@@ -49,14 +49,14 @@ and open the template in the editor.
             #posts{
                 grid-area:posts;
             }
-            
+
             /*Enlace hacía todos los posts*/
             #textEventos a{
                 text-decoration: none;
                 color: black;
                 transition: 1s color ease;
             }
-            
+
             #textEventos a:hover{
                 color: #f43333;
             }
@@ -78,38 +78,57 @@ and open the template in the editor.
                 display: block;
                 margin: auto;
             }
-            
+
             /*Footer*/
             footer{
                 position: fixed;
                 flex-direction: row;
                 border-radius: 1rem;
-                left: 60%;
+                left: 64%;
                 top: 90%;
                 display: flex;
                 padding: 1rem;
                 visibility: hidden;
+                width: 27.5rem;
             }
-            
+
             /*Texto del footer*/
             footer p{
                 padding-left: 1rem;
                 padding-right: 1rem;
             }
-            
+
             footer p a{
                 text-decoration: none;
                 color: black;
                 transition: 1s color ease;
             }
-            
+
             footer p a:hover{
                 color:#ffaa00;
             }
-            
+
             /*Negrita en el footer*/
             footer .negrita{
                 font-weight: bold;
+            }
+
+            @media (max-width:1350px){
+
+                footer{
+                    left: 60%;
+                }
+            }
+
+            @media (max-width:1125px){
+
+                #eventos{
+                    left: 63%;
+                }
+
+                footer{
+                    left: 62%;
+                }
             }
 
             /*Vista móvil*/
@@ -195,6 +214,11 @@ and open the template in the editor.
                     margin-left: 0;
                 }
 
+                .eventoImg{
+                    width: 30rem;
+                    height: 25rem;
+                }
+
                 /*Tamaño mapa*/
                 .map{
                     height: 20rem;
@@ -206,7 +230,7 @@ and open the template in the editor.
                 .evento:last-child{                   
                     margin-bottom: 15rem;
                 }
-                
+
                 footer{
                     display: none;
                 }
@@ -216,10 +240,11 @@ and open the template in the editor.
         </style>
         <script>
 
-
             var cargando = 0; //La variable cargando permitirá que no ejecutemos más de una vez una acción
             var cantidad = 5; //Cantidad de posts que se mostrarán
+            var cantidadEventos = 3;
             var post = false;
+            var pest = 0;
 
             //Cogemos la acción de mover nuestro scroll
             $(window).scroll(function () {
@@ -235,8 +260,13 @@ and open the template in the editor.
                 } else if ($(window).scrollTop() > $("#cuerpo").height() - 2000) { //Si estamos en teléfono aumentamos el margen de height
                     cargando += 1;
                     if (cargando == 1) {
-                        cantidad += 5;
-                        cargarPostsAmigos(cantidad);
+                        if (pest == 0) {
+                            cantidad += 5;
+                            cargarPostsAmigos(cantidad);
+                        } else {
+                            cantidadEventos += 3;
+                            mostrarEventos(cantidadEventos);
+                        }
                     }
                 } else {
                     if (cargando != 0) {
@@ -245,26 +275,29 @@ and open the template in the editor.
                 }
 
                 //Si la pantalla no es de móvil
-                if(post != false)
-                if ($(window).width() > 1000) {
-                    if ($(window).scrollTop() > $("#textEventos").height() + 100) { //Cogemos como referencia el enlace para ver todos los eventos
-                        $("#eventos").attr("class", "eventosfixed"); //Añadimos clase fixed
-                        $("footer").css("visibility","visible"); //Footer visible
-                    } else {
-                        $("#eventos").removeAttr("class"); //Quitamos clase fixed
-                        $("footer").css("visibility","hidden"); //Footer invisible
+                if (post != false)
+                    if ($(window).width() > 1000) {
+                        if ($(window).scrollTop() > $("#textEventos").height() + 100) { //Cogemos como referencia el enlace para ver todos los eventos
+                            $("#eventos").attr("class", "eventosfixed"); //Añadimos clase fixed
+                            $("footer").css("visibility", "visible"); //Footer visible
+                        } else {
+                            $("#eventos").removeAttr("class"); //Quitamos clase fixed
+                            $("footer").css("visibility", "hidden"); //Footer invisible
+                        }
                     }
-                }
 
 
             });
 
             $(document).ready(function () {
+                $("#cadPosts").val("");
+                $("#cadEventos").val("");
                 cargarPostsAmigos(cantidad); //Mostramos "cantidad" de posts
-                mostrarEventos(); //Mostramos eventos (3)
+                mostrarEventos(cantidadEventos); //Mostramos eventos (3)
                 //En teléfono
                 $("#botonPosts").css("background", "#ffe45e");//Background button
                 $("#botonEventos").click(function () {
+                    pest = 1;
                     //Si cambiamos a eventos ocultamos los posts y mostramos eventos 
                     $("#eventos").show();
                     $("#posts").hide();
@@ -274,6 +307,7 @@ and open the template in the editor.
                 });
                 $("#botonPosts").click(function () {
                     //Igual que el anterior pero invertido
+                    pest = 0;
                     $("#eventos").hide();
                     $("#posts").show();
                     $("#botonPosts").css("background", "#ffe45e");
@@ -322,7 +356,7 @@ and open the template in the editor.
                         } else {
                             if (cantidad == "5") { //Si la cantidad es 5 y no recibimos respuesta
                                 var h1 = document.createElement("h1");
-                                h1.setAttribute("class","hContenido");
+                                h1.setAttribute("class", "hContenido");
                                 h1.innerHTML += "Aquí se mostraran los posts de tus amigos, cuando los haya";
                                 $("#posts").append(h1); //Mostramos este mensaje en un h1
                             }
@@ -337,10 +371,10 @@ and open the template in the editor.
             }
 
             //Mostrar eventos
-            function mostrarEventos() {
+            function mostrarEventos(cantidadEventos) {
                 var parametros = {
                     "accion": "mostrarEventos",
-                    "cantidad": 3 //cantidad de eventos que mostraremos
+                    "cantidad": cantidadEventos //cantidad de eventos que mostraremos
                 };
 
                 $.ajax({
@@ -352,7 +386,7 @@ and open the template in the editor.
                             pintarEventos(eventos, "eventos"); //Pintamos eventos
                         } else { //Si no recibimos respuesta
                             var h1 = document.createElement("h1");
-                            h1.setAttribute("class","hContenido");
+                            h1.setAttribute("class", "hContenido");
                             h1.innerHTML += "Aquí se mostraran los eventos, pero ahora mismo no hay ninguno";
                             $("#eventos").append(h1); //Mostramos el mensaje anterior en un h1
                         }
@@ -377,7 +411,7 @@ and open the template in the editor.
             <!--Cabecera-->
             <header>
                 <nav id="navpc">
-                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet" alt="logo"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
@@ -459,13 +493,12 @@ and open the template in the editor.
                 </ul>
             </div>
             <footer>
-                <p><a href="privacidad.php">Privacidad</a></p>
-                <p><a href="condiciones.php">Condiciones</a></p>
-                <p><a href="publicidad.php">Publicidad</a></p>
-                <p><a href="cookies.php">Cookies</a></p>
+                <p><a href="privacy.php?legal=privacidad">Privacidad</a></p>
+                <p><a href="privacy.php?legal=condiciones">Condiciones</a></p>
+                <p><a href="privacy.php?legal=cookies">Cookies</a></p>
                 <p class="negrita"><a href="vistaUsuario.php">FacePet &copy;</a></p>
             </footer>
-            
+
         </div>
 
 

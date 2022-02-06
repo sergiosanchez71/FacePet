@@ -211,6 +211,7 @@
                     data: parametros,
                     success: function (respuesta) {
                         var fecha = JSON.parse(respuesta);
+                        console.log(respuesta);
 
                         var hora = parseInt(fecha.hour) + 1; //A la hora le sumamos 1
 
@@ -382,7 +383,7 @@
                 }
 
                 //Color de error por defecto
-                var colorError = "#E95139";
+                var colorError = "#ffd6d6";
                 var campoVacio = false;
 
                 //Comprueba cada campo para que no esté ninguno en blanco
@@ -477,7 +478,7 @@
         <div id="principal">
             <header>
                 <nav id="navpc">
-                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet" alt="logo"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear

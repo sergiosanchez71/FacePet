@@ -257,6 +257,10 @@
                     font-size: 2rem;
                     width: 20rem;
                 }
+                
+                .solicitud span, .pendiente span{
+                    font-size: 2rem;
+                }
 
                 #mensajeSolicitud{
                     height: 15rem;
@@ -563,7 +567,7 @@
         <div id="principal">
             <header>
                 <nav id="navpc">
-                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet" alt="logo"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear

@@ -229,8 +229,15 @@ and open the template in the editor.
                 background-color: #fffcce;
             }
 
-            .fechaS{
+            .fechaS, .sancionarText{
                 font-size: 1.5rem;
+            }
+
+            .sancionarText{
+                margin-left:3rem;
+                width: 37.5rem;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
             }
 
             .eliminarB{
@@ -243,6 +250,63 @@ and open the template in the editor.
 
             /*Vista móvil*/
             @media (max-width: 1000px){
+
+                #cuerpo{
+                    margin-bottom: 15rem;
+                    width: 100%;
+                }
+
+                .atrasPrin img{
+                    width: 6rem;
+                }
+                
+                /*Aumentamos tamaños*/
+                .submenu td{
+                    font-size: 3rem;
+                }
+
+                .submenu .checkAnimal, .submenu .checkRaza{
+                    width: 2rem;
+                    height: 2rem;
+                }
+
+                .submenu .listaRaza{
+                    font-size: 3rem;
+                }
+
+                .submenu input{
+                    font-size: 3rem;
+                    border: 1px solid grey;
+                }
+
+                .submenu h1 {
+                    font-size: 5rem;
+                }
+
+                .submenu h2{
+                    font-size: 4rem;
+                }
+
+                .submenu ul li{
+                    font-size: 3rem;
+                }
+
+                .submenu span{
+                    font-size: 4rem;
+                }
+
+                .submenu select{
+                    font-size: 3rem;
+                }
+
+                #usuarioSancionarText{
+                    font-size: 3rem;
+                }
+
+                /*Buscador de usuarios*/
+                #sancionarUsuarioText{
+                    font-size: 2.6rem;
+                }
 
                 /*Aumentamos tamaños*/
                 h1{
@@ -297,8 +361,18 @@ and open the template in the editor.
                     font-weight: bold;
                 }
 
-                .imgPata{
-                    width: 2.5rem;
+                .sancionarText{
+                    margin-left: 0;
+                }
+
+                .fechaS, .sancionarText{
+                    font-size: 3rem;
+                    width: 100%;
+                }
+
+                .sancionarB,.sancionarBot, .eliminarB,.eliminarSancion,.atras, .submenu button{
+                    font-size: 3rem;
+                    width: 100%;
                 }
 
             }
@@ -353,7 +427,7 @@ and open the template in the editor.
 
             /*Volvemos a la pantalla principal de operador*/
             function volver() {
-                location.reload(); 
+                location.reload();
             }
 
             /*Mostramos los usuarios*/
@@ -388,18 +462,18 @@ and open the template in the editor.
                                 imagenPerfil.setAttribute("src", "../controlador/uploads/usuarios/" + usuarios[i].foto);
                                 imagenPerfil.setAttribute("class", "imagenUsuario");
                                 imagenPerfil.setAttribute("alt", "imagenPerfil");
-                                imagenPerfil.setAttribute("title","Ver perfil");
+                                imagenPerfil.setAttribute("title", "Ver perfil");
                                 imagenPerfil.setAttribute("data-value", usuarios[i].id);
 
                                 imagenPerfil.onclick = function () { //Redirecciona a su perfil
-                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value; 
+                                    window.location.href = "verPerfil.php?usuario=" + this.dataset.value;
                                 }
 
                                 var p = document.createElement("p");
 
                                 var nombreUsuario = document.createElement("p"); //Nombre de usuario
                                 nombreUsuario.setAttribute("class", "nombreUsuario");
-                                nombreUsuario.setAttribute("title","Ver perfil");
+                                nombreUsuario.setAttribute("title", "Ver perfil");
                                 nombreUsuario.innerHTML += usuarios[i].nick;
                                 nombreUsuario.setAttribute("data-value", usuarios[i].id);
 
@@ -427,10 +501,10 @@ and open the template in the editor.
 
                                 var sancionar = document.createElement("button"); //Botón de sancionar
                                 sancionar.setAttribute("class", "sancionarB");
-                                sancionar.setAttribute("title","Sancionar usuario");
+                                sancionar.setAttribute("title", "Banear usuario");
                                 sancionar.setAttribute("value", usuarios[i].id);
                                 sancionar.setAttribute("data-pos", i); //Posición
-                                sancionar.innerHTML = "Sancionar";
+                                sancionar.innerHTML = "Banear";
 
                                 sancionar.onclick = function () { //Al hacer click a sancionar
                                     this.setAttribute("style", "display:none"); //Ocultamos los botones
@@ -439,40 +513,49 @@ and open the template in the editor.
                                     sancionarF.setAttribute("type", "datetime-local");
                                     sancionarF.setAttribute("class", "sancionarF");
                                     sancionarF.setAttribute("class", "fechaS");
+                                    var textoSancion = document.createElement("input");
+                                    textoSancion.setAttribute("type", "text");
+                                    textoSancion.setAttribute("placeholder", "Mensaje de ban");
+                                    textoSancion.setAttribute("class", "sancionarText");
+                                    textoSancion.setAttribute("maxlength", "50");
                                     getDate(this.dataset.pos); //Cogemos los datos dada la posición del input de fecha
                                     var sancionarBoton = document.createElement("button"); //Botón de sancionar
                                     sancionarBoton.setAttribute("class", "sancionarBot");
                                     sancionarBoton.setAttribute("data-pos", this.dataset.pos);
-                                    sancionarBoton.setAttribute("title","Sancionar usuario");
+                                    sancionarBoton.setAttribute("title", "Banear usuario");
                                     sancionarBoton.setAttribute("value", this.value);
-                                    sancionarBoton.innerHTML = "Sancionar";
+                                    sancionarBoton.innerHTML = "Banear";
                                     var atras = document.createElement("button"); //Volver atrás
                                     atras.setAttribute("data-pos", this.dataset.pos);
-                                    atras.setAttribute("title","Volver");
+                                    atras.setAttribute("title", "Volver");
                                     atras.setAttribute("class", "atras");
                                     atras.innerHTML = "Atrás";
 
                                     //Cambiamos los botones viejos por los nuevos
-                                    $(".usuario:eq(" + this.dataset.pos + ")").append(sancionarF); 
+                                    $(".usuario:eq(" + this.dataset.pos + ")").append(sancionarF);
                                     $(".usuario:eq(" + this.dataset.pos + ")").append(sancionarBoton);
                                     $(".usuario:eq(" + this.dataset.pos + ")").append(atras);
+                                    $(".usuario:eq(" + this.dataset.pos + ")").append(textoSancion);
 
                                     sancionarBoton.onclick = function () { //Si pulsamos el botón de sancionar 
                                         var usuario = this.value; //Id usuario
                                         var fecha = $(".fechaS:eq(" + this.dataset.pos + ")").val(); //Fecha usuario
+                                        var mensaje = $(".sancionarText:eq(" + this.dataset.pos + ")").val(); //Texto de ban
 
                                         $(".eliminarSancion:eq(" + this.dataset.pos + ")").show(); //Botón para quitar sanción
                                         $(".eliminarB:eq(" + this.dataset.pos + ")").show(); //Eliminar usuario
                                         this.setAttribute("style", "display:none"); //Ocultamos nuestro botón de sancionar
                                         $(".usuario:eq(" + this.dataset.pos + ") .fechaS").hide(); //Ocultamos la fecha de sanción
+                                        $(".usuario:eq(" + this.dataset.pos + ") .sancionarText").hide();
                                         $(".usuario:eq(" + this.dataset.pos + ") .atras").hide(); //Ocultamos el botón de volver
 
-                                        sancionarUsuario(this.dataset.pos, fecha, usuario); //Sancionamos el usuario
+                                        sancionarUsuario(this.dataset.pos, fecha, mensaje, usuario); //Sancionamos el usuario
                                     }
 
                                     atras.onclick = function () { //Botón de atrás click
                                         //Ocultamos todo la sección de sancionar
-                                        $(".usuario:eq(" + this.dataset.pos + ") .fechaS").hide(); 
+                                        $(".usuario:eq(" + this.dataset.pos + ") .fechaS").hide();
+                                        $(".usuario:eq(" + this.dataset.pos + ") .sancionarText").hide();
                                         $(".usuario:eq(" + this.dataset.pos + ") .sancionarBot").hide();
                                         $(".usuario:eq(" + this.dataset.pos + ") .atras").hide();
                                         //Mostramos los botones por defecto
@@ -480,7 +563,7 @@ and open the template in the editor.
                                         $(".usuario:eq(" + this.dataset.pos + ") .eliminarB").show();
                                     }
 
-                                    function sancionarUsuario(pos, fecha, usuario) { //Sancionar usuario dada la posición, la fecha y el usuario
+                                    function sancionarUsuario(pos, fecha, mensaje, usuario) { //Sancionar usuario dada la posición, la fecha y el usuario
                                         var fechaL = $(".fechaS:eq(" + pos + ")").val(); //Fecha introducida
                                         var fechaH = $("#fechaH").val(); //Fecha actual
                                         if (fechaH <= fechaL) { //Si la fecha de sanción es mayor a la actual sancionamos usuario
@@ -488,6 +571,7 @@ and open the template in the editor.
                                             var parametros = {
                                                 "accion": "sancionarUsuario",
                                                 "tiempo": fecha,
+                                                "mensaje": mensaje,
                                                 "usuario": usuario
                                             };
 
@@ -495,7 +579,7 @@ and open the template in the editor.
                                                 url: "../controlador/acciones.php",
                                                 data: parametros,
                                                 success: function (respuesta) {
-                                                    
+
 
                                                 },
                                                 error: function (xhr, status) {
@@ -526,6 +610,7 @@ and open the template in the editor.
                                                     hora = 0 + "" + hora;
                                                 }
                                                 //Escribimos la fecha en el input sabiendo la posición
+                                                console.log(fecha.year)
                                                 $(".usuario:eq(" + pos + ") .fechaS").val(fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                                                 $(".usuario:eq(" + pos + ") .fechaS").attr("min", fecha.year + "-" + fecha.month + "-" + fecha.day + "T" + hora + ":" + fecha.minutes);
                                                 $(".usuario:eq(" + pos + ") .fechaS").attr("max", "2099-12-31T23:59");
@@ -550,7 +635,7 @@ and open the template in the editor.
                                 //Botón de eliminar sanción
                                 var eliminarSancion = document.createElement("button");
                                 eliminarSancion.setAttribute("class", "eliminarSancion");
-                                eliminarSancion.setAttribute("title","Quitar sanción");
+                                eliminarSancion.setAttribute("title", "Quitar sanción");
                                 eliminarSancion.setAttribute("data-pos", i);
                                 eliminarSancion.setAttribute("value", usuarios[i].id);
                                 eliminarSancion.innerHTML = "Quitar Ban";
@@ -594,13 +679,13 @@ and open the template in the editor.
                                 //Botón de eliminar usuario
                                 var eliminar = document.createElement("button");
                                 eliminar.setAttribute("class", "eliminarB");
-                                eliminar.setAttribute("title","Eliminar usuario permanentemente");
+                                eliminar.setAttribute("title", "Eliminar usuario permanentemente");
                                 eliminar.setAttribute("data-post", i);
                                 eliminar.setAttribute("value", usuarios[i].id);
                                 eliminar.innerHTML = "Eliminar";
 
                                 eliminar.onclick = function () { //Al pulsarlo
-                                    if (confirm("¿Esta seguro de eliminar a este usuario permanentemente?" + this.value)) {
+                                    if (confirm("¿Esta seguro de eliminar a este usuario permanentemente?")) {
                                         eliminarUsuario(this.value, this.dataset.pos); //Eliminados el usuario dado el id y pos
                                         mostrarUsuarios();
                                     }
@@ -946,7 +1031,7 @@ and open the template in the editor.
             <header>
                 <!--Header-->
                 <nav id="navpc">
-                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet" alt="logo"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
@@ -970,7 +1055,7 @@ and open the template in the editor.
                     </li>
                 </nav>
 
-               <!--Header Móvil-->
+                <!--Header Móvil-->
                 <div id="cabeceramv">
                     <a href="vistaUsuario.php" id="facepetAMV"><img src="../controlador/img/facepet.png" id="facepetMV" alt="logo"></a>
                     <nav class="menuHTML">
@@ -1005,7 +1090,7 @@ and open the template in the editor.
                     <button id="botonBRaza" class="boton">Borrar Raza</button>
                     <button id="botonSUsuario" class="boton">Sancionar Usuario</button>
                 </div>
-                
+
                 <!--Submenú Crear Animal-->
                 <div id="crearAnimal" style="display: none;" class="submenu">
                     <a class="atrasPrin">

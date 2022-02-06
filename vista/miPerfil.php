@@ -37,18 +37,6 @@ and open the template in the editor.
 
             $(window).scroll(function () {
                 if ($("#contenido").height() > 600 && $(window).width() > 1000) { //Scroll de pc para actualizar
-                    /*cargando += 1;
-                     if (cargando == 1) {
-                     if (pest == 0) {
-                     cantidad += 5;
-                     mostrarMisPosts(cantidad);
-                     }
-                     if (pest == 1) {
-                     console.log("a");
-                     cantidadEventos += 5;
-                     mostrarMisEventos();
-                     }
-                     }*/
                     if ($(window).scrollTop() > 600 && $(window).width() > 1000) { //Scroll de pc para amigos
                         $("#amigosPerfil").css("position", "fixed");
                         $("#amigosPerfil").css("top", "0.5rem");
@@ -93,13 +81,14 @@ and open the template in the editor.
             });
 
             $(document).ready(function () {
+                $("#cadPosts").val("");
+                $("#cadEventos").val("");
                 $("#cambiarImagen").hide(); //Ocultamos el div de cambiar la imagen
                 getDatosMiPerfil(); //Accedemos a los datos del perfil
                 mostrarMisPosts(cantidad); //Mostramos mis posts
                 mostrarMisAmigos(); //Mostramos mis amigos
                 $("#botonPosts").hide();
                 $("#textoEventos").hide();
-                $("#textoPosts").hide();
 
                 $("#botonEventos").click(function () { //Si hacemos click en el botón de eventos
                     pest = 1; //Pest ahora vale uno
@@ -407,7 +396,7 @@ and open the template in the editor.
         <div id="principal">
             <header>
                 <nav id="navpc">
-                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet"></a>
+                    <a href="vistaUsuario.php" id="facepetA"><img src="../controlador/img/facepet.png" id="facepet" alt="logo"></a>
                     <li><a href="vistaUsuario.php">Inicio</a></li>
                     <li><a href="miPerfil.php">Mi Perfil</a></li>
                     <li id="crear">Crear
