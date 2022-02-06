@@ -8,7 +8,7 @@
 
 //Incluimos las clases
 include 'clases/Conexion.php';
-        include 'clases/Password.php';
+include 'clases/Password.php';
 include 'clases/Animal.php';
 include 'clases/Raza.php';
 include 'clases/Usuario.php';
@@ -107,8 +107,8 @@ switch ($accion) { //Acce3demos al valor de $accion
     //Admin Usuarios
 
     case "sancionarUsuario":
-        if (Usuario::sancionarUsuario($_REQUEST['tiempo'], $_REQUEST['usuario'])) { //Si la consulta se hace con éxito
-            echo json_encode(Usuario::sancionarUsuario($_REQUEST['tiempo'], $_REQUEST['usuario'])); //Sancionamos dado el tiempo a un usuario
+        if (Usuario::sancionarUsuario($_REQUEST['tiempo'], $_REQUEST['mensaje'], $_REQUEST['usuario'])) { //Si la consulta se hace con éxito
+            echo json_encode(Usuario::sancionarUsuario($_REQUEST['tiempo'], $_REQUEST['mensaje'], $_REQUEST['usuario'])); //Sancionamos dado el tiempo a un usuario
         } else {
             echo false;
         }
@@ -155,7 +155,11 @@ switch ($accion) { //Acce3demos al valor de $accion
                     echo $_SESSION['operador']; //Devolvemos el operador
                 } else {
                     //$tiempo = Usuario::estaBaneado($_REQUEST['username']);
-                    echo "Esta sancionado hasta " . Usuario::estaBaneado($_REQUEST['username']); //Si está baneado devolvemos el siguiente mensaje seguido el tiempo cuando acaba
+                    if(Usuario::estaBaneado($_REQUEST['username'])[1] != ""){ //Si hay mensaje de ban
+                    echo "Esta sancionado hasta " . Usuario::estaBaneado($_REQUEST['username'])[0]." por el motivo: '".Usuario::estaBaneado($_REQUEST['username'])[1]."'"; //Si está baneado devolvemos el siguiente mensaje seguido el tiempo cuando acaba
+                    } else {
+                        echo "Esta sancionado hasta " . Usuario::estaBaneado($_REQUEST['username'])[0]." por motivo no especificado"; //Si el mensaje está en blanco
+                    }
                 }
             } else {
                 echo "La contraseña no es correcta"; //Si la contraseña no es correcta mostramos el siguiente mensaje
@@ -379,7 +383,7 @@ switch ($accion) { //Acce3demos al valor de $accion
         $fecha = array(
             'day' => date('d'), //dias
             'month' => date('m'), //mes
-            'year' => date("yy"), //año
+            'year' => date("20y"), //año
             'hour' => date("H"), //hora
             'minutes' => date("i"), //minutos
             'seconds' => date("s") //segundos
