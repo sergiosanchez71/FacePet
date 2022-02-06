@@ -68,7 +68,7 @@ class Amistades {
     }
 
     //Comprobamos el estado de la solicitud dado el usuario emisor y receptor
-    function comprobarSolicitud($user1, $user2) {
+    static function comprobarSolicitud($user1, $user2) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT estado from amistades where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1)");
@@ -81,7 +81,7 @@ class Amistades {
     }
     
     //Cancelamos solicitud dado el usuario emisor y receptor
-    function cancelarSolicitud($user1,$user2){
+    static function cancelarSolicitud($user1,$user2){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if (Amistades::comprobarSolicitud($user1, $user2)) { //Comrpobamos que le han enviado la petición
@@ -92,7 +92,7 @@ class Amistades {
     }
 
     //Mandamos una solicitud dado el usuario emisor, receotir y el mensaje
-    function mandarSolicitud($user1, $user2, $mensaje) {
+    static function mandarSolicitud($user1, $user2, $mensaje) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if (!Amistades::comprobarSolicitud($user1, $user2)) { //Si no son amigos se la envía
@@ -103,7 +103,7 @@ class Amistades {
     }
     
     //Aceptamos la solicitud
-    function aceptarSolicitud($user1, $user2){
+    static function aceptarSolicitud($user1, $user2){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "UPDATE amistades SET estado='aceptada' where user1='$user1' and user2='$user2'";
@@ -112,7 +112,7 @@ class Amistades {
     }
     
     //Borramos solicitudes dado un usuario
-    function borrarSolicitudes($usuario){
+    static function borrarSolicitudes($usuario){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "DELETE FROM amistades WHERE user1=$usuario or user2=$usuario";
@@ -121,7 +121,7 @@ class Amistades {
     }
     
     //Accedemos al mensaje de solicitud de amistad
-    function getMensajeSolicitud($user1, $user2){
+    static function getMensajeSolicitud($user1, $user2){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT mensaje from amistades where (user1=$user1 and user2=$user2) or (user1=$user2 and user2=$user1)");

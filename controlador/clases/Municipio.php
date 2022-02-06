@@ -49,7 +49,7 @@ class Municipio {
     }
     
     //Consultamos los municipios dada su provincia
-    function consultarMunicipios($provincia) {
+    static function consultarMunicipios($provincia) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //Ordenados por nombre
@@ -69,7 +69,7 @@ class Municipio {
     }
     
     //Accedemos al nombre de un municipio dado su id
-    function getNombreMunicipio($id){
+    static function getNombreMunicipio($id){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT municipio from municipios where id='$id'");
@@ -82,7 +82,7 @@ class Municipio {
     }
     
     //Buscamos el id de un municipio dado su nombre
-    function buscarMunicipioId($municipio){
+    static function buscarMunicipioId($municipio){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $municipioutf8 = utf8_encode($municipio);

@@ -39,7 +39,7 @@ class Provincia {
     }
 
     //Listamos las provincias
-    function consultarProvincias() {
+    static function consultarProvincias() {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //Ordenadas por nombre
@@ -58,7 +58,7 @@ class Provincia {
     }
     
     //Accedemos al nombre de la provincia dada su id
-    function getNombreProvincia($id){
+    static function getNombreProvincia($id){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from provincias where id='$id'");

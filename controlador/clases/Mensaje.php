@@ -68,7 +68,7 @@ class Mensaje {
     }
 
     //Creamos un mensaje dado un objeto mensaje
-    function enviarMensaje($mensaje) {
+    static function enviarMensaje($mensaje) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO mensajes (user1,user2,mensaje,fecha) VALUES ('$mensaje->user1','$mensaje->user2','$mensaje->mensaje','$mensaje->fecha')";
@@ -76,7 +76,7 @@ class Mensaje {
     }
 
     //Mostramos el chat dado ambos usuarios
-    function mostrarChat($user1, $user2) {
+    static function mostrarChat($user1, $user2) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if ($user1 && $user2) { //Si existen ambos
@@ -103,7 +103,7 @@ class Mensaje {
     }
 
     //Mensajes que no hemos visto dado un usuario
-    function mensajesNoVistos($usuario) {
+    static function mensajesNoVistos($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from mensajes where user2=$usuario and visto=0");
@@ -125,7 +125,7 @@ class Mensaje {
     }
 
     //Mensajes que no hemos visto de un usuario en concreto
-    function mensajesUsuarioNoVistos($user1, $user2) {
+    static function mensajesUsuarioNoVistos($user1, $user2) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if ($user1 && $user2) {
@@ -151,7 +151,7 @@ class Mensaje {
     }
 
     //Mensajes que hemos visto
-    function mensajesLeidos($user1, $user2) {
+    static function mensajesLeidos($user1, $user2) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "UPDATE mensajes SET visto=1 where user1=$user1 and user2=$user2";
@@ -160,7 +160,7 @@ class Mensaje {
     }
     
     //Eliminamos los mensajes de una conversación
-    function  eliminarMensajes($user1,$user2){
+    static function  eliminarMensajes($user1,$user2){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "DELETE FROM mensajes WHERE (user1=$user1 and user2=$user2) or (user2=$user1 && user1=$user2)";
@@ -169,7 +169,7 @@ class Mensaje {
     }
     
     //Eliminamos todos los mensajes que ha tenido un usuario (todos sus chats)
-    function eliminarMensajesUsuario($usuario){
+    static function eliminarMensajesUsuario($usuario){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "DELETE FROM mensajes WHERE user1=$usuario or user2=$usuario";

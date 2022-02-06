@@ -142,7 +142,7 @@ class Usuario {
     }
 
     //Comprobamos si el usuario dado su nick existe
-    function existeUsuario($usuario) {
+    static function existeUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT nick from usuarios where lower(nick)='$usuario'");
@@ -155,7 +155,7 @@ class Usuario {
     }
 
     //Comprobamos si existe el email dado un objeto usuario
-    function existeEmail($usuario) {
+    static function existeEmail($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT email from usuarios where lower(email)='$usuario->email'");
@@ -168,7 +168,7 @@ class Usuario {
     }
 
     //Creamos un usuario dado un objeto usuario
-    function crearUsuario($usuario) {
+    static function crearUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO usuarios (nick,password,email,animal,raza,sexo,foto,provincia,municipio,amigos,operador) VALUES (lower('$usuario->nick'),'$usuario->password','$usuario->email','$usuario->animal','$usuario->raza','$usuario->sexo','$usuario->foto','$usuario->provincia','$usuario->municipio',' ',0)";
@@ -177,7 +177,7 @@ class Usuario {
     }
 
     //Mostramos la contraseña cifrada dado un nick
-    function cifradaPassword($usuario) {
+    static function cifradaPassword($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT password from usuarios where nick='$usuario'");
@@ -189,7 +189,7 @@ class Usuario {
     }
 
     //Comprobamos si un usuario es operador dado su id de usuario
-    function comprobarOperador($usuario) {
+    static function comprobarOperador($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT operador from usuarios where id='$usuario'");
@@ -201,7 +201,7 @@ class Usuario {
     }
 
     //Accedemos al id de usuario dado su nick
-    function getIdUsuario($usuario) {
+    static function getIdUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id from usuarios where nick='$usuario'");
@@ -214,7 +214,7 @@ class Usuario {
     }
 
     //Buscamos los amigos de un usuario dado su id
-    function getAmigosId($id) {
+    static function getAmigosId($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT amigos from usuarios where id='$id'");
@@ -226,7 +226,7 @@ class Usuario {
     }
 
     //Buscamos la foto de perfil de un usuario dado su id
-    function getFotoPerfilconId($id) {
+    static function getFotoPerfilconId($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT foto from usuarios where id='$id'");
@@ -242,7 +242,7 @@ class Usuario {
     }
 
     //Buscamos el nick de usuario dado su id
-    function getNickName($id) {
+    static function getNickName($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT nick from usuarios where id='$id'");
@@ -255,7 +255,7 @@ class Usuario {
     }
 
     //Buscamos la foto de perfil dado el nick de usuario
-    function getFotoPerfil($usuario) {
+    static function getFotoPerfil($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT foto from usuarios where nick='$usuario'");
@@ -271,7 +271,7 @@ class Usuario {
     }
 
     //Accedemos al animal de usuario dado su id
-    function getAnimalUsuarioId($usuario) {
+    static function getAnimalUsuarioId($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT animal from usuarios where id='$usuario'");
@@ -283,7 +283,7 @@ class Usuario {
     }
 
     //Accedemos al animal de usuario dado su nick
-    function getAnimalUsuario($usuario) {
+    static function getAnimalUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT animal from usuarios where nick='$usuario'");
@@ -295,7 +295,7 @@ class Usuario {
     }
 
     //Accedemos a la raza de usuario dado su id
-    function getRazaUsuarioId($usuario) {
+    static function getRazaUsuarioId($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT raza from usuarios where id='$usuario'");
@@ -307,7 +307,7 @@ class Usuario {
     }
 
     //Accedemos a la raza de usuario dado su nick
-    function getRazaUsuario($usuario) {
+    static function getRazaUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT raza from usuarios where nick='$usuario'");
@@ -319,7 +319,7 @@ class Usuario {
     }
 
     //Eliminamos un amigo dado su id de usuario y el de amigo
-    function eliminarAmigo($idusuario, $amigo) {
+    static function eliminarAmigo($idusuario, $amigo) {
         $fecha = date("Y-m-d H:i:s"); //Fecha actual
         $notificacion = new Notificacion($idusuario, $amigo, "amistad", 0, $fecha); //Creamos una notificacion
         Notificacion::borrarNotificacion($notificacion); //Borramos la notificacion
@@ -344,7 +344,7 @@ class Usuario {
     }
 
     //Eliminamos los amigos dado un id de usuario
-    function eliminarAmigosUsuario($usuario) {
+    static function eliminarAmigosUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id,amigos from usuarios");
@@ -366,10 +366,11 @@ class Usuario {
     }
 
     //Sacamos los datos de nuestro usuario
-    function getDatos($usuario) {
+    static function getDatos($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from usuarios where id='$usuario'");
+        $datos = null;
         while ($row = $consulta->fetch()) {
             if ($row['foto'] == null) { //Si no tiene foto
                 $foto = "0.jpg";
@@ -396,7 +397,7 @@ class Usuario {
     }
 
     //Sacamos los datos de nuestros amigos
-    function getDatosAmigos($amigos) {
+    static function getDatosAmigos($amigos) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $datos = null;
@@ -431,7 +432,7 @@ class Usuario {
     }
 
     //Accedemos a los amigos y los mensajes que nos han dejado
-    function getDatosAmigosyMensajes($amigos, $cadena) {
+    static function getDatosAmigosyMensajes($amigos, $cadena) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $datos = null;
@@ -476,7 +477,7 @@ class Usuario {
     }
 
     //Mostramos todos los usuarios
-    function mostrarTodosNombresUsuarios($usuario) {
+    static function mostrarTodosNombresUsuarios($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from usuarios where nick!='$usuario' order by nick asc");
@@ -497,7 +498,7 @@ class Usuario {
     }
 
     //Buscamos amigos dado mi usuario, la cadena introducida, y si quiere que sea de la misma ciudad y animal
-    function getDatosBuscar2($cadena, $usuario, $checkCiudad, $checkAnimal) {
+    static function getDatosBuscar2($cadena, $usuario, $checkCiudad, $checkAnimal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $provincia = Usuario::getProvinciaNumUsuario(Usuario::getIdUsuario($usuario)); //Mi provincia
@@ -846,7 +847,7 @@ class Usuario {
     }
 
     //Sancionamos usuarios
-    function getDatosBuscarSancion($cadena, $usuario) {
+    static function getDatosBuscarSancion($cadena, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $provincia = Usuario::getProvinciaNumUsuario(Usuario::getIdUsuario($usuario)); //Mi provincia
@@ -950,7 +951,7 @@ class Usuario {
     }
 
     //Aceptamos la solicitud de amistad dado dos usuarios
-    function aceptarSolicitud($user1, $user2) {
+    static function aceptarSolicitud($user1, $user2) {
 
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -969,7 +970,7 @@ class Usuario {
     }
 
     //Mostramos amigos dados un id de usuario
-    function mostrarAmigos($id) {
+    static function mostrarAmigos($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT amigos from usuarios where id='$id'");
@@ -982,7 +983,7 @@ class Usuario {
     }
 
     //Boolean para saber si son usuarios son amigos
-    function esAmigo($user1, $user2) {
+    static function esAmigo($user1, $user2) {
         $amigos = explode(",", Usuario::mostrarAmigos($user1)); //array de amigos
         $amigo = false;
         if ($user1 == $user2) { //Si es él mismo true
@@ -998,7 +999,7 @@ class Usuario {
     }
 
     //Cambiamos la imagen de perfil
-    function cambiarAvatar($usuario, $imagen) {
+    static function cambiarAvatar($usuario, $imagen) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "UPDATE usuarios SET foto='$imagen' where id='$usuario'";
@@ -1007,24 +1008,25 @@ class Usuario {
     }
 
     //Sancionamos un usuario dado el tiempo y su id
-    function sancionarUsuario($tiempo, $usuario) {
+    static function sancionarUsuario($tiempo, $mensaje, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "UPDATE usuarios SET baneado='$tiempo' where id='$usuario'";
+        $sql = "UPDATE usuarios SET baneado='$tiempo',mensajeBan='$mensaje' where id='$usuario'";
         $conexion->exec($sql);
         unset($conexion);
     }
 
     //Función saber si está baneado dado un nick
-    function estaBaneado($usuario) {
+    static function estaBaneado($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $consulta = $conexion->query("SELECT baneado from usuarios where nick='$usuario'");
+        $consulta = $conexion->query("SELECT baneado,mensajeBan from usuarios where nick='$usuario'");
         $baneado = null;
         while ($row = $consulta->fetch()) {
             $fecha = date("Y-m-d H:i:s");
             if ($fecha < $row['baneado']) { //Si la fecha de baneo se ha superado
-                $baneado = $row['baneado'];
+                $baneado[0] = $row['baneado'];
+                $baneado[1] = $row['mensajeBan'];
             } else {
                 $baneado = null;
             }
@@ -1032,18 +1034,18 @@ class Usuario {
         unset($conexion);
         return $baneado;
     }
-
+    
     //Quitamos la sanción dado una id de usuario
-    function quitarSancion($id) {
+    static function quitarSancion($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "UPDATE usuarios SET baneado='' where id='$id'";
+        $sql = "UPDATE usuarios SET baneado='', mensajeBan='' where id='$id'";
         $conexion->exec($sql);
         unset($conexion);
     }
 
     //Eliminamos la foto de perfil dado un id de usuario
-    function eliminarFotoDePerfil($id) {
+    static function eliminarFotoDePerfil($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT foto from usuarios where id='$id'");
@@ -1058,7 +1060,7 @@ class Usuario {
     }
 
     //Eliminar usuario dado su id
-    function eliminarUsuario($id) {
+    static function eliminarUsuario($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         Post::eliminarPostsUsuario($id); //Borramos sus posts
@@ -1075,7 +1077,7 @@ class Usuario {
     }
 
     //
-    function getLocalidadUsuario($id) {
+    static function getLocalidadUsuario($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT provincia,municipio from usuarios where id='$id'");
@@ -1089,7 +1091,7 @@ class Usuario {
         return $data;
     }
 
-    function getProvinciaUsuario($id) {
+    static function getProvinciaUsuario($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT provincia from usuarios where id='$id'");
@@ -1101,7 +1103,7 @@ class Usuario {
         return $provincia;
     }
 
-    function getMunicipioUsuario($id) {
+    static function getMunicipioUsuario($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT municipio from usuarios where id='$id'");
@@ -1113,7 +1115,7 @@ class Usuario {
         return $municipio;
     }
 
-    function getProvinciaNumUsuario($id) {
+    static function getProvinciaNumUsuario($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT provincia from usuarios where id='$id'");
@@ -1125,7 +1127,7 @@ class Usuario {
         return $provincia;
     }
 
-    function getMunicipioNumUsuario($id) {
+    static function getMunicipioNumUsuario($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT municipio from usuarios where id='$id'");

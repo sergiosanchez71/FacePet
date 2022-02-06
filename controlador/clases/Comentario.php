@@ -68,7 +68,7 @@ class Comentario {
     }
 
     //Publicar comentario dado un objeto comentario
-    function publicarComentario($comentario) {
+    static function publicarComentario($comentario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO comentarios (contenido,fecha,post,usuario) VALUES ('$comentario->contenido','$comentario->fecha','$comentario->post','$comentario->usuario')";
@@ -76,7 +76,7 @@ class Comentario {
     }
 
     //Eliminamos el comentario dado un objeto comentario
-    function eliminarComentario($comentario) {
+    static function eliminarComentario($comentario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from comentarios where id='$comentario'");
@@ -90,7 +90,7 @@ class Comentario {
     }
 
     //Eliminamos los comentarios dado el id de un post
-    function eliminarComentarioConIdPost($post) {
+    static function eliminarComentarioConIdPost($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from comentarios where post='$post'");
@@ -104,7 +104,7 @@ class Comentario {
     }
 
     //Eliminamos los comentarios dado el id de usuario
-    function eliminarComentariosUsuario($usuario) {
+    static function eliminarComentariosUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from comentarios where usuario='$usuario'");
@@ -118,7 +118,7 @@ class Comentario {
     }
 
     //Mostramos los comentarios dado el id de un post
-    function mostrarComentarios($post) {
+    static function mostrarComentarios($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT c.id,c.contenido,c.fecha,c.post,c.usuario, u.nick, u.foto from comentarios c,usuarios u where c.post='$post' and c.usuario=u.id order by c.fecha desc");
@@ -141,6 +141,7 @@ class Comentario {
                 'usuario' => $row['usuario'],
                 'nick' => $row['nick'], //Nick usuario
                 'foto' => $foto,
+                'autorPost' => Post::getUsuarioPost($row['post']),
                 'login' => Usuario::getIdUsuario($_SESSION['username']), //Usuario logueado
                 'loginOperador' => $_SESSION['operador'] //Operador de usuario logueado
             );
@@ -152,7 +153,7 @@ class Comentario {
     }
 
     //Mostramos los comentarios dada una id de comentario
-    function mostrarComentariosConId($id) {
+    static function mostrarComentariosConId($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from comentarios where id='$id'");
@@ -173,7 +174,7 @@ class Comentario {
     }
 
     //Buscamos un comentario dado el post, el usuario y la fecha en la que se ha hecho
-    function buscarIdComentario($post, $usuario, $fecha) {
+    static function buscarIdComentario($post, $usuario, $fecha) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id from comentarios where post='$post' and usuario='$usuario' and fecha='$fecha'");
@@ -186,7 +187,7 @@ class Comentario {
     }
 
     //Contamos los comentarios dados un post
-    function contarComentarios($post) {
+    static function contarComentarios($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from comentarios c where post='$post'");
@@ -199,7 +200,7 @@ class Comentario {
     }
 
     //Eliminamos comentarios de un usuario
-    function eliminarComentariosDeMisPosts($usuario) {
+    static function eliminarComentariosDeMisPosts($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from comentarios");

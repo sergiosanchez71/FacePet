@@ -32,7 +32,7 @@ class Animal {
     }
     
     //Buscamos dado un id de un animal
-    function buscarConId($id){
+    static function buscarConId($id){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT nombre from animales where id=$id");
@@ -49,7 +49,7 @@ class Animal {
     }
 
     //Buscamos el id de los animales
-    function mostrarIdAnimales() {
+    static function mostrarIdAnimales() {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id from animales order by nombre"); //Ordenados por nombre
@@ -64,7 +64,7 @@ class Animal {
     }
 
     //Mostramos el nombre de todos los animales
-    function mostrarAnimales() {
+    static function mostrarAnimales() {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT nombre from animales");
@@ -79,7 +79,7 @@ class Animal {
     }
 
     //Comprobar nombre de animal para saber si existe
-    function comprobarNombre($animal) {
+    static function comprobarNombre($animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT nombre from animales where lower(nombre)=lower('$animal')");
@@ -92,7 +92,7 @@ class Animal {
     }
 
     //Creamos un animal dado su nombre
-    function crearAnimal($animal) {
+    static function crearAnimal($animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO animales (nombre) VALUES ('$animal')";
@@ -100,7 +100,7 @@ class Animal {
     }
     
     //Borramos un animal dada su id
-    function borrarAnimal($animal){
+    static function borrarAnimal($animal){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "DELETE FROM animales where id='$animal'";

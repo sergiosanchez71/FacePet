@@ -72,7 +72,7 @@ class Notificacion {
     }
 
     //Creamos una notificación dada un objeto
-    function crearNotificacion($notificacion) {
+    static function crearNotificacion($notificacion) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO notificaciones (user1,user2,tipo,idelemento,visto,fecha) VALUES ('$notificacion->user1','$notificacion->user2','$notificacion->tipo','$notificacion->idelemento','$notificacion->visto','$notificacion->fecha')";
@@ -81,7 +81,7 @@ class Notificacion {
     }
 
     //Borramos una notificación dada un objeto notificación
-    function borrarNotificacion($notificacion) {
+    static function borrarNotificacion($notificacion) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "DELETE FROM notificaciones where (user1='$notificacion->user1' and user2='$notificacion->user2') or (user1='$notificacion->user2' and user2='$notificacion->user1') and tipo='$notificacion->tipo' and fecha='$notificacion->fecha'";
@@ -90,7 +90,7 @@ class Notificacion {
     }
     
     //Borramos una notificación dado un idelemento
-    function borrarNotificacionIdElemento($idelemento){
+    static function borrarNotificacionIdElemento($idelemento){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "DELETE FROM notificaciones where idelemento='$idelemento'";
@@ -99,7 +99,7 @@ class Notificacion {
     }
 
     //Vemos todas las notificaciones de un usuario
-    function verNotificaciones($usuario) {
+    static function verNotificaciones($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //Ordenado por fecha de notificación
@@ -141,7 +141,7 @@ class Notificacion {
     }
     
     //Si las hemos visto convertimos visto a 1
-    function notificacionesVistas($id){
+    static function notificacionesVistas($id){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "UPDATE notificaciones SET visto=1 where user2='$id'";
@@ -150,7 +150,7 @@ class Notificacion {
     }
     
     //Borramos las notificaciones de un usuario
-    function borrarNotificacionesUsuario($usuario){
+    static function borrarNotificacionesUsuario($usuario){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "DELETE FROM notificaciones WHERE user1=$usuario or user2=$usuario";

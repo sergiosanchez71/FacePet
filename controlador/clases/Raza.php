@@ -42,7 +42,7 @@ class Raza {
     }
     
     //Buscamos una raza dada su id
-    function buscarConId($id){
+    static function buscarConId($id){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT nombre from razas where id=$id");
@@ -61,7 +61,7 @@ class Raza {
     }
     
     //Comprobamos si existe la razas dado un animal
-    function comprobarRazas($animal){
+    static function comprobarRazas($animal){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from razas where animal='$animal'");
@@ -74,7 +74,7 @@ class Raza {
     }
 
     //Mostramos el id de las razas dado un animal
-    function mostrarIdRazas($animal) {
+    static function mostrarIdRazas($animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id from razas where animal='$animal' order by nombre");
@@ -92,7 +92,7 @@ class Raza {
     }
 
     //Mostramos todos los nombres de las razas dado un animal
-    function mostrarRazas($animal) {
+    static function mostrarRazas($animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //Ordenado por nombre
@@ -111,7 +111,7 @@ class Raza {
     }
     
     //Comprobamos el nombre dada una raza y un animal
-    function comprobarNombre($raza, $animal) {
+    static function comprobarNombre($raza, $animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT nombre from razas where lower(nombre)=lower('$raza') and animal='$animal'");
@@ -124,7 +124,7 @@ class Raza {
     }
     
     //Creamos una raza dada la raza introducida y un animal
-    function crearRaza($raza,$animal) {
+    static function crearRaza($raza,$animal) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO razas (nombre,animal) VALUES ('$raza','$animal')";
@@ -132,7 +132,7 @@ class Raza {
     }
     
     //Borramos raza dada su id
-    function borrarRaza($raza){
+    static function borrarRaza($raza){
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "DELETE FROM razas where id='$raza'";

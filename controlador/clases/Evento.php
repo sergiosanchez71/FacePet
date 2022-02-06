@@ -178,7 +178,7 @@ class Evento {
     }
 
     //Creamos un evento dado un objeto evento
-    function crearEvento($evento) {
+    static function crearEvento($evento) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO eventos (titulo,contenido,tipo,fecha_publicacion,fechai,fechaf,foto,direccion,cp,ciudad,provincia,lat,lng,participantes,usuario) VALUES ('$evento->titulo','$evento->contenido','$evento->tipo','$evento->fecha_publicacion','$evento->fechai','$evento->fechaf','$evento->foto','$evento->direccion','$evento->cp','$evento->ciudad','$evento->provincia','$evento->lat','$evento->lng','$evento->participantes','$evento->usuario')";
@@ -186,7 +186,7 @@ class Evento {
     }
 
     //Buscamos la id de un evento
-    function consultarId($evento) {
+    static function consultarId($evento) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id from eventos where fecha_publicacion='$evento->fecha_publicacion' and usuario='$evento->usuario'");
@@ -199,7 +199,7 @@ class Evento {
     }
 
     //Subimos una imagen para nuestro evento
-    function subirMultimedia($id, $multimedia) {
+    static function subirMultimedia($id, $multimedia) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "UPDATE eventos SET foto='$multimedia' where id='$id'";
@@ -207,7 +207,7 @@ class Evento {
     }
 
     //Mostramos eventos dada una cantidad, ordenados por lugar y fecha
-    function mostrarEventosCantidad($usuario, $limite, $checkLugar, $rdFecha) {
+    static function mostrarEventosCantidad($usuario, $limite, $checkLugar, $rdFecha) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $fecha = date("Y-m-d H:i:s"); //Fecha actual
@@ -371,7 +371,7 @@ class Evento {
     }
 
     //Imprimimos los eventos dado el usuario y el un límite
-    function mostrarEventos($usuario, $limite) {
+    static function mostrarEventos($usuario, $limite) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $fecha = date("Y-m-d H:i:s");
@@ -519,7 +519,7 @@ class Evento {
     }
 
     //Mostramos nuestros eventos
-    function mostrarMisEventos($usuario,$limite) {
+    static function mostrarMisEventos($usuario,$limite) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $fecha = date("Y-m-d H:i:s");
@@ -576,7 +576,7 @@ class Evento {
     }
 
     //Mostramos un evento dado su id y el usuario con el que nos logueamos
-    function mostrarEvento($evento, $usuario) {
+    static function mostrarEvento($evento, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $fecha = date("Y-m-d H:i:s");
@@ -627,7 +627,7 @@ class Evento {
     }
 
     //Función para ver si está empezado un evento dada la fecha de inicio y la actual
-    function empezado($inicio, $actual) {
+    static function empezado($inicio, $actual) {
         if ($actual > $inicio) {
             return true;
         } else {
@@ -636,7 +636,7 @@ class Evento {
     }
 
     //Mostramos los participantes que tiene un evento
-    function mostrarParticipantes($id) {
+    static function mostrarParticipantes($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT participantes from eventos where id='$id'");
@@ -649,7 +649,7 @@ class Evento {
     }
 
     //Comprobamos dado un evento y un usuario si es participante o no
-    function esParticipante($id, $usuario) {
+    static function esParticipante($id, $usuario) {
         $participantes = explode(",", Evento::mostrarParticipantes($id));
         $participante = false;
         for ($i = 0; $i < count($participantes); $i++) {
@@ -663,7 +663,7 @@ class Evento {
 
     
     //Participamos dentro de un evento
-    function participarEvento($id, $usuario) {
+    static function participarEvento($id, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if (!Evento::esParticipante($id, $usuario)) {
@@ -686,7 +686,7 @@ class Evento {
     }
 
     //Salimos de un evento
-    function salirDeEvento($id, $participante) {
+    static function salirDeEvento($id, $participante) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT participantes from eventos where id='$id'"); //Buscamos participantes
@@ -710,7 +710,7 @@ class Evento {
     }
 
     //Borramos a un usuario de todos los eventos
-    function salirDeEventosUsuario($usuario) {
+    static function salirDeEventosUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id,participantes from eventos");
@@ -735,7 +735,7 @@ class Evento {
     }
 
     //Eliminamos todos los eventos de un usuario
-    function eliminarEventosUsuario($usuario) {
+    static function eliminarEventosUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "DELETE FROM eventos WHERE usuario=$usuario";
@@ -744,7 +744,7 @@ class Evento {
     }
 
     //Eliminamos un evento dado su id
-    function eliminarEvento($id) {
+    static function eliminarEvento($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         Evento::eliminarMultimedia($id);
@@ -753,7 +753,7 @@ class Evento {
     }
 
     //Eliminamos la img de un evento
-    function eliminarMultimedia($id) {
+    static function eliminarMultimedia($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT foto from eventos where id=$id");

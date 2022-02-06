@@ -81,7 +81,7 @@ class Post {
     }
 
     //Creamos un post dado un objeto
-    function crearPost($post) {
+    static function crearPost($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO posts (titulo,contenido,fecha_publicacion,usuario) VALUES ('$post->titulo','$post->contenido','$post->fecha_publicacion','$post->usuario')";
@@ -89,7 +89,7 @@ class Post {
     }
 
     //Eliminamos la imagen dado un id de post
-    function eliminarMultimedia($id) {
+    static function eliminarMultimedia($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT multimedia from posts where id=$id");
@@ -106,7 +106,7 @@ class Post {
     }
 
     //Eliminamos TODA la multimedia dada un usuario
-    function eliminarMultimediaUsuario($usuario) {
+    static function eliminarMultimediaUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT multimedia from posts where usuario=$usuario");
@@ -123,7 +123,7 @@ class Post {
     }
 
     //Eliminamos un post dado un id de post
-    function eliminarPost($id) {
+    static function eliminarPost($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         Comentario::eliminarComentarioConIdPost($id); //Borramos los comentarios de dicho post
@@ -133,7 +133,7 @@ class Post {
     }
 
     //Eliminamos todos los posts de un usuario dada su id
-    function eliminarPostsUsuario($id) {
+    static function eliminarPostsUsuario($id) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         Comentario::eliminarComentariosUsuario($id); //Eliminamos los comentarios que ha hecho nuestro usuario
@@ -144,7 +144,7 @@ class Post {
     }
 
     //Buscamos la id de nuestro post dado un objeto post
-    function consultarId($post) {
+    static function consultarId($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id from posts where fecha_publicacion='$post->fecha_publicacion' and usuario='$post->usuario'");
@@ -157,7 +157,7 @@ class Post {
     }
 
     //Buscamos el autor de un post dado su id de post
-    function buscarCreador($post) {
+    static function buscarCreador($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT usuario from posts where id='$post'");
@@ -170,7 +170,7 @@ class Post {
     }
 
     //Subimos foto a nuestro post dado su id y la foto que queremos subir
-    function subirMultimedia($id, $multimedia) {
+    static function subirMultimedia($id, $multimedia) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "UPDATE posts SET multimedia='$multimedia' where id='$id'";
@@ -178,7 +178,7 @@ class Post {
     }
 
     //Buscamos los posts dado un usuario
-    function buscarPosts($usuario) {
+    static function buscarPosts($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id from posts where usuario=$usuario");
@@ -192,7 +192,7 @@ class Post {
     }
 
     //Buscamos el autor de un usuario dado un id post
-    function getUsuarioPost($post) {
+    static function getUsuarioPost($post) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT usuario from posts where id=$post");
@@ -204,7 +204,7 @@ class Post {
     }
 
     //Sacamos los datos de sus posts dada su id de usuario
-    function getDatosPostUsuario($usuario) {
+    static function getDatosPostUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT * from posts where usuario='$usuario'");
@@ -228,7 +228,7 @@ class Post {
     }
 
     //Sacamos los datos de los posts de usuarios y posts 
-    function getDatosPostsUsuario($usuario, $cantidad) {
+    static function getDatosPostsUsuario($usuario, $cantidad) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //Sacamos los datos de posts y usuario
@@ -270,7 +270,7 @@ class Post {
     }
 
     //Mostramos un post dado un post y un usuario
-    function mostrarPost($post, $usuario) {
+    static function mostrarPost($post, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT p.id,p.titulo,p.contenido,p.multimedia,p.fecha_publicacion, p.likes, p.usuario, u.nick, u.foto from posts p,usuarios u where p.id='$post' and p.usuario=u.id");
@@ -302,7 +302,7 @@ class Post {
     }
 
     //Mostramos los posts de nuestros amigos
-    function mostrarPostsAmigos($amigos, $usuario, $cantidad, $array) {
+    static function mostrarPostsAmigos($amigos, $usuario, $cantidad, $array) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $i = 0;
@@ -351,7 +351,7 @@ class Post {
     }
 
     //Comprueba si ha sido mostrado
-    function esMostrado($array, $id) {
+    static function esMostrado($array, $id) {
         $mostrados = explode(",", $array); //Array de posts ya mostrados
 
         $mostrado = false;
@@ -364,7 +364,7 @@ class Post {
     }
 
     //Comprueba si le hemos dado like a un post dado el id de post y nuestro usuario
-    function comprobarLike($post, $usuario) {
+    static function comprobarLike($post, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT likes from posts where id='$post'");
@@ -393,29 +393,26 @@ class Post {
     }
 
     //Le damos like a un post dado su id y el usuario
-    function darLike($post, $usuario) {
+    static function darLike($post, $usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT likes from posts where id='$post'");
         $likes = null;
-        $valor = false;
         while ($row = $consulta->fetch()) {
             $likes = $row['likes']; //Mostramos sus likes
             if ($likes != null) { //Si ya hay datos lo concatenamos con coma
                 $sql = "UPDATE posts SET likes='$likes,$usuario' where id='$post'";
-                $valor = true;
             } else { //Si no almacenamos nuestro like
                 $sql = "UPDATE posts SET likes='$usuario' where id='$post'";
-                $valor = true;
             }
         }
         $conexion->exec($sql);
         unset($conexion);
-        return $valor;
+        return $likes;
     }
 
     //Eliminamos likes de usuario 
-    function quitarLikesUsuario($usuario) {
+    static function quitarLikesUsuario($usuario) {
         $conexion = Conexion::conectar();
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $consulta = $conexion->query("SELECT id,likes from posts");

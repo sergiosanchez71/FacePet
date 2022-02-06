@@ -15,9 +15,9 @@ class Conexion {
 
     //Clase para acceder a la base de datos
     //Nuestro fichero con el que nos conectaremos a la base de datos
-    function conectar() {
+    public static function conectar() {
         try {
-            $gbd = new PDO('mysql:host=localhost;dbname=facepet', 'root', 'Alfonso11');
+            $gbd = new PDO('mysql:host=localhost;dbname=facepet', 'root', '');
             return $gbd;
         } catch (PDOException $e) {
             echo 'Falló la conexión: ' . $e->getMessage();
