@@ -462,7 +462,7 @@ and open the template in the editor.
                                 postCorazonImg.setAttribute("data-value", posts.id); //Id post
 
                                 if (!posts.like) { //Si no le has dado like
-                                    postCorazonImg.setAttribute("src", "../controlador/img/nolike.png");
+                                    postCorazonImg.setAttribute("src", "../controlador/img/noLike.png");
 
                                     postCorazonImg.onclick = function () { //Si le haces click
                                         this.removeAttribute("src");
