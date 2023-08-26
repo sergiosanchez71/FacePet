@@ -109,16 +109,16 @@ function pintarPosts(posts, div) { //Pintamos los posts dados un array de posts 
             postCorazonImg.setAttribute("data-pos", i);
 
             if (!posts[i].like) { //Si no tiene like
-                postCorazonImg.setAttribute("src", "../controlador/img/nolike.png"); //img no like
+                postCorazonImg.setAttribute("src", "../controlador/img/noLike.png"); //img no like
                 postCorazonImg.setAttribute("title","Dar me gusta");
 
                 postCorazonImg.onclick = function () { //Al pulsarlo
                     this.removeAttribute("src");
-                    this.setAttribute("src", "../controlador/img/Like.png"); //Img like
+                    this.setAttribute("src", "../controlador/img/like.png"); //Img like
                     darLike(this.dataset.value); //Damos like
                 }
             } else {
-                postCorazonImg.setAttribute("src", "../controlador/img/Like.png"); //img like
+                postCorazonImg.setAttribute("src", "../controlador/img/like.png"); //img like
             }
 
 
