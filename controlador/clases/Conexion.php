@@ -13,7 +13,7 @@
  */
 
 
-include '../../conf/define.php';
+require_once(__DIR__ . "/../../conf/define.php");
 
 $servername = DB_HOST;
 $username = USER;
