@@ -466,14 +466,14 @@ and open the template in the editor.
 
                                     postCorazonImg.onclick = function () { //Si le haces click
                                         this.removeAttribute("src");
-                                        this.setAttribute("src", "../controlador/img/Like.png"); //Cambias imagen
+                                        this.setAttribute("src", "../controlador/img/like.png"); //Cambias imagen
                                         darLike(this.dataset.value); //Das like
                                         var valor = $(".likes:eq(0)").text();  //Valor del like
                                         var valor2 = parseInt(valor);
                                         $(".likes:eq(0)").text(parseInt(valor2 + 1)); //Se le aumenta uno
                                     }
                                 } else {
-                                    postCorazonImg.setAttribute("src", "../controlador/img/Like.png"); //Si ya le has dado like se pone la imagen like
+                                    postCorazonImg.setAttribute("src", "../controlador/img/like.png"); //Si ya le has dado like se pone la imagen like
                                 }
 
                                 $("#menuPost").append(post); //Div de todo el post
